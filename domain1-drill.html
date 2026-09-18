@@ -1,0 +1,634 @@
+<title>Domain 1 Drill</title>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#0d7b86; --accent-ink:#ffffff;
+  --obj-11:#2f5fd6; --obj-12:#1f8a5c; --obj-13:#b7861f; --obj-14:#b3437c;
+  --correct:#1f8a5c; --incorrect:#c1382d;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#3fd0dd; --accent-ink:#06262a;
+    --obj-11:#7ea2ff; --obj-12:#55d69a; --obj-13:#e0b24d; --obj-14:#ea86b8;
+    --correct:#55d69a; --incorrect:#ef6b5d;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#3fd0dd; --accent-ink:#06262a;
+  --obj-11:#7ea2ff; --obj-12:#55d69a; --obj-13:#e0b24d; --obj-14:#ea86b8;
+  --correct:#55d69a; --incorrect:#ef6b5d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:760px;margin:0 auto;padding:14px 16px 0;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;margin-top:12px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:10px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.panel{display:flex;flex-direction:column;gap:16px;padding-top:18px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;}
+.lede{color:var(--text-muted);font-size:14px;line-height:1.5;margin:0;}
+.chiprow{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{font-family:var(--font-display);font-size:12px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-muted);border-radius:999px;padding:6px 11px;cursor:pointer;}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent);}
+.badge{font-family:var(--font-display);font-size:11px;letter-spacing:.02em;border-radius:999px;
+  padding:3px 9px;display:inline-block;color:#fff;}
+.badge-11{background:var(--obj-11);} .badge-12{background:var(--obj-12);}
+.badge-13{background:var(--obj-13);} .badge-14{background:var(--obj-14);}
+button.primary{font-family:var(--font-body);font-weight:600;font-size:14px;background:var(--accent);
+  color:var(--accent-ink);border:none;border-radius:10px;padding:11px 18px;cursor:pointer;}
+button.ghost{font-family:var(--font-body);font-weight:600;font-size:14px;background:none;
+  color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 16px;cursor:pointer;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* Flashcards */
+.deck-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+  color:var(--text-muted);font-family:var(--font-display);}
+.flip-outer{perspective:1400px;}
+.flip-card{position:relative;min-height:220px;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;min-height:220px;transition:transform .45s;
+  transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);
+  padding:22px;display:flex;flex-direction:column;gap:12px;justify-content:center;}
+.flip-face.back{transform:rotateY(180deg);background:var(--surface-2);}
+.flip-term{font-family:var(--font-display);font-size:20px;line-height:1.3;}
+.flip-def{font-size:15px;line-height:1.55;}
+.flip-hint{font-size:11px;color:var(--text-muted);font-family:var(--font-display);text-align:center;}
+.deckctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.markrow{display:flex;gap:8px;justify-content:center;}
+.mark-know{background:var(--correct);color:#fff;border:none;}
+.mark-learning{background:var(--incorrect);color:#fff;border:none;}
+
+/* Quiz / scenario */
+.qmeta{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);}
+.qtext{font-size:16px;line-height:1.5;margin:10px 0 16px;}
+.opt{display:block;width:100%;text-align:left;font-size:14.5px;line-height:1.4;background:var(--surface-2);
+  border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px;cursor:pointer;
+  color:var(--text);}
+.opt:hover{border-color:var(--accent);}
+.opt.correct{background:color-mix(in srgb, var(--correct) 20%, var(--surface));border-color:var(--correct);}
+.opt.incorrect{background:color-mix(in srgb, var(--incorrect) 18%, var(--surface));border-color:var(--incorrect);}
+.opt:disabled{cursor:default;}
+.explain{font-size:13.5px;line-height:1.5;background:var(--surface-2);border-left:3px solid var(--accent);
+  padding:10px 12px;border-radius:0 8px 8px 0;margin-top:4px;}
+.roundend{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.roundend .score{font-family:var(--font-display);font-size:34px;}
+
+/* Progress */
+.objcard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface-2);}
+.objcard .row1{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.bar{height:8px;border-radius:999px;background:var(--border);overflow:hidden;}
+.bar > span{display:block;height:100%;border-radius:999px;}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+.stattile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stattile .n{font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums;}
+.stattile .l{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.weak{border:1px solid var(--incorrect);background:color-mix(in srgb, var(--incorrect) 10%, var(--surface));
+  border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;} .flip-term{font-size:18px;}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <h1>Domain 1 Drill</h1>
+      <span class="sub">SY0-701 &middot; General Security Concepts &middot; 12%</span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="flash" role="tab">Flashcards</button>
+      <button class="tab" data-tab="quiz" role="tab">Quiz</button>
+      <button class="tab" data-tab="scenario" role="tab">Scenarios</button>
+      <button class="tab" data-tab="progress" role="tab">Progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-flash">
+    <p class="lede">60 term cards pulled straight from your Domain 1 guide. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <div class="chiprow" id="flash-filters"></div>
+    <div class="card" style="gap:14px;display:flex;flex-direction:column;">
+      <div class="deck-meta">
+        <span id="flash-badge"></span>
+        <span id="flash-pos">1 / 60</span>
+      </div>
+      <div class="flip-outer">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face front">
+              <div class="flip-term" id="flash-term"></div>
+              <div class="flip-hint">tap to reveal</div>
+            </div>
+            <div class="flip-face back">
+              <div class="flip-def" id="flash-def"></div>
+              <div class="flip-hint">tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="markrow">
+        <button class="ghost mark-learning" id="btn-learning">Still learning</button>
+        <button class="ghost mark-know" id="btn-know">Got it</button>
+      </div>
+      <div class="deckctl">
+        <button class="ghost" id="btn-prev">&larr; Prev</button>
+        <button class="ghost" id="btn-shuffle">Shuffle</button>
+        <button class="ghost" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" hidden>
+    <p class="lede">Multiple-choice questions in the exam's own voice. Pick an objective or drill all of Domain 1 &mdash; up to 10 questions a round, with an explanation after every answer.</p>
+    <div class="chiprow" id="quiz-filters"></div>
+    <div class="card" id="quiz-start-card">
+      <button class="primary" id="quiz-start">Start round</button>
+    </div>
+    <div class="card" id="quiz-run-card" hidden>
+      <div class="qmeta">
+        <span id="quiz-obj-badge"></span>
+        <span id="quiz-pos"></span>
+      </div>
+      <div class="qtext" id="quiz-q"></div>
+      <div id="quiz-opts"></div>
+      <div class="explain" id="quiz-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="quiz-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="quiz-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="quiz-score"></div>
+      <p class="lede" id="quiz-score-note"></p>
+      <button class="primary" id="quiz-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- SCENARIOS -->
+  <section class="panel" id="panel-scenario" hidden>
+    <p class="lede">PBQ-style situational questions &mdash; longer setups, closer to what the real exam's performance-based questions feel like. "Which control/concept applies here?"</p>
+    <div class="chiprow" id="scenario-filters"></div>
+    <div class="card" id="scenario-start-card">
+      <button class="primary" id="scenario-start">Start round</button>
+    </div>
+    <div class="card" id="scenario-run-card" hidden>
+      <div class="qmeta">
+        <span id="scenario-obj-badge"></span>
+        <span id="scenario-pos"></span>
+      </div>
+      <div class="qtext" id="scenario-q"></div>
+      <div id="scenario-opts"></div>
+      <div class="explain" id="scenario-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="scenario-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="scenario-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="scenario-score"></div>
+      <p class="lede" id="scenario-score-note"></p>
+      <button class="primary" id="scenario-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="panel-progress" hidden>
+    <p class="lede">Mastery by sub-objective, combining every quiz and scenario answer you've given. Flashcard self-marks are tracked separately below.</p>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Mastery by objective</h3>
+      <div id="obj-cards" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="card" id="weak-card" style="gap:10px;display:flex;flex-direction:column;"></div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Overall</h3>
+      <div class="statgrid" id="overall-stats"></div>
+    </div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Flashcard recall</h3>
+      <div class="statgrid" id="flash-stats"></div>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span class="lede" style="margin:0;">Progress is stored in this browser only.</span>
+      <button class="ghost" id="btn-reset">Reset all progress</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"1.1":"Security Controls","1.2":"Core Concepts","1.3":"Change Management","1.4":"Cryptography"};
+var OBJ_LIST = ["1.1","1.2","1.3","1.4"];
+
+var FLASHCARDS = [
+ {id:1,obj:"1.1",t:"Technical control",d:"Enforced by a system: firewall rules, OS policies, antivirus."},
+ {id:2,obj:"1.1",t:"Managerial control",d:"Enforced by policy and paperwork: onboarding policy, compliance documentation."},
+ {id:3,obj:"1.1",t:"Operational control",d:"Enforced by people, day to day: security guards, awareness training, patrolling."},
+ {id:4,obj:"1.1",t:"Physical control",d:"Enforced by a physical object: locks, fences, badge readers."},
+ {id:5,obj:"1.1",t:"Preventive control",d:"Stops the access before it happens (firewall rule, guard shack ID check)."},
+ {id:6,obj:"1.1",t:"Deterrent control",d:"Discourages the attempt without physically stopping it (warning signs, splash screen)."},
+ {id:7,obj:"1.1",t:"Detective control",d:"Identifies or logs that something happened, after the fact (log review, motion detector)."},
+ {id:8,obj:"1.1",t:"Corrective control",d:"Reverses or limits damage after detection (restore from backup, fire extinguisher)."},
+ {id:9,obj:"1.1",t:"Compensating control",d:"A temporary substitute when the ideal control isn't available (block traffic while awaiting a patch)."},
+ {id:10,obj:"1.1",t:"Directive control",d:"Tells someone to act a certain way; relatively weak since it relies on compliance."},
+ {id:11,obj:"1.2",t:"Confidentiality",d:"Only the right people can see the data. Provided by encryption, access controls, extra auth factors."},
+ {id:12,obj:"1.2",t:"Integrity",d:"Data received is exactly what was sent. Provided by hashing, digital signatures, certificates."},
+ {id:13,obj:"1.2",t:"Availability",d:"Systems stay up and reachable. Provided by fault tolerance, redundancy, patching."},
+ {id:14,obj:"1.2",t:"Non-repudiation",d:"The sender can't credibly deny sending something &mdash; combines proof of integrity and proof of origin."},
+ {id:15,obj:"1.2",t:"AAA",d:"Authentication, Authorization, Accounting &mdash; verify identity, assign access rights, log activity."},
+ {id:16,obj:"1.2",t:"Identification vs. authentication",d:"Identification is claiming an identity (a username); authentication is proving it (password + factors)."},
+ {id:17,obj:"1.2",t:"Gap analysis",d:"Comparing your current security state against a baseline (NIST SP 800-171, ISO/IEC 27001) to find and remediate shortfalls."},
+ {id:18,obj:"1.2",t:"Zero Trust",d:"Continuous verification of every user, device, and process, every time, regardless of network location."},
+ {id:19,obj:"1.2",t:"Data plane",d:"Where traffic actually moves: subjects/systems, implicit trust zones, and the Policy Enforcement Point (PEP)."},
+ {id:20,obj:"1.2",t:"Control plane",d:"Where access decisions get made: the Policy Decision Point (PDP), split into Policy Engine and Policy Administrator."},
+ {id:21,obj:"1.2",t:"Policy Enforcement Point (PEP)",d:"The gatekeeper all traffic must pass through &mdash; an edge router, firewall, SDP gateway, or API gateway."},
+ {id:22,obj:"1.2",t:"Policy Engine (PE)",d:"Compares the request against policy and decides grant, deny, or revoke."},
+ {id:23,obj:"1.2",t:"Policy Administrator (PA)",d:"Takes the PE's decision and relays it to the PEP, issuing the tokens/credentials."},
+ {id:24,obj:"1.2",t:"Adaptive identity",d:"Risk-based authentication that strengthens requirements based on context &mdash; unusual IP, role, or sensitive-data request."},
+ {id:25,obj:"1.2",t:"Access control vestibule (mantrap)",d:"One person, one door open at a time; prevents piggybacking/tailgating."},
+ {id:26,obj:"1.2",t:"Honeypot",d:"A single decoy system designed to attract and hold an attacker's attention."},
+ {id:27,obj:"1.2",t:"Honeynet",d:"Multiple honeypots combined into a decoy network that looks and feels real."},
+ {id:28,obj:"1.2",t:"Honeyfile",d:"A decoy file that should never legitimately be opened; access to it triggers an alert."},
+ {id:29,obj:"1.2",t:"Honeytoken",d:"Traceable fake data (credentials, records) seeded to reveal exactly where a leak came from."},
+ {id:30,obj:"1.3",t:"Change control board",d:"Weighs the risk of making a change against the risk of not making it before approving."},
+ {id:31,obj:"1.3",t:"RACI model",d:"Responsible (does the work), Accountable (owns the outcome, one person), Consulted (two-way input), Informed (one-way notice)."},
+ {id:32,obj:"1.3",t:"Backout/rollback plan",d:"A plan to reverse a change, prepared and tested before the change is implemented &mdash; not just written."},
+ {id:33,obj:"1.3",t:"Allow list",d:"Restrictive by default: only named items may run."},
+ {id:34,obj:"1.3",t:"Deny list",d:"Permissive by default: everything may run except named items."},
+ {id:35,obj:"1.3",t:"Maintenance window",d:"A scheduled time block for making changes, following a documented SOP."},
+ {id:36,obj:"1.3",t:"CMDB",d:"Configuration management database; tracks changes as part of a broader configuration management system."},
+ {id:37,obj:"1.3",t:"Change impact analysis",d:"Comparing current vs. future state to identify who and what a change affects &mdash; a mini gap analysis."},
+ {id:38,obj:"1.4",t:"PKI",d:"The policies, procedures, hardware, and software for creating, distributing, storing, and revoking digital certificates."},
+ {id:39,obj:"1.4",t:"Key escrow",d:"A trusted third party holds a backup copy of a private key so data can be recovered if it's lost or access is compelled."},
+ {id:40,obj:"1.4",t:"Digital certificate",d:"Bundles a public key with identifying information and a digital signature. Standard format: X.509."},
+ {id:41,obj:"1.4",t:"Certificate Authority (CA)",d:"A trusted third party that digitally signs certificates."},
+ {id:42,obj:"1.4",t:"Certificate Signing Request (CSR)",d:"A request sent to a CA containing a public key and identity info, to apply for a certificate."},
+ {id:43,obj:"1.4",t:"SAN / wildcard cert",d:"One certificate that covers every subdomain, e.g. *.example.com, via its Subject Alternative Name."},
+ {id:44,obj:"1.4",t:"Certificate Revocation List (CRL)",d:"A list of revoked certificates hosted by the CA; the browser downloads the whole list to check."},
+ {id:45,obj:"1.4",t:"OCSP",d:"Online Certificate Status Protocol &mdash; a real-time per-certificate status check, more efficient than a CRL."},
+ {id:46,obj:"1.4",t:"OCSP stapling",d:"Embeds the signed certificate status directly into the TLS/SSL handshake."},
+ {id:47,obj:"1.4",t:"Symmetric encryption",d:"One shared key encrypts and decrypts. Fast, but hard to scale past roughly 10 parties."},
+ {id:48,obj:"1.4",t:"Asymmetric encryption",d:"Two mathematically related keys &mdash; public encrypts, private decrypts. Scales well."},
+ {id:49,obj:"1.4",t:"Session key",d:"An ephemeral symmetric key used once for a single session, then discarded."},
+ {id:50,obj:"1.4",t:"Key stretching",d:"Repeated hashing that makes brute-forcing a password or key dramatically slower."},
+ {id:51,obj:"1.4",t:"TPM",d:"Trusted Platform Module &mdash; an on-motherboard chip that generates and stores keys for one device."},
+ {id:52,obj:"1.4",t:"HSM",d:"Hardware Security Module &mdash; clustered, dedicated hardware for key storage and crypto acceleration at data-center scale."},
+ {id:53,obj:"1.4",t:"Secure enclave",d:"A separate security co-processor providing a true random number generator, boot integrity, and hardware AES."},
+ {id:54,obj:"1.4",t:"Hash",d:"A one-directional fingerprint of data; you cannot reconstruct the original from the hash."},
+ {id:55,obj:"1.4",t:"Salted hash",d:"A hash with random data added before hashing, so identical passwords produce different stored hashes."},
+ {id:56,obj:"1.4",t:"Rainbow table",d:"A precomputed lookup table of hash-to-plaintext values, defeated by salting."},
+ {id:57,obj:"1.4",t:"Digital signature",d:"A hash encrypted with the sender's private key &mdash; proves both integrity and non-repudiation."},
+ {id:58,obj:"1.4",t:"Steganography",d:"Hiding data inside other data, such as an image (the covertext), audio, or video."},
+ {id:59,obj:"1.4",t:"Tokenization",d:"Replacing sensitive data with a meaningless substitute only the issuing system can map back to the real value."},
+ {id:60,obj:"1.4",t:"Blockchain",d:"A distributed, append-only, open public ledger; each block's hash makes past tampering detectable."}
+];
+
+var QUIZ = [
+ {id:1,obj:"1.1",q:"A security camera that is actively recording and monitored is best classified as which control type?",c:["Preventive","Deterrent","Detective","Compensating"],a:2,e:"It's logging/identifying activity after the fact — that's detective. Its mere visible presence would lean deterrent instead."},
+ {id:2,obj:"1.1",q:"Which category of control is a written acceptable-use policy?",c:["Technical","Managerial","Operational","Physical"],a:1,e:"Policy and paperwork are enforced by management — managerial category."},
+ {id:3,obj:"1.1",q:"A firewall rule that blocks a known-bad IP before it can reach the network is a ___ control.",c:["Detective","Corrective","Preventive","Directive"],a:2,e:"It stops the access before it happens — that's preventive."},
+ {id:4,obj:"1.1",q:"A sign reading “Authorized Personnel Only” with no lock on the door is which control type?",c:["Preventive","Detective","Directive","Compensating"],a:2,e:"It relies on people complying with what it says — directive, and relatively weak on its own."},
+ {id:5,obj:"1.1",q:"Blocking outbound traffic to a vulnerable service while waiting on a vendor patch is an example of a ___ control.",c:["Preventive","Compensating","Deterrent","Directive"],a:1,e:"It's a temporary substitute standing in for the ideal control (the patch) — compensating."},
+ {id:6,obj:"1.1",q:"A security guard who checks badges at the door is enforcing which control category?",c:["Technical","Managerial","Operational","Physical"],a:2,e:"A person doing the enforcing, day to day — operational."},
+ {id:7,obj:"1.2",q:"Which security objective is provided primarily by hashing and digital signatures?",c:["Confidentiality","Integrity","Availability","Accountability"],a:1,e:"Hashing and signatures confirm data wasn't altered — integrity."},
+ {id:8,obj:"1.2",q:"Which Zero Trust component actually makes the grant/deny/revoke decision?",c:["Policy Enforcement Point","Policy Engine","Policy Administrator","Data plane"],a:1,e:"The Policy Engine compares the request to policy and decides. The Administrator relays that decision; the Enforcement Point carries it out."},
+ {id:9,obj:"1.2",q:"In the AAA flow, which step logs what a user did and when?",c:["Identification","Authentication","Authorization","Accounting"],a:3,e:"Accounting is the logging step — the record of activity."},
+ {id:10,obj:"1.2",q:"A decoy file named passwords.txt that should never legitimately be opened is an example of a:",c:["Honeypot","Honeynet","Honeyfile","Honeytoken"],a:2,e:"A single decoy file, not a whole system or a piece of traceable data — honeyfile."},
+ {id:11,obj:"1.2",q:"Which best describes non-repudiation?",c:["Only hashing the data","Proof of integrity plus proof of origin","Encrypting data at rest","Assigning users to groups"],a:1,e:"Non-repudiation needs both: the data wasn't altered, and it verifiably came from that sender."},
+ {id:12,obj:"1.2",q:"An access control vestibule (mantrap) primarily defends against which threat?",c:["Malware","Piggybacking/tailgating","Phishing","Man-in-the-middle"],a:1,e:"Only one person, one door open at a time — built specifically to stop someone slipping in behind an authorized person."},
+ {id:13,obj:"1.3",q:"In the RACI model, how many people can be Accountable for a given change?",c:["As many as needed","Exactly one","Zero","Two, for redundancy"],a:1,e:"Accountable is deliberately singular — one owner of the outcome, even if many people are Responsible for doing the work."},
+ {id:14,obj:"1.3",q:"A backout plan should be prepared and tested:",c:["After implementation, in case something breaks","Only if the change control board requests it","Before testing or implementation","Only for changes affecting production databases"],a:2,e:"Prepare and test the rollback before you touch anything — writing it isn't enough, it has to actually work."},
+ {id:15,obj:"1.3",q:"An allow list is best described as:",c:["Permissive by default, blocking only named items","Restrictive by default, permitting only named items","A list of denied IP addresses only","The same thing as a deny list"],a:1,e:"Allow list = default deny, only named items get through. It reads backwards from what it sounds like at first."},
+ {id:16,obj:"1.3",q:"Where are approved changes formally tracked for version control?",c:["The change control board's meeting notes only","A CMDB, as part of a configuration management system","The technician's personal notes","An email thread"],a:1,e:"The CMDB is the system of record for configuration and change history."},
+ {id:17,obj:"1.3",q:"Which party typically owns and later tests a change, without necessarily implementing it themselves?",c:["The change control board","The data/application owner","The end users","The RACI “Informed” party"],a:1,e:"Ownership and implementation are usually split — the owner manages and tests, a technician often does the hands-on work."},
+ {id:18,obj:"1.3",q:"A shipping-label printer upgrade unexpectedly affects accounting and delivery timelines. This illustrates the importance of identifying:",c:["Stakeholders","Backout plans","Maintenance windows","SOPs"],a:0,e:"Stakeholder impact is often wider than it looks — that's exactly what stakeholder identification is meant to catch."},
+ {id:19,obj:"1.4",q:"A hash is turned into a digital signature by encrypting it with:",c:["The sender's public key","The sender's private key","The recipient's public key","A shared symmetric key"],a:1,e:"Signing uses the reverse of normal asymmetric encryption — sign with your own private key so anyone can verify with your public key."},
+ {id:20,obj:"1.4",q:"An organization wants real-time certificate status without downloading a full revocation list. That's:",c:["CRL","A wildcard certificate","OCSP","A CSR"],a:2,e:"OCSP checks one certificate's status in real time, instead of pulling the whole CRL."},
+ {id:21,obj:"1.4",q:"Which best describes tokenization?",c:["A reversible mathematical transform requiring a key","A meaningless substitute value mapped back only by the issuing system","Hiding data inside an image","A revocation mechanism for certificates"],a:1,e:"A token has no mathematical relationship to the real value — only the issuing system can map it back."},
+ {id:22,obj:"1.4",q:"Why is MD5 no longer recommended for security-relevant hashing?",c:["It produces too short an output","A collision was demonstrated in 1996","It cannot be salted","It is too slow for password storage"],a:1,e:"A real MD5 collision — two different inputs producing the same hash — was shown in 1996."},
+ {id:23,obj:"1.4",q:"What does key escrow provide?",c:["Faster encryption","A backup copy of a private key held by a trusted third party","A replacement for digital signatures","A way to avoid using a CA"],a:1,e:"Escrow lets data still be recovered if a key is lost, an employee leaves, or access is legally compelled."},
+ {id:24,obj:"1.4",q:"A TPM differs from an HSM primarily in:",c:["TPM is software-only; HSM is hardware-only","TPM secures one device; HSM secures many devices at data-center scale","TPM is for asymmetric keys only","There is no meaningful difference"],a:1,e:"Same basic job, different scale: TPM is bolted to one motherboard, HSM serves a whole data center."}
+];
+
+var SCENARIOS = [
+ {id:1,obj:"1.1",q:"Your company installs bollards in front of the building entrance after a delivery truck struck the lobby doors last year. What control type and category best describes the bollards?",c:["Preventive, Physical","Detective, Technical","Deterrent, Managerial","Compensating, Operational"],a:0,e:"A physical object that stops a vehicle before it reaches the building — preventive and physical."},
+ {id:2,obj:"1.1",q:"IT can't immediately patch a critical vulnerability on a legacy server because the vendor hasn't released a fix yet. As a stopgap, the firewall team blocks all inbound traffic to that server's vulnerable port until a patch ships. What control type is this?",c:["Preventive","Corrective","Compensating","Detective"],a:2,e:"A temporary substitute standing in for the real fix (the patch) — compensating."},
+ {id:3,obj:"1.1",q:"A new hire signs an acceptable use policy on day one, agreeing to specific rules for using company systems. Which control category does this represent?",c:["Technical","Managerial","Operational","Physical"],a:1,e:"Policy and paperwork, enforced by management — managerial."},
+ {id:4,obj:"1.2",q:"A user tries to log in from an unfamiliar country at 3 AM, requesting access to a sensitive HR database. The system automatically demands an extra authentication factor before granting access. This is an example of:",c:["Non-repudiation","Adaptive identity (risk-based authentication)","Gap analysis","A honeytoken"],a:1,e:"Context — unusual location, unusual time, sensitive data — is raising the required assurance level on the fly."},
+ {id:5,obj:"1.2",q:"A security team plants a fake set of API credentials inside a config file that no legitimate service ever reads. Weeks later, those exact credentials show up in use on the dark web, confirming exactly where a breach occurred. What did the team use?",c:["A honeypot","A honeynet","A honeytoken","Data masking"],a:2,e:"Traceable fake data, not a decoy system — honeytoken."},
+ {id:6,obj:"1.2",q:"An organization compares its current password policy, training program, and patch cadence against ISO/IEC 27001 to find where it falls short. This process is called:",c:["Zero Trust validation","Gap analysis","Change impact analysis","Non-repudiation review"],a:1,e:"Measuring current state against a published baseline, to find and remediate shortfalls — gap analysis."},
+ {id:7,obj:"1.3",q:"A technician wants to update firewall management software, but discovers it requires the firewall's firmware to be updated first. This relationship between the two systems is called a:",c:["Stakeholder conflict","Dependency","Legacy application issue","Scope creep"],a:1,e:"One system requiring another to be updated first is exactly what a dependency is."},
+ {id:8,obj:"1.3",q:"Before rolling out a major application update, the team documents exactly who is doing the work, who owns the outcome, who needs to weigh in, and who just needs a heads-up. What model are they using?",c:["CIA triad","RACI model","Zero Trust model","AAA model"],a:1,e:"Responsible, Accountable, Consulted, Informed — the RACI model."},
+ {id:9,obj:"1.3",q:"A change is scheduled for 2 AM Saturday during the org's designated low-traffic period, following the documented standard operating procedure. What is this scheduled time block called?",c:["A gap analysis window","A maintenance window","A backout plan","A change impact analysis"],a:1,e:"A scheduled block set aside specifically for making changes — maintenance window."},
+ {id:10,obj:"1.4",q:"A browser connects to a website and, instead of downloading an entire list of revoked certificates, receives a pre-signed certificate status embedded directly in the TLS handshake. What technique is this?",c:["CRL lookup","OCSP stapling","Key escrow","A CSR"],a:1,e:"The server ‘staples’ a pre-signed status into the handshake itself, skipping a separate round trip — OCSP stapling."},
+ {id:11,obj:"1.4",q:"Alice sends Bob a signed email. Bob's email client hashes the received message and compares it to the hash it recovers by decrypting Alice's signature with her public key. The hashes match. What has Bob confirmed?",c:["Confidentiality only","Integrity only","Integrity and non-repudiation","Availability"],a:2,e:"A matching signature proves the message wasn't altered AND that only Alice's private key could have produced it."},
+ {id:12,obj:"1.4",q:"A payment app sends a one-time-use substitute value instead of your actual credit card number during checkout. If intercepted, the value is worthless and has no mathematical relationship to your real card number. This technique is:",c:["Encryption","Steganography","Tokenization","Hashing"],a:2,e:"No mathematical relationship to the original value, mapped back only by the issuer — tokenization, not encryption."}
+];
+
+var OBJ_COLOR_CLASS = {"1.1":"badge-11","1.2":"badge-12","1.3":"badge-13","1.4":"badge-14"};
+
+/* ---------- state ---------- */
+var STORE_KEY = "domain1drill:v1";
+function defaultState(){
+  return { cardStatus:{}, objStats:{"1.1":{c:0,t:0},"1.2":{c:0,t:0},"1.3":{c:0,t:0},"1.4":{c:0,t:0}} };
+}
+var state = loadState();
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultState();
+    var parsed = JSON.parse(raw);
+    var d = defaultState();
+    parsed.cardStatus = parsed.cardStatus || {};
+    parsed.objStats = parsed.objStats || d.objStats;
+    OBJ_LIST.forEach(function(o){ if(!parsed.objStats[o]) parsed.objStats[o] = {c:0,t:0}; });
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function recordAnswer(obj, correct){
+  state.objStats[obj].t++;
+  if(correct) state.objStats[obj].c++;
+  saveState();
+}
+function recordCard(id, status){
+  state.cardStatus[id] = status;
+  saveState();
+}
+
+/* ---------- tabs ---------- */
+var tabs = document.querySelectorAll(".tab");
+var panels = { flash:document.getElementById("panel-flash"), quiz:document.getElementById("panel-quiz"),
+  scenario:document.getElementById("panel-scenario"), progress:document.getElementById("panel-progress") };
+tabs.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    tabs.forEach(function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== btn.dataset.tab); });
+    if(btn.dataset.tab === "progress") renderProgress();
+  });
+});
+
+/* ---------- flashcards ---------- */
+var flashFilter = "all";
+var flashPool = FLASHCARDS.slice();
+var flashIdx = 0;
+
+function buildFlashFilters(){
+  var row = document.getElementById("flash-filters");
+  row.innerHTML = "";
+  var opts = [["all","All"],["1.1","1.1"],["1.2","1.2"],["1.3","1.3"],["1.4","1.4"],["weak","Still learning"]];
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "chip" + (flashFilter === o[0] ? " on" : "");
+    b.textContent = o[1];
+    b.addEventListener("click", function(){ flashFilter = o[0]; applyFlashFilter(); });
+    row.appendChild(b);
+  });
+}
+function applyFlashFilter(){
+  buildFlashFilters();
+  if(flashFilter === "all") flashPool = FLASHCARDS.slice();
+  else if(flashFilter === "weak") flashPool = FLASHCARDS.filter(function(c){ return state.cardStatus[c.id] === "learning"; });
+  else flashPool = FLASHCARDS.filter(function(c){ return c.obj === flashFilter; });
+  if(flashPool.length === 0) flashPool = [{id:0,obj:"1.1",t:"Nothing here yet",d:"No cards marked “still learning” in this filter — nice work. Try another filter."}];
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+}
+function renderFlashCard(){
+  var c = flashPool[flashIdx];
+  document.getElementById("flash-term").textContent = c.t;
+  document.getElementById("flash-def").innerHTML = c.d;
+  document.getElementById("flash-pos").textContent = (flashIdx+1) + " / " + flashPool.length;
+  var badge = document.getElementById("flash-badge");
+  badge.innerHTML = c.id ? '<span class="badge ' + OBJ_COLOR_CLASS[c.obj] + '">' + c.obj + '</span>' : "";
+}
+document.getElementById("flip-card").addEventListener("click", function(){
+  this.classList.toggle("flipped");
+});
+document.getElementById("btn-next").addEventListener("click", function(){
+  flashIdx = (flashIdx+1) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-prev").addEventListener("click", function(){
+  flashIdx = (flashIdx-1+flashPool.length) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-shuffle").addEventListener("click", function(){
+  for(var i=flashPool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=flashPool[i]; flashPool[i]=flashPool[j]; flashPool[j]=t; }
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-know").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"know"); }
+  document.getElementById("btn-next").click();
+});
+document.getElementById("btn-learning").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"learning"); }
+  document.getElementById("btn-next").click();
+});
+
+/* ---------- quiz + scenario shared engine ---------- */
+function makeEngine(kind, pool, roundSize){
+  var filter = "all";
+  var round = [];
+  var idx = 0;
+  var correctCount = 0;
+  var answered = false;
+
+  var filterRow = document.getElementById(kind+"-filters");
+  var startCard = document.getElementById(kind+"-start-card");
+  var runCard = document.getElementById(kind+"-run-card");
+  var endCard = document.getElementById(kind+"-end-card");
+  var startBtn = document.getElementById(kind+"-start");
+  var againBtn = document.getElementById(kind+"-again");
+  var nextBtn = document.getElementById(kind+"-next");
+  var objBadge = document.getElementById(kind+"-obj-badge");
+  var posEl = document.getElementById(kind+"-pos");
+  var qEl = document.getElementById(kind+"-q");
+  var optsEl = document.getElementById(kind+"-opts");
+  var explainEl = document.getElementById(kind+"-explain");
+  var scoreEl = document.getElementById(kind+"-score");
+  var noteEl = document.getElementById(kind+"-score-note");
+
+  function buildFilters(){
+    filterRow.innerHTML = "";
+    [["all","All"],["1.1","1.1"],["1.2","1.2"],["1.3","1.3"],["1.4","1.4"]].forEach(function(o){
+      var b = document.createElement("button");
+      b.className = "chip" + (filter === o[0] ? " on" : "");
+      b.textContent = o[1];
+      b.addEventListener("click", function(){ filter = o[0]; buildFilters(); });
+      filterRow.appendChild(b);
+    });
+  }
+  buildFilters();
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  function start(){
+    var source = filter === "all" ? pool : pool.filter(function(q){ return q.obj === filter; });
+    round = shuffled(source).slice(0, Math.min(roundSize, source.length));
+    idx = 0; correctCount = 0;
+    startCard.hidden = true; endCard.hidden = true; runCard.hidden = false;
+    renderQuestion();
+  }
+  startBtn.addEventListener("click", start);
+  againBtn.addEventListener("click", start);
+
+  function renderQuestion(){
+    answered = false;
+    var q = round[idx];
+    objBadge.innerHTML = '<span class="badge ' + OBJ_COLOR_CLASS[q.obj] + '">' + q.obj + " &middot; " + OBJ_TITLE[q.obj] + '</span>';
+    posEl.textContent = "Question " + (idx+1) + " / " + round.length;
+    qEl.textContent = q.q;
+    optsEl.innerHTML = "";
+    explainEl.hidden = true;
+    nextBtn.disabled = true;
+    q.c.forEach(function(choice, i){
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = choice;
+      b.addEventListener("click", function(){ selectAnswer(i); });
+      optsEl.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i){
+    if(answered) return;
+    answered = true;
+    var q = round[idx];
+    var isCorrect = (i === q.a);
+    if(isCorrect) correctCount++;
+    recordAnswer(q.obj, isCorrect);
+    var optBtns = optsEl.querySelectorAll(".opt");
+    optBtns.forEach(function(b, bi){
+      b.disabled = true;
+      if(bi === q.a) b.classList.add("correct");
+      else if(bi === i) b.classList.add("incorrect");
+    });
+    explainEl.hidden = false;
+    explainEl.textContent = (isCorrect ? "Correct. " : "Not quite. ") + q.e;
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", function(){
+    if(idx < round.length-1){ idx++; renderQuestion(); }
+    else finish();
+  });
+
+  function finish(){
+    runCard.hidden = true; endCard.hidden = false;
+    scoreEl.textContent = correctCount + " / " + round.length;
+    var pct = Math.round(100*correctCount/round.length);
+    var note = pct >= 80 ? "Strong round. Try a filtered objective to sharpen a weaker spot."
+      : pct >= 50 ? "Solid start — check the Progress tab to see which objective needs another pass."
+      : "Worth another round on this objective — flashcard it first, then come back.";
+    noteEl.textContent = note;
+  }
+}
+
+makeEngine("quiz", QUIZ, 10);
+makeEngine("scenario", SCENARIOS, 8);
+
+/* ---------- progress ---------- */
+function renderProgress(){
+  var objWrap = document.getElementById("obj-cards");
+  objWrap.innerHTML = "";
+  var worst = null;
+  OBJ_LIST.forEach(function(o){
+    var s = state.objStats[o];
+    var pct = s.t ? Math.round(100*s.c/s.t) : null;
+    if(pct !== null && s.t >= 3 && (worst === null || pct < worst.pct)) worst = {obj:o, pct:pct};
+    var div = document.createElement("div");
+    div.className = "objcard";
+    div.innerHTML =
+      '<div class="row1">' +
+        '<span class="badge ' + OBJ_COLOR_CLASS[o] + '">' + o + " &middot; " + OBJ_TITLE[o] + '</span>' +
+        '<span style="font-family:var(--font-display);font-size:13px;">' + (pct===null ? "Not started" : pct + "%") + '</span>' +
+      '</div>' +
+      '<div class="bar"><span style="width:' + (pct||0) + '%;background:var(--' + (o==="1.1"?"obj-11":o==="1.2"?"obj-12":o==="1.3"?"obj-13":"obj-14") + ');"></span></div>' +
+      '<div class="lede" style="margin:0;">' + s.c + ' correct of ' + s.t + ' answered</div>';
+    objWrap.appendChild(div);
+  });
+
+  var weakCard = document.getElementById("weak-card");
+  if(worst){
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><div class="weak">' +
+      '<strong>' + worst.obj + " &middot; " + OBJ_TITLE[worst.obj] + '</strong> is sitting at ' + worst.pct +
+      '% correct. Filter the Flashcards and Quiz tabs to ' + worst.obj + ' for a focused pass.</div>';
+  } else {
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><p class="lede">Answer at least 3 questions in an objective to unlock a weak-area callout.</p>';
+  }
+
+  var totalC = 0, totalT = 0;
+  OBJ_LIST.forEach(function(o){ totalC += state.objStats[o].c; totalT += state.objStats[o].t; });
+  var overall = document.getElementById("overall-stats");
+  overall.innerHTML =
+    '<div class="stattile"><div class="n">' + totalT + '</div><div class="l">Questions answered</div></div>' +
+    '<div class="stattile"><div class="n">' + (totalT? Math.round(100*totalC/totalT):0) + '%</div><div class="l">Overall accuracy</div></div>' +
+    '<div class="stattile"><div class="n">' + Object.keys(state.cardStatus).length + '</div><div class="l">Flashcards reviewed</div></div>';
+
+  var know = 0, learning = 0;
+  Object.keys(state.cardStatus).forEach(function(k){ if(state.cardStatus[k]==="know") know++; else learning++; });
+  var fstats = document.getElementById("flash-stats");
+  fstats.innerHTML =
+    '<div class="stattile"><div class="n">' + know + '</div><div class="l">Marked "Got it"</div></div>' +
+    '<div class="stattile"><div class="n">' + learning + '</div><div class="l">Marked "Still learning"</div></div>' +
+    '<div class="stattile"><div class="n">' + (60-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
+}
+
+document.getElementById("btn-reset").addEventListener("click", function(){
+  if(confirm("Reset all Domain 1 Drill progress? This clears flashcard marks and quiz/scenario stats in this browser.")){
+    state = defaultState();
+    saveState();
+    renderProgress();
+  }
+});
+
+/* ---------- init ---------- */
+applyFlashFilter();
+</script>
