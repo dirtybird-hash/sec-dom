@@ -1,0 +1,7 @@
+# Line endings: store LF in the repository and check out LF everywhere,
+# so files stay byte-identical across Windows, macOS and Linux.
+* text=auto eol=lf
+
+# Explicit for the file types in this repo
+*.html text eol=lf
+*.md   text eol=lf
