@@ -243,6 +243,11 @@ var TOPICS = [
 <p>The <strong>attack surface</strong> is all the points at which a threat actor could try to exploit a vulnerability. Any place an actor can interact with a network port, app, computer, or user is part of it. Surfaces exist at every scope: the whole organization, a single server, one web app, or employee identities and accounts.</p>
 <p>A <strong>threat vector</strong> is the specific path used to execute the attack. Sophisticated actors use multiple vectors and plan multistage campaigns rather than one smash-and-grab.</p>
 <p>Minimizing attack surface means restricting access so only a few known endpoints, protocols/ports, and services are permitted &mdash; each then assessed for vulnerabilities and monitored.</p>
+<p><strong>The vector categories, as the objectives name them.</strong> Worth memorizing in this exact wording, because questions ask you to classify:</p>
+<div class="tblwrap"><table><caption>Objective 2.2, top-level categories</caption>
+<tr><th>Delivery</th><th>Exposure</th></tr>
+<tr><td>Message-based (email, SMS, IM)<br>Image-based<br>File-based<br>Voice call<br>Removable device</td><td>Vulnerable software (client-based vs. agentless)<br>Unsupported systems and applications<br>Unsecure networks (wireless, wired, Bluetooth)<br>Open service ports<br>Default credentials<br>Supply chain (MSPs, vendors, suppliers)<br>Human vectors / social engineering</td></tr>
+</table></div>
 <blockquote><span class="tag">Gotcha</span>Surface vs. vector: the <em>surface</em> is everywhere an attack could come from; the <em>vector</em> is the route actually taken. Highly capable actors can develop original vectors, which means their map of your surface may be better than yours.</blockquote>
 `},
 {id:"software",obj:"2.2",title:"Vulnerable &amp; Unsupported Software",html:`
@@ -255,7 +260,7 @@ var TOPICS = [
 <tr><td><strong>Agentless</strong></td><td>Scans a host without installing anything. This is the form most likely to be used in threat actor reconnaissance.</td></tr>
 </table></div>
 `},
-{id:"network",obj:"2.2",title:"Network Vectors &amp; Unsecure Networks",html:`
+{id:"network",obj:"2.2",title:"Unsecure Networks, Open Ports &amp; Default Credentials",html:`
 <p>An exploit is classed by where the code has to run:</p>
 <ul>
 <li><strong>Remote</strong> &mdash; triggered by sending code over a network, with no authenticated session required.</li>
@@ -279,25 +284,27 @@ var TOPICS = [
 <li><strong>Open service ports</strong> &mdash; an unauthenticated connection to a TCP or UDP port whose listening application may be exploitable or disruptable.</li>
 </ul>
 `},
-{id:"lure",obj:"2.2",title:"Lure-Based Vectors",html:`
-<p>A <strong>lure</strong> is something superficially attractive that conceals something dangerous. The target opens the bait and it delivers the payload &mdash; used when the actor can't run a remote or local exploit directly and needs the user to facilitate the attack.</p>
-<ul>
-<li><strong>Removable device</strong> &mdash; malware on a USB stick or memory card. In a <strong>drop attack</strong>, the actor simply leaves infected sticks in the parking lot or reception area and waits for an employee to plug one in.</li>
-<li><strong>Executable file</strong> &mdash; exploit code concealed in a program. <strong>Trojan Horse</strong> malware looks free, useful, or fun while creating backdoor access.</li>
-<li><strong>Document files</strong> &mdash; malicious code embedded in word processing or PDF files, using scripting and macro features or a flaw in the viewer itself.</li>
-<li><strong>Image files</strong> &mdash; exploit code concealed in an image, targeting a vulnerability in browser or document-editing software.</li>
-</ul>
+{id:"lure",obj:"2.2",title:"File-Based, Image-Based &amp; Removable Device",html:`
+<p>Three of the vector categories named in objective 2.2, and they work the same way: a <strong>lure</strong> &mdash; something attractive that conceals something dangerous. The target opens the bait and it delivers the payload. These get used when the actor can't run a remote or local exploit directly and needs the user to do the work for them.</p>
+<div class="tblwrap"><table><caption>The three delivery categories, in the exam's own wording</caption>
+<tr><th>Category</th><th>What it looks like</th></tr>
+<tr><td><strong>File-based</strong></td><td>Exploit code inside a file the user opens or runs. An executable is the blunt version &mdash; <strong>Trojan Horse</strong> malware looks free, useful or fun while creating backdoor access. Document files are subtler: malicious code embedded in word processing or PDF files, using macro and scripting features or a flaw in the viewer itself.</td></tr>
+<tr><td><strong>Image-based</strong></td><td>Exploit code concealed inside an image, targeting a vulnerability in the browser or the document-editing software that renders it. Listed separately from file-based because images are trusted and previewed automatically in a way documents are not.</td></tr>
+<tr><td><strong>Removable device</strong></td><td>Malware on a USB stick or memory card. In a <strong>drop attack</strong> the actor leaves infected sticks in a parking lot or reception area and waits for an employee to plug one in. For some exploits, connecting the media is enough.</td></tr>
+</table></div>
 <p>Reducing this surface means endpoint security management: vulnerability management, antivirus, execution control, and intrusion detection.</p>
+<blockquote><span class="tag">Gotcha</span>The objectives list <strong>file-based</strong> and <strong>image-based</strong> as separate vector categories, so a question can ask you to classify one. If the payload rode in on a picture, the answer is image-based even though an image is technically a file.</blockquote>
 `},
-{id:"message",obj:"2.2",title:"Message-Based Vectors",html:`
-<p>A file-based lure still needs a delivery mechanism, so any feature allowing direct messaging to users is attack surface.</p>
+{id:"message",obj:"2.2",title:"Message-Based &amp; Voice Call Vectors",html:`
+<p>A file-based lure still needs a delivery mechanism, so any feature allowing direct messaging to users is attack surface. The objectives name <strong>message-based</strong> as one category with three sub-items &mdash; email, SMS and IM &mdash; and list <strong>voice call</strong> separately as a category of its own.</p>
+<p><strong>Message-based</strong>, the three named channels:</p>
 <ul>
 <li><strong>Email</strong> &mdash; the classic. Needs social engineering to get the attachment opened.</li>
 <li><strong>SMS</strong> &mdash; delivered via the handset's messaging handler and the <strong>SS7</strong> protocol, which carries numerous known vulnerabilities. Organizations typically have <em>no</em> monitoring capability over SMS, since it's operated by the handset or SIM provider.</li>
 <li><strong>Instant messaging (IM)</strong> &mdash; supports voice, video, and attachments. Usually encrypted, which is more secure than SMS but also means the organization can't scan messages or attachments for threats.</li>
-<li><strong>Web and social media</strong> &mdash; malware attached to posts or offered as downloads. A compromised site can infect vulnerable browsers automatically &mdash; a <strong>drive-by download</strong>.</li>
-<li><strong>Voice call</strong> &mdash; used to talk a user into revealing a password or weakening a configuration under a pretext.</li>
 </ul>
+<p><strong>Voice call</strong> is its own named category in the objectives, not a sub-item of message-based. The actor phones the target directly to talk them into revealing a password or weakening a configuration under a pretext &mdash; no file, no link, nothing for a filter to catch.</p>
+<p>Not a named category but worth knowing: <strong>web and social media</strong> deliver malware through attached posts and downloads, and a compromised site can infect a vulnerable browser with no deliberate download at all &mdash; a <strong>drive-by download</strong>.</p>
 <p>The most powerful exploits are <strong>zero-click</strong>: simply receiving an attachment or viewing an image triggers the exploit, with no user action at all.</p>
 `},
 {id:"supply",obj:"2.2",title:"Supply Chain Attack Surface",html:`
