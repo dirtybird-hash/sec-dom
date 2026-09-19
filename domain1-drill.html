@@ -1,4 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Flashcards, quiz and scenario practice for Security+ Domain 1.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Domain 1 Drill</title>
+</head>
+<body>
 <style>
 :root{
   --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
@@ -36,6 +46,12 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
   border-bottom:1px solid var(--border);}
 .topbar-inner{max-width:760px;margin:0 auto;padding:14px 16px 0;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
 .brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
 .brand h1{font-size:18px;margin:0;}
 .brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
@@ -114,11 +130,25 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
   border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
 [hidden]{display:none!important;}
 @media (max-width:480px){.brand h1{font-size:16px;} .flip-term{font-size:18px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 
 <div class="topbar">
   <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
     <div class="brand">
       <h1>Domain 1 Drill</h1>
       <span class="sub">SY0-701 &middot; General Security Concepts &middot; 12%</span>
@@ -631,4 +661,7 @@ document.getElementById("btn-reset").addEventListener("click", function(){
 
 /* ---------- init ---------- */
 applyFlashFilter();
+})();
 </script>
+</body>
+</html>

@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Searchable reference notes for Security+ Domain 2.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 2 Notebook</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#b3437c; --accent-ink:#ffffff;
+  --hl-yellow:#a9791c; --hl-yellow-bg:#fbf1d9;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-pink:#b3437c; --hl-pink-bg:#fbeaf2;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#ea86b8; --accent-ink:#2a1019;
+    --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#ea86b8; --accent-ink:#2a1019;
+  --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:800px;margin:0 auto;padding-inline:16px;padding-block:16px 56px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:800px;margin:0 auto;padding:14px 16px 12px;display:flex;flex-direction:column;gap:10px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.searchrow{position:relative;}
+.searchrow input{width:100%;font-family:var(--font-body);font-size:15px;padding:11px 40px 11px 14px;
+  border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.searchrow input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.searchrow .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;
+  color:var(--text-muted);font-family:var(--font-display);font-size:12px;cursor:pointer;padding:6px 8px;}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-muted);padding:2px 2px 0;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.dot.y{background:var(--hl-yellow);} .dot.g{background:var(--hl-green);}
+.dot.b{background:var(--hl-blue);} .dot.p{background:var(--hl-pink);}
+.results-note{font-family:var(--font-display);font-size:12px;color:var(--text-muted);padding-top:14px;}
+.topiclist{display:flex;flex-direction:column;gap:10px;padding-top:14px;}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;}
+.topic-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:none;border:none;text-align:left;padding:15px 16px;cursor:pointer;color:var(--text);}
+.topic-head h2{font-size:15px;margin:0;font-weight:600;letter-spacing:0;}
+.topic-badge{font-family:var(--font-display);font-size:10.5px;letter-spacing:.02em;color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;padding:2px 8px;flex:none;}
+.chev{font-family:var(--font-display);color:var(--text-muted);transition:transform .2s;flex:none;}
+.topic.open .chev{transform:rotate(90deg);}
+.topic-body{padding:0 18px 18px;font-size:14.5px;line-height:1.6;display:none;}
+.topic.open .topic-body{display:block;}
+.topic-body p{margin:0 0 12px;}
+.topic-body strong{color:var(--hl-yellow);background:linear-gradient(transparent 65%, var(--hl-yellow-bg) 65%);
+  font-weight:600;}
+.topic-body ul,.topic-body ol{margin:0 0 12px;padding-left:22px;}
+.topic-body ol{border-left:3px solid var(--hl-blue);padding-left:18px;margin-left:2px;}
+.topic-body li{margin-bottom:7px;}
+.topic-body table{width:100%;border-collapse:collapse;margin:0 0 14px;font-size:13.5px;}
+.topic-body caption{caption-side:top;text-align:left;font-family:var(--font-display);font-size:11px;
+  color:var(--text-muted);margin-bottom:6px;}
+.topic-body th{background:var(--hl-green-bg);color:var(--hl-green);text-align:left;padding:8px 10px;
+  border:1px solid var(--border);font-family:var(--font-display);font-size:11.5px;letter-spacing:.02em;}
+.topic-body td{padding:8px 10px;border:1px solid var(--border);vertical-align:top;}
+.tblwrap{overflow-x:auto;margin-bottom:14px;}
+.tblwrap table{margin-bottom:0;}
+.topic-body blockquote{margin:0 0 12px;border-left:3px solid var(--hl-pink);background:var(--hl-pink-bg);
+  border-radius:0 8px 8px 0;padding:10px 13px;font-size:13.5px;line-height:1.5;}
+.topic-body blockquote .tag{font-family:var(--font-display);color:var(--hl-pink);font-size:11px;
+  text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+.topic-body code{font-family:var(--font-display);font-size:12.5px;background:var(--surface-2);
+  padding:1px 5px;border-radius:4px;}
+.empty{text-align:center;color:var(--text-muted);padding:40px 10px;font-size:14px;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 2 Notebook</h1>
+      <span class="sub">SY0-701 &middot; Threats, Vulnerabilities &amp; Mitigations</span>
+    </div>
+    <div class="searchrow">
+      <input type="text" id="search" placeholder="Search Domain 2 notes&hellip; e.g. &quot;TOCTOU&quot;, &quot;evil twin&quot;, &quot;spraying&quot;" autocomplete="off">
+      <button class="clear" id="clear-search" hidden>Clear</button>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="legend">
+      <span><span class="dot y"></span>Terms</span>
+      <span><span class="dot g"></span>Specs &amp; tables</span>
+      <span><span class="dot b"></span>Process &amp; sequence</span>
+      <span><span class="dot p"></span>Gotchas</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="results-note" id="results-note" hidden></div>
+  <div class="topiclist" id="topiclist"></div>
+  <div class="empty" id="empty-state" hidden>No notes match that search. Try a shorter term, or clear the search to browse by objective.</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"2.1":"Threat Actors","2.2":"Vectors &amp; Attack Surfaces","2.3":"Vulnerabilities",
+  "2.4":"Malicious Activity","2.5":"Mitigation","gotchas":"Gotchas"};
+var TAB_ORDER = ["all","2.1","2.2","2.3","2.4","2.5","gotchas"];
+var TAB_LABEL = {"all":"All","2.1":"2.1","2.2":"2.2","2.3":"2.3","2.4":"2.4","2.5":"2.5","gotchas":"Gotchas"};
+
+var TOPICS = [
+{id:"vtr",obj:"2.1",title:"Vulnerability, Threat &amp; Risk",html:`
+<p>Three words the exam uses precisely, and mixing them up costs easy marks.</p>
+<ul>
+<li><strong>Vulnerability</strong> &mdash; a weakness that could be triggered accidentally or exploited intentionally. Misconfigured hardware or software, unpatched systems, poor network design, weak physical security, insecure passwords, design flaws in an OS.</li>
+<li><strong>Threat</strong> &mdash; the potential for someone or something to exploit that weakness. A threat may be intentional or unintentional. The person or thing behind it is the <strong>threat actor</strong>; the path or tool they use is the <strong>threat vector</strong>.</li>
+<li><strong>Risk</strong> &mdash; the level of hazard the combination creates. Risk is calculated as the <em>likelihood</em> of a vulnerability being exploited multiplied by the <em>impact</em> if it is.</li>
+</ul>
+<p>Severity of a vulnerability is driven by two things: the value of the vulnerable asset, and how easy the fault is to exploit.</p>
+<blockquote><span class="tag">Gotcha</span>A vulnerability is a <em>weakness</em>, a threat is the <em>potential to exploit it</em>, and risk is <em>likelihood &times; impact</em>. A vulnerability with no threat actor interested in it still carries near-zero risk.</blockquote>
+`},
+{id:"attrs",obj:"2.1",title:"Attributes of Threat Actors",html:`
+<p>Three attributes profile any actor, and all three are named directly in the objectives.</p>
+<div class="tblwrap"><table><caption>The three attributes</caption>
+<tr><th>Attribute</th><th>What it means</th></tr>
+<tr><td><strong>Internal / external</strong></td><td>The degree of access the actor holds <em>before</em> the attack starts. External = no account, no authorized access, must break in. Internal = already granted permissions (employee, contractor, partner).</td></tr>
+<tr><td><strong>Level of sophistication / capability</strong></td><td>Low capability actors rely on commodity tools that are widely available. Higher capability actors write new exploits. At the top, an actor can reach for non-cyber tools &mdash; political or military assets.</td></tr>
+<tr><td><strong>Resources / funding</strong></td><td>High capability has to be paid for. Sophisticated groups need custom tooling and skilled strategists, coders, and social engineers. The best-funded receive money from nation-states or organized crime.</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Internal vs. external describes the <strong>threat actor</strong>, not where the attack physically happens. An external actor can absolutely attack on-premises &mdash; walking into the building doesn't make them an insider. What makes an insider is having been granted access.</blockquote>
+`},
+{id:"motives",obj:"2.1",title:"Motivations of Threat Actors",html:`
+<p>Motivation is the actor's <em>reason</em>. The exam pairs motivations with actor types constantly.</p>
+<p><strong>Strategies</strong> &mdash; the three broad plays:</p>
+<ul>
+<li><strong>Service disruption</strong> &mdash; stop the organization working normally. Can be an end in itself (chaos, revenge), a blackmail lever, or cover for a different objective.</li>
+<li><strong>Data exfiltration</strong> &mdash; copy valuable information out without authorization, to keep, to sell, or to use as leverage.</li>
+<li><strong>Disinformation</strong> &mdash; falsify a trusted resource: deface a site, poison search results, use bots to push false information.</li>
+</ul>
+<p><strong>Financial motivations</strong> &mdash; three that get confused:</p>
+<ul>
+<li><strong>Blackmail</strong> &mdash; pay us or we <em>release</em> this information.</li>
+<li><strong>Extortion</strong> &mdash; pay us or we <em>continue</em> the attack (classic ransomware).</li>
+<li><strong>Fraud</strong> &mdash; falsifying records. Internal fraud tampers with accounts to embezzle; external fraud might post fake news to move a share price.</li>
+</ul>
+<p><strong>Other motivations named in the objectives:</strong> espionage, philosophical/political beliefs, ethical (authorized testing), revenge, disruption/chaos, and war.</p>
+<blockquote><span class="tag">Gotcha</span>Blackmail threatens to <em>release</em> something; extortion threatens to <em>keep doing</em> something. Both demand payment &mdash; the difference is whether the leverage is information they hold or damage they're causing.</blockquote>
+`},
+{id:"hackers",obj:"2.1",title:"Hackers, Unskilled Attackers &amp; Hacktivists",html:`
+<p>The terminology has shifted. <strong>Black hat / white hat</strong> is being replaced by neutral language: <strong>unauthorized</strong> and <strong>authorized</strong>. An authorized hacker always seeks permission before penetration testing.</p>
+<ul>
+<li><strong>Unskilled attacker</strong> (formerly "script kiddie") &mdash; uses hacker tools without understanding how they work or being able to craft new attacks. Often no specific target and no goal beyond attention or proving ability.</li>
+<li><strong>Hacktivist</strong> &mdash; uses cyber weapons to promote a political agenda. Typical plays are data exfiltration to release confidential material publicly, service disruption, or defacement to spread disinformation. Political, media, and financial organizations are the usual targets, though environmental and animal-advocacy groups target a much wider range of industries.</li>
+</ul>
+<p>The "lone hacker" image is dated. Threat actors now usually work in teams, and the collaboration is exactly what lets them develop sophisticated tooling and original strategies.</p>
+`},
+{id:"nation",obj:"2.1",title:"Nation-State Actors &amp; APTs",html:`
+<p>Most nation-states have developed cyber capability and use it for military and commercial goals.</p>
+<p><strong>Advanced Persistent Threat (APT)</strong> describes a behavior, not a piece of malware: the ability of an adversary to achieve <em>ongoing</em> compromise of network security &mdash; to obtain access and <em>maintain</em> it &mdash; using a variety of tools and techniques. The term came out of Mandiant's APT1 report into Chinese cyber-espionage units.</p>
+<ul>
+<li>Primary goals are <strong>espionage</strong> and strategic advantage, plus disinformation. North Korea is the standing example of a state targeting companies for straight financial gain.</li>
+<li>State actors work at arm's length from the government that sponsors them to maintain <strong>plausible deniability</strong>, often posing as independent groups or hacktivists.</li>
+<li><strong>False flag</strong> operations deliberately try to implicate another state.</li>
+</ul>
+<p>Commonly cited incidents: the Sony hack and WannaCry (both attributed to North Korea), and China's Great Cannon.</p>
+<blockquote><span class="tag">Gotcha</span>APT is not a type of malware and not a specific group &mdash; it's the <em>persistence</em> of the compromise. If a question stresses long-term, undetected, maintained access, it's pointing at APT behavior.</blockquote>
+`},
+{id:"orgcrime",obj:"2.1",title:"Organized Crime &amp; Competitors",html:`
+<p><strong>Organized crime</strong> operates across legal jurisdictions &mdash; attacking from a different country than the victim, which massively complicates prosecution. Motivation is criminal profit, typically financial fraud against individuals and companies, plus blackmail and extortion. These groups can be very well resourced and funded. SIM swap fraud is a classic illustration.</p>
+<p><strong>Competitors</strong> &mdash; most espionage is assumed to be state-driven, but a rogue business may use cyber espionage against a competitor to steal information, disrupt their operation, or damage their reputation. These attacks are often facilitated by employees who recently switched companies and brought insider knowledge with them, which blurs the line into insider threat.</p>
+<blockquote><span class="tag">Gotcha</span>The lines between organized crime, nation-state actors, and intent are genuinely blurry in the real world &mdash; the Garmin ransomware incident is the standard example. On the exam, follow the stated <em>motivation</em>: profit points to organized crime, strategic/political advantage points to a nation-state.</blockquote>
+`},
+{id:"insider",obj:"2.1",title:"Internal Threat Actors &amp; Shadow IT",html:`
+<p>An <strong>insider threat</strong> arises from an actor the organization itself identified and granted access to. Distinguish insiders with permanent privileges (employees) from those with temporary ones (contractors, guests, partners).</p>
+<ul>
+<li><strong>Malicious insider</strong> &mdash; has or has had authorized access. Main motivators are revenge and financial gain; also sabotage and business advantage.</li>
+<li><strong>Unintentional insider threat</strong> &mdash; no malice, just weak policies, weak adherence to them, or missing training and awareness. Poor password management is the everyday example.</li>
+<li><strong>Shadow IT</strong> &mdash; users introducing hardware or software into the workplace without IT's sanction and without any procurement or security review. Cloud services and mobile devices have made this far easier, and every instance creates unmonitored attack surface.</li>
+</ul>
+<p>Shadow IT is named as a threat actor in its own right in objective 2.1 &mdash; don't treat it only as a vulnerability.</p>
+<blockquote><span class="tag">Gotcha</span>Not every insider threat is malicious. If the scenario describes carelessness, missing training, or someone spinning up an unapproved cloud app, that's unintentional insider threat or shadow IT &mdash; not a disgruntled saboteur.</blockquote>
+`},
+
+{id:"surface",obj:"2.2",title:"Attack Surface &amp; Threat Vectors",html:`
+<p>The <strong>attack surface</strong> is all the points at which a threat actor could try to exploit a vulnerability. Any place an actor can interact with a network port, app, computer, or user is part of it. Surfaces exist at every scope: the whole organization, a single server, one web app, or employee identities and accounts.</p>
+<p>A <strong>threat vector</strong> is the specific path used to execute the attack. Sophisticated actors use multiple vectors and plan multistage campaigns rather than one smash-and-grab.</p>
+<p>Minimizing attack surface means restricting access so only a few known endpoints, protocols/ports, and services are permitted &mdash; each then assessed for vulnerabilities and monitored.</p>
+<blockquote><span class="tag">Gotcha</span>Surface vs. vector: the <em>surface</em> is everywhere an attack could come from; the <em>vector</em> is the route actually taken. Highly capable actors can develop original vectors, which means their map of your surface may be better than yours.</blockquote>
+`},
+{id:"software",obj:"2.2",title:"Vulnerable &amp; Unsupported Software",html:`
+<p>Vulnerable software contains a flaw in code or design that can be exploited to bypass access control or crash a process. Because of software complexity and release speed, almost nothing is free of vulnerabilities &mdash; and an organization without effective patch management leaves them standing.</p>
+<p>Running many different operating systems and applications directly increases attack surface. Consolidating to fewer products, at the same version across the organization, shrinks it.</p>
+<p><strong>Unsupported systems and applications</strong> are the sharpest version of this: the vendor no longer issues updates or patches, so exploits stay exploitable forever. Where the app can't be replaced, the strategy is <em>isolation</em> &mdash; which is itself a compensating control standing in for patch management.</p>
+<div class="tblwrap"><table><caption>Vulnerability scanning approaches</caption>
+<tr><th>Approach</th><th>How it works</th></tr>
+<tr><td><strong>Client-based</strong></td><td>An agent is installed on each host, runs the scan locally, and reports to a management server.</td></tr>
+<tr><td><strong>Agentless</strong></td><td>Scans a host without installing anything. This is the form most likely to be used in threat actor reconnaissance.</td></tr>
+</table></div>
+`},
+{id:"network",obj:"2.2",title:"Network Vectors &amp; Unsecure Networks",html:`
+<p>An exploit is classed by where the code has to run:</p>
+<ul>
+<li><strong>Remote</strong> &mdash; triggered by sending code over a network, with no authenticated session required.</li>
+<li><strong>Local</strong> &mdash; the exploit code must run from an authenticated session. It can still cross a network, but the actor needs valid credentials or a hijacked session.</li>
+</ul>
+<p>An <strong>unsecure network</strong> is one lacking the CIA properties, and each failure maps to an attack class:</p>
+<div class="tblwrap"><table>
+<tr><th>Missing property</th><th>What the actor can do</th><th>Attack name</th></tr>
+<tr><td>Confidentiality</td><td>Snoop traffic, recover passwords</td><td>Eavesdropping</td></tr>
+<tr><td>Integrity</td><td>Attach unauthorized devices, intercept and modify traffic, run spoofed services</td><td>On-path</td></tr>
+<tr><td>Availability</td><td>Disrupt the service</td><td>Denial of service (DoS)</td></tr>
+</table></div>
+<p><strong>Specific vectors named in the objectives:</strong></p>
+<ul>
+<li><strong>Direct access</strong> &mdash; physical presence: an unlocked workstation, a boot disk, a stolen laptop or drive.</li>
+<li><strong>Wired</strong> &mdash; an unauthorized device attached to a physical network port and allowed to talk to other hosts.</li>
+<li><strong>Wireless / remote</strong> &mdash; stolen credentials, cracked security protocols, or a spoofed access point used for credential harvesting.</li>
+<li><strong>Bluetooth</strong> &mdash; exploiting a vulnerability or misconfiguration to push a malicious file to a device.</li>
+<li><strong>Cloud</strong> &mdash; the actor only needs one account, service, or host with weak credentials. Developer and cloud-admin accounts are prime targets, as is the cloud service provider itself.</li>
+<li><strong>Default credentials</strong> &mdash; a device or app left on its factory password, which is usually published in the setup documentation.</li>
+<li><strong>Open service ports</strong> &mdash; an unauthenticated connection to a TCP or UDP port whose listening application may be exploitable or disruptable.</li>
+</ul>
+`},
+{id:"lure",obj:"2.2",title:"Lure-Based Vectors",html:`
+<p>A <strong>lure</strong> is something superficially attractive that conceals something dangerous. The target opens the bait and it delivers the payload &mdash; used when the actor can't run a remote or local exploit directly and needs the user to facilitate the attack.</p>
+<ul>
+<li><strong>Removable device</strong> &mdash; malware on a USB stick or memory card. In a <strong>drop attack</strong>, the actor simply leaves infected sticks in the parking lot or reception area and waits for an employee to plug one in.</li>
+<li><strong>Executable file</strong> &mdash; exploit code concealed in a program. <strong>Trojan Horse</strong> malware looks free, useful, or fun while creating backdoor access.</li>
+<li><strong>Document files</strong> &mdash; malicious code embedded in word processing or PDF files, using scripting and macro features or a flaw in the viewer itself.</li>
+<li><strong>Image files</strong> &mdash; exploit code concealed in an image, targeting a vulnerability in browser or document-editing software.</li>
+</ul>
+<p>Reducing this surface means endpoint security management: vulnerability management, antivirus, execution control, and intrusion detection.</p>
+`},
+{id:"message",obj:"2.2",title:"Message-Based Vectors",html:`
+<p>A file-based lure still needs a delivery mechanism, so any feature allowing direct messaging to users is attack surface.</p>
+<ul>
+<li><strong>Email</strong> &mdash; the classic. Needs social engineering to get the attachment opened.</li>
+<li><strong>SMS</strong> &mdash; delivered via the handset's messaging handler and the <strong>SS7</strong> protocol, which carries numerous known vulnerabilities. Organizations typically have <em>no</em> monitoring capability over SMS, since it's operated by the handset or SIM provider.</li>
+<li><strong>Instant messaging (IM)</strong> &mdash; supports voice, video, and attachments. Usually encrypted, which is more secure than SMS but also means the organization can't scan messages or attachments for threats.</li>
+<li><strong>Web and social media</strong> &mdash; malware attached to posts or offered as downloads. A compromised site can infect vulnerable browsers automatically &mdash; a <strong>drive-by download</strong>.</li>
+<li><strong>Voice call</strong> &mdash; used to talk a user into revealing a password or weakening a configuration under a pretext.</li>
+</ul>
+<p>The most powerful exploits are <strong>zero-click</strong>: simply receiving an attachment or viewing an image triggers the exploit, with no user action at all.</p>
+`},
+{id:"supply",obj:"2.2",title:"Supply Chain Attack Surface",html:`
+<p>A supply chain is the end-to-end process of designing, manufacturing, and distributing goods and services. Rather than attack a target directly, an actor infiltrates through a company in its supply chain &mdash; the Target breach came in via credentials held by the company's <em>building systems</em> vendor.</p>
+<div class="tblwrap"><table><caption>Three relationships the objectives distinguish</caption>
+<tr><th>Relationship</th><th>Definition</th></tr>
+<tr><td><strong>Supplier</strong></td><td>Obtains products directly from a manufacturer to sell in bulk to other businesses (B2B).</td></tr>
+<tr><td><strong>Vendor</strong></td><td>Obtains products from suppliers to sell to retail businesses or directly to customers. May add customization and direct support.</td></tr>
+<tr><td><strong>Business partner</strong></td><td>A closer relationship with closely aligned goals and shared marketing opportunities.</td></tr>
+</table></div>
+<p>Every supplier has its own supply chain, so the breadth is enormous: for one motherboard to be trustworthy, the chip fabricator, firmware developer, OEM reseller, courier, and the staff who provision the device must <em>all</em> be trustworthy. Securing it essentially means denying malicious actors the time or resources to modify what's supplied. For most businesses, using reputable vendors is the best practical effort; government and military exercise far greater scrutiny. Take particular care with secondhand equipment.</p>
+<p><strong>Managed service providers (MSPs)</strong> provision and support IT resources on an outsourced basis. From a security standpoint this is complex &mdash; the MSP is hard to monitor, and every one of its employees is a potential insider threat.</p>
+`},
+{id:"human",obj:"2.2",title:"Human Vectors &amp; Social Engineering",html:`
+<p>People &mdash; employees, contractors, suppliers, customers &mdash; are collectively the <strong>human vector</strong>. <strong>Social engineering</strong> means either eliciting information from someone or getting them to perform an action for the actor. Also called "hacking the human," and it includes written communication, not just face-to-face.</p>
+<p>It serves two purposes: <strong>reconnaissance</strong> (gathering intelligence ahead of an intrusion) and <strong>intrusion</strong> itself (obtaining credentials or getting malware run).</p>
+<p>Three illustrative scenarios from the lecture:</p>
+<ol>
+<li>An actor emails a user an executable that prompts for their password, with a story about clearing up login problems. The user complies; the actor now has credentials.</li>
+<li>An actor calls the help desk posing as a remote sales rep needing access setup, and over several calls extracts the remote access server name, login credentials, and phone numbers.</li>
+<li>An actor triggers a fire alarm and slips into the building during the confusion to attach a monitoring device to a network port.</li>
+</ol>
+`},
+{id:"imperson",obj:"2.2",title:"Impersonation &amp; Pretexting",html:`
+<p><strong>Impersonation</strong> is simply pretending to be someone else. It works when the target can't easily verify identity &mdash; over the phone or by email. Two approaches:</p>
+<ul>
+<li><strong>Persuasive / consensus / liking</strong> &mdash; convince the target the request is natural and that refusing would be impolite or odd.</li>
+<li><strong>Coercion / threat / urgency</strong> &mdash; intimidate with a bogus appeal to authority or a penalty: getting fired, or failing to prevent some dire outcome.</li>
+</ul>
+<p><strong>Pretexting</strong> is the use of a carefully crafted story with convincing additional detail to support the impersonation. A convincing pretext usually depends on the actor first obtaining privileged information &mdash; which is why reconnaissance matters. Seemingly innocuous material (employee lists, job titles, phone numbers, invoices, purchase orders) is exactly what makes impersonation work, and most companies are set up for customer service rather than security, so it's easy to come by.</p>
+<blockquote><span class="tag">Gotcha</span>Impersonation is <em>who you claim to be</em>; pretexting is <em>the story you tell to support it</em>. Pretexting exploits situations where identity-proofing is difficult.</blockquote>
+`},
+{id:"phishing",obj:"2.2",title:"Phishing, Vishing, Smishing &amp; Pharming",html:`
+<p><strong>Phishing</strong> combines social engineering and spoofing: it tricks the target into interacting with a malicious resource disguised as a trusted one, traditionally over email. Either the message persuades the user to act (install malware, allow remote access), or a spoofed site imitates a bank or e-commerce site and captures credentials when the user logs in.</p>
+<div class="tblwrap"><table><caption>Phishing by channel</caption>
+<tr><th>Term</th><th>Channel</th></tr>
+<tr><td><strong>Phishing</strong></td><td>Email (traditionally)</td></tr>
+<tr><td><strong>Vishing</strong></td><td>Voice call</td></tr>
+<tr><td><strong>Smishing</strong></td><td>SMS / text message</td></tr>
+</table></div>
+<p><strong>Pharming</strong> redirects users from a legitimate site to a malicious one &mdash; but <em>without</em> tricking the user. It corrupts name resolution so the victim's own computer sends them to the wrong address: if <code>mybank.foo</code> should resolve to 2.2.2.2, pharming makes it resolve to 6.6.6.6 instead.</p>
+<blockquote><span class="tag">Gotcha</span>Phishing relies on <em>fooling the person</em>; pharming relies on <em>corrupting name resolution</em>. In a pharming attack the user can type the correct address themselves and still land on the malicious site.</blockquote>
+`},
+{id:"typo",obj:"2.2",title:"Typosquatting &amp; Brand Impersonation",html:`
+<p>Phishing and pharming both depend on impersonation succeeding &mdash; the message or site must appear to come from a trusted source.</p>
+<ul>
+<li><strong>From-field confusion</strong> &mdash; email clients don't always show the real sending address, displaying instead a "From" field the actor can set to anything. Less common now, since filtering can flag a mismatch between actual and claimed sender.</li>
+<li><strong>Typosquatting</strong> &mdash; registering a domain very close to a real one, such as <code>exannple.com</code>, hoping users won't notice. Also called <strong>cousin</strong>, <strong>lookalike</strong>, or <strong>doppelganger</strong> domains.</li>
+<li><strong>Hijacked subdomain</strong> &mdash; registering under a trusted cloud provider's primary domain, so a message from <code>example.onmicrosoft.com</code> inherits misplaced trust.</li>
+<li><strong>Brand impersonation</strong> &mdash; convincing fake messages, correspondence, and pharming sites built to pass as a known brand.</li>
+</ul>
+`},
+{id:"bec",obj:"2.2",title:"Business Email Compromise &amp; Watering Holes",html:`
+<p>Where ordinary phishing is a mass-mailer, <strong>business email compromise (BEC)</strong> is a sophisticated campaign targeting one specific individual &mdash; typically an executive or senior manager. The actor poses as a colleague, business partner, or vendor, and performs real reconnaissance to find the right psychological approach and pretext. They avoid the obvious tells: no spoofed links, no malware attachments. The strongest version first compromises a legitimate mail account and sends from it.</p>
+<p>Related targeted forms: <strong>spear phishing</strong> (a specific individual or small group), <strong>whaling</strong> (a senior executive), <strong>CEO fraud</strong>, and <strong>angler phishing</strong> (via social media).</p>
+<p>A <strong>watering hole attack</strong> targets a group indirectly, by compromising a third-party site the actor knows they use. The worked example: staff at an international e-commerce company all order from one local pizza delivery firm, so the actor compromises the <em>pizza firm's</em> website and infects the employees' computers from there.</p>
+<blockquote><span class="tag">Gotcha</span><strong>Disinformation</strong> is false material spread with intent to deceive. <strong>Misinformation</strong> is repeating false claims without that intent. A disinformation campaign often works by getting others to amplify it as misinformation.</blockquote>
+`},
+
+{id:"meminject",obj:"2.3",title:"Memory Injection",html:`
+<p>Nothing runs on a machine until it is loaded from disk into memory, so malware has to get into memory too. It has two options: run as its own process, or <strong>inject itself into a process that is already running</strong>.</p>
+<p>Injecting into an existing process buys the attacker two things at once:</p>
+<ul>
+<li><strong>Evasion</strong> &mdash; anti-malware looking for a suspicious <em>process</em> sees only the legitimate one.</li>
+<li><strong>Inherited privilege</strong> &mdash; the injected code runs with the same rights and permissions as its host process, which is an easy route to <strong>privilege escalation</strong>.</li>
+</ul>
+<p><strong>DLL injection</strong> is the most common form on Windows. A DLL (dynamic-link library) is shared executable code that many applications call. The attacker plants a malicious DLL somewhere the system can reach, then arranges for a target process to reference that path. When the process runs and reaches the point where it loads that library, it pulls the attacker's code into memory itself.</p>
+<blockquote><span class="tag">Gotcha</span>Memory injection isn't about writing <em>too much</em> data &mdash; that's buffer overflow. Injection is about placing code inside a legitimate process's address space so it runs with that process's identity.</blockquote>
+`},
+{id:"overflow",obj:"2.3",title:"Buffer Overflow",html:`
+<p>A <strong>buffer overflow</strong> is writing more data into an area of memory than that area was sized to hold, so the excess spills into adjacent memory. The root cause is missing <strong>bounds checking</strong> &mdash; the developer never verified that input fits the space reserved for it.</p>
+<p>Most overflows are useless to an attacker. Overwriting adjacent memory with arbitrary data usually just crashes the application or the system. What an attacker actually wants is an overflow that is:</p>
+<ol>
+<li><strong>Repeatable</strong> &mdash; it produces the same result every time.</li>
+<li><strong>Controllable</strong> &mdash; the spilled bytes land somewhere useful and carry a value the attacker chose.</li>
+</ol>
+<p>The classic payoff is overflowing one variable into an adjacent one that governs rights or permissions, so the attacker gains elevated access without ever presenting credentials.</p>
+`},
+{id:"race",obj:"2.3",title:"Race Conditions &mdash; TOC / TOU",html:`
+<p>A <strong>race condition</strong> occurs when two events happen at nearly the same time and the application was never written to handle them overlapping. The developer assumed a sequence; reality delivered a collision.</p>
+<p>The named exam form is <strong>time-of-check to time-of-use (TOCTOU)</strong>:</p>
+<ol>
+<li><strong>Time-of-check (TOC)</strong> &mdash; the application checks a value or a condition.</li>
+<li>Something else changes that value in the gap.</li>
+<li><strong>Time-of-use (TOU)</strong> &mdash; the application acts on the value it checked earlier, which is now stale.</li>
+</ol>
+<p>Financial systems are the textbook setting: if deposits post immediately but withdrawals lag, two overlapping transfers can leave an account holding money that was already spent. The same pattern appears anywhere a check and an action are separated in time.</p>
+<blockquote><span class="tag">Gotcha</span>Learn TOC and TOU as two halves of one attack, not two attacks. The vulnerability lives in the <em>gap between them</em>, which is why a question describing "verified, then acted on stale data" is pointing at a race condition.</blockquote>
+`},
+{id:"malupdate",obj:"2.3",title:"Malicious Updates",html:`
+<p>Patching is standard advice, which is exactly what makes the update channel attractive. Every update is effectively installing a new application &mdash; so if an attacker can get code into the update, the victim installs it willingly and with full trust.</p>
+<p>Best practice around updating:</p>
+<ol>
+<li><strong>Back up first.</strong> If the update goes wrong, you can revert.</li>
+<li><strong>Verify the source.</strong> Download from the developer's own site, not a third-party mirror.</li>
+<li><strong>Distrust unsolicited prompts.</strong> An update notice that appears when you launch the application is plausible; one that pops up mid-browsing after clicking a search result is a classic lure.</li>
+<li><strong>Validate integrity</strong> where the vendor publishes hashes or signatures.</li>
+</ol>
+<blockquote><span class="tag">Gotcha</span>A malicious update is a <strong>supply chain</strong> problem wearing a patch-management costume. If the scenario stresses that the software came from the vendor's own update mechanism, think supply chain, not phishing.</blockquote>
+`},
+{id:"osvuln",obj:"2.3",title:"Operating System Vulnerabilities",html:`
+<p>The OS is the largest single body of code on a machine and sits underneath everything else, so a flaw there potentially exposes every application running on top of it. Attackers watch patch releases closely &mdash; a published fix also publishes the existence of the weakness for anyone who hasn't applied it yet.</p>
+<p>The exposure comes from three directions: the gap between a patch being released and being deployed, systems that cannot be patched without breaking a dependent application, and operating systems that are past vendor support entirely and will never receive a fix.</p>
+`},
+{id:"webvuln",obj:"2.3",title:"Web-Based &mdash; SQL Injection &amp; XSS",html:`
+<p>Both are injection flaws, but they attack different targets.</p>
+<div class="tblwrap"><table><caption>The two named web-based vulnerabilities</caption>
+<tr><th></th><th>SQL injection (SQLi)</th><th>Cross-site scripting (XSS)</th></tr>
+<tr><td>Injected into</td><td>A database query</td><td>A web page</td></tr>
+<tr><td>Executes on</td><td>The database server</td><td>Another user's browser</td></tr>
+<tr><td>Attacker gains</td><td>Read, modify or destroy data; sometimes authentication bypass</td><td>Session tokens, credentials, actions taken as the victim</td></tr>
+<tr><td>Root cause</td><td>User input concatenated into a query instead of parameterized</td><td>User input rendered into a page without encoding</td></tr>
+</table></div>
+<p><strong>XSS</strong> has two forms worth separating: <strong>reflected</strong> (the script rides in a crafted link and fires once when the victim clicks it) and <strong>stored / persistent</strong> (the script is saved on the server &mdash; in a comment or profile field &mdash; and fires for every visitor afterwards).</p>
+<blockquote><span class="tag">Gotcha</span>SQLi targets the <em>server's database</em>; XSS targets <em>another user's browser</em>. If the victim in the scenario is a visitor rather than the data, it's XSS.</blockquote>
+`},
+{id:"hwvuln",obj:"2.3",title:"Hardware Vulnerabilities",html:`
+<p>Three named categories, and they are about <em>support status</em> as much as about silicon:</p>
+<ul>
+<li><strong>Firmware</strong> &mdash; the code running inside the hardware itself. Only the manufacturer can patch it, so you are entirely dependent on the vendor releasing a fix and on your ability to deploy it.</li>
+<li><strong>End-of-life (EOL)</strong> &mdash; the manufacturer has stopped selling and stopped supporting the product. No more patches are coming, ever.</li>
+<li><strong>Legacy</strong> &mdash; the device is still in production use well past its intended lifespan, often because replacing it means replacing a process built around it.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>End-of-life is the vendor's decision to stop supporting; legacy is your organization's decision to keep running it anyway. A legacy device may still be supported; an EOL device by definition is not.</blockquote>
+`},
+{id:"virtvuln",obj:"2.3",title:"Virtualization Vulnerabilities",html:`
+<p>Virtualization puts multiple tenants on shared physical hardware, which creates two failure modes the objectives name directly:</p>
+<ul>
+<li><strong>VM escape</strong> &mdash; code breaks out of its guest virtual machine and reaches the hypervisor or the host. This is the serious one: the whole security model assumes guests stay contained, so an escape potentially exposes every other VM on that host.</li>
+<li><strong>Resource reuse</strong> &mdash; memory or storage released by one VM is reallocated to another without being cleared, so the new tenant can read remnants of the previous tenant's data.</li>
+</ul>
+`},
+{id:"cloudvuln",obj:"2.3",title:"Cloud-Specific Vulnerabilities",html:`
+<p>Cloud platforms shift where the weaknesses live rather than removing them. The recurring ones:</p>
+<ul>
+<li><strong>Misconfigured storage and permissions</strong> &mdash; publicly readable buckets and over-broad roles remain the single most common cause of cloud data exposure.</li>
+<li><strong>Weakly protected management consoles</strong> &mdash; one compromised administrative account can reach everything, from anywhere on the internet.</li>
+<li><strong>Shared responsibility confusion</strong> &mdash; the provider secures the infrastructure; the customer secures their own data, identities and configuration. Gaps appear where each side assumes the other is covering something.</li>
+<li><strong>Availability</strong> &mdash; a denial of service against a cloud-hosted service, or an outage at the provider, takes the organization down with it.</li>
+</ul>
+`},
+{id:"supplyvuln",obj:"2.3",title:"Supply Chain Vulnerabilities",html:`
+<p>Objective 2.3 names three providers, each a distinct route in:</p>
+<div class="tblwrap"><table>
+<tr><th>Provider</th><th>The exposure</th></tr>
+<tr><td><strong>Service provider</strong></td><td>An outsourced partner with legitimate access to your systems &mdash; an MSP, a support contractor, a billing platform. Compromise them and their access becomes the attacker's access.</td></tr>
+<tr><td><strong>Hardware provider</strong></td><td>Devices modified anywhere between fabrication and delivery. Counterfeit components and tampered firmware are the concerns; secondhand equipment carries the highest risk.</td></tr>
+<tr><td><strong>Software provider</strong></td><td>Malicious code introduced into a legitimate product, typically through its build pipeline or update channel, then distributed to every customer under the vendor's signature.</td></tr>
+</table></div>
+`},
+{id:"cryptovuln",obj:"2.3",title:"Cryptographic Vulnerabilities",html:`
+<p>Cryptography fails in practice far more often through implementation and lifecycle than through broken mathematics. The common weaknesses:</p>
+<ul>
+<li><strong>Deprecated algorithms</strong> still in use &mdash; MD5 and SHA-1 for anything security-relevant, DES, early SSL/TLS versions.</li>
+<li><strong>Insufficient key length</strong> &mdash; a key short enough to brute force with current hardware.</li>
+<li><strong>Poor key management</strong> &mdash; keys stored alongside the data they protect, hardcoded in source, shared across systems, or never rotated.</li>
+<li><strong>Weak randomness</strong> &mdash; predictable initialization vectors or a poor entropy source makes otherwise sound encryption reversible.</li>
+<li><strong>Protocol downgrade exposure</strong> &mdash; the system still accepts an older, weaker negotiation, which an attacker can force.</li>
+</ul>
+`},
+{id:"misconfig",obj:"2.3",title:"Misconfiguration Vulnerabilities",html:`
+<p>Not a flaw in the software &mdash; a flaw in how it was set up. This is consistently one of the most exploited categories precisely because it requires no vendor bug at all.</p>
+<ul>
+<li><strong>Default credentials</strong> left in place, published openly in the product documentation.</li>
+<li><strong>Open permissions</strong> &mdash; files, shares or storage readable by far more people than intended.</li>
+<li><strong>Unnecessary services and open ports</strong> running because they shipped enabled.</li>
+<li><strong>Unsecured administrative interfaces</strong> reachable from untrusted networks.</li>
+<li><strong>Disabled or unmonitored security features</strong> &mdash; logging switched off, firewall rules set to allow-all "temporarily."</li>
+</ul>
+`},
+{id:"mobilevuln",obj:"2.3",title:"Mobile Device Vulnerabilities",html:`
+<p>Mobile platforms are relatively hardened by default, so the named vulnerabilities are both about <em>removing</em> those protections:</p>
+<ul>
+<li><strong>Side loading</strong> &mdash; installing applications from outside the official app store, bypassing the vetting the store performs. The app arrives with no review and whatever permissions it asks for.</li>
+<li><strong>Jailbreaking / rooting</strong> &mdash; removing the manufacturer's restrictions to gain full administrative control of the device. This breaks the platform's security model wholesale: app sandboxing weakens, unsigned code can run, and mobile device management controls can often be evaded entirely.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Side loading installs <em>one unvetted app</em>. Jailbreaking dismantles <em>the device's whole security model</em> &mdash; a far bigger problem, and one that can silently take a device out of MDM enforcement.</blockquote>
+`},
+{id:"zeroday",obj:"2.3",title:"Zero-Day Vulnerabilities",html:`
+<p>A <strong>zero-day</strong> is a vulnerability not yet known to the vendor, so no patch exists and no signature detects it. The name refers to the vendor having had zero days to prepare a fix.</p>
+<p>The lifecycle matters more than the definition:</p>
+<ol>
+<li>The flaw exists in shipped code, undiscovered.</li>
+<li>Someone finds it. If that's an attacker, exploitation begins with no defence available.</li>
+<li>The vendor learns of it and develops a patch.</li>
+<li>The patch ships &mdash; and the vulnerability stops being a zero-day, though it stays exploitable on every unpatched system.</li>
+</ol>
+<p>Publicly tracked flaws are assigned <strong>CVE</strong> identifiers in a common database, which is how organizations correlate a vendor advisory with their own scanner findings.</p>
+<blockquote><span class="tag">Gotcha</span>A vulnerability stops being a zero-day the moment a patch is available &mdash; not when you get around to applying it. Unpatched systems afterwards are a patch-management failure, not a zero-day.</blockquote>
+`},
+
+{id:"malware1",obj:"2.4",title:"Malware &mdash; Ransomware, Trojans &amp; Worms",html:`
+<div class="tblwrap"><table><caption>Distinguished by what they do and how they spread</caption>
+<tr><th>Type</th><th>Behaviour</th><th>Spreads by</th></tr>
+<tr><td><strong>Ransomware</strong></td><td>Encrypts data and demands payment for the key. Modern variants also exfiltrate first and threaten release &mdash; double extortion.</td><td>Delivered; doesn't self-spread</td></tr>
+<tr><td><strong>Trojan</strong></td><td>Appears to be something useful or desirable while carrying a hidden payload, commonly backdoor access. A <strong>RAT</strong> (remote access trojan) gives the attacker interactive control.</td><td>The user installs it willingly</td></tr>
+<tr><td><strong>Worm</strong></td><td>Self-replicating. Moves across the network under its own power with no user action at all, which is why worms spread so fast.</td><td>Itself, over the network</td></tr>
+<tr><td><strong>Virus</strong></td><td>Attaches to a host file or program and needs that host to be executed to run and replicate.</td><td>A user running the infected host</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>The virus-versus-worm line is user action. A <strong>virus</strong> needs someone to run something; a <strong>worm</strong> propagates on its own. If the scenario says it spread across the network overnight with nobody clicking anything, it's a worm.</blockquote>
+`},
+{id:"malware2",obj:"2.4",title:"Spyware, Bloatware, Keyloggers, Logic Bombs &amp; Rootkits",html:`
+<ul>
+<li><strong>Spyware</strong> &mdash; monitors activity and reports back: browsing habits, credentials, screen contents. Often bundled with something the user installed deliberately.</li>
+<li><strong>Bloatware</strong> &mdash; software preinstalled by the manufacturer that the user never asked for. Not malicious by design, but it enlarges the attack surface, often runs with high privilege, and frequently goes unpatched.</li>
+<li><strong>Keylogger</strong> &mdash; captures keystrokes and sends them to the attacker. Exists in software form and as a physical inline device between keyboard and computer.</li>
+<li><strong>Logic bomb</strong> &mdash; dormant code that fires on a trigger: a date and time, or an event such as a name disappearing from the payroll database. Classically an insider tool, and hard to detect because there is no ongoing activity to spot until it executes.</li>
+<li><strong>Rootkit</strong> &mdash; embeds in the kernel or below it and modifies the operating system's own reporting so the malware becomes invisible to normal tools. Detection often requires booting from separate media; removal frequently means rebuilding the machine.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Bloatware is the odd one here &mdash; it isn't malware at all. It appears in this objective because unwanted preinstalled software is still a security problem, not because it's malicious.</blockquote>
+`},
+{id:"physatk",obj:"2.4",title:"Physical Attacks",html:`
+<ul>
+<li><strong>Brute force</strong> &mdash; in a physical context this is literal: forcing a door, cutting a lock, breaking through a barrier. The same term means password guessing elsewhere in this domain, so read the context.</li>
+<li><strong>RFID cloning</strong> &mdash; copying an access badge. Many cards transmit a static identifier with no authentication, so a reader held near a victim's badge can capture it and a blank card can be written with the copy in seconds.</li>
+<li><strong>Environmental</strong> &mdash; attacking the conditions a facility depends on rather than the systems themselves: cutting power, defeating cooling so equipment overheats and shuts down, or interfering with fire suppression.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>"Brute force" appears twice in objective 2.4 &mdash; once under physical attacks and once under password attacks. The answer depends entirely on whether the scenario describes a door or a login.</blockquote>
+`},
+{id:"dos",obj:"2.4",title:"Denial of Service &amp; DDoS",html:`
+<p>A <strong>denial of service</strong> makes a resource unavailable to legitimate users. It can come from overwhelming volume, or from a single crafted request that crashes a vulnerable service &mdash; force does not have to mean traffic.</p>
+<p>A <strong>distributed denial of service (DDoS)</strong> uses many compromised machines, typically a botnet, so the traffic arrives from thousands of sources at once. That makes it far harder to filter and far larger in volume.</p>
+<div class="tblwrap"><table><caption>Two named amplification techniques</caption>
+<tr><th>Technique</th><th>How it works</th></tr>
+<tr><td><strong>Reflected</strong></td><td>The attacker sends requests to third-party servers with the victim's address spoofed as the source. Every reply goes to the victim, who never sees the attacker's real address.</td></tr>
+<tr><td><strong>Amplified</strong></td><td>The same trick chosen for protocols where a small request produces a much larger response &mdash; DNS and NTP are the usual examples. A modest amount of attacker bandwidth turns into an overwhelming flood.</td></tr>
+</table></div>
+<p>The two are usually combined: reflection hides the origin, amplification supplies the volume.</p>
+`},
+{id:"dnsatk",obj:"2.4",title:"DNS Attacks",html:`
+<p>DNS is trusted implicitly by nearly everything, which makes it a high-value target.</p>
+<ul>
+<li><strong>DNS poisoning / spoofing</strong> &mdash; corrupting cached name resolution so a legitimate hostname resolves to an attacker's address. The user types the correct name and still lands in the wrong place; this is the mechanism behind <strong>pharming</strong>.</li>
+<li><strong>Domain hijacking</strong> &mdash; taking control of the domain registration itself, usually by compromising the registrar account. The attacker then controls where the entire domain points, legitimately, from the internet's point of view.</li>
+<li><strong>URL redirection</strong> &mdash; modifying local resolution, often via a host file entry on the victim's machine, to send specific names elsewhere.</li>
+<li><strong>DNS tunnelling</strong> &mdash; encoding other traffic inside DNS queries to slip data past a firewall that permits DNS unconditionally.</li>
+</ul>
+`},
+{id:"wireless",obj:"2.4",title:"Wireless Attacks",html:`
+<ul>
+<li><strong>Deauthentication</strong> &mdash; forged management frames that kick a client off its access point. Used to cause disruption, or to force a reconnection the attacker can capture or redirect.</li>
+<li><strong>Rogue access point</strong> &mdash; an unauthorized AP attached to the network, sometimes installed innocently by an employee. It creates an unmonitored entry point straight past the perimeter.</li>
+<li><strong>Evil twin</strong> &mdash; an AP deliberately configured to impersonate a legitimate one, matching its SSID so clients associate automatically. Everything the victim sends then passes through the attacker.</li>
+<li><strong>Jamming</strong> &mdash; flooding the frequency with interference so nothing can communicate. A pure availability attack, and one that can be used to push clients toward an evil twin.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>A <strong>rogue AP</strong> is unauthorized but not necessarily malicious &mdash; often just an employee adding coverage. An <strong>evil twin</strong> is purpose-built to impersonate and intercept. Intent is the difference.</blockquote>
+`},
+{id:"onpath",obj:"2.4",title:"On-Path Attacks",html:`
+<p>An <strong>on-path attack</strong> puts the attacker between two communicating parties, able to read, modify, or block traffic while both endpoints believe they are talking directly to each other. The older name for this is man-in-the-middle.</p>
+<ul>
+<li><strong>ARP poisoning</strong> is the standard local-network method: the attacker sends forged ARP replies so victims associate the attacker's MAC address with the gateway's IP, routing their traffic through the attacker's machine. ARP has no authentication whatsoever, which is why this works.</li>
+<li><strong>On-path browser</strong> (formerly man-in-the-browser) places malware inside the victim's browser instead of on the network. Because it sits inside the endpoint, it sees data <em>before</em> encryption and <em>after</em> decryption &mdash; TLS provides no protection at all against it.</li>
+</ul>
+`},
+{id:"replay",obj:"2.4",title:"Replay &amp; Credential Replay",html:`
+<p>A <strong>replay attack</strong> captures valid data in transit and sends it again later. The attacker does not need to decrypt or understand it &mdash; if the receiving system accepts the same data twice, resending it is enough.</p>
+<p><strong>Credential replay</strong> is the specific case of capturing an authentication exchange or session token and reusing it to impersonate the user, without ever learning the password.</p>
+<p>Countermeasures all work by making each exchange unrepeatable:</p>
+<ul>
+<li><strong>Timestamps</strong> &mdash; reject anything outside a narrow time window.</li>
+<li><strong>Nonces and session IDs</strong> &mdash; a value used once, so a replayed message carries a stale one.</li>
+<li><strong>Sequence numbers</strong> &mdash; detect out-of-order or duplicated messages.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Replay reuses <em>captured legitimate data</em> unchanged; an on-path attack <em>modifies traffic in real time</em>. A replay attacker doesn't need to stay in the middle &mdash; only to have been there once.</blockquote>
+`},
+{id:"appatk",obj:"2.4",title:"Application Attacks",html:`
+<div class="tblwrap"><table><caption>The six named application attacks</caption>
+<tr><th>Attack</th><th>What happens</th></tr>
+<tr><td><strong>Injection</strong></td><td>Untrusted input is interpreted as commands &mdash; SQL, LDAP, XML, or OS commands.</td></tr>
+<tr><td><strong>Buffer overflow</strong></td><td>More data written than the buffer holds, spilling into adjacent memory.</td></tr>
+<tr><td><strong>Replay</strong></td><td>Captured valid requests resubmitted to the application.</td></tr>
+<tr><td><strong>Privilege escalation</strong></td><td>Gaining rights beyond what was granted. <em>Vertical</em> means reaching a higher level, typically admin. <em>Horizontal</em> means reaching another user's data at the same level.</td></tr>
+<tr><td><strong>Forgery</strong></td><td><strong>CSRF</strong> makes an authenticated victim's browser submit an action the attacker chose. <strong>SSRF</strong> makes the server itself issue requests, often reaching internal systems the attacker cannot.</td></tr>
+<tr><td><strong>Directory traversal</strong></td><td>Manipulating a file path &mdash; typically with <code>../</code> sequences &mdash; to read files outside the directory the application intended to expose.</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>CSRF abuses the <em>user's</em> authenticated session; SSRF abuses the <em>server's</em> network position. Look at who is tricked into making the request.</blockquote>
+`},
+{id:"cryptoatk",obj:"2.4",title:"Cryptographic Attacks",html:`
+<ul>
+<li><strong>Downgrade</strong> &mdash; forcing the parties to negotiate a weaker algorithm or an older protocol version that the attacker can break. The target is never the strong cipher; it is the system's willingness to accept a weak one for compatibility.</li>
+<li><strong>Collision</strong> &mdash; finding two different inputs that produce the same hash. Once collisions are practical, the hash can no longer prove integrity, since a malicious file can be made to match a legitimate file's fingerprint. This is what retired MD5.</li>
+<li><strong>Birthday attack</strong> &mdash; the statistical shortcut that makes collisions cheaper than intuition suggests. From the birthday paradox: in a room of only 23 people there is roughly a 50% chance two share a birthday. Finding <em>any</em> two colliding inputs takes far less work than matching one specific target, which is why hash output length matters so much.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>A collision is the <em>result</em>; a birthday attack is the <em>method</em> that makes finding one feasible. They are not alternatives to each other.</blockquote>
+`},
+{id:"pwatk",obj:"2.4",title:"Password Attacks",html:`
+<div class="tblwrap"><table>
+<tr><th></th><th>Brute force</th><th>Spraying</th></tr>
+<tr><td>Shape</td><td>Many passwords against one account</td><td>One common password against many accounts</td></tr>
+<tr><td>Lockout risk</td><td>High &mdash; trips account lockout quickly</td><td>Low &mdash; that's the entire point of the technique</td></tr>
+<tr><td>Detection</td><td>Repeated failures on a single account</td><td>Single failures spread across many accounts, easy to miss</td></tr>
+</table></div>
+<p><strong>Online</strong> attacks run against the live authentication system, which rate-limits and locks out. <strong>Offline</strong> attacks run against a stolen hash database on the attacker's own hardware, with no lockout and no rate limit &mdash; which is exactly why salted hashes and key stretching matter.</p>
+<blockquote><span class="tag">Gotcha</span>Password spraying exists specifically to <em>defeat account lockout</em>. If the scenario mentions many accounts each seeing one or two failed attempts, it's spraying &mdash; and standard lockout policy will not catch it.</blockquote>
+`},
+{id:"ioc",obj:"2.4",title:"Indicators of Compromise",html:`
+<p>The signals that suggest an intrusion is underway or has already happened. All eight are named in the objectives.</p>
+<div class="tblwrap"><table>
+<tr><th>Indicator</th><th>What it suggests</th></tr>
+<tr><td><strong>Account lockout</strong></td><td>Someone is guessing that account's password &mdash; or has already changed it.</td></tr>
+<tr><td><strong>Concurrent session usage</strong></td><td>One account active in two places at once; credentials are shared or stolen.</td></tr>
+<tr><td><strong>Blocked content</strong></td><td>Repeated attempts to reach filtered resources, often malware calling home.</td></tr>
+<tr><td><strong>Impossible travel</strong></td><td>Logins from two locations too far apart for the time elapsed. One of the strongest single signals of credential theft.</td></tr>
+<tr><td><strong>Resource consumption</strong></td><td>Unexplained CPU, bandwidth or storage use &mdash; exfiltration, crypto mining, or encryption in progress.</td></tr>
+<tr><td><strong>Resource inaccessibility</strong></td><td>Files or shares suddenly unreachable. A hallmark of ransomware mid-run.</td></tr>
+<tr><td><strong>Out-of-cycle logging</strong></td><td>Activity at times that make no sense for the account, such as 3 a.m. administrative work.</td></tr>
+<tr><td><strong>Missing logs</strong></td><td>Gaps in log data. An attacker covering their tracks &mdash; treat absence of evidence as evidence.</td></tr>
+</table></div>
+<p><strong>Published / documented</strong> indicators are the ones shared publicly by vendors and threat intelligence feeds &mdash; known file hashes, domains and addresses you can match against your own environment.</p>
+<blockquote><span class="tag">Gotcha</span>Missing logs are an indicator, not a technical glitch. A gap where entries should be is one of the more reliable signs that someone with privilege has been cleaning up.</blockquote>
+`},
+
+{id:"segment",obj:"2.5",title:"Segmentation &amp; Access Control",html:`
+<p><strong>Segmentation</strong> divides the network so a compromise in one area cannot reach everything else. It limits blast radius: an attacker who lands on a user workstation should not find the payment systems sitting on the same flat network. Implemented physically (separate hardware), logically (VLANs), or virtually (cloud security groups and microsegmentation).</p>
+<p><strong>Access control</strong> decides who may do what once they are on the network:</p>
+<ul>
+<li><strong>Access control list (ACL)</strong> &mdash; an ordered set of rules evaluated top to bottom, permitting or denying based on source, destination, port or protocol. Order matters: the first match wins, and most lists end in an implicit deny.</li>
+<li><strong>Permissions</strong> &mdash; rights assigned on the resource itself, governing who may read, write, execute or delete.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Segmentation controls <em>where traffic can go</em>; access control governs <em>what an identity may do</em>. Strong permissions on a flat network still leave an attacker free to move laterally and find something weaker.</blockquote>
+`},
+{id:"mitigate",obj:"2.5",title:"Mitigation Techniques",html:`
+<p>The techniques named in objective 2.5, and what each one is actually for:</p>
+<div class="tblwrap"><table>
+<tr><th>Technique</th><th>Purpose</th></tr>
+<tr><td><strong>Application allow list</strong></td><td>Only explicitly approved software may execute. Restrictive by default, and far stronger than blocking known-bad.</td></tr>
+<tr><td><strong>Isolation</strong></td><td>Cut a system off from everything else &mdash; containing an infected host, or quarantining a legacy app that can't be patched.</td></tr>
+<tr><td><strong>Patching</strong></td><td>The single highest-value mitigation. Closes the vulnerability rather than working around it.</td></tr>
+<tr><td><strong>Encryption</strong></td><td>Data stays unreadable without the key, so theft of the storage doesn't mean loss of the data.</td></tr>
+<tr><td><strong>Monitoring</strong></td><td>You cannot respond to what you cannot see. Feeds the indicators of compromise in 2.4.</td></tr>
+<tr><td><strong>Least privilege</strong></td><td>Every account gets the minimum rights its job requires, so a compromised account yields the least possible access.</td></tr>
+<tr><td><strong>Configuration enforcement</strong></td><td>Systems are continuously checked against an approved baseline and corrected when they drift &mdash; posture assessment on connection is a common form.</td></tr>
+<tr><td><strong>Decommissioning</strong></td><td>Retiring a system properly: wiping or destroying its data, revoking its credentials and certificates, and removing it from inventory. A forgotten live server is unmonitored attack surface.</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Isolation and segmentation get confused. <strong>Segmentation</strong> is a design decision made in advance about how the network is divided; <strong>isolation</strong> is usually a response &mdash; pulling one system out of contact after something goes wrong.</blockquote>
+`},
+{id:"harden",obj:"2.5",title:"Hardening Techniques",html:`
+<p>Hardening reduces a system's attack surface before anything goes wrong. The seven named techniques:</p>
+<ol>
+<li><strong>Encryption</strong> &mdash; full-disk encryption on endpoints so a lost or stolen device isn't a data breach.</li>
+<li><strong>Endpoint protection</strong> &mdash; anti-malware and EDR installed and actually reporting to a management console.</li>
+<li><strong>Host-based firewall</strong> &mdash; filters traffic at the individual machine, which still applies when the attacker is already inside the network perimeter.</li>
+<li><strong>Host-based intrusion prevention system (HIPS)</strong> &mdash; inspects traffic and behaviour on the host and blocks recognized attacks, rather than only filtering by port and address.</li>
+<li><strong>Disabling ports and protocols</strong> &mdash; every listening service is potential surface. If nothing needs it, turn it off.</li>
+<li><strong>Default password changes</strong> &mdash; factory credentials are published in the product documentation and are among the first things scanned for.</li>
+<li><strong>Removal of unnecessary software</strong> &mdash; anything installed must be patched and monitored. Removing it is cheaper than maintaining it, which is why bloatware matters.</li>
+</ol>
+<blockquote><span class="tag">Gotcha</span>A host-based firewall filters by <em>port, address and protocol</em>. A HIPS inspects <em>content and behaviour</em> and can block a recognized attack arriving over a port you deliberately left open.</blockquote>
+`}
+];
+
+var GOTCHAS_TABLE = `
+<div class="tblwrap"><table><caption>Every pink callout in Domain 2, collected</caption>
+<tr><th>Pair</th><th>The distinction</th></tr>
+<tr><td>Vulnerability vs. threat vs. risk</td><td>A weakness vs. the potential to exploit it vs. likelihood &times; impact</td></tr>
+<tr><td>Internal vs. external actor</td><td>An attribute of the <em>actor's access</em>, not of where the attack happens</td></tr>
+<tr><td>Blackmail vs. extortion</td><td>Pay or we release it vs. pay or we keep attacking</td></tr>
+<tr><td>Disinformation vs. misinformation</td><td>False with intent to deceive vs. repeated without that intent</td></tr>
+<tr><td>Phishing vs. pharming</td><td>Fools the person vs. corrupts name resolution</td></tr>
+<tr><td>Phishing vs. vishing vs. smishing</td><td>Email vs. voice call vs. SMS</td></tr>
+<tr><td>Impersonation vs. pretexting</td><td>Who you claim to be vs. the story supporting the claim</td></tr>
+<tr><td>Spear phishing vs. whaling vs. BEC</td><td>Specific target vs. senior executive vs. sophisticated campaign, often from a real compromised account</td></tr>
+<tr><td>Watering hole vs. supply chain</td><td>Compromise a site the target <em>visits</em> vs. a company that <em>supplies</em> them</td></tr>
+<tr><td>Attack surface vs. threat vector</td><td>Everywhere an attack could come from vs. the route actually taken</td></tr>
+<tr><td>Remote vs. local exploit</td><td>No authenticated session needed vs. must run from an authenticated session</td></tr>
+<tr><td>Client-based vs. agentless scanning</td><td>Installed agent reporting to a server vs. no installation &mdash; the recon favourite</td></tr>
+<tr><td>Supplier vs. vendor vs. business partner</td><td>Bulk to businesses vs. sells on to retail/customers vs. closely aligned goals</td></tr>
+<tr><td>Malicious insider vs. shadow IT</td><td>Deliberate abuse of granted access vs. unsanctioned kit creating unmonitored surface</td></tr>
+<tr><td>Memory injection vs. buffer overflow</td><td>Code placed inside a running process vs. writing past the end of a buffer</td></tr>
+<tr><td>Time-of-check vs. time-of-use</td><td>Two halves of one race condition &mdash; the flaw lives in the gap between them</td></tr>
+<tr><td>SQL injection vs. XSS</td><td>Targets the server's database vs. targets another user's browser</td></tr>
+<tr><td>Reflected vs. stored XSS</td><td>Fires once from a crafted link vs. saved on the server and fires for every visitor</td></tr>
+<tr><td>End-of-life vs. legacy</td><td>Vendor stopped supporting it vs. you're still running it anyway</td></tr>
+<tr><td>VM escape vs. resource reuse</td><td>Breaking out to the host vs. reading what the last tenant left behind</td></tr>
+<tr><td>Side loading vs. jailbreaking</td><td>One unvetted app vs. dismantling the device's whole security model</td></tr>
+<tr><td>Virus vs. worm</td><td>Needs a user to run something vs. self-propagates with no user action</td></tr>
+<tr><td>Reflected vs. amplified DDoS</td><td>Hides the source via spoofing vs. chooses protocols whose replies dwarf the request</td></tr>
+<tr><td>Rogue AP vs. evil twin</td><td>Unauthorized but often innocent vs. purpose-built to impersonate and intercept</td></tr>
+<tr><td>Replay vs. on-path</td><td>Resends captured data later vs. modifies traffic live from the middle</td></tr>
+<tr><td>CSRF vs. SSRF</td><td>Abuses the user's session vs. abuses the server's network position</td></tr>
+<tr><td>Collision vs. birthday attack</td><td>The result vs. the statistical method that makes finding one feasible</td></tr>
+<tr><td>Brute force vs. spraying</td><td>Many passwords at one account vs. one password across many &mdash; spraying exists to beat lockout</td></tr>
+<tr><td>Segmentation vs. isolation</td><td>Designed-in division of the network vs. pulling one system out after something goes wrong</td></tr>
+<tr><td>Host firewall vs. HIPS</td><td>Filters by port and address vs. inspects behaviour and blocks attacks on open ports</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
+`;
+
+var SEARCH_INDEX = {};
+(function buildIndex(){
+  var scratch = document.createElement("div");
+  TOPICS.forEach(function(t){
+    scratch.innerHTML = t.title + " " + t.html;
+    SEARCH_INDEX[t.id] = (scratch.textContent || "").toLowerCase();
+  });
+})();
+
+var activeTab = "all";
+var query = "";
+var openIds = {};
+
+var tabsEl = document.getElementById("tabs");
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab" + (activeTab === k && !query ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      activeTab = k;
+      searchInput.value = "";
+      query = "";
+      clearBtn.hidden = true;
+      render();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+
+var searchInput = document.getElementById("search");
+var clearBtn = document.getElementById("clear-search");
+searchInput.addEventListener("input", function(){
+  query = searchInput.value.trim().toLowerCase();
+  clearBtn.hidden = query.length === 0;
+  render();
+});
+clearBtn.addEventListener("click", function(){
+  searchInput.value = "";
+  query = "";
+  clearBtn.hidden = true;
+  render();
+});
+
+var listEl = document.getElementById("topiclist");
+var emptyEl = document.getElementById("empty-state");
+var notesEl = document.getElementById("results-note");
+
+function matchingTopics(){
+  if(query){
+    return TOPICS.filter(function(t){ return SEARCH_INDEX[t.id].indexOf(query) !== -1; });
+  }
+  if(activeTab === "all") return TOPICS;
+  if(activeTab === "gotchas") return [];
+  return TOPICS.filter(function(t){ return t.obj === activeTab; });
+}
+
+function topicCard(t, forceOpen){
+  var isOpen = !!openIds[t.id] || forceOpen;
+  var div = document.createElement("div");
+  div.className = "topic" + (isOpen ? " open" : "");
+  div.innerHTML =
+    '<button class="topic-head" type="button">' +
+      '<h2>' + t.title + '</h2>' +
+      '<span style="display:flex;align-items:center;gap:8px;">' +
+        '<span class="topic-badge">' + t.obj + '</span>' +
+        '<span class="chev">&#9656;</span>' +
+      '</span>' +
+    '</button>' +
+    '<div class="topic-body">' + t.html + '</div>';
+  div.querySelector(".topic-head").addEventListener("click", function(){
+    var nowOpen = !div.classList.contains("open");
+    div.classList.toggle("open", nowOpen);
+    openIds[t.id] = nowOpen;
+  });
+  return div;
+}
+
+function render(){
+  buildTabs();
+  listEl.innerHTML = "";
+  notesEl.hidden = true;
+  emptyEl.hidden = true;
+
+  if(activeTab === "gotchas" && !query){
+    var card = document.createElement("div");
+    card.className = "topic open";
+    card.innerHTML =
+      '<button class="topic-head" type="button"><h2>Domain 2 Gotchas &mdash; quick-scan compare cards</h2>' +
+      '<span class="chev">&#9656;</span></button>' +
+      '<div class="topic-body">' + GOTCHAS_TABLE + '</div>';
+    card.querySelector(".topic-head").addEventListener("click", function(){
+      card.classList.toggle("open");
+    });
+    listEl.appendChild(card);
+    return;
+  }
+
+  var matches = matchingTopics();
+
+  if(query){
+    notesEl.hidden = false;
+    notesEl.textContent = matches.length + (matches.length === 1 ? ' result for "' : ' results for "') + searchInput.value.trim() + '"';
+  }
+
+  if(matches.length === 0){
+    emptyEl.hidden = false;
+    return;
+  }
+
+  matches.forEach(function(t){
+    var forceOpen = !!query && matches.length <= 6;
+    listEl.appendChild(topicCard(t, forceOpen));
+  });
+
+  if(!query && matches.length > 0 && Object.keys(openIds).length === 0){
+    listEl.firstChild.classList.add("open");
+  }
+}
+
+render();
+})();
+</script>
+</body>
+</html>

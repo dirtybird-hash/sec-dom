@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Term-and-definition matching game for Security+ Domain 2.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 2 Match</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#b3437c; --accent-ink:#ffffff;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --bad:#c23b3b; --bad-bg:#fbe9e9;
+  --cable-1:#0d7b86; --cable-2:#2f5fd6; --cable-3:#1f8a5c;
+  --cable-4:#b3437c; --cable-5:#a9791c; --cable-6:#6d4bc4;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --shadow-lift:0 6px 22px rgba(20,24,28,.16);
+  --radius:12px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#ea86b8; --accent-ink:#2a1019;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --bad:#f0817c; --bad-bg:#331616;
+    --cable-1:#3fd0dd; --cable-2:#7ea2ff; --cable-3:#55d69a;
+    --cable-4:#ea86b8; --cable-5:#e0b24d; --cable-6:#a98cf0;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+    --shadow-lift:0 10px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#ea86b8; --accent-ink:#2a1019;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --bad:#f0817c; --bad-bg:#331616;
+  --cable-1:#3fd0dd; --cable-2:#7ea2ff; --cable-3:#55d69a;
+  --cable-4:#ea86b8; --cable-5:#e0b24d; --cable-6:#a98cf0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  --shadow-lift:0 10px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:14px 56px;}
+h1{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 16px 10px;display:flex;flex-direction:column;gap:9px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.controlrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.sizegroup{display:flex;gap:3px;background:var(--surface-2);border-radius:8px;padding:3px;}
+.sizebtn{font-family:var(--font-display);font-size:11.5px;background:none;border:none;color:var(--text-muted);
+  padding:6px 10px;border-radius:6px;cursor:pointer;}
+.sizebtn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow);}
+.newround{font-family:var(--font-display);font-size:12px;background:var(--accent);color:var(--accent-ink);
+  border:none;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap;}
+.newround:active{opacity:.85;}
+
+/* ---------- HUD ---------- */
+.hud{display:flex;flex-direction:column;gap:8px;padding:16px 0 18px;}
+.track{height:5px;border-radius:99px;background:var(--surface-2);overflow:hidden;}
+.track .bar{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--cable-2),var(--accent));
+  transition:width .35s cubic-bezier(.3,1.2,.5,1);}
+.hudstats{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);flex-wrap:wrap;}
+.hudstats .num{color:var(--text);font-variant-numeric:tabular-nums;}
+.streak{color:var(--cable-5);opacity:0;transform:translateY(3px);transition:opacity .2s,transform .2s;}
+.streak.show{opacity:1;transform:none;}
+.streak.hot{color:var(--cable-4);}
+
+/* ---------- board ---------- */
+.board{position:relative;display:grid;grid-template-columns:minmax(0,0.82fr) minmax(0,1.18fr);
+  gap:clamp(30px,8vw,72px);}
+.cables{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible;}
+.col{display:grid;gap:10px;position:relative;z-index:1;}
+
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:13px 14px;text-align:left;color:var(--text);font-family:var(--font-body);
+  display:flex;align-items:center;min-height:56px;cursor:pointer;
+  transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease, opacity .3s ease;}
+.card.term{font-family:var(--font-display);font-size:13.5px;font-weight:500;touch-action:pan-y;}
+.card.def{font-size:13px;line-height:1.45;}
+.card:hover{border-color:var(--text-muted);}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+.port{position:absolute;width:11px;height:11px;border-radius:50%;background:var(--surface);
+  border:2px solid var(--border);top:50%;transition:all .16s ease;}
+.card.term .port{right:-6px;transform:translateY(-50%);}
+.card.def .port{left:-6px;transform:translateY(-50%);}
+.card.term:hover .port{border-color:var(--accent);}
+
+.card.armed{border-color:var(--accent);box-shadow:var(--shadow-lift);transform:translateY(-1px);}
+.card.armed .port{border-color:var(--accent);background:var(--accent);transform:translateY(-50%) scale(1.25);}
+.card.dragging{border-color:var(--accent);box-shadow:var(--shadow-lift);}
+.card.hot{border-color:var(--accent);box-shadow:var(--shadow-lift);transform:translateY(-1px);}
+.card.hot .port{border-color:var(--accent);background:var(--accent);transform:translateY(-50%) scale(1.35);}
+.card.wrong{border-color:var(--bad);background:var(--bad-bg);animation:shake .34s;}
+.card.locked{opacity:.62;cursor:default;box-shadow:none;background:var(--surface-2);}
+.card.locked:hover{border-color:var(--border);transform:none;}
+.card.locked .port{background:var(--pair-color);border-color:var(--pair-color);}
+.card.justlocked{animation:pop .4s cubic-bezier(.3,1.4,.5,1);}
+
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-5px);}
+  40%{transform:translateX(5px);}60%{transform:translateX(-3px);}80%{transform:translateX(3px);}}
+@keyframes pop{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+@keyframes dash{to{stroke-dashoffset:-24;}}
+@keyframes cablepulse{0%,100%{opacity:.18;}50%{opacity:.5;}}
+
+/* ---------- cables ---------- */
+.cable{fill:none;stroke-linecap:round;}
+.cable.core{stroke-width:2.4;}
+.cable.halo{stroke-width:8;opacity:.18;}
+.cable.live{stroke:var(--accent);stroke-width:2.4;stroke-dasharray:7 7;animation:dash .55s linear infinite;}
+.cable.badline{stroke:var(--bad);stroke-width:2.4;}
+.c1{stroke:var(--cable-1);} .c2{stroke:var(--cable-2);} .c3{stroke:var(--cable-3);}
+.c4{stroke:var(--cable-4);} .c5{stroke:var(--cable-5);} .c6{stroke:var(--cable-6);}
+.cable.halo.finale{animation:cablepulse .9s ease-in-out;}
+
+/* ---------- completion ---------- */
+.done{display:none;text-align:center;padding:46px 16px 20px;}
+.done.show{display:block;}
+.done .kicker{font-family:var(--font-display);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-muted);}
+.done .time{font-family:var(--font-display);font-size:44px;font-weight:600;color:var(--accent);
+  margin:8px 0 2px;font-variant-numeric:tabular-nums;}
+.done .best{font-family:var(--font-display);font-size:12.5px;color:var(--cable-3);min-height:18px;}
+.done .line{font-size:13.5px;color:var(--text-muted);margin:16px 0 24px;}
+.again{font-family:var(--font-display);font-size:13px;background:var(--accent);color:var(--accent-ink);
+  border:none;border-radius:10px;padding:12px 22px;cursor:pointer;}
+
+.hint{font-family:var(--font-display);font-size:11.5px;color:var(--text-muted);padding-top:18px;text-align:center;}
+
+@media (max-width:560px){
+  .brand h1{font-size:16px;}
+  .card{min-height:50px;padding:11px 11px;}
+  .card.term{font-size:12.5px;}
+  .card.def{font-size:12px;line-height:1.4;}
+  .done .time{font-size:36px;}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 2 Match</h1>
+      <span class="sub">patch each term to its definition</span>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="controlrow">
+      <div class="sizegroup" id="sizegroup"></div>
+      <button class="newround" id="newround" type="button">New round</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hud">
+    <div class="track"><div class="bar" id="bar"></div></div>
+    <div class="hudstats">
+      <span>Patched <span class="num" id="stat-count">0/8</span></span>
+      <span>Time <span class="num" id="stat-time">0:00</span></span>
+      <span>Attempts <span class="num" id="stat-moves">0</span></span>
+      <span class="streak" id="stat-streak">streak &times;2</span>
+      <span id="stat-best-wrap" hidden>Best <span class="num" id="stat-best">&mdash;</span></span>
+    </div>
+  </div>
+
+  <div class="board" id="board">
+    <svg class="cables" id="cables" aria-hidden="true"></svg>
+    <div class="col" id="col-terms"></div>
+    <div class="col" id="col-defs"></div>
+  </div>
+
+  <p class="hint" id="hint">Drag a term across to its definition &mdash; or tap one, then the other.</p>
+
+  <div class="done" id="done">
+    <div class="kicker">Panel patched</div>
+    <div class="time" id="done-time">0:00</div>
+    <div class="best" id="done-best"></div>
+    <div class="line" id="done-line"></div>
+    <button class="again" id="playagain" type="button">Play again</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var TAB_ORDER = ["all","2.1","2.2","2.3","2.4","2.5","gotchas"];
+var TAB_LABEL = {"all":"All","2.1":"2.1","2.2":"2.2","2.3":"2.3","2.4":"2.4","2.5":"2.5","gotchas":"Gotchas"};
+var SIZES = [6,8,10];
+
+var PAIRS = [
+/* ---------- 2.1 Threat Actors ---------- */
+{id:"a1",obj:"2.1",term:"Threat actor",def:"The entity behind an event that affects the security of others"},
+{id:"a2",obj:"2.1",term:"Threat vector",def:"The path or tool used to carry out an attack"},
+{id:"a3",obj:"2.1",term:"Vulnerability",def:"A weakness that could be triggered accidentally or exploited deliberately"},
+{id:"a4",obj:"2.1",term:"Risk",def:"Likelihood of exploitation multiplied by the impact if it happens"},
+{id:"a5",obj:"2.1",term:"Unskilled attacker",def:"Runs existing tools without understanding how they work"},
+{id:"a6",obj:"2.1",term:"Hacktivist",def:"Uses cyber attacks to promote a political agenda"},
+{id:"a7",obj:"2.1",term:"Nation-state actor",def:"Government-backed, best funded, highest capability"},
+{id:"a8",obj:"2.1",term:"Advanced Persistent Threat",def:"Access obtained and then maintained over the long term"},
+{id:"a9",obj:"2.1",term:"Organized crime",def:"Profit-motivated and operating across legal jurisdictions"},
+{id:"a10",obj:"2.1",term:"Insider threat",def:"An actor the organization itself granted access to"},
+{id:"a11",obj:"2.1",term:"Shadow IT",def:"Unsanctioned kit creating attack surface nobody monitors"},
+{id:"a12",obj:"2.1",term:"Blackmail",def:"Pay us or we release what we hold"},
+{id:"a13",obj:"2.1",term:"Extortion",def:"Pay us or the attack continues"},
+{id:"a14",obj:"2.1",term:"Data exfiltration",def:"Copying valuable information out without authorization"},
+{id:"a15",obj:"2.1",term:"False flag operation",def:"An attack staged to implicate someone else"},
+
+/* ---------- 2.2 Vectors & Attack Surfaces ---------- */
+{id:"b1",obj:"2.2",term:"Attack surface",def:"Every point at which an attacker could try to exploit something"},
+{id:"b2",obj:"2.2",term:"Watering hole attack",def:"Compromising a third-party site the target is known to use"},
+{id:"b3",obj:"2.2",term:"Typosquatting",def:"Registering a lookalike domain hoping nobody notices"},
+{id:"b4",obj:"2.2",term:"Impersonation",def:"Pretending to be someone else"},
+{id:"b5",obj:"2.2",term:"Pretexting",def:"A crafted story with convincing detail supporting the claim"},
+{id:"b6",obj:"2.2",term:"Phishing",def:"Tricking a target into using a malicious resource disguised as trusted"},
+{id:"b7",obj:"2.2",term:"Vishing",def:"Phishing carried out over a voice call"},
+{id:"b8",obj:"2.2",term:"Smishing",def:"Phishing carried out by text message"},
+{id:"b9",obj:"2.2",term:"Pharming",def:"Redirecting users by corrupting name resolution"},
+{id:"b10",obj:"2.2",term:"Business email compromise",def:"A researched campaign aimed at one senior individual"},
+{id:"b11",obj:"2.2",term:"Drop attack",def:"Leaving infected USB media where an employee will find it"},
+{id:"b12",obj:"2.2",term:"Drive-by download",def:"A compromised site infecting a vulnerable browser automatically"},
+{id:"b13",obj:"2.2",term:"Zero-click exploit",def:"Fires without the user opening anything at all"},
+{id:"b14",obj:"2.2",term:"Managed service provider",def:"An outsourced partner holding legitimate access to your systems"},
+{id:"b15",obj:"2.2",term:"Misinformation",def:"Repeating false claims without the intent to deceive"},
+
+/* ---------- 2.3 Vulnerabilities ---------- */
+{id:"c1",obj:"2.3",term:"Memory injection",def:"Code placed inside a running process's address space"},
+{id:"c2",obj:"2.3",term:"DLL injection",def:"Getting a target process to load a malicious shared library"},
+{id:"c3",obj:"2.3",term:"Buffer overflow",def:"Writing past the end of a memory area into adjacent memory"},
+{id:"c4",obj:"2.3",term:"Bounds checking",def:"The developer control whose absence allows overflows"},
+{id:"c5",obj:"2.3",term:"Race condition",def:"Two events occurring together that the developer never anticipated"},
+{id:"c6",obj:"2.3",term:"TOCTOU",def:"A value is checked, changes, then gets acted on while stale"},
+{id:"c7",obj:"2.3",term:"SQL injection",def:"Untrusted input interpreted as database commands"},
+{id:"c8",obj:"2.3",term:"Cross-site scripting",def:"Injected script executing in another user's browser"},
+{id:"c9",obj:"2.3",term:"Stored XSS",def:"Malicious script saved on the server, firing for every visitor"},
+{id:"c10",obj:"2.3",term:"VM escape",def:"Breaking out of a guest to reach the hypervisor or host"},
+{id:"c11",obj:"2.3",term:"Resource reuse",def:"Memory or storage reallocated without being cleared first"},
+{id:"c12",obj:"2.3",term:"End-of-life",def:"The vendor has stopped supporting the product entirely"},
+{id:"c13",obj:"2.3",term:"Legacy system",def:"Still in production well past its intended lifespan"},
+{id:"c14",obj:"2.3",term:"Side loading",def:"Installing an app from outside the official store"},
+{id:"c15",obj:"2.3",term:"Jailbreaking",def:"Removing manufacturer restrictions to take full control of a device"},
+{id:"c16",obj:"2.3",term:"Zero-day",def:"No patch exists and the vendor doesn't know yet"},
+{id:"c17",obj:"2.3",term:"Misconfiguration",def:"A weakness created by setup rather than by a code flaw"},
+
+/* ---------- 2.4 Malicious Activity ---------- */
+{id:"d1",obj:"2.4",term:"Ransomware",def:"Encrypts data and demands payment for the key"},
+{id:"d2",obj:"2.4",term:"Trojan",def:"Appears useful while carrying a hidden payload"},
+{id:"d3",obj:"2.4",term:"Worm",def:"Self-replicating and spreads with no user action"},
+{id:"d4",obj:"2.4",term:"Virus",def:"Attaches to a host file that must be executed to spread"},
+{id:"d5",obj:"2.4",term:"Logic bomb",def:"Dormant code waiting on a date or an event to fire"},
+{id:"d6",obj:"2.4",term:"Rootkit",def:"Embeds in the kernel and hides itself from normal tools"},
+{id:"d7",obj:"2.4",term:"Keylogger",def:"Captures keystrokes and reports them back"},
+{id:"d8",obj:"2.4",term:"Bloatware",def:"Unwanted preinstalled software that enlarges the attack surface"},
+{id:"d9",obj:"2.4",term:"RFID cloning",def:"Copying the identifier an access badge transmits"},
+{id:"d10",obj:"2.4",term:"Reflected DDoS",def:"Spoofing the victim's address so every reply lands on them"},
+{id:"d11",obj:"2.4",term:"Amplified DDoS",def:"Choosing protocols whose replies dwarf the request"},
+{id:"d12",obj:"2.4",term:"DNS poisoning",def:"Corrupting cached resolution so a name points somewhere else"},
+{id:"d13",obj:"2.4",term:"Evil twin",def:"An access point built to impersonate a legitimate one"},
+{id:"d14",obj:"2.4",term:"On-path attack",def:"Sitting between two parties, reading or altering their traffic"},
+{id:"d15",obj:"2.4",term:"ARP poisoning",def:"Forged replies mapping the attacker's MAC to the gateway's IP"},
+{id:"d16",obj:"2.4",term:"Replay attack",def:"Capturing valid data and simply sending it again later"},
+{id:"d17",obj:"2.4",term:"Privilege escalation",def:"Gaining rights beyond those actually granted"},
+{id:"d18",obj:"2.4",term:"Directory traversal",def:"Manipulating a path to read files outside the intended folder"},
+{id:"d19",obj:"2.4",term:"CSRF",def:"The victim's browser submitting an action the attacker chose"},
+{id:"d20",obj:"2.4",term:"SSRF",def:"The server itself making requests the attacker chose"},
+{id:"d21",obj:"2.4",term:"Downgrade attack",def:"Forcing negotiation of a weaker protocol or algorithm"},
+{id:"d22",obj:"2.4",term:"Password spraying",def:"One common password tried across many accounts to dodge lockout"},
+{id:"d23",obj:"2.4",term:"Impossible travel",def:"Logins from places too far apart for the time elapsed"},
+{id:"d24",obj:"2.4",term:"Missing logs",def:"Gaps suggesting someone with privilege cleaned up after themselves"},
+
+/* ---------- 2.5 Mitigation ---------- */
+{id:"e1",obj:"2.5",term:"Segmentation",def:"Dividing the network to limit how far a compromise can reach"},
+{id:"e2",obj:"2.5",term:"Access control list",def:"Ordered rules permitting or denying by source, destination or port"},
+{id:"e3",obj:"2.5",term:"Application allow list",def:"Only explicitly approved software may execute"},
+{id:"e4",obj:"2.5",term:"Isolation",def:"Cutting one system off from contact with everything else"},
+{id:"e5",obj:"2.5",term:"Least privilege",def:"Every account gets the minimum rights its job requires"},
+{id:"e6",obj:"2.5",term:"Configuration enforcement",def:"Continuously checking systems against an approved baseline"},
+{id:"e7",obj:"2.5",term:"Decommissioning",def:"Retiring a system, wiping its data and revoking its credentials"},
+{id:"e8",obj:"2.5",term:"Host-based firewall",def:"Filters traffic at the individual machine by port and address"},
+{id:"e9",obj:"2.5",term:"HIPS",def:"Inspects behaviour on the host and blocks recognized attacks"},
+{id:"e10",obj:"2.5",term:"Patching",def:"Closing the vulnerability instead of working around it"},
+{id:"e11",obj:"2.5",term:"Monitoring",def:"The visibility that makes indicators of compromise detectable"},
+{id:"e12",obj:"2.5",term:"Default password change",def:"Removing credentials published in the product documentation"},
+
+/* ---------- Gotchas ---------- */
+{id:"g1",obj:"gotchas",term:"Virus vs. worm",def:"Needs a user to run something vs. self-propagates unaided"},
+{id:"g2",obj:"gotchas",term:"Blackmail vs. extortion",def:"Release what we hold vs. keep attacking you"},
+{id:"g3",obj:"gotchas",term:"Phishing vs. pharming",def:"Fools the person vs. corrupts name resolution"},
+{id:"g4",obj:"gotchas",term:"Rogue AP vs. evil twin",def:"Unauthorized but often innocent vs. built to impersonate"},
+{id:"g5",obj:"gotchas",term:"Brute force vs. spraying",def:"Many passwords at one account vs. one across many accounts"},
+{id:"g6",obj:"gotchas",term:"CSRF vs. SSRF",def:"Abuses the user's session vs. the server's network position"},
+{id:"g7",obj:"gotchas",term:"SQLi vs. XSS",def:"Targets the server's database vs. another user's browser"},
+{id:"g8",obj:"gotchas",term:"Segmentation vs. isolation",def:"Designed-in division vs. a response after something goes wrong"},
+{id:"g9",obj:"gotchas",term:"End-of-life vs. legacy",def:"Vendor stopped supporting it vs. you kept running it anyway"},
+{id:"g10",obj:"gotchas",term:"Side loading vs. jailbreaking",def:"One unvetted app vs. dismantling the whole security model"},
+{id:"g11",obj:"gotchas",term:"Replay vs. on-path",def:"Resends captured data later vs. alters traffic live"},
+{id:"g12",obj:"gotchas",term:"Host firewall vs. HIPS",def:"Port and address vs. behaviour and content"},
+{id:"g13",obj:"gotchas",term:"Disinformation vs. misinformation",def:"Intent to deceive vs. repeating it without that intent"},
+{id:"g14",obj:"gotchas",term:"Internal vs. external actor",def:"About the access they hold, not where the attack happens"}
+];
+
+var SVGNS = "http://www.w3.org/2000/svg";
+var STORE_KEY = "domain2match:v1";
+
+/* ---------- elements ---------- */
+var boardEl = document.getElementById("board");
+var svgEl = document.getElementById("cables");
+var termsCol = document.getElementById("col-terms");
+var defsCol = document.getElementById("col-defs");
+var tabsEl = document.getElementById("tabs");
+var sizeEl = document.getElementById("sizegroup");
+var barEl = document.getElementById("bar");
+var statCount = document.getElementById("stat-count");
+var statTime = document.getElementById("stat-time");
+var statMoves = document.getElementById("stat-moves");
+var statStreak = document.getElementById("stat-streak");
+var statBestWrap = document.getElementById("stat-best-wrap");
+var statBest = document.getElementById("stat-best");
+var doneEl = document.getElementById("done");
+var hintEl = document.getElementById("hint");
+
+/* ---------- state ---------- */
+var activeTab = "all";
+var roundSize = 8;
+var roundPairs = [];
+var termEls = {};
+var defEls = {};
+var links = [];          /* {pairId, core, halo} */
+var linked = 0;
+var moves = 0;
+var streak = 0;
+var bestStreak = 0;
+var startTime = null;
+var timerHandle = null;
+var armedTerm = null;
+var drag = null;
+var suppressClick = false;
+var best = loadBest();
+
+function loadBest(){
+  try{ var raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : {}; }
+  catch(e){ return {}; }
+}
+function saveBest(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(best)); }catch(e){}
+}
+function bestKey(){ return activeTab + ":" + roundSize; }
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+  return a;
+}
+function poolForTab(tab){
+  if(tab === "all") return PAIRS.filter(function(p){ return p.obj !== "gotchas"; });
+  return PAIRS.filter(function(p){ return p.obj === tab; });
+}
+function fmtTime(ms){
+  var s = Math.floor(ms/1000), m = Math.floor(s/60);
+  s = s % 60;
+  return m + ":" + (s<10?"0":"") + s;
+}
+
+/* ---------- chrome ---------- */
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab" + (activeTab === k ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      if(activeTab === k) return;
+      activeTab = k;
+      startRound();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+function buildSizes(){
+  sizeEl.innerHTML = "";
+  SIZES.forEach(function(n){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "sizebtn" + (roundSize === n ? " active" : "");
+    b.textContent = n + " pairs";
+    b.addEventListener("click", function(){
+      if(roundSize === n) return;
+      roundSize = n;
+      startRound();
+    });
+    sizeEl.appendChild(b);
+  });
+}
+
+/* ---------- round ---------- */
+function startRound(){
+  buildTabs();
+  buildSizes();
+  clearInterval(timerHandle);
+  timerHandle = null;
+  startTime = null;
+  linked = 0; moves = 0; streak = 0; bestStreak = 0;
+  armedTerm = null; drag = null; suppressClick = false;
+  links = [];
+  svgEl.innerHTML = "";
+  doneEl.classList.remove("show");
+  boardEl.style.display = "";
+  hintEl.style.display = "";
+
+  var pool = shuffle(poolForTab(activeTab).slice());
+  roundPairs = pool.slice(0, Math.min(roundSize, pool.length));
+
+  statTime.textContent = "0:00";
+  statMoves.textContent = "0";
+  statStreak.classList.remove("show","hot");
+  updateProgress();
+
+  var bk = best[bestKey()];
+  if(bk){
+    statBestWrap.hidden = false;
+    statBest.textContent = fmtTime(bk.timeMs);
+  } else {
+    statBestWrap.hidden = true;
+  }
+
+  renderBoard();
+}
+
+function renderBoard(){
+  termsCol.innerHTML = "";
+  defsCol.innerHTML = "";
+  termEls = {}; defEls = {};
+
+  var terms = shuffle(roundPairs.slice());
+  var defs = shuffle(roundPairs.slice());
+
+  terms.forEach(function(p){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "card term";
+    b.dataset.pair = p.id;
+    b.innerHTML = '<span>' + p.term + '</span><span class="port"></span>';
+    wireTerm(b, p.id);
+    termsCol.appendChild(b);
+    termEls[p.id] = b;
+  });
+
+  defs.forEach(function(p){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "card def";
+    b.dataset.pair = p.id;
+    b.innerHTML = '<span class="port"></span><span>' + p.def + '</span>';
+    b.addEventListener("click", function(){
+      if(armedTerm) attempt(armedTerm, p.id);
+    });
+    defsCol.appendChild(b);
+    defEls[p.id] = b;
+  });
+}
+
+function updateProgress(){
+  statCount.textContent = linked + "/" + roundPairs.length;
+  barEl.style.width = (roundPairs.length ? (linked / roundPairs.length) * 100 : 0) + "%";
+}
+
+function startTimerIfNeeded(){
+  if(startTime) return;
+  startTime = Date.now();
+  timerHandle = setInterval(function(){
+    statTime.textContent = fmtTime(Date.now() - startTime);
+  }, 250);
+}
+
+/* ---------- geometry ---------- */
+function portPoint(el, side){
+  var r = el.getBoundingClientRect();
+  var b = boardEl.getBoundingClientRect();
+  return { x: (side === "right" ? r.right : r.left) - b.left, y: r.top + r.height/2 - b.top };
+}
+function pathD(p1, p2){
+  var dx = Math.max(34, Math.abs(p2.x - p1.x) * 0.42);
+  return "M" + p1.x + "," + p1.y + " C" + (p1.x + dx) + "," + p1.y +
+         " " + (p2.x - dx) + "," + p2.y + " " + p2.x + "," + p2.y;
+}
+function makePath(cls){
+  var p = document.createElementNS(SVGNS, "path");
+  p.setAttribute("class", cls);
+  svgEl.appendChild(p);
+  return p;
+}
+function redrawLinks(){
+  links.forEach(function(l){
+    var t = termEls[l.pairId], d = defEls[l.pairId];
+    if(!t || !d) return;
+    var dStr = pathD(portPoint(t, "right"), portPoint(d, "left"));
+    l.core.setAttribute("d", dStr);
+    l.halo.setAttribute("d", dStr);
+    l.core.style.strokeDasharray = "";
+    l.core.style.strokeDashoffset = "";
+  });
+}
+if(window.ResizeObserver){
+  new ResizeObserver(function(){ redrawLinks(); }).observe(boardEl);
+} else {
+  window.addEventListener("resize", redrawLinks);
+}
+
+/* ---------- interaction ---------- */
+function disarm(){
+  if(armedTerm && termEls[armedTerm]) termEls[armedTerm].classList.remove("armed");
+  armedTerm = null;
+}
+function clearHot(){
+  var hot = defsCol.querySelector(".card.hot");
+  if(hot) hot.classList.remove("hot");
+}
+
+function wireTerm(el, pairId){
+  el.addEventListener("pointerdown", function(ev){
+    suppressClick = false;
+    if(el.classList.contains("locked")) return;
+    drag = { pairId: pairId, el: el, x0: ev.clientX, y0: ev.clientY, active: false, path: null };
+    try{ el.setPointerCapture(ev.pointerId); }catch(e){}
+  });
+
+  el.addEventListener("pointermove", function(ev){
+    if(!drag || drag.el !== el) return;
+    var dist = Math.abs(ev.clientX - drag.x0) + Math.abs(ev.clientY - drag.y0);
+    if(!drag.active){
+      if(dist < 8) return;
+      drag.active = true;
+      disarm();
+      startTimerIfNeeded();
+      el.classList.add("dragging");
+      drag.path = makePath("cable live");
+    }
+    ev.preventDefault();
+    var b = boardEl.getBoundingClientRect();
+    var from = portPoint(el, "right");
+    var to = { x: ev.clientX - b.left, y: ev.clientY - b.top };
+    drag.path.setAttribute("d", pathD(from, to));
+
+    clearHot();
+    var over = document.elementFromPoint(ev.clientX, ev.clientY);
+    var card = over && over.closest ? over.closest(".card.def") : null;
+    if(card && !card.classList.contains("locked")) card.classList.add("hot");
+  });
+
+  function endDrag(ev){
+    if(!drag || drag.el !== el) return;
+    var wasActive = drag.active;
+    var path = drag.path;
+    el.classList.remove("dragging");
+    clearHot();
+
+    if(wasActive){
+      suppressClick = true;
+      var over = document.elementFromPoint(ev.clientX, ev.clientY);
+      var card = over && over.closest ? over.closest(".card.def") : null;
+      if(card && !card.classList.contains("locked")){
+        if(path) path.remove();
+        drag = null;
+        attempt(pairId, card.dataset.pair);
+        return;
+      }
+      if(path){
+        path.setAttribute("class", "cable badline");
+        setTimeout(function(){ path.remove(); }, 180);
+      }
+    }
+    drag = null;
+  }
+  el.addEventListener("pointerup", endDrag);
+  el.addEventListener("pointercancel", function(ev){
+    if(drag && drag.path) drag.path.remove();
+    el.classList.remove("dragging");
+    clearHot();
+    drag = null;
+  });
+
+  el.addEventListener("click", function(){
+    if(suppressClick){ suppressClick = false; return; }
+    if(el.classList.contains("locked")) return;
+    startTimerIfNeeded();
+    if(armedTerm === pairId){ disarm(); return; }
+    disarm();
+    armedTerm = pairId;
+    el.classList.add("armed");
+  });
+}
+
+function attempt(termPairId, defPairId){
+  startTimerIfNeeded();
+  moves++;
+  statMoves.textContent = String(moves);
+  var t = termEls[termPairId], d = defEls[defPairId];
+  disarm();
+
+  if(termPairId === defPairId){
+    lockPair(termPairId);
+  } else {
+    streak = 0;
+    statStreak.classList.remove("show","hot");
+    [t, d].forEach(function(el){
+      if(!el) return;
+      el.classList.add("wrong");
+      setTimeout(function(){ el.classList.remove("wrong"); }, 360);
+    });
+  }
+}
+
+function lockPair(pairId){
+  var t = termEls[pairId], d = defEls[pairId];
+  var colorIdx = (linked % 6) + 1;
+  var colorVar = "var(--cable-" + colorIdx + ")";
+
+  var halo = makePath("cable halo c" + colorIdx);
+  var core = makePath("cable core c" + colorIdx);
+  var dStr = pathD(portPoint(t, "right"), portPoint(d, "left"));
+  halo.setAttribute("d", dStr);
+  core.setAttribute("d", dStr);
+
+  var len = 0;
+  try{ len = core.getTotalLength(); }catch(e){}
+  if(len){
+    core.style.strokeDasharray = len;
+    core.style.strokeDashoffset = len;
+    core.getBoundingClientRect();
+    core.style.transition = "stroke-dashoffset .42s ease-out";
+    core.style.strokeDashoffset = "0";
+  }
+
+  links.push({pairId: pairId, core: core, halo: halo});
+
+  [t, d].forEach(function(el){
+    el.style.setProperty("--pair-color", colorVar);
+    el.classList.add("locked","justlocked");
+    setTimeout(function(){ el.classList.remove("justlocked"); }, 420);
+  });
+
+  linked++;
+  streak++;
+  if(streak > bestStreak) bestStreak = streak;
+  if(streak >= 2){
+    statStreak.textContent = "streak ×" + streak;
+    statStreak.classList.add("show");
+    statStreak.classList.toggle("hot", streak >= 4);
+  }
+  updateProgress();
+
+  if(linked === roundPairs.length) setTimeout(finish, 480);
+}
+
+function finish(){
+  clearInterval(timerHandle);
+  var elapsed = startTime ? Date.now() - startTime : 0;
+  links.forEach(function(l, i){
+    l.halo.classList.add("finale");
+    l.halo.style.animationDelay = (i * 70) + "ms";
+  });
+
+  var bk = best[bestKey()];
+  var isBest = !bk || elapsed < bk.timeMs;
+  if(isBest){ best[bestKey()] = {timeMs: elapsed, moves: moves}; saveBest(); }
+
+  document.getElementById("done-time").textContent = fmtTime(elapsed);
+  var bestLine = document.getElementById("done-best");
+  bestLine.textContent = isBest ? "New best for " + TAB_LABEL[activeTab] + " / " + roundSize + " pairs"
+                                : "Best " + fmtTime(best[bestKey()].timeMs);
+  var perfect = moves === roundPairs.length;
+  document.getElementById("done-line").textContent =
+    roundPairs.length + " pairs · " + moves + (moves === 1 ? " attempt" : " attempts") +
+    (perfect ? " · clean run, no misses" : " · best streak " + bestStreak);
+
+  setTimeout(function(){
+    boardEl.style.display = "none";
+    hintEl.style.display = "none";
+    doneEl.classList.add("show");
+  }, 900);
+}
+
+document.addEventListener("pointerdown", function(ev){
+  if(!ev.target.closest(".card")) disarm();
+});
+document.getElementById("newround").addEventListener("click", startRound);
+document.getElementById("playagain").addEventListener("click", startRound);
+
+startRound();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Searchable reference notes for Security+ Domain 1.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 1 Notebook</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#0d7b86; --accent-ink:#ffffff;
+  --hl-yellow:#a9791c; --hl-yellow-bg:#fbf1d9;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-pink:#b3437c; --hl-pink-bg:#fbeaf2;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#3fd0dd; --accent-ink:#06262a;
+    --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#3fd0dd; --accent-ink:#06262a;
+  --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:800px;margin:0 auto;padding-inline:16px;padding-block:16px 56px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:800px;margin:0 auto;padding:14px 16px 12px;display:flex;flex-direction:column;gap:10px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.searchrow{position:relative;}
+.searchrow input{width:100%;font-family:var(--font-body);font-size:15px;padding:11px 40px 11px 14px;
+  border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.searchrow input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.searchrow .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;
+  color:var(--text-muted);font-family:var(--font-display);font-size:12px;cursor:pointer;padding:6px 8px;}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-muted);padding:2px 2px 0;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.dot.y{background:var(--hl-yellow);} .dot.g{background:var(--hl-green);}
+.dot.b{background:var(--hl-blue);} .dot.p{background:var(--hl-pink);}
+.results-note{font-family:var(--font-display);font-size:12px;color:var(--text-muted);padding-top:14px;}
+.topiclist{display:flex;flex-direction:column;gap:10px;padding-top:14px;}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;}
+.topic-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:none;border:none;text-align:left;padding:15px 16px;cursor:pointer;color:var(--text);}
+.topic-head h2{font-size:15px;margin:0;font-weight:600;letter-spacing:0;}
+.topic-badge{font-family:var(--font-display);font-size:10.5px;letter-spacing:.02em;color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;padding:2px 8px;flex:none;}
+.chev{font-family:var(--font-display);color:var(--text-muted);transition:transform .2s;flex:none;}
+.topic.open .chev{transform:rotate(90deg);}
+.topic-body{padding:0 18px 18px;font-size:14.5px;line-height:1.6;display:none;}
+.topic.open .topic-body{display:block;}
+.topic-body p{margin:0 0 12px;}
+.topic-body strong{color:var(--hl-yellow);background:linear-gradient(transparent 65%, var(--hl-yellow-bg) 65%);
+  font-weight:600;}
+.topic-body ul,.topic-body ol{margin:0 0 12px;padding-left:22px;}
+.topic-body ol{border-left:3px solid var(--hl-blue);padding-left:18px;margin-left:2px;}
+.topic-body li{margin-bottom:7px;}
+.topic-body table{width:100%;border-collapse:collapse;margin:0 0 14px;font-size:13.5px;}
+.topic-body caption{caption-side:top;text-align:left;font-family:var(--font-display);font-size:11px;
+  color:var(--text-muted);margin-bottom:6px;}
+.topic-body th{background:var(--hl-green-bg);color:var(--hl-green);text-align:left;padding:8px 10px;
+  border:1px solid var(--border);font-family:var(--font-display);font-size:11.5px;letter-spacing:.02em;}
+.topic-body td{padding:8px 10px;border:1px solid var(--border);vertical-align:top;}
+.topic-body table-wrap{display:block;overflow-x:auto;}
+.tblwrap{overflow-x:auto;margin-bottom:14px;}
+.tblwrap table{margin-bottom:0;}
+.topic-body blockquote{margin:0 0 12px;border-left:3px solid var(--hl-pink);background:var(--hl-pink-bg);
+  border-radius:0 8px 8px 0;padding:10px 13px;font-size:13.5px;line-height:1.5;}
+.topic-body blockquote .tag{font-family:var(--font-display);color:var(--hl-pink);font-size:11px;
+  text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+.empty{text-align:center;color:var(--text-muted);padding:40px 10px;font-size:14px;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 1 Notebook</h1>
+      <span class="sub">SY0-701 &middot; General Security Concepts</span>
+    </div>
+    <div class="searchrow">
+      <input type="text" id="search" placeholder="Search Domain 1 notes&hellip; e.g. &quot;OCSP&quot;, &quot;zero trust&quot;, &quot;RACI&quot;" autocomplete="off">
+      <button class="clear" id="clear-search" hidden>Clear</button>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="legend">
+      <span><span class="dot y"></span>Terms</span>
+      <span><span class="dot g"></span>Specs &amp; tables</span>
+      <span><span class="dot b"></span>Process &amp; sequence</span>
+      <span><span class="dot p"></span>Gotchas</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="results-note" id="results-note" hidden></div>
+  <div class="topiclist" id="topiclist"></div>
+  <div class="empty" id="empty-state" hidden>No notes match that search. Try a shorter term, or clear the search to browse by objective.</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"1.1":"Security Controls","1.2":"Core Concepts","1.3":"Change Management","1.4":"Cryptography","gotchas":"Gotchas"};
+var TAB_ORDER = ["all","1.1","1.2","1.3","1.4","gotchas"];
+var TAB_LABEL = {"all":"All","1.1":"1.1","1.2":"1.2","1.3":"1.3","1.4":"1.4","gotchas":"Gotchas"};
+
+var TOPICS = [
+{id:"controls",obj:"1.1",title:"Security Control Categories &amp; Types",html:`
+<p>Every control fits two dimensions: a <strong>category</strong> (who or what enforces it) and a <strong>type</strong> (what job it does). The fastest way to answer a "which category" exam question is to ask <em>who's doing the enforcing</em>.</p>
+<p><strong>Categories:</strong></p>
+<ul>
+<li><strong>Technical</strong> &mdash; enforced by a system: firewall rules, OS policies, antivirus.</li>
+<li><strong>Managerial</strong> &mdash; enforced by policy and paperwork: onboarding policy, compliance documentation.</li>
+<li><strong>Operational</strong> &mdash; enforced by people, day to day: security guards, awareness training, patrolling.</li>
+<li><strong>Physical</strong> &mdash; enforced by a physical object: locks, fences, badge readers.</li>
+</ul>
+<p><strong>Types.</strong> The fastest tiebreaker between the first three is <em>when</em> the control acts relative to the attack &mdash; preventive operates <strong>before</strong>, detective <strong>during</strong>, corrective <strong>after</strong>:</p>
+<ol>
+<li><strong>Preventive</strong> &mdash; stops the access before it happens (firewall rule, guard shack ID check).</li>
+<li><strong>Deterrent</strong> &mdash; discourages the attempt without physically stopping it (splash screen, warning signs).</li>
+<li><strong>Detective</strong> &mdash; identifies or logs that something happened (log review, motion detector).</li>
+<li><strong>Corrective</strong> &mdash; reverses or limits damage after detection (restore from backup, fire extinguisher).</li>
+<li><strong>Compensating</strong> &mdash; a temporary substitute when the ideal control isn't available (block traffic while awaiting a patch).</li>
+<li><strong>Directive</strong> &mdash; tells someone to act a certain way; relatively weak since it relies on compliance.</li>
+</ol>
+<div class="tblwrap"><table><caption>Full matrix, with worked examples</caption>
+<tr><th>Type</th><th>Technical</th><th>Managerial</th><th>Operational</th><th>Physical</th></tr>
+<tr><td>Preventive</td><td>Firewall rule</td><td>Onboarding policy</td><td>Guard shack ID check</td><td>Door lock</td></tr>
+<tr><td>Deterrent</td><td>Login splash screen</td><td>Threat of demotion/dismissal</td><td>Reception desk greeter</td><td>Warning signs</td></tr>
+<tr><td>Detective</td><td>System log review</td><td>Reviewing login reports</td><td>Property patrol</td><td>Motion detector</td></tr>
+<tr><td>Corrective</td><td>Restore from backup</td><td>Incident-reporting policy</td><td>Contacting law enforcement</td><td>Fire extinguisher</td></tr>
+<tr><td>Compensating</td><td>Blocking traffic instead of patching</td><td>Separation of duties</td><td>Multiple guards on duty simultaneously</td><td>Backup power generator</td></tr>
+<tr><td>Directive</td><td>Policy forcing encrypted storage</td><td>Compliance policy/training</td><td>Security policy training course</td><td>"Authorized personnel only" sign</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>A control can honestly land in more than one cell depending on how it's implemented &mdash; the exam question's wording decides the category and type, not the object itself. A camera <em>recording</em> is detective; a camera's mere visible <em>presence</em> is more deterrent.</blockquote>
+`},
+{id:"cia",obj:"1.2",title:"CIA Triad",html:`
+<p>The three security objectives every control ultimately serves. Sometimes called the AIC triad so it isn't confused with the intelligence agency &mdash; same three concepts either way.</p>
+<ul>
+<li><strong>Confidentiality</strong> &mdash; only the right people can see the data. Provided by encryption, access controls, and extra authentication factors.</li>
+<li><strong>Integrity</strong> &mdash; data received is exactly what was sent, unchanged in transit. Provided by hashing, digital signatures, and certificates.</li>
+<li><strong>Availability</strong> &mdash; systems stay up and reachable. Provided by fault tolerance, redundancy, and patching.</li>
+</ul>
+<p>Some models add a fourth property, which gives the alternate mnemonic <strong>PAIN</strong>: <strong>P</strong>rivacy, <strong>A</strong>uthentication, <strong>I</strong>ntegrity, <strong>N</strong>on-repudiation. Useful when a question is fishing for non-repudiation as a named security property rather than as a side effect of signing.</p>
+`},
+{id:"nonrepud",obj:"1.2",title:"Non-Repudiation",html:`
+<p><strong>Non-repudiation</strong> means the sender can't credibly deny having sent something &mdash; it combines two proofs:</p>
+<ol>
+<li><strong>Proof of integrity</strong> &mdash; the data wasn't altered (a hash/fingerprint of the data).</li>
+<li><strong>Proof of origin</strong> &mdash; it really came from that sender (a digital signature, built from a hash encrypted with the sender's private key).</li>
+</ol>
+<p>Non-repudiation is really "integrity" plus "we can also prove who sent it" &mdash; a hash alone gives integrity but not origin.</p>
+<blockquote><span class="tag">Gotcha</span>Integrity (hashing) proves data wasn't changed; non-repudiation (digital signature) proves <em>who</em> sent it <em>and</em> that it wasn't changed. A hash by itself is never non-repudiation.</blockquote>
+`},
+{id:"aaa",obj:"1.2",title:"AAA &mdash; Authentication, Authorization, Accounting",html:`
+<ol>
+<li><strong>Identification</strong> &mdash; you claim an identity (a username).</li>
+<li><strong>Authentication</strong> &mdash; you prove that identity (password + factors).</li>
+<li><strong>Authorization</strong> &mdash; the system decides what you're allowed to do.</li>
+<li><strong>Accounting</strong> &mdash; the system logs what you did and when.</li>
+</ol>
+<p>A classic AAA flow: a client authenticates to a VPN concentrator, which has no user database of its own &mdash; it forwards the credentials to a centralized <strong>AAA server</strong>, which approves or denies, and the concentrator then grants (or refuses) access to internal resources. Devices, not just people, can authenticate too &mdash; a company laptop can carry a CA-issued device certificate so a VPN concentrator can confirm it's a trusted company asset even with nobody typing a password.</p>
+<p>Access control governs how <strong>subjects</strong> interact with <strong>objects</strong>. A subject is any person, device, or software process that can request access; an object is the resource itself &mdash; a network, server, database, app, or file. Subjects are assigned rights or permissions on objects, and modern implementations of this are called <strong>identity and access management (IAM)</strong> systems, built from exactly those four processes above.</p>
+<p>How rights get granted is set by the authorization model. In a <strong>discretionary</strong> model the object's owner allocates rights. In a <strong>mandatory</strong> model rights are predetermined by system-enforced rules and cannot be changed by any user within the system.</p>
+<p><strong>Authorization models</strong> solve the scaling problem: instead of assigning rights resource-by-resource to every individual user, you put an abstraction layer &mdash; typically <strong>groups/roles</strong> &mdash; between users and resources. Add a user to a group once, and they inherit every permission that group already has, no matter how many resources or users you're managing.</p>
+`},
+{id:"gap",obj:"1.2",title:"Gap Analysis",html:`
+<p><strong>Gap analysis</strong> is a comparison of your current security state against a baseline of where you should be. You measure against a published standard &mdash; common ones are <strong>NIST SP 800-171 Rev. 2</strong> and <strong>ISO/IEC 27001</strong> &mdash; or a standard your own organization writes.</p>
+<p>The baseline usually comes from a <strong>cybersecurity framework</strong>, which guides the selection and configuration of controls so a security program isn't built in a vacuum. The NIST framework organizes everything into five functions: <strong>Identify</strong> (policies, risk evaluation, recommending controls), <strong>Protect</strong> (procure, install, operate and decommission assets securely), <strong>Detect</strong> (ongoing monitoring that controls still work), <strong>Respond</strong> (contain and eradicate threats), and <strong>Recover</strong> (restore systems and data when other controls fail). A gap analysis report scores each section of the framework, lists the missing or poorly configured controls, and recommends remediation &mdash; which is what makes it an externally verifiable statement of compliance.</p>
+<ol>
+<li>Pick a baseline.</li>
+<li>Evaluate people (training, experience, policy awareness) and processes (do existing systems actually follow policy).</li>
+<li>Break broad categories into individual controls.</li>
+<li>Document the gap between current and target state.</li>
+<li>Produce a report with a remediation roadmap, often color-coded red/yellow/green by how far a system is from meeting baseline.</li>
+</ol>
+<p>Common gaps: weak/shared credentials, untested patch management, violations of least privilege, unenforced acceptable-use policies, poor physical security, configuration drift from weak change management, and poor audit visibility.</p>
+`},
+{id:"zerotrust",obj:"1.2",title:"Zero Trust",html:`
+<p><strong>Zero Trust</strong> replaces "trust based on network location" with continuous verification of every user, device, and process, every time, regardless of location. Two planes:</p>
+<ul>
+<li><strong>Data plane</strong> &mdash; where traffic actually moves: subjects/systems, <strong>implicit trust zones</strong> (trusted, untrusted, DMZ, cloud VPN subnet), and the <strong>Policy Enforcement Point (PEP)</strong> &mdash; the gatekeeper all traffic must pass through (edge router, firewall, SDP gateway, API gateway).</li>
+<li><strong>Control plane</strong> &mdash; where the decisions get made, via the <strong>Policy Decision Point (PDP)</strong>, split into:</li>
+</ul>
+<ol>
+<li><strong>Policy Engine (PE)</strong> &mdash; compares the request against policy and decides grant/deny/revoke.</li>
+<li><strong>Policy Administrator (PA)</strong> &mdash; takes that decision and relays it to the PEP, issuing the tokens/credentials.</li>
+</ol>
+<p>Flow: subject requests access from an untrusted zone &rarr; PEP intercepts &rarr; PEP asks the PA &rarr; PA asks the PE to decide &rarr; decision flows back PA &rarr; PEP &rarr; PEP grants or blocks access.</p>
+<p>Other pieces: <strong>adaptive identity</strong> (risk-based authentication) strengthens authentication based on context &mdash; unusual source IP, unusual role, or a request for sensitive data all shift the required assurance level. <strong>Threat scope reduction</strong> is the general goal: shrink how much any one compromised identity or device can reach.</p>
+<blockquote><span class="tag">Gotcha</span>The data plane <em>moves</em> traffic; the control plane <em>manages</em> it (policies, decision logic). If the question is about forwarding packets, that's data plane &mdash; if it's about the rule or decision behind the forwarding, that's control plane.</blockquote>
+`},
+{id:"physical",obj:"1.2",title:"Physical Security Controls",html:`
+<div class="tblwrap"><table><caption>Physical controls, outside in</caption>
+<tr><th>Control</th><th>Purpose</th><th>Notes</th></tr>
+<tr><td>Bollards / barricades</td><td>Block vehicles, let pedestrians through</td><td>Concrete or high-tech (sensor/camera-equipped)</td></tr>
+<tr><td>Fencing</td><td>Perimeter deterrence/prevention</td><td>Height + razor wire scale with sensitivity; Class I&ndash;IV gate types</td></tr>
+<tr><td>Access control vestibule (mantrap)</td><td>One person, one door open at a time</td><td>No piggybacking/tailgating; often paired with a badge reader</td></tr>
+<tr><td>Badges / access cards</td><td>"Something you have" factor</td><td>Logged centrally when integrated with electronic locks</td></tr>
+<tr><td>Lighting</td><td>Deterrence + supports camera detail</td><td>Continuous, standby, movable, and emergency modes</td></tr>
+<tr><td>CCTV / video surveillance</td><td>Detective (and some deterrent)</td><td>Alert if a camera is disabled; watch for "dead spots"</td></tr>
+<tr><td>Security guards</td><td>Detective, deterrent, and preventive</td><td>Often staffed in pairs for two-person integrity</td></tr>
+<tr><td>Sensors</td><td>Detective</td><td>Infrared, microwave, ultrasonic, pressure, electromechanical, electrostatic</td></tr>
+</table></div>
+`},
+{id:"deception",obj:"1.2",title:"Deception &amp; Disruption Technology",html:`
+<p>Turns your own knowledge of attackers against them:</p>
+<ul>
+<li><strong>Honeypot</strong> &mdash; a single decoy system designed to attract and hold an attacker's attention.</li>
+<li><strong>Honeynet</strong> &mdash; multiple honeypots combined into a decoy network that looks and feels real.</li>
+<li><strong>Honeyfile</strong> &mdash; a decoy file (e.g. a fake <code>passwords.txt</code>) that should never legitimately be opened; access triggers an alert.</li>
+<li><strong>Honeytoken</strong> &mdash; traceable fake data (API credentials, records) seeded so that if it ever surfaces elsewhere, you know exactly where the leak came from.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>A honeypot is one decoy system; a honeynet is many honeypots wired together. A honeyfile/honeytoken is decoy <em>data</em>, not a decoy <em>system</em> &mdash; they're for catching an insider or already-active attacker, not for slowing external recon.</blockquote>
+`},
+{id:"changebiz",obj:"1.3",title:"Change Management &mdash; Business Process",html:`
+<p>The paperwork and approvals before a technician touches anything:</p>
+<ol>
+<li><strong>Submit</strong> a formal change request: reason, scope, systems affected, schedule.</li>
+<li><strong>Approve</strong>: a change control board weighs risk of making the change vs. risk of <em>not</em> making it.</li>
+<li>Assign <strong>ownership</strong> &mdash; the data/application owner manages and later tests the change, but usually isn't the one implementing it.</li>
+<li>Identify <strong>stakeholders</strong> &mdash; everyone the change touches, often wider than it looks.</li>
+<li>Run a <strong>change impact analysis</strong> &mdash; compare current vs. future state, a mini gap analysis.</li>
+<li>Use the <strong>RACI model</strong> to assign roles: Responsible (does the work), Accountable (owns the outcome, exactly one person), Consulted (two-way input), Informed (one-way notification).</li>
+<li>Document test results, then prepare a <strong>backout/rollback plan</strong> before testing or implementation &mdash; and test it, not just write it.</li>
+<li>Schedule within a <strong>maintenance window</strong>, following a documented <strong>SOP</strong> (standard operating procedure).</li>
+</ol>
+`},
+{id:"changetech",obj:"1.3",title:"Change Management &mdash; Technical Implications",html:`
+<p>What the technician actually deals with:</p>
+<ul>
+<li><strong>Allow lists</strong> (only named items may run &mdash; restrictive by default) vs. <strong>deny lists</strong> (everything may run except named items &mdash; permissive by default, e.g. how antivirus typically works).</li>
+<li>Staying inside the <strong>documented scope</strong> of the change ticket, with a defined process for when scope must expand mid-change.</li>
+<li><strong>Downtime</strong> planning: scheduled maintenance windows, or a primary/secondary failover to avoid downtime in 24/7 environments.</li>
+<li><strong>Service restart</strong> vs. full <strong>application restart</strong> vs. full reboot &mdash; pick the minimum needed.</li>
+<li><strong>Legacy applications</strong> &mdash; old, often unsupported, risky to touch; documenting them brings them back into normal support.</li>
+<li><strong>Dependencies</strong> &mdash; updating one system may require updating others first.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Allow list = restrictive (default deny, only named items run); deny list = permissive (default allow, only named items are blocked). It reads backwards from what "allow" and "deny" sound like at first glance.</blockquote>
+`},
+{id:"changedocs",obj:"1.3",title:"Documentation &amp; Version Control",html:`
+<p>Changes get tracked in a <strong>CMDB</strong> (configuration management database) as part of a broader <strong>configuration management system (CMS)</strong>. Version control applies to OS builds, app updates, driver/firmware updates, TPM updates, and configuration changes &mdash; anything you might need to revert.</p>
+`},
+{id:"pki",obj:"1.4",title:"Public Key Infrastructure &amp; Certificates",html:`
+<p><strong>PKI</strong> is the whole set of policies, procedures, hardware, and software for creating, distributing, storing, and revoking digital certificates &mdash; the machinery that makes "trust" scalable across the internet. PKI's three core pieces: the <strong>public key</strong> (shareable, does the encrypting), the <strong>private key</strong> (secret, does the decrypting), and <strong>key escrow</strong> &mdash; a trusted third party holds a backup copy of a private key so data can still be recovered if the original key is lost, an employee leaves, or law enforcement compels access.</p>
+<p>A <strong>digital certificate</strong> bundles a public key with identifying information and a digital signature. Standard format: <strong>X.509</strong>.</p>
+<p><strong>Where trust comes from:</strong></p>
+<ul>
+<li><strong>Certificate Authority (CA) model</strong> &mdash; a trusted third party digitally signs certificates; your browser ships with a built-in list of hundreds of trusted CAs.</li>
+<li><strong>Web of trust</strong> &mdash; no central CA; individuals sign each other's certificates.</li>
+<li><strong>Internal/private CA</strong> &mdash; an organization runs its own CA for internal-only services; every device must have the internal CA's root cert installed to trust it.</li>
+<li><strong>Self-signed vs. third-party</strong> &mdash; a self-signed certificate is vouched for by nobody but itself, so browsers warn on it; a third-party certificate is signed by a CA the client already trusts. Self-signed is fine for internal testing, never for public services.</li>
+<li><strong>Root of trust</strong> &mdash; the anchor the whole chain hangs from. Every device ships with a store of trusted root certificates, in the browser, the OS, or both; a certificate is trusted only if it chains back to one of those roots.</li>
+</ul>
+<div class="tblwrap"><table><caption>CA trust models</caption>
+<tr><th>Model</th><th>Structure</th></tr>
+<tr><td><strong>Single / enterprise CA</strong></td><td>One CA issues directly to everyone in the organization. Must stay online to serve requests. Typical for small and medium businesses and internal-only PKI.</td></tr>
+<tr><td><strong>Hierarchical</strong></td><td>A root CA signs <strong>intermediate</strong> CAs, and the intermediates do the day-to-day issuing. The root is usually kept <em>offline</em> and brought online only briefly, because compromising it would invalidate everything beneath it.</td></tr>
+</table></div>
+<p>Certificates carry pseudorandom serial numbers and explicit validity dates &mdash; every key has a finite life, because unlimited time favours brute force. Withdrawing a certificate comes in two flavours: <strong>revocation</strong> is permanent and final, while <strong>suspension</strong> (hold) is temporary and can be reversed.</p>
+<p><strong>Getting a certificate:</strong></p>
+<ol>
+<li>Generate a key pair and bundle the public key + identity info into a <strong>Certificate Signing Request (CSR)</strong>.</li>
+<li>Send the CSR to a CA.</li>
+<li>The CA <strong>validates</strong> that you actually control what you're requesting a cert for.</li>
+<li>The CA signs the certificate with <em>its</em> private key and returns it.</li>
+</ol>
+<p><strong>Certificate features:</strong></p>
+<ul>
+<li><strong>Subject Alternative Name (SAN) / wildcard cert</strong> &mdash; <code>*.example.com</code> covers every subdomain with one certificate.</li>
+<li><strong>Certificate Revocation List (CRL)</strong> &mdash; a list of revoked certs hosted by the CA; the browser downloads the whole list to check.</li>
+<li><strong>OCSP</strong> &mdash; a real-time status check per certificate, more efficient than a CRL. <strong>OCSP stapling</strong> embeds the signed status directly into the TLS handshake.</li>
+<li>Real-world example: <strong>Heartbleed</strong> (April 2014, an OpenSSL vulnerability) forced mass certificate revocation and reissuance industry-wide.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>CRL = pull a whole list and search it yourself (slower). OCSP = ask a direct yes/no about one certificate (faster); OCSP stapling skips even that extra round trip by having the <em>server</em> present a pre-signed status during the handshake.</blockquote>
+`},
+{id:"symasym",obj:"1.4",title:"Symmetric vs. Asymmetric Encryption",html:`
+<div class="tblwrap"><table>
+<tr><th></th><th>Symmetric</th><th>Asymmetric</th></tr>
+<tr><td>Keys</td><td>One shared secret key encrypts and decrypts</td><td>Two mathematically related keys &mdash; public encrypts, private decrypts</td></tr>
+<tr><td>Speed</td><td>Fast, low overhead</td><td>Slower, more overhead</td></tr>
+<tr><td>Scaling</td><td>Hard past ~10 people/devices</td><td>Scales well &mdash; public key can be posted anywhere</td></tr>
+<tr><td>Typical key length</td><td>128 bits+</td><td>3072 bits+</td></tr>
+<tr><td>Examples</td><td>AES, DES (legacy &mdash; avoid)</td><td>RSA-style key pairs, PGP/GPG</td></tr>
+<tr><td>Real-world use</td><td>Bulk data encryption</td><td>Key exchange, digital signatures, identity</td></tr>
+</table></div>
+<p>In practice almost every real system uses <strong>both</strong>: asymmetric to safely exchange a fast symmetric session key, then symmetric to actually encrypt the bulk data.</p>
+`},
+{id:"enclocation",obj:"1.4",title:"Encryption by Location &amp; Key Exchange",html:`
+<p><strong>By location:</strong></p>
+<ul>
+<li><strong>At rest</strong>: full-disk/volume (BitLocker, FileVault), file-level (Windows EFS), or database-level &mdash; transparent (whole DB) vs. column-level (only sensitive fields); also partition-level and record-level for finer-grained control.</li>
+<li><strong>In transit</strong>: HTTPS for browser traffic; VPNs create an encrypted tunnel &mdash; client-based VPNs typically use SSL/TLS, site-to-site VPNs typically use IPsec.</li>
+</ul>
+<p><strong>Key exchange</strong> solves "how do two parties agree on a secret key over an insecure network":</p>
+<ul>
+<li><strong>Out-of-band</strong> &mdash; exchange the key through a separate channel entirely (courier, phone call, in person).</li>
+<li><strong>In-band</strong> &mdash; exchange it over the same network, protected another way: encrypt a symmetric <strong>session key</strong> with the recipient's public key. Session keys are ephemeral &mdash; used once, then discarded.</li>
+<li><strong>Key exchange algorithms</strong> (Diffie-Hellman style) let both sides independently compute the <em>same</em> symmetric key &mdash; the key itself is never transmitted at all. The colour-mixing analogy captures it: both parties end up with a shared colour that an observer watching the exchange cannot reproduce.</li>
+<li><strong>Key stretching</strong> makes brute-forcing dramatically slower. <strong>PBKDF2</strong> is the named tool: it applies a pseudorandom function (typically an HMAC) to the password plus a salt, then repeats &mdash; originally a thousand iterations, now hundreds of thousands, because processors got fast.</li>
+</ul>
+<div class="tblwrap"><table><caption>Diffie-Hellman variants &mdash; static vs. ephemeral</caption>
+<tr><th>Variant</th><th>Key pair</th><th>Shared secret</th></tr>
+<tr><td><strong>DH / DHKE</strong></td><td>Traditional</td><td>Same one reused every time &mdash; rarely used today</td></tr>
+<tr><td><strong>DHE</strong> (ephemeral)</td><td>Traditional</td><td>New one per session &mdash; enables perfect forward secrecy</td></tr>
+<tr><td><strong>ECDH</strong></td><td>Elliptic curve</td><td>Same one reused every time</td></tr>
+<tr><td><strong>ECDHE</strong></td><td>Elliptic curve</td><td>New one per session &mdash; the preferred modern choice</td></tr>
+</table></div>
+<p><strong>Perfect forward secrecy</strong> is what the ephemeral variants buy you: because each session uses a different secret, compromising a long-term key later does not let an attacker decrypt traffic they recorded earlier. Elliptic curve is favoured on mobile and IoT hardware because it delivers equivalent strength with far smaller keys &mdash; a 256-bit EC key is roughly comparable to a 3072-bit traditional key, which matters when memory and processing power are limited. You'll meet these in SSH, TLS and IPsec/IKEv2.</p>
+<blockquote><span class="tag">Gotcha</span>The trailing <strong>E</strong> means <em>ephemeral</em> &mdash; a fresh secret per session, and therefore perfect forward secrecy. Also note RSA can both exchange keys <em>and</em> sign certificates; Diffie-Hellman only does key exchange and cannot sign.</blockquote>
+`},
+{id:"cryptohw",obj:"1.4",title:"Crypto Hardware",html:`
+<div class="tblwrap"><table>
+<tr><th>Tool</th><th>Scope</th><th>Purpose</th></tr>
+<tr><td><strong>TPM</strong> (Trusted Platform Module)</td><td>One device</td><td>On-motherboard chip; generates/stores keys unique to that machine (e.g. BitLocker keys); password-protected, brute-force resistant</td></tr>
+<tr><td><strong>HSM</strong> (Hardware Security Module)</td><td>Data-center scale</td><td>Clustered, redundant, dedicated hardware for high-volume key storage and crypto acceleration</td></tr>
+<tr><td><strong>Key management system</strong></td><td>Organization-wide</td><td>Centralized console for creating, rotating, and reporting on keys/certs across SSL, SSH, BitLocker, etc.</td></tr>
+<tr><td><strong>Secure enclave</strong></td><td>One device</td><td>A separate security co-processor; true random number generator, boot integrity, real-time hardware AES</td></tr>
+</table></div>
+<p>Some detail worth carrying into the exam:</p>
+<ul>
+<li><strong>TPM</strong> was originally a discrete chip on the motherboard; <strong>TPM 2.0</strong> let manufacturers build the capability into the chipset itself. It's what stores the keys behind full-disk encryption and device-bound X.509 certificates &mdash; a device certificate held in a TPM is a common building block of a Zero Trust rollout.</li>
+<li><strong>HSMs</strong> are no longer only appliances: they can be virtualized, or shrunk into smart card, MicroSD and USB form factors. Beyond storing keys they generate and manage them, verify certificates, and <em>offload and accelerate</em> SSL/TLS processing from the servers they front.</li>
+<li>A <strong>cloud key management service</strong> is the managed version of the same idea &mdash; creating and controlling symmetric and asymmetric keys, integrated with the provider's storage, database and application services.</li>
+<li>A <strong>secure enclave</strong> provides CPU-level isolation with encrypted memory, walling application code and data off even from processes holding high privilege on the same machine.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>TPM secures <em>one</em> device's keys; HSM secures keys for <em>many</em> devices at data-center scale. Don't confuse either with a key management system, which is the software console that organizes keys that may live <em>in</em> a TPM, HSM, or elsewhere.</blockquote>
+`},
+{id:"hashsig",obj:"1.4",title:"Hashing, Salting &amp; Digital Signatures",html:`
+<p>A <strong>hash</strong> turns data of any size into a short, fixed-length fingerprint. It's one-directional &mdash; you cannot reconstruct the original data from the hash, which separates hashing from encryption.</p>
+<p>Output is called a <strong>digest</strong> or fingerprint, typically 128 to 512 bits. Two properties define a usable hash:</p>
+<ul>
+<li><strong>Avalanche effect</strong> &mdash; flipping a single bit of input produces a completely different digest, not a slightly different one.</li>
+<li><strong>Collision resistance</strong> &mdash; two different inputs must not produce the same digest. Once collisions become practical the hash can no longer prove integrity.</li>
+</ul>
+<div class="tblwrap"><table><caption>Hash functions worth recognizing</caption>
+<tr><th>Function</th><th>Digest</th><th>Status</th></tr>
+<tr><td><strong>MD5</strong></td><td>128-bit</td><td>Deprecated &mdash; collision demonstrated in 1996</td></tr>
+<tr><td><strong>SHA-1</strong></td><td>160-bit</td><td>Deprecated for security use</td></tr>
+<tr><td><strong>SHA-2</strong> (SHA-256, SHA-512)</td><td>256 / 512-bit</td><td>Current workhorse; SHA-256 shows as 64 hex characters</td></tr>
+<tr><td><strong>SHA-3</strong></td><td>224&ndash;512-bit</td><td>Newer standard, different internal design to SHA-2</td></tr>
+<tr><td><strong>RIPEMD</strong> / <strong>Whirlpool</strong></td><td>Various</td><td>Less common; Whirlpool is built on AES</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Because of the <strong>birthday paradox</strong>, a hash is only about as strong as <em>half</em> its bit length against collision attacks. A 512-bit hash gives roughly 256 bits of collision resistance &mdash; which is why digest length is chosen with that halving already assumed.</blockquote>
+<p><strong>Password storage</strong>: never store plaintext, never <em>encrypt</em> either &mdash; store a <strong>salted hash</strong>. A <strong>salt</strong> is random data added before hashing so identical passwords produce different stored hashes, which defeats precomputed <strong>rainbow tables</strong> and forces an attacker back to slow brute forcing. Salting fails in two specific ways: a salt that is <em>too short</em>, or a salt that is <em>reused</em> rather than unique per password.</p>
+<p><strong>HMAC</strong> (hash-based message authentication code) is a hash combined with a <strong>shared secret key</strong>. Because the key is required to produce a matching value, an HMAC proves two things at once: the data wasn't altered (<em>integrity</em>) and it came from someone holding the key (<em>origin authentication</em>). A plain hash proves only the first. Dynamic routing protocols use HMACs exactly this way &mdash; a router appends an HMAC to each route update, and a peer sharing the key can confirm both that the update is intact and that a legitimate neighbour sent it.</p>
+<blockquote><span class="tag">Gotcha</span>Three easily confused mechanisms: a <strong>hash</strong> gives integrity only. An <strong>HMAC</strong> adds a shared secret, giving integrity plus origin authentication &mdash; but both parties hold the same key, so it cannot prove which one sent it. A <strong>digital signature</strong> uses the sender's <em>private</em> key, which only they hold, so it adds true non-repudiation.</blockquote>
+<p><strong>Digital signature process</strong> (Alice signs a message to Bob):</p>
+<ol>
+<li>Alice hashes the plaintext message.</li>
+<li>Alice encrypts that hash with <strong>her own private key</strong> &mdash; this encrypted hash is the digital signature.</li>
+<li>Alice sends the plaintext message plus the signature to Bob.</li>
+<li>Bob decrypts the signature using <strong>Alice's public key</strong>, recovering the original hash.</li>
+<li>Bob independently hashes the plaintext he received.</li>
+<li>If the two hashes match, Bob has confirmed both integrity and authenticity/non-repudiation.</li>
+</ol>
+<p>Notice the key usage is the <em>reverse</em> of normal asymmetric encryption: for confidentiality you encrypt with the recipient's <strong>public</strong> key; for a signature you sign with <strong>your own private</strong> key so anyone can verify it with your <strong>public</strong> key.</p>
+<blockquote><span class="tag">Gotcha</span>Hashing alone = integrity only. Hashing + encrypting that hash with the sender's private key = digital signature = integrity <strong>and</strong> non-repudiation.</blockquote>
+`},
+{id:"obfsblock",obj:"1.4",title:"Obfuscation &amp; Blockchain",html:`
+<p><strong>Obfuscation</strong> hides data in plain sight rather than mathematically protecting it &mdash; reversible if you know the trick, which is why it's "security through obscurity," not a substitute for real cryptography.</p>
+<ul>
+<li><strong>Steganography</strong> &mdash; hiding data inside other data: an image (the carrier is called the <strong>covertext</strong>), audio, video, or network traffic. Printer <strong>machine identification codes</strong> (tiny yellow dots) are a real-world example. Strictly it isn't cryptography at all &mdash; nothing is scrambled and no key is involved, the message is simply concealed.</li>
+<li><strong>Tokenization</strong> &mdash; replace sensitive data with a meaningless substitute (a token) that only the issuing system can map back to the real value. Mobile payment tokens are the classic example.</li>
+<li><strong>Data masking</strong> &mdash; show only part of the sensitive value, e.g. a receipt showing <code>**** **** **** 2512</code>. The weakness is <em>inference</em>: enough partial values can still narrow down the original, which is why tokenization is generally the stronger choice.</li>
+</ul>
+<p><strong>Blockchain</strong> is a distributed, append-only, open public ledger anyone participating can view and help maintain: every participant holds a copy, and updates propagate to everyone. Transactions are grouped into blocks; each block includes a <strong>hash</strong> covering its contents, so tampering with a past transaction invalidates that block's hash. Uses beyond cryptocurrency: digital identity, supply-chain tracking, digital voting.</p>
+<blockquote><span class="tag">Gotcha</span>Obfuscation hides data by making it hard to <em>find or recognize</em>; encryption makes it mathematically impossible to read without a key, even in plain view. A token has no mathematical relationship to the real value at all.</blockquote>
+`}
+];
+
+var GOTCHAS_TABLE = `
+<div class="tblwrap"><table><caption>Every pink callout, collected for a final pass</caption>
+<tr><th>Pair</th><th>The distinction</th></tr>
+<tr><td>Preventive vs. deterrent</td><td>Preventive physically stops access; deterrent only discourages the attempt</td></tr>
+<tr><td>Integrity (hash) vs. non-repudiation (signature)</td><td>Hash proves data wasn't changed; a signature additionally proves who sent it</td></tr>
+<tr><td>Data plane vs. control plane</td><td>Data plane moves traffic; control plane makes the rules/decisions behind the move</td></tr>
+<tr><td>Honeypot vs. honeynet vs. honeyfile/honeytoken</td><td>One decoy system vs. a network of decoys vs. decoy data planted to catch insiders</td></tr>
+<tr><td>Allow list vs. deny list</td><td>Allow list = restrictive, default-deny; deny list = permissive, default-allow</td></tr>
+<tr><td>Symmetric vs. asymmetric encryption</td><td>One shared key vs. two mathematically related keys; symmetric is faster, asymmetric scales better</td></tr>
+<tr><td>CRL vs. OCSP (stapling)</td><td>CRL = download the whole revocation list; OCSP = ask about one cert in real time; stapling embeds that answer in the handshake</td></tr>
+<tr><td>TPM vs. HSM</td><td>TPM secures one device; HSM secures many devices at data-center scale</td></tr>
+<tr><td>Hashing vs. digital signature</td><td>Hash = fingerprint/integrity only; signature = hash encrypted with the sender's private key = integrity + non-repudiation</td></tr>
+<tr><td>Obfuscation vs. encryption</td><td>Obfuscation hides data from casual view; encryption makes it mathematically unreadable without the key</td></tr>
+<tr><td>Confidentiality vs. integrity controls</td><td>Confidentiality: encryption, access controls, extra auth factors; Integrity: hashing, digital signatures, certificates</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--text-muted);">Per the legend rules, keep this list under 10% of your own notes when you transfer any of this &mdash; if everything's a gotcha, nothing is.</p>
+`;
+
+/* build a plain-text search index once */
+var SEARCH_INDEX = {};
+(function buildIndex(){
+  var scratch = document.createElement("div");
+  TOPICS.forEach(function(t){
+    scratch.innerHTML = t.title + " " + t.html;
+    SEARCH_INDEX[t.id] = (scratch.textContent || "").toLowerCase();
+  });
+})();
+
+var activeTab = "all";
+var query = "";
+var openIds = {};
+
+var tabsEl = document.getElementById("tabs");
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.className = "tab" + (activeTab === k && !query ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      activeTab = k;
+      searchInput.value = "";
+      query = "";
+      clearBtn.hidden = true;
+      render();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+
+var searchInput = document.getElementById("search");
+var clearBtn = document.getElementById("clear-search");
+searchInput.addEventListener("input", function(){
+  query = searchInput.value.trim().toLowerCase();
+  clearBtn.hidden = query.length === 0;
+  render();
+});
+clearBtn.addEventListener("click", function(){
+  searchInput.value = "";
+  query = "";
+  clearBtn.hidden = true;
+  render();
+});
+
+var listEl = document.getElementById("topiclist");
+var emptyEl = document.getElementById("empty-state");
+var notesEl = document.getElementById("results-note");
+
+function matchingTopics(){
+  if(query){
+    return TOPICS.filter(function(t){ return SEARCH_INDEX[t.id].indexOf(query) !== -1; });
+  }
+  if(activeTab === "all") return TOPICS;
+  if(activeTab === "gotchas") return [];
+  return TOPICS.filter(function(t){ return t.obj === activeTab; });
+}
+
+function topicCard(t, forceOpen){
+  var isOpen = !!openIds[t.id] || forceOpen;
+  var div = document.createElement("div");
+  div.className = "topic" + (isOpen ? " open" : "");
+  var badge = OBJ_TITLE[t.obj] ? t.obj : "";
+  div.innerHTML =
+    '<button class="topic-head" type="button">' +
+      '<h2>' + t.title + '</h2>' +
+      '<span style="display:flex;align-items:center;gap:8px;">' +
+        (badge ? '<span class="topic-badge">' + badge + '</span>' : '') +
+        '<span class="chev">&#9656;</span>' +
+      '</span>' +
+    '</button>' +
+    '<div class="topic-body">' + t.html + '</div>';
+  div.querySelector(".topic-head").addEventListener("click", function(){
+    var nowOpen = !div.classList.contains("open");
+    div.classList.toggle("open", nowOpen);
+    openIds[t.id] = nowOpen;
+  });
+  return div;
+}
+
+function render(){
+  buildTabs();
+  listEl.innerHTML = "";
+  notesEl.hidden = true;
+  emptyEl.hidden = true;
+
+  if(activeTab === "gotchas" && !query){
+    var card = document.createElement("div");
+    card.className = "topic open";
+    card.innerHTML =
+      '<button class="topic-head" type="button"><h2>Domain 1 Gotchas &mdash; quick-scan compare cards</h2>' +
+      '<span class="chev">&#9656;</span></button>' +
+      '<div class="topic-body">' + GOTCHAS_TABLE + '</div>';
+    card.querySelector(".topic-head").addEventListener("click", function(){
+      card.classList.toggle("open");
+    });
+    listEl.appendChild(card);
+    return;
+  }
+
+  var matches = matchingTopics();
+
+  if(query){
+    notesEl.hidden = false;
+    notesEl.textContent = matches.length + (matches.length === 1 ? ' result for "' : ' results for "') + searchInput.value.trim() + '"';
+  }
+
+  if(matches.length === 0){
+    emptyEl.hidden = false;
+    return;
+  }
+
+  matches.forEach(function(t, i){
+    var forceOpen = !!query && matches.length <= 6;
+    listEl.appendChild(topicCard(t, forceOpen));
+  });
+
+  if(!query && matches.length > 0 && Object.keys(openIds).length === 0){
+    listEl.firstChild.classList.add("open");
+  }
+}
+
+render();
+})();
+</script>
+</body>
+</html>

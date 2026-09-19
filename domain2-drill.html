@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Flashcards, quiz and scenario practice for Security+ Domain 2.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 2 Drill</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#0d7b86; --accent-ink:#ffffff;
+  --obj-21:#2f5fd6; --obj-22:#1f8a5c; --obj-23:#b7861f; --obj-24:#b3437c; --obj-25:#6d4bc4;
+  --correct:#1f8a5c; --incorrect:#c1382d;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#3fd0dd; --accent-ink:#06262a;
+    --obj-21:#7ea2ff; --obj-22:#55d69a; --obj-23:#e0b24d; --obj-24:#ea86b8; --obj-25:#a98cf0;
+    --correct:#55d69a; --incorrect:#ef6b5d;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#3fd0dd; --accent-ink:#06262a;
+  --obj-21:#7ea2ff; --obj-22:#55d69a; --obj-23:#e0b24d; --obj-24:#ea86b8; --obj-25:#a98cf0;
+  --correct:#55d69a; --incorrect:#ef6b5d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:760px;margin:0 auto;padding:14px 16px 0;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;margin-top:12px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:10px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.panel{display:flex;flex-direction:column;gap:16px;padding-top:18px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;}
+.lede{color:var(--text-muted);font-size:14px;line-height:1.5;margin:0;}
+.chiprow{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{font-family:var(--font-display);font-size:12px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-muted);border-radius:999px;padding:6px 11px;cursor:pointer;}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent);}
+.badge{font-family:var(--font-display);font-size:11px;letter-spacing:.02em;border-radius:999px;
+  padding:3px 9px;display:inline-block;color:#fff;}
+.badge-21{background:var(--obj-21);} .badge-22{background:var(--obj-22);}
+.badge-23{background:var(--obj-23);} .badge-24{background:var(--obj-24);}
+.badge-25{background:var(--obj-25);}
+button.primary{font-family:var(--font-body);font-weight:600;font-size:14px;background:var(--accent);
+  color:var(--accent-ink);border:none;border-radius:10px;padding:11px 18px;cursor:pointer;}
+button.ghost{font-family:var(--font-body);font-weight:600;font-size:14px;background:none;
+  color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 16px;cursor:pointer;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* Flashcards */
+.deck-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+  color:var(--text-muted);font-family:var(--font-display);}
+.flip-outer{perspective:1400px;}
+.flip-card{position:relative;min-height:220px;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;min-height:220px;transition:transform .45s;
+  transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);
+  padding:22px;display:flex;flex-direction:column;gap:12px;justify-content:center;}
+.flip-face.back{transform:rotateY(180deg);background:var(--surface-2);}
+.flip-term{font-family:var(--font-display);font-size:20px;line-height:1.3;}
+.flip-def{font-size:15px;line-height:1.55;}
+.flip-hint{font-size:11px;color:var(--text-muted);font-family:var(--font-display);text-align:center;}
+.deckctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.markrow{display:flex;gap:8px;justify-content:center;}
+.mark-know{background:var(--correct);color:#fff;border:none;}
+.mark-learning{background:var(--incorrect);color:#fff;border:none;}
+
+/* Quiz / scenario */
+.qmeta{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);}
+.qtext{font-size:16px;line-height:1.5;margin:10px 0 16px;}
+.opt{display:block;width:100%;text-align:left;font-size:14.5px;line-height:1.4;background:var(--surface-2);
+  border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px;cursor:pointer;
+  color:var(--text);}
+.opt:hover{border-color:var(--accent);}
+.opt.correct{background:color-mix(in srgb, var(--correct) 20%, var(--surface));border-color:var(--correct);}
+.opt.incorrect{background:color-mix(in srgb, var(--incorrect) 18%, var(--surface));border-color:var(--incorrect);}
+.opt:disabled{cursor:default;}
+.explain{font-size:13.5px;line-height:1.5;background:var(--surface-2);border-left:3px solid var(--accent);
+  padding:10px 12px;border-radius:0 8px 8px 0;margin-top:4px;}
+.roundend{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.roundend .score{font-family:var(--font-display);font-size:34px;}
+
+/* Progress */
+.objcard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface-2);}
+.objcard .row1{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.bar{height:8px;border-radius:999px;background:var(--border);overflow:hidden;}
+.bar > span{display:block;height:100%;border-radius:999px;}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+.stattile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stattile .n{font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums;}
+.stattile .l{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.weak{border:1px solid var(--incorrect);background:color-mix(in srgb, var(--incorrect) 10%, var(--surface));
+  border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;} .flip-term{font-size:18px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 2 Drill</h1>
+      <span class="sub">SY0-701 &middot; Threats, Vulnerabilities &amp; Mitigations &middot; 22%</span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="flash" role="tab">Flashcards</button>
+      <button class="tab" data-tab="quiz" role="tab">Quiz</button>
+      <button class="tab" data-tab="scenario" role="tab">Scenarios</button>
+      <button class="tab" data-tab="progress" role="tab">Progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-flash">
+    <p class="lede">80 term cards drawn from the Domain 2 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <div class="chiprow" id="flash-filters"></div>
+    <div class="card" style="gap:14px;display:flex;flex-direction:column;">
+      <div class="deck-meta">
+        <span id="flash-badge"></span>
+        <span id="flash-pos">1 / 80</span>
+      </div>
+      <div class="flip-outer">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face front">
+              <div class="flip-term" id="flash-term"></div>
+              <div class="flip-hint">tap to reveal</div>
+            </div>
+            <div class="flip-face back">
+              <div class="flip-def" id="flash-def"></div>
+              <div class="flip-hint">tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="markrow">
+        <button class="ghost mark-learning" id="btn-learning">Still learning</button>
+        <button class="ghost mark-know" id="btn-know">Got it</button>
+      </div>
+      <div class="deckctl">
+        <button class="ghost" id="btn-prev">&larr; Prev</button>
+        <button class="ghost" id="btn-shuffle">Shuffle</button>
+        <button class="ghost" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" hidden>
+    <p class="lede">Multiple-choice questions in the exam's own voice. Pick an objective or drill all of Domain 2 &mdash; up to 10 questions a round, with an explanation after every answer.</p>
+    <div class="chiprow" id="quiz-filters"></div>
+    <div class="card" id="quiz-start-card">
+      <button class="primary" id="quiz-start">Start round</button>
+    </div>
+    <div class="card" id="quiz-run-card" hidden>
+      <div class="qmeta">
+        <span id="quiz-obj-badge"></span>
+        <span id="quiz-pos"></span>
+      </div>
+      <div class="qtext" id="quiz-q"></div>
+      <div id="quiz-opts"></div>
+      <div class="explain" id="quiz-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="quiz-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="quiz-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="quiz-score"></div>
+      <p class="lede" id="quiz-score-note"></p>
+      <button class="primary" id="quiz-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- SCENARIOS -->
+  <section class="panel" id="panel-scenario" hidden>
+    <p class="lede">PBQ-style situational questions &mdash; longer setups, closer to what the real exam's performance-based questions feel like. "Which control/concept applies here?"</p>
+    <div class="chiprow" id="scenario-filters"></div>
+    <div class="card" id="scenario-start-card">
+      <button class="primary" id="scenario-start">Start round</button>
+    </div>
+    <div class="card" id="scenario-run-card" hidden>
+      <div class="qmeta">
+        <span id="scenario-obj-badge"></span>
+        <span id="scenario-pos"></span>
+      </div>
+      <div class="qtext" id="scenario-q"></div>
+      <div id="scenario-opts"></div>
+      <div class="explain" id="scenario-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="scenario-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="scenario-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="scenario-score"></div>
+      <p class="lede" id="scenario-score-note"></p>
+      <button class="primary" id="scenario-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="panel-progress" hidden>
+    <p class="lede">Mastery by sub-objective, combining every quiz and scenario answer you've given. Flashcard self-marks are tracked separately below.</p>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Mastery by objective</h3>
+      <div id="obj-cards" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="card" id="weak-card" style="gap:10px;display:flex;flex-direction:column;"></div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Overall</h3>
+      <div class="statgrid" id="overall-stats"></div>
+    </div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Flashcard recall</h3>
+      <div class="statgrid" id="flash-stats"></div>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span class="lede" style="margin:0;">Progress is stored in this browser only.</span>
+      <button class="ghost" id="btn-reset">Reset all progress</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"2.1":"Threat Actors","2.2":"Vectors &amp; Surfaces","2.3":"Vulnerabilities","2.4":"Malicious Activity","2.5":"Mitigation"};
+var OBJ_LIST = ["2.1","2.2","2.3","2.4","2.5"];
+
+var FLASHCARDS = [
+ {id:1,obj:"2.1",t:"Threat actor",d:"The entity behind an event that affects the security of others."},
+ {id:2,obj:"2.1",t:"Threat vector",d:"The path or tool a threat actor uses to carry out the attack."},
+ {id:3,obj:"2.1",t:"Vulnerability vs. threat vs. risk",d:"A weakness; the potential to exploit it; likelihood multiplied by impact."},
+ {id:4,obj:"2.1",t:"Internal vs. external actor",d:"Describes the access the actor already holds &mdash; not where the attack physically happens."},
+ {id:5,obj:"2.1",t:"Level of sophistication",d:"Low-capability actors use commodity tools; high-capability actors write their own exploits."},
+ {id:6,obj:"2.1",t:"Unskilled attacker",d:"Runs existing tools or scripts without understanding how they work or being able to adapt them."},
+ {id:7,obj:"2.1",t:"Hacktivist",d:"Uses cyber attacks to promote a political agenda &mdash; leaks, defacement, service disruption."},
+ {id:8,obj:"2.1",t:"Nation-state actor",d:"Government-backed, best resourced, highest capability. Goals are espionage and strategic advantage."},
+ {id:9,obj:"2.1",t:"Advanced Persistent Threat",d:"The ability to obtain access and then maintain it long-term. A behaviour, not a malware type."},
+ {id:10,obj:"2.1",t:"Plausible deniability",d:"State actors work at arm's length from their sponsor, often posing as independent groups."},
+ {id:11,obj:"2.1",t:"False flag operation",d:"An attack deliberately staged to implicate a different state or group."},
+ {id:12,obj:"2.1",t:"Organized crime",d:"Profit-motivated, well funded, operating across jurisdictions to complicate prosecution."},
+ {id:13,obj:"2.1",t:"Insider threat",d:"An actor the organization itself identified and granted access to."},
+ {id:14,obj:"2.1",t:"Unintentional insider threat",d:"Harm caused by carelessness or missing training rather than malice."},
+ {id:15,obj:"2.1",t:"Shadow IT",d:"Hardware or software introduced without IT sanction, creating unmonitored attack surface."},
+ {id:16,obj:"2.1",t:"Blackmail vs. extortion",d:"Pay or we release what we hold, versus pay or the attack continues."},
+ {id:17,obj:"2.1",t:"Data exfiltration",d:"Copying valuable information out of an organization without authorization."},
+ {id:18,obj:"2.2",t:"Attack surface",d:"Every point at which a threat actor could try to exploit a vulnerability."},
+ {id:19,obj:"2.2",t:"Threat vector vs. attack surface",d:"The route actually taken, versus everywhere an attack could come from."},
+ {id:20,obj:"2.2",t:"Unsupported system",d:"The vendor no longer issues patches, so known exploits stay exploitable indefinitely."},
+ {id:21,obj:"2.2",t:"Client-based vs. agentless scanning",d:"An installed agent reporting to a server, versus scanning with no installation &mdash; the recon favourite."},
+ {id:22,obj:"2.2",t:"Remote vs. local exploit",d:"Needs no authenticated session, versus must be run from one."},
+ {id:23,obj:"2.2",t:"Default credentials",d:"Factory passwords left in place, usually published in the product documentation."},
+ {id:24,obj:"2.2",t:"Drop attack",d:"Leaving infected removable media where an employee will find it and plug it in."},
+ {id:25,obj:"2.2",t:"Drive-by download",d:"A compromised website infecting a vulnerable browser with no deliberate download."},
+ {id:26,obj:"2.2",t:"Zero-click exploit",d:"Fires simply on receiving an attachment or viewing an image &mdash; no user action at all."},
+ {id:27,obj:"2.2",t:"Supply chain vectors",d:"Service provider, hardware provider, software provider &mdash; the three named routes in."},
+ {id:28,obj:"2.2",t:"Impersonation vs. pretexting",d:"Who you claim to be, versus the crafted story that supports the claim."},
+ {id:29,obj:"2.2",t:"Phishing / vishing / smishing",d:"The same deception delivered by email, by voice call, and by text message."},
+ {id:30,obj:"2.2",t:"Pharming",d:"Redirects users by corrupting name resolution &mdash; the user can type the right address and still land wrong."},
+ {id:31,obj:"2.2",t:"Typosquatting",d:"Registering a lookalike or cousin domain, hoping users don't notice the difference."},
+ {id:32,obj:"2.2",t:"Business email compromise",d:"A researched campaign against one senior individual, often sent from a genuinely compromised account."},
+ {id:33,obj:"2.2",t:"Watering hole attack",d:"Compromising a third-party site the target group is known to visit."},
+ {id:34,obj:"2.2",t:"Disinformation vs. misinformation",d:"False material spread with intent to deceive, versus repeated without that intent."},
+ {id:35,obj:"2.3",t:"Memory injection",d:"Placing code inside a running process so it inherits that process's rights and evades detection."},
+ {id:36,obj:"2.3",t:"DLL injection",d:"Planting a malicious shared library and getting a target process to load it."},
+ {id:37,obj:"2.3",t:"Buffer overflow",d:"Writing more data than a memory area holds, spilling into adjacent memory. Caused by missing bounds checking."},
+ {id:38,obj:"2.3",t:"Race condition",d:"Two events happening near-simultaneously that the application was never written to handle."},
+ {id:39,obj:"2.3",t:"TOCTOU",d:"Time-of-check to time-of-use &mdash; a value is validated, changes, then gets acted on while stale."},
+ {id:40,obj:"2.3",t:"Malicious update",d:"Attack code delivered through a legitimate update channel, which the victim installs willingly."},
+ {id:41,obj:"2.3",t:"SQL injection",d:"Untrusted input interpreted as database commands, targeting the server's data."},
+ {id:42,obj:"2.3",t:"Cross-site scripting",d:"Injected script that executes in another user's browser."},
+ {id:43,obj:"2.3",t:"Reflected vs. stored XSS",d:"Fires once from a crafted link, versus saved on the server and firing for every visitor."},
+ {id:44,obj:"2.3",t:"End-of-life vs. legacy",d:"The vendor stopped supporting it, versus you are still running it anyway."},
+ {id:45,obj:"2.3",t:"VM escape",d:"Breaking out of a guest virtual machine to reach the hypervisor or host."},
+ {id:46,obj:"2.3",t:"Resource reuse",d:"Memory or storage reallocated to a new tenant without being cleared first."},
+ {id:47,obj:"2.3",t:"Side loading",d:"Installing an application from outside the official store, bypassing its vetting."},
+ {id:48,obj:"2.3",t:"Jailbreaking",d:"Removing manufacturer restrictions, dismantling the device's whole security model."},
+ {id:49,obj:"2.3",t:"Zero-day",d:"A vulnerability the vendor doesn't know about, with no patch and no signature."},
+ {id:50,obj:"2.3",t:"Misconfiguration",d:"A weakness created by how something was set up rather than by a flaw in its code."},
+ {id:51,obj:"2.4",t:"Ransomware",d:"Encrypts data and demands payment; modern variants exfiltrate first and threaten release."},
+ {id:52,obj:"2.4",t:"Trojan",d:"Appears useful or desirable while carrying a hidden payload, commonly backdoor access."},
+ {id:53,obj:"2.4",t:"Virus vs. worm",d:"A virus needs a user to run its host; a worm self-propagates with no user action."},
+ {id:54,obj:"2.4",t:"Logic bomb",d:"Dormant code that fires on a trigger &mdash; a date, or an event such as a name leaving payroll."},
+ {id:55,obj:"2.4",t:"Rootkit",d:"Embeds in the kernel and alters the OS's own reporting so it becomes invisible."},
+ {id:56,obj:"2.4",t:"Bloatware",d:"Unwanted preinstalled software. Not malicious, but unpatched surface running with privilege."},
+ {id:57,obj:"2.4",t:"RFID cloning",d:"Copying the static identifier an access badge transmits onto a blank card."},
+ {id:58,obj:"2.4",t:"Reflected vs. amplified DDoS",d:"Spoofing the victim as source, versus picking protocols whose replies dwarf the request."},
+ {id:59,obj:"2.4",t:"DNS poisoning",d:"Corrupting cached resolution so a legitimate name resolves to an attacker's address."},
+ {id:60,obj:"2.4",t:"Rogue AP vs. evil twin",d:"Unauthorized but often innocent, versus purpose-built to impersonate and intercept."},
+ {id:61,obj:"2.4",t:"On-path attack",d:"The attacker sits between two parties, able to read, modify or block traffic."},
+ {id:62,obj:"2.4",t:"ARP poisoning",d:"Forged ARP replies mapping the attacker's MAC to the gateway's IP. ARP has no authentication."},
+ {id:63,obj:"2.4",t:"Replay attack",d:"Capturing valid data and resending it. Countered by timestamps, nonces and sequence numbers."},
+ {id:64,obj:"2.4",t:"Privilege escalation",d:"Vertical reaches a higher level; horizontal reaches another user's data at the same level."},
+ {id:65,obj:"2.4",t:"CSRF vs. SSRF",d:"Abuses the user's authenticated session, versus abuses the server's network position."},
+ {id:66,obj:"2.4",t:"Directory traversal",d:"Manipulating a file path to read files outside the directory the app meant to expose."},
+ {id:67,obj:"2.4",t:"Downgrade attack",d:"Forcing negotiation of a weaker algorithm or older protocol the attacker can break."},
+ {id:68,obj:"2.4",t:"Collision vs. birthday attack",d:"Two inputs sharing a hash, versus the statistical method that makes finding one feasible."},
+ {id:69,obj:"2.4",t:"Brute force vs. spraying",d:"Many passwords at one account, versus one password across many &mdash; spraying exists to beat lockout."},
+ {id:70,obj:"2.4",t:"Impossible travel",d:"Logins from two locations too far apart for the time elapsed. A strong credential-theft signal."},
+ {id:71,obj:"2.4",t:"Missing logs",d:"Gaps where entries should be &mdash; an indicator, not a glitch."},
+ {id:72,obj:"2.5",t:"Segmentation",d:"Dividing the network so a compromise in one area cannot reach everything else."},
+ {id:73,obj:"2.5",t:"Access control list",d:"Ordered rules evaluated top to bottom; first match wins, usually ending in implicit deny."},
+ {id:74,obj:"2.5",t:"Application allow list",d:"Only explicitly approved software may execute &mdash; restrictive by default."},
+ {id:75,obj:"2.5",t:"Segmentation vs. isolation",d:"A design decision made in advance, versus a response pulling one system out of contact."},
+ {id:76,obj:"2.5",t:"Least privilege",d:"Every account receives the minimum rights its job requires, limiting what a compromise yields."},
+ {id:77,obj:"2.5",t:"Configuration enforcement",d:"Continuously checking systems against an approved baseline and correcting drift."},
+ {id:78,obj:"2.5",t:"Decommissioning",d:"Retiring a system properly: wipe the data, revoke credentials, remove it from inventory."},
+ {id:79,obj:"2.5",t:"Host firewall vs. HIPS",d:"Filters by port and address, versus inspecting behaviour and blocking attacks on open ports."},
+ {id:80,obj:"2.5",t:"Hardening",d:"Reducing attack surface in advance: disable ports, change defaults, remove unnecessary software."}
+];
+
+var QUIZ = [
+ {id:1,obj:"2.1",q:"Which threat actor attribute describes whether the actor already holds authorized access?",c:["Level of sophistication","Internal/external","Resources/funding","Motivation"],a:1,e:"Internal/external is about the access the actor holds before the attack begins \u2014 not where the attack physically takes place. An external actor can still attack on-premises."},
+ {id:2,obj:"2.1",q:"A group demands payment to stop an ongoing attack that is keeping systems offline. This is best described as:",c:["Blackmail","Extortion","Fraud","Espionage"],a:1,e:"Extortion demands payment to halt or prevent an attack. Blackmail threatens to release information the attacker already holds."},
+ {id:3,obj:"2.1",q:"Advanced Persistent Threat most accurately describes:",c:["A category of malware","A specific nation-state group","The ability to obtain and maintain long-term access","An automated vulnerability scanner"],a:2,e:"APT names a behaviour \u2014 ongoing, maintained compromise \u2014 not a tool or a single group."},
+ {id:4,obj:"2.1",q:"An employee signs up for an unapproved cloud file-sharing service to move large files. This is an example of:",c:["A malicious insider","Shadow IT","Hacktivism","A supply chain attack"],a:1,e:"Shadow IT is unsanctioned technology introduced without security review. It is named as a threat actor in its own right, and there is no malice required."},
+ {id:5,obj:"2.1",q:"Which motivation is most associated with a nation-state actor?",c:["Financial gain only","Espionage and strategic advantage","Proving technical ability","Selling tools to other attackers"],a:1,e:"State actors pursue espionage, disinformation and strategic advantage \u2014 though some states do also target companies for direct financial gain."},
+ {id:6,obj:"2.2",q:"An attacker compromises a local sandwich shop's website because staff at the target company order lunch there. This is:",c:["A supply chain attack","A watering hole attack","Business email compromise","Pharming"],a:1,e:"A watering hole compromises a third-party site the target group is known to visit, infecting them indirectly."},
+ {id:7,obj:"2.2",q:"Which attack redirects a user without needing to deceive them at all?",c:["Phishing","Vishing","Pharming","Smishing"],a:2,e:"Pharming corrupts name resolution, so the victim can type the correct address themselves and still reach the malicious site."},
+ {id:8,obj:"2.2",q:"Registering a domain that closely resembles a legitimate one is called:",c:["Pharming","Typosquatting","Watering hole","Pretexting"],a:1,e:"Typosquatting registers cousin or lookalike domains, relying on users not noticing the difference."},
+ {id:9,obj:"2.2",q:"Which best describes pretexting?",c:["Pretending to be someone else","A fabricated scenario with convincing supporting detail","Sending phishing email in bulk","Redirecting DNS queries"],a:1,e:"Impersonation is the claim of identity; pretexting is the crafted story and detail that makes the claim believable."},
+ {id:10,obj:"2.2",q:"Which message vector will an organization typically have essentially no ability to monitor?",c:["Corporate email","SMS","Internal instant messaging","Web proxy traffic"],a:1,e:"SMS is handled by the carrier and SIM provider, so it sits entirely outside organizational monitoring."},
+ {id:11,obj:"2.3",q:"Malware injected into a process that is already running gains:",c:["Automatic kernel mode","The rights and permissions of the host process","Guaranteed persistence across reboot","Access to the network stack"],a:1,e:"Inheriting the host process's privileges is the main attraction, along with evading scanners that look for a suspicious process."},
+ {id:12,obj:"2.3",q:"The root cause of a buffer overflow is:",c:["Weak encryption","Missing bounds checking","Default credentials","An unpatched operating system"],a:1,e:"Without bounds checking, input larger than the allocated space spills into adjacent memory."},
+ {id:13,obj:"2.3",q:"An application validates a value, then acts on it moments later \u2014 but the value changed in between. This is:",c:["A buffer overflow","A race condition","An injection flaw","Privilege escalation"],a:1,e:"This is the time-of-check to time-of-use pattern. The vulnerability lives in the gap between checking and using."},
+ {id:14,obj:"2.3",q:"A malicious script is saved in a site's comment field and runs for every subsequent visitor. This is:",c:["Reflected XSS","Stored XSS","SQL injection","CSRF"],a:1,e:"Stored or persistent XSS is saved server-side and affects everyone who loads the page, unlike reflected XSS which needs a crafted link per victim."},
+ {id:15,obj:"2.3",q:"Code breaking out of a guest virtual machine to reach the hypervisor is:",c:["Resource reuse","VM escape","Side loading","Jailbreaking"],a:1,e:"VM escape defeats the containment the whole virtualization security model depends on, potentially exposing every other guest on that host."},
+ {id:16,obj:"2.3",q:"A vulnerability stops being a zero-day at the moment that:",c:["It is publicly disclosed","A patch becomes available","You apply the patch","A CVE number is assigned"],a:1,e:"Once a fix exists it is no longer a zero-day. Systems left unpatched afterwards are a patch-management failure."},
+ {id:17,obj:"2.4",q:"Malware that spreads across a network overnight with no user interaction is a:",c:["Virus","Trojan","Worm","Logic bomb"],a:2,e:"Self-propagation with no user action is the defining characteristic of a worm. A virus requires someone to execute its host."},
+ {id:18,obj:"2.4",q:"An attacker sends requests to public servers with the victim's address spoofed as the source. This technique is:",c:["Amplified","Reflected","Volumetric","On-path"],a:1,e:"Reflection bounces replies off third parties to the victim and hides the attacker's real address. Amplification is the separate choice of protocols whose replies are much larger than the request."},
+ {id:19,obj:"2.4",q:"Forged ARP replies that map the attacker's MAC address to the default gateway's IP enable:",c:["A replay attack","An on-path attack","DNS poisoning","An evil twin"],a:1,e:"ARP has no authentication, so poisoned entries route victim traffic through the attacker \u2014 the classic local on-path setup."},
+ {id:20,obj:"2.4",q:"Dozens of accounts each show one or two failed logins and none lock out. This pattern indicates:",c:["Brute force","Password spraying","A rainbow table attack","Credential stuffing by volume"],a:1,e:"Spraying deliberately keeps attempts per account below the lockout threshold, which is exactly why standard lockout policy misses it."},
+ {id:21,obj:"2.4",q:"SSRF differs from CSRF in that:",c:["It requires no authentication","The server itself is tricked into making the request","It targets the database directly","It relies on DNS manipulation"],a:1,e:"CSRF abuses the victim user's authenticated session; SSRF abuses the server's network position, often to reach internal systems."},
+ {id:22,obj:"2.4",q:"Gaps in log data where entries should exist most likely indicate:",c:["Normal log rotation","An attacker removing evidence","Insufficient disk space","A time synchronization fault"],a:1,e:"Missing logs is a named indicator of compromise. Benign explanations exist, but an unexplained gap is treated as evidence of cleanup until proven otherwise."},
+ {id:23,obj:"2.4",q:"Which cryptographic attack forces two parties to negotiate a weaker protocol version?",c:["Collision","Birthday","Downgrade","Replay"],a:2,e:"A downgrade attack targets the system's willingness to accept weak options for compatibility, rather than breaking the strong cipher."},
+ {id:24,obj:"2.5",q:"A control permitting only explicitly approved applications to execute is:",c:["A deny list","An application allow list","A HIPS","Network segmentation"],a:1,e:"An allow list is restrictive by default \u2014 anything not named is blocked, which is considerably stronger than blocking known-bad."},
+ {id:25,obj:"2.5",q:"Which control inspects behaviour and can block a recognized attack arriving over a port you intentionally left open?",c:["Host-based firewall","Host-based intrusion prevention system","Access control list","Application allow list"],a:1,e:"A host firewall filters by port, address and protocol. A HIPS examines content and behaviour, so it can act on traffic the firewall legitimately permits."},
+ {id:26,obj:"2.5",q:"Retiring a server by wiping its data, revoking its certificates and removing it from inventory is:",c:["Isolation","Decommissioning","Hardening","Configuration enforcement"],a:1,e:"Decommissioning closes out a system's lifecycle. A forgotten but still-live server is unmonitored attack surface."}
+];
+
+var SCENARIOS = [
+ {id:1,obj:"2.1",q:"A systems administrator was terminated two weeks ago, but their VPN account was never disabled. Last night that account connected from a residential address and deleted several backup volumes. Which threat actor type is this?",c:["Nation-state actor","Unskilled attacker","Insider threat","Hacktivist"],a:2,e:"The actor was granted access by the organization and retained it. Insider threats include former staff whose access was never revoked \u2014 revenge is a primary motivator."},
+ {id:2,obj:"2.1",q:"A group defaces a government agency's public website with political slogans and simultaneously publishes internal correspondence they obtained. They claim responsibility openly and frame the action as protest. Which actor type best fits?",c:["Organized crime","Hacktivist","Nation-state actor","Shadow IT"],a:1,e:"Political motivation, public claim of responsibility, defacement plus data release for publicity \u2014 the hacktivist profile. Organized crime would want profit and silence."},
+ {id:3,obj:"2.1",q:"An attack on a logistics firm is traced to a group with custom tooling, multi-year undetected presence, and targeting focused on shipping manifests for defence contracts. No ransom is demanded. What does this profile suggest?",c:["Unskilled attacker using commodity tools","A nation-state actor conducting espionage","Ransomware operators who failed","An insider selling data"],a:1,e:"Custom tooling, long dwell time, strategically valuable intelligence and no financial demand all point to state-sponsored espionage \u2014 APT behaviour."},
+ {id:4,obj:"2.2",q:"A finance manager receives an email from a vendor's genuine address, referencing a real outstanding invoice by number, asking that remittance be sent to updated bank details. There are no links and no attachments. What is this?",c:["Mass-mailer phishing","Business email compromise","Smishing","A watering hole attack"],a:1,e:"A specific senior target, real reconnaissance, a genuine compromised account, and the deliberate absence of links or malware \u2014 the hallmarks of BEC."},
+ {id:5,obj:"2.2",q:"An employee gets a phone call from someone claiming to be IT support. The caller knows the employee's manager's name, their desk location and their laptop model, and asks them to read back a code just sent to their phone. What techniques are in play?",c:["Smishing and typosquatting","Vishing with pretexting","Pharming and DNS poisoning","A drop attack"],a:1,e:"The voice channel makes it vishing; the accumulated specific detail supporting the false identity is pretexting. Reconnaissance is what made the pretext convincing."},
+ {id:6,obj:"2.3",q:"A public web form passes user input directly into a database query without parameterization. An attacker submits input that closes the original query and appends their own statement, returning the full customer table. What is this?",c:["Cross-site scripting","SQL injection","Directory traversal","Buffer overflow"],a:1,e:"Untrusted input interpreted as database commands. The target is the server's data, which distinguishes it from XSS, where the victim is another user's browser."},
+ {id:7,obj:"2.3",q:"A hospital imaging system runs an operating system the vendor stopped patching three years ago, and it cannot be upgraded without replacing the scanner itself. The security team places it on an isolated VLAN with tightly restricted access. How is this best described?",c:["A zero-day being mitigated","Isolation acting as a compensating control for an end-of-life system","Configuration enforcement","Decommissioning"],a:1,e:"The vulnerability cannot be patched, so isolation substitutes for the control that should have addressed it. End-of-life means the vendor has ceased support entirely."},
+ {id:8,obj:"2.3",q:"A cloud customer reports that shortly after a new virtual machine was provisioned, they found fragments of unfamiliar data in allocated storage that appear to belong to a different organization. What vulnerability does this indicate?",c:["VM escape","Resource reuse","Misconfiguration of IAM roles","A supply chain compromise"],a:1,e:"Storage or memory released by one tenant and reallocated to another without being cleared. VM escape would mean breaking containment to reach the hypervisor, which is not what is described."},
+ {id:9,obj:"2.4",q:"Overnight, files across several departmental shares become inaccessible, their extensions altered, and a text file appears demanding payment. Which indicator of compromise is most directly present?",c:["Impossible travel","Resource inaccessibility","Out-of-cycle logging","Concurrent session usage"],a:1,e:"Resource inaccessibility is the named indicator, and it is the classic signature of ransomware executing across network shares."},
+ {id:10,obj:"2.4",q:"A user account records a successful login from Denver at 14:02 and another successful login from Frankfurt at 14:23 the same day. What does this indicate, and what is the most likely cause?",c:["Out-of-cycle logging from a scheduled task","Impossible travel, indicating stolen credentials","Concurrent session usage from a second device","Account lockout from a spraying attempt"],a:1,e:"No physical journey covers that distance in 21 minutes, so one session is not the legitimate user. Impossible travel is among the strongest single indicators of credential theft."},
+ {id:11,obj:"2.5",q:"A workstation is confirmed to be infected. The SOC disconnects it from the network but leaves it powered on and intact so that memory and disk can be examined. Which mitigation technique is this?",c:["Segmentation","Isolation","Decommissioning","Hardening"],a:1,e:"Isolation is the reactive step of cutting one system off from contact. Segmentation, by contrast, is the network division designed in ahead of time."},
+ {id:12,obj:"2.5",q:"Before deployment, every new laptop is built from a standard image with unnecessary services disabled, factory passwords replaced, endpoint protection installed, and the host firewall enabled. Collectively, what is this?",c:["Configuration enforcement","Hardening","Least privilege","Application allow listing"],a:1,e:"These are the named hardening techniques, applied proactively to shrink attack surface. Configuration enforcement would be the ongoing checking that the build has not since drifted."}
+];
+
+var OBJ_COLOR_CLASS = {"2.1":"badge-21","2.2":"badge-22","2.3":"badge-23","2.4":"badge-24","2.5":"badge-25"};
+var OBJ_VAR = {"2.1":"obj-21","2.2":"obj-22","2.3":"obj-23","2.4":"obj-24","2.5":"obj-25"};
+
+/* ---------- state ---------- */
+var STORE_KEY = "domain2drill:v1";
+function defaultState(){
+  return { cardStatus:{}, objStats:{"2.1":{c:0,t:0},"2.2":{c:0,t:0},"2.3":{c:0,t:0},"2.4":{c:0,t:0},"2.5":{c:0,t:0}} };
+}
+var state = loadState();
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultState();
+    var parsed = JSON.parse(raw);
+    var d = defaultState();
+    parsed.cardStatus = parsed.cardStatus || {};
+    parsed.objStats = parsed.objStats || d.objStats;
+    OBJ_LIST.forEach(function(o){ if(!parsed.objStats[o]) parsed.objStats[o] = {c:0,t:0}; });
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function recordAnswer(obj, correct){
+  state.objStats[obj].t++;
+  if(correct) state.objStats[obj].c++;
+  saveState();
+}
+function recordCard(id, status){
+  state.cardStatus[id] = status;
+  saveState();
+}
+
+/* ---------- tabs ---------- */
+var tabs = document.querySelectorAll(".tab");
+var panels = { flash:document.getElementById("panel-flash"), quiz:document.getElementById("panel-quiz"),
+  scenario:document.getElementById("panel-scenario"), progress:document.getElementById("panel-progress") };
+tabs.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    tabs.forEach(function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== btn.dataset.tab); });
+    if(btn.dataset.tab === "progress") renderProgress();
+  });
+});
+
+/* ---------- flashcards ---------- */
+var flashFilter = "all";
+var flashPool = FLASHCARDS.slice();
+var flashIdx = 0;
+
+function buildFlashFilters(){
+  var row = document.getElementById("flash-filters");
+  row.innerHTML = "";
+  var opts = [["all","All"],["2.1","2.1"],["2.2","2.2"],["2.3","2.3"],["2.4","2.4"],["2.5","2.5"],["weak","Still learning"]];
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "chip" + (flashFilter === o[0] ? " on" : "");
+    b.textContent = o[1];
+    b.addEventListener("click", function(){ flashFilter = o[0]; applyFlashFilter(); });
+    row.appendChild(b);
+  });
+}
+function applyFlashFilter(){
+  buildFlashFilters();
+  if(flashFilter === "all") flashPool = FLASHCARDS.slice();
+  else if(flashFilter === "weak") flashPool = FLASHCARDS.filter(function(c){ return state.cardStatus[c.id] === "learning"; });
+  else flashPool = FLASHCARDS.filter(function(c){ return c.obj === flashFilter; });
+  if(flashPool.length === 0) flashPool = [{id:0,obj:"2.1",t:"Nothing here yet",d:"No cards marked “still learning” in this filter — nice work. Try another filter."}];
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+}
+function renderFlashCard(){
+  var c = flashPool[flashIdx];
+  document.getElementById("flash-term").textContent = c.t;
+  document.getElementById("flash-def").innerHTML = c.d;
+  document.getElementById("flash-pos").textContent = (flashIdx+1) + " / " + flashPool.length;
+  var badge = document.getElementById("flash-badge");
+  badge.innerHTML = c.id ? '<span class="badge ' + OBJ_COLOR_CLASS[c.obj] + '">' + c.obj + '</span>' : "";
+}
+document.getElementById("flip-card").addEventListener("click", function(){
+  this.classList.toggle("flipped");
+});
+document.getElementById("btn-next").addEventListener("click", function(){
+  flashIdx = (flashIdx+1) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-prev").addEventListener("click", function(){
+  flashIdx = (flashIdx-1+flashPool.length) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-shuffle").addEventListener("click", function(){
+  for(var i=flashPool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=flashPool[i]; flashPool[i]=flashPool[j]; flashPool[j]=t; }
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-know").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"know"); }
+  document.getElementById("btn-next").click();
+});
+document.getElementById("btn-learning").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"learning"); }
+  document.getElementById("btn-next").click();
+});
+
+/* ---------- quiz + scenario shared engine ---------- */
+function makeEngine(kind, pool, roundSize){
+  var filter = "all";
+  var round = [];
+  var idx = 0;
+  var correctCount = 0;
+  var answered = false;
+
+  var filterRow = document.getElementById(kind+"-filters");
+  var startCard = document.getElementById(kind+"-start-card");
+  var runCard = document.getElementById(kind+"-run-card");
+  var endCard = document.getElementById(kind+"-end-card");
+  var startBtn = document.getElementById(kind+"-start");
+  var againBtn = document.getElementById(kind+"-again");
+  var nextBtn = document.getElementById(kind+"-next");
+  var objBadge = document.getElementById(kind+"-obj-badge");
+  var posEl = document.getElementById(kind+"-pos");
+  var qEl = document.getElementById(kind+"-q");
+  var optsEl = document.getElementById(kind+"-opts");
+  var explainEl = document.getElementById(kind+"-explain");
+  var scoreEl = document.getElementById(kind+"-score");
+  var noteEl = document.getElementById(kind+"-score-note");
+
+  function buildFilters(){
+    filterRow.innerHTML = "";
+    [["all","All"],["2.1","2.1"],["2.2","2.2"],["2.3","2.3"],["2.4","2.4"],["2.5","2.5"]].forEach(function(o){
+      var b = document.createElement("button");
+      b.className = "chip" + (filter === o[0] ? " on" : "");
+      b.textContent = o[1];
+      b.addEventListener("click", function(){ filter = o[0]; buildFilters(); });
+      filterRow.appendChild(b);
+    });
+  }
+  buildFilters();
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  function start(){
+    var source = filter === "all" ? pool : pool.filter(function(q){ return q.obj === filter; });
+    round = shuffled(source).slice(0, Math.min(roundSize, source.length));
+    idx = 0; correctCount = 0;
+    startCard.hidden = true; endCard.hidden = true; runCard.hidden = false;
+    renderQuestion();
+  }
+  startBtn.addEventListener("click", start);
+  againBtn.addEventListener("click", start);
+
+  function renderQuestion(){
+    answered = false;
+    var q = round[idx];
+    objBadge.innerHTML = '<span class="badge ' + OBJ_COLOR_CLASS[q.obj] + '">' + q.obj + " &middot; " + OBJ_TITLE[q.obj] + '</span>';
+    posEl.textContent = "Question " + (idx+1) + " / " + round.length;
+    qEl.textContent = q.q;
+    optsEl.innerHTML = "";
+    explainEl.hidden = true;
+    nextBtn.disabled = true;
+    q.c.forEach(function(choice, i){
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = choice;
+      b.addEventListener("click", function(){ selectAnswer(i); });
+      optsEl.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i){
+    if(answered) return;
+    answered = true;
+    var q = round[idx];
+    var isCorrect = (i === q.a);
+    if(isCorrect) correctCount++;
+    recordAnswer(q.obj, isCorrect);
+    var optBtns = optsEl.querySelectorAll(".opt");
+    optBtns.forEach(function(b, bi){
+      b.disabled = true;
+      if(bi === q.a) b.classList.add("correct");
+      else if(bi === i) b.classList.add("incorrect");
+    });
+    explainEl.hidden = false;
+    explainEl.textContent = (isCorrect ? "Correct. " : "Not quite. ") + q.e;
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", function(){
+    if(idx < round.length-1){ idx++; renderQuestion(); }
+    else finish();
+  });
+
+  function finish(){
+    runCard.hidden = true; endCard.hidden = false;
+    scoreEl.textContent = correctCount + " / " + round.length;
+    var pct = Math.round(100*correctCount/round.length);
+    var note = pct >= 80 ? "Strong round. Try a filtered objective to sharpen a weaker spot."
+      : pct >= 50 ? "Solid start — check the Progress tab to see which objective needs another pass."
+      : "Worth another round on this objective — flashcard it first, then come back.";
+    noteEl.textContent = note;
+  }
+}
+
+makeEngine("quiz", QUIZ, 10);
+makeEngine("scenario", SCENARIOS, 8);
+
+/* ---------- progress ---------- */
+function renderProgress(){
+  var objWrap = document.getElementById("obj-cards");
+  objWrap.innerHTML = "";
+  var worst = null;
+  OBJ_LIST.forEach(function(o){
+    var s = state.objStats[o];
+    var pct = s.t ? Math.round(100*s.c/s.t) : null;
+    if(pct !== null && s.t >= 3 && (worst === null || pct < worst.pct)) worst = {obj:o, pct:pct};
+    var div = document.createElement("div");
+    div.className = "objcard";
+    div.innerHTML =
+      '<div class="row1">' +
+        '<span class="badge ' + OBJ_COLOR_CLASS[o] + '">' + o + " &middot; " + OBJ_TITLE[o] + '</span>' +
+        '<span style="font-family:var(--font-display);font-size:13px;">' + (pct===null ? "Not started" : pct + "%") + '</span>' +
+      '</div>' +
+      '<div class="bar"><span style="width:' + (pct||0) + '%;background:var(--' + OBJ_VAR[o] + ');"></span></div>' +
+      '<div class="lede" style="margin:0;">' + s.c + ' correct of ' + s.t + ' answered</div>';
+    objWrap.appendChild(div);
+  });
+
+  var weakCard = document.getElementById("weak-card");
+  if(worst){
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><div class="weak">' +
+      '<strong>' + worst.obj + " &middot; " + OBJ_TITLE[worst.obj] + '</strong> is sitting at ' + worst.pct +
+      '% correct. Filter the Flashcards and Quiz tabs to ' + worst.obj + ' for a focused pass.</div>';
+  } else {
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><p class="lede">Answer at least 3 questions in an objective to unlock a weak-area callout.</p>';
+  }
+
+  var totalC = 0, totalT = 0;
+  OBJ_LIST.forEach(function(o){ totalC += state.objStats[o].c; totalT += state.objStats[o].t; });
+  var overall = document.getElementById("overall-stats");
+  overall.innerHTML =
+    '<div class="stattile"><div class="n">' + totalT + '</div><div class="l">Questions answered</div></div>' +
+    '<div class="stattile"><div class="n">' + (totalT? Math.round(100*totalC/totalT):0) + '%</div><div class="l">Overall accuracy</div></div>' +
+    '<div class="stattile"><div class="n">' + Object.keys(state.cardStatus).length + '</div><div class="l">Flashcards reviewed</div></div>';
+
+  var know = 0, learning = 0;
+  Object.keys(state.cardStatus).forEach(function(k){ if(state.cardStatus[k]==="know") know++; else learning++; });
+  var fstats = document.getElementById("flash-stats");
+  fstats.innerHTML =
+    '<div class="stattile"><div class="n">' + know + '</div><div class="l">Marked "Got it"</div></div>' +
+    '<div class="stattile"><div class="n">' + learning + '</div><div class="l">Marked "Still learning"</div></div>' +
+    '<div class="stattile"><div class="n">' + (FLASHCARDS.length-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
+}
+
+document.getElementById("btn-reset").addEventListener("click", function(){
+  if(confirm("Reset all Domain 2 Drill progress? This clears flashcard marks and quiz/scenario stats in this browser.")){
+    state = defaultState();
+    saveState();
+    renderProgress();
+  }
+});
+
+/* ---------- init ---------- */
+applyFlashFilter();
+})();
+</script>
+</body>
+</html>

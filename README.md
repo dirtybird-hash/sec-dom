@@ -1,30 +1,51 @@
-# sec-dom
+# Security+ Toolkit
 
-Study tools for CompTIA Security+ (SY0-701), built domain by domain alongside a Claude Docs study guide and hands-on Cisco Packet Tracer labs.
+Self-contained study tools for the CompTIA Security+ **SY0-701** exam, organized by exam domain.
 
-## What's here
+Open `index.html` in any browser — no build step, no dependencies, no server required. Every page is a single HTML file with its CSS and JavaScript inline. If you enable GitHub Pages on this repo, the whole thing works as a static site.
 
-- **`domain1-drill.html`** — an interactive, self-contained study helper for **Domain 1: General Security Concepts (12%)**. Open it directly in any browser (no build step, no dependencies). It includes:
-  - 60 flashcards across objectives 1.1–1.4, with per-card "got it" / "still learning" self-marking
-  - A 24-question multiple-choice quiz bank, filterable by sub-objective
-  - 12 PBQ-style scenario questions for exam-style situational judgment
-  - A progress dashboard tracking mastery per sub-objective and flagging the weakest area
-  - Progress is stored per-browser (localStorage) — no account or backend required
+## Contents
 
-  A live, hosted copy also runs as a Claude Artifact: https://claude.ai/artifact/V4c6LTwdzLraL6923m1FG2
+| File | What it is |
+|------|------------|
+| `index.html` | Domain selector and home page |
+| `domain1-notebook.html` | Domain 1 reference notes — searchable, tabbed by objective |
+| `domain1-match.html` | Domain 1 term-to-definition matching game |
+| `domain1-drill.html` | Domain 1 flashcards, quiz and scenario questions |
+| `domain2-notebook.html` | Domain 2 reference notes |
+| `domain2-match.html` | Domain 2 matching game |
+| `domain2-drill.html` | Domain 2 flashcards, quiz and scenario questions |
 
-## Roadmap
+**Notebook** — browse or search notes by topic. Definitions, comparison tables, and gotcha call-outs, filtered by objective, plus a dedicated tab collecting every easily-confused pair.
 
-This repo grows alongside the study plan:
+**Match** — a patch-panel matching game. Drag a term across to its definition, or tap one then the other. Timed, with best times saved per objective and round size.
 
-- [x] Domain 1 — General Security Concepts
-- [ ] Domain 2 — Threats, Vulnerabilities & Mitigations
-- [ ] Domain 3 — Security Architecture
-- [ ] Domain 4 — Security Operations
-- [ ] Domain 5 — Security Program Management and Oversight
-- [ ] Packet Tracer lab configs and break-it/fix-it challenges (built once each domain's concepts are locked in)
-- [ ] Loop back for CompTIA A+ and Network+ reinforcement material
+**Drill** — flashcards you mark as known or still learning, multiple-choice questions with explanations, scenario questions in the style of performance-based items, and a progress tab showing accuracy per objective so weak areas surface on their own.
 
-## Source material
+## Coverage
 
-Content is drawn from Professor Messer's SY0-701 course notes and cross-checked against the official CompTIA SY0-701 exam objectives.
+| Domain | Weight | Status |
+|--------|--------|--------|
+| 1.0 General Security Concepts | 12% | Built |
+| 2.0 Threats, Vulnerabilities, and Mitigations | 22% | Built |
+| 3.0 Security Architecture | 18% | Not started |
+| 4.0 Security Operations | 28% | Not started |
+| 5.0 Security Program Management and Oversight | 20% | Not started |
+
+34% of the exam by weight is currently covered.
+
+## Notes
+
+Progress in Match and Drill is stored in your browser's local storage. It stays on the device you used, is not synced anywhere, and clearing site data will reset it.
+
+Pages adapt to light and dark mode automatically, following your system setting, and are built to work down to phone width.
+
+## About the content
+
+These are original study notes written against CompTIA's published SY0-701 exam objectives. They are not transcriptions of any course, textbook, or lecture, and they do not reproduce exam questions. Where a concept came from coursework, it was read, understood, and then written up independently — the source material itself is not included in this repository.
+
+## Disclaimer
+
+Personal study material. This is **not** official CompTIA content and is not affiliated with, authorized by, or endorsed by CompTIA.
+
+CompTIA, Security+ and SY0-701 are trademarks of CompTIA, Inc. Accuracy is not guaranteed — verify anything you are unsure of against the current official exam objectives before test day.
