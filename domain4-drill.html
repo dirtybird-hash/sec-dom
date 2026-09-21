@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Flashcards, quiz and scenario practice for Security+ Domain 4.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 4 Drill</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#0d7b86; --accent-ink:#ffffff;
+  --obj-41:#2f5fd6; --obj-42:#1f8a5c; --obj-43:#a9791c; --obj-44:#b3437c; --obj-45:#0d7b86; --obj-46:#6d4bc4; --obj-47:#c0562b; --obj-48:#4f6b7a; --obj-49:#8a3fa0;
+  --correct:#1f8a5c; --incorrect:#c1382d;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#3fd0dd; --accent-ink:#06262a;
+    --obj-41:#7ea2ff; --obj-42:#55d69a; --obj-43:#e0b24d; --obj-44:#ea86b8; --obj-45:#3fd0dd; --obj-46:#a98cf0; --obj-47:#f08a5d; --obj-48:#9fb6c3; --obj-49:#d58ff0;
+    --correct:#55d69a; --incorrect:#ef6b5d;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#3fd0dd; --accent-ink:#06262a;
+  --obj-41:#7ea2ff; --obj-42:#55d69a; --obj-43:#e0b24d; --obj-44:#ea86b8; --obj-45:#3fd0dd; --obj-46:#a98cf0; --obj-47:#f08a5d; --obj-48:#9fb6c3; --obj-49:#d58ff0;
+  --correct:#55d69a; --incorrect:#ef6b5d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:760px;margin:0 auto;padding:14px 16px 0;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;margin-top:12px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:10px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.panel{display:flex;flex-direction:column;gap:16px;padding-top:18px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;}
+.lede{color:var(--text-muted);font-size:14px;line-height:1.5;margin:0;}
+.chiprow{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{font-family:var(--font-display);font-size:12px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-muted);border-radius:999px;padding:6px 11px;cursor:pointer;}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent);}
+.badge{font-family:var(--font-display);font-size:11px;letter-spacing:.02em;border-radius:999px;
+  padding:3px 9px;display:inline-block;color:#fff;}
+.badge-41{background:var(--obj-41);}
+.badge-42{background:var(--obj-42);}
+.badge-43{background:var(--obj-43);}
+.badge-44{background:var(--obj-44);}
+.badge-45{background:var(--obj-45);}
+.badge-46{background:var(--obj-46);}
+.badge-47{background:var(--obj-47);}
+.badge-48{background:var(--obj-48);}
+.badge-49{background:var(--obj-49);}
+button.primary{font-family:var(--font-body);font-weight:600;font-size:14px;background:var(--accent);
+  color:var(--accent-ink);border:none;border-radius:10px;padding:11px 18px;cursor:pointer;}
+button.ghost{font-family:var(--font-body);font-weight:600;font-size:14px;background:none;
+  color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 16px;cursor:pointer;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* Flashcards */
+.deck-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+  color:var(--text-muted);font-family:var(--font-display);}
+.flip-outer{perspective:1400px;}
+.flip-card{position:relative;min-height:220px;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;min-height:220px;transition:transform .45s;
+  transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);
+  padding:22px;display:flex;flex-direction:column;gap:12px;justify-content:center;}
+.flip-face.back{transform:rotateY(180deg);background:var(--surface-2);}
+.flip-term{font-family:var(--font-display);font-size:20px;line-height:1.3;}
+.flip-def{font-size:15px;line-height:1.55;}
+.flip-hint{font-size:11px;color:var(--text-muted);font-family:var(--font-display);text-align:center;}
+.deckctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.markrow{display:flex;gap:8px;justify-content:center;}
+.mark-know{background:var(--correct);color:#fff;border:none;}
+.mark-learning{background:var(--incorrect);color:#fff;border:none;}
+
+/* Quiz / scenario */
+.qmeta{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);}
+.qtext{font-size:16px;line-height:1.5;margin:10px 0 16px;}
+.opt{display:block;width:100%;text-align:left;font-size:14.5px;line-height:1.4;background:var(--surface-2);
+  border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px;cursor:pointer;
+  color:var(--text);}
+.opt:hover{border-color:var(--accent);}
+.opt.correct{background:color-mix(in srgb, var(--correct) 20%, var(--surface));border-color:var(--correct);}
+.opt.incorrect{background:color-mix(in srgb, var(--incorrect) 18%, var(--surface));border-color:var(--incorrect);}
+.opt:disabled{cursor:default;}
+.explain{font-size:13.5px;line-height:1.5;background:var(--surface-2);border-left:3px solid var(--accent);
+  padding:10px 12px;border-radius:0 8px 8px 0;margin-top:4px;}
+.roundend{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.roundend .score{font-family:var(--font-display);font-size:34px;}
+
+/* Progress */
+.objcard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface-2);}
+.objcard .row1{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.bar{height:8px;border-radius:999px;background:var(--border);overflow:hidden;}
+.bar > span{display:block;height:100%;border-radius:999px;}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+.stattile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stattile .n{font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums;}
+.stattile .l{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.weak{border:1px solid var(--incorrect);background:color-mix(in srgb, var(--incorrect) 10%, var(--surface));
+  border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;} .flip-term{font-size:18px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 4 Drill</h1>
+      <span class="sub">SY0-701 &middot; Security Operations &middot; 28%</span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="flash" role="tab">Flashcards</button>
+      <button class="tab" data-tab="quiz" role="tab">Quiz</button>
+      <button class="tab" data-tab="scenario" role="tab">Scenarios</button>
+      <button class="tab" data-tab="progress" role="tab">Progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-flash">
+    <p class="lede">116 term cards drawn from the Domain 4 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <div class="chiprow" id="flash-filters"></div>
+    <div class="card" style="gap:14px;display:flex;flex-direction:column;">
+      <div class="deck-meta">
+        <span id="flash-badge"></span>
+        <span id="flash-pos">1 / 116</span>
+      </div>
+      <div class="flip-outer">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face front">
+              <div class="flip-term" id="flash-term"></div>
+              <div class="flip-hint">tap to reveal</div>
+            </div>
+            <div class="flip-face back">
+              <div class="flip-def" id="flash-def"></div>
+              <div class="flip-hint">tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="markrow">
+        <button class="ghost mark-learning" id="btn-learning">Still learning</button>
+        <button class="ghost mark-know" id="btn-know">Got it</button>
+      </div>
+      <div class="deckctl">
+        <button class="ghost" id="btn-prev">&larr; Prev</button>
+        <button class="ghost" id="btn-shuffle">Shuffle</button>
+        <button class="ghost" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" hidden>
+    <p class="lede">Multiple-choice questions in the exam's own voice. Pick an objective or drill all of Domain 4 &mdash; up to 10 questions a round, with an explanation after every answer.</p>
+    <div class="chiprow" id="quiz-filters"></div>
+    <div class="card" id="quiz-start-card">
+      <button class="primary" id="quiz-start">Start round</button>
+    </div>
+    <div class="card" id="quiz-run-card" hidden>
+      <div class="qmeta">
+        <span id="quiz-obj-badge"></span>
+        <span id="quiz-pos"></span>
+      </div>
+      <div class="qtext" id="quiz-q"></div>
+      <div id="quiz-opts"></div>
+      <div class="explain" id="quiz-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="quiz-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="quiz-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="quiz-score"></div>
+      <p class="lede" id="quiz-score-note"></p>
+      <button class="primary" id="quiz-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- SCENARIOS -->
+  <section class="panel" id="panel-scenario" hidden>
+    <p class="lede">PBQ-style situational questions &mdash; longer setups, closer to what the real exam's performance-based questions feel like. "Which control/concept applies here?"</p>
+    <div class="chiprow" id="scenario-filters"></div>
+    <div class="card" id="scenario-start-card">
+      <button class="primary" id="scenario-start">Start round</button>
+    </div>
+    <div class="card" id="scenario-run-card" hidden>
+      <div class="qmeta">
+        <span id="scenario-obj-badge"></span>
+        <span id="scenario-pos"></span>
+      </div>
+      <div class="qtext" id="scenario-q"></div>
+      <div id="scenario-opts"></div>
+      <div class="explain" id="scenario-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="scenario-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="scenario-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="scenario-score"></div>
+      <p class="lede" id="scenario-score-note"></p>
+      <button class="primary" id="scenario-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="panel-progress" hidden>
+    <p class="lede">Mastery by sub-objective, combining every quiz and scenario answer you've given. Flashcard self-marks are tracked separately below.</p>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Mastery by objective</h3>
+      <div id="obj-cards" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="card" id="weak-card" style="gap:10px;display:flex;flex-direction:column;"></div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Overall</h3>
+      <div class="statgrid" id="overall-stats"></div>
+    </div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Flashcard recall</h3>
+      <div class="statgrid" id="flash-stats"></div>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span class="lede" style="margin:0;">Progress is stored in this browser only.</span>
+      <button class="ghost" id="btn-reset">Reset all progress</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"4.1":"Security Techniques","4.2":"Asset Management","4.3":"Vulnerability Management","4.4":"Alerting &amp; Monitoring","4.5":"Enterprise Capabilities","4.6":"Identity &amp; Access Mgmt","4.7":"Automation","4.8":"Incident Response","4.9":"Data Sources"};
+var OBJ_LIST = ["4.1","4.2","4.3","4.4","4.5","4.6","4.7","4.8","4.9"];
+
+var FLASHCARDS = [
+ {id:1,obj:"4.1",t:"Secure baseline",d:"The agreed set of security settings every instance of a system should carry. Lifecycle: establish &rarr; deploy &rarr; maintain."},
+ {id:2,obj:"4.1",t:"Hardening",d:"Reducing attack surface beyond the default configuration: patch, remove what isn't needed, change defaults, restrict access."},
+ {id:3,obj:"4.1",t:"Hardening ICS, embedded, RTOS, IoT",d:"These are hard to patch, so the main control is segmentation or isolation."},
+ {id:4,obj:"4.1",t:"Site survey",d:"Examines the RF environment &mdash; existing APs, channels, interference &mdash; before and after a wireless install. Repeat it periodically."},
+ {id:5,obj:"4.1",t:"Heat map",d:"A visual map of wireless signal strength across a floor plan, showing dead spots and signal leaking outside the building."},
+ {id:6,obj:"4.1",t:"MDM",d:"Mobile device management: central policy for phones and tablets &mdash; PINs, app control, encryption, containerization, remote wipe."},
+ {id:7,obj:"4.1",t:"BYOD",d:"Bring your own device: the employee owns it. Cheapest, hardest to control; protect company data and user privacy."},
+ {id:8,obj:"4.1",t:"COPE",d:"Corporate-owned, personally enabled: the company owns and controls the device, but personal use is allowed."},
+ {id:9,obj:"4.1",t:"CYOD",d:"Choose your own device: company-owned, but the user picks the model from an approved list."},
+ {id:10,obj:"4.1",t:"WPA3 SAE",d:"Simultaneous Authentication of Equals: the \"dragonfly\" key exchange. No crackable hash is sent, so offline brute force of the handshake is defeated."},
+ {id:11,obj:"4.1",t:"GCMP",d:"Galois/Counter Mode Protocol, the encryption WPA3 uses: confidentiality plus integrity (GMAC). WPA2 used CCMP."},
+ {id:12,obj:"4.1",t:"WPA3-Enterprise",d:"Individual credentials checked through 802.1X against a RADIUS/AAA server, rather than one shared passphrase."},
+ {id:13,obj:"4.1",t:"AAA",d:"Authentication (prove who you are), authorization (what you may access), accounting (record of the session)."},
+ {id:14,obj:"4.1",t:"RADIUS",d:"Remote Authentication Dial-In User Service: the common AAA protocol for Wi-Fi, VPN and device logins. UDP 1812/1813."},
+ {id:15,obj:"4.1",t:"EAP-TLS vs. PEAP",d:"Certificates on both client and server (strongest), versus a TLS tunnel protecting a password exchange."},
+ {id:16,obj:"4.1",t:"Input validation",d:"Checking every input against the expected type, length, format and range, and rejecting the rest. Core defence against injection."},
+ {id:17,obj:"4.1",t:"Secure cookie",d:"A cookie flagged to be sent only over HTTPS. HttpOnly hides it from scripts. Never store sensitive data in cookies."},
+ {id:18,obj:"4.1",t:"Static code analysis",d:"SAST: scanning source code without running it. Finds unchecked buffers and injectable queries; misses logic flaws; has false positives."},
+ {id:19,obj:"4.1",t:"Code signing",d:"Developer signs code with a CA-backed key; proves who published it and that it hasn't changed. Doesn't prove it's safe."},
+ {id:20,obj:"4.1",t:"Sandboxing",d:"Running code in isolation with access to only what it needs &mdash; mobile app sandboxes, malware detonation, dev environments."},
+ {id:21,obj:"4.2",t:"Procurement as a control",d:"A formal buying process lets IT and security vet what's bought before it's on the network. Informal buying creates shadow IT."},
+ {id:22,obj:"4.2",t:"Asset ownership",d:"A named person or team accountable for each asset. Unowned assets don't get patched."},
+ {id:23,obj:"4.2",t:"Inventory vs. enumeration",d:"The record of what you own, versus actively discovering what's really on the network."},
+ {id:24,obj:"4.2",t:"Sanitization",d:"Removing data so it can't be recovered &mdash; secure wipe or cryptographic erase. The device can be reused."},
+ {id:25,obj:"4.2",t:"Destruction",d:"Physically ruining media: shredding, pulverizing, drilling, incinerating, degaussing."},
+ {id:26,obj:"4.2",t:"Degaussing",d:"Erasing magnetic media with a strong magnetic field. Useless on SSDs and flash."},
+ {id:27,obj:"4.2",t:"Certificate of destruction",d:"Documented proof from a disposal vendor that media was destroyed &mdash; the \"certification\" step."},
+ {id:28,obj:"4.2",t:"Data retention",d:"How long data must be kept, often set by regulation, and when it must be disposed of."},
+ {id:29,obj:"4.3",t:"Vulnerability scan",d:"Automated check for known weaknesses. Identifies, does not exploit. Run from inside and outside."},
+ {id:30,obj:"4.3",t:"Dynamic analysis / fuzzing",d:"Testing a running application with large volumes of random or malformed input to find crashes and missing validation."},
+ {id:31,obj:"4.3",t:"Package monitoring",d:"Tracking third-party libraries and packages &mdash; genuine source, and alerts when a dependency has a known vulnerability."},
+ {id:32,obj:"4.3",t:"OSINT",d:"Open-source intelligence: threat information from public sources &mdash; researchers, forums, social media, government advisories."},
+ {id:33,obj:"4.3",t:"Information-sharing organization",d:"Groups (such as sector ISACs) whose members share threat indicators with one another."},
+ {id:34,obj:"4.3",t:"Dark web monitoring",d:"Watching hidden marketplaces and forums for your organization's stolen data, credentials or mentions."},
+ {id:35,obj:"4.3",t:"Penetration test",d:"Simulated attack that actually exploits vulnerabilities, run under written rules of engagement."},
+ {id:36,obj:"4.3",t:"Rules of engagement",d:"The pen test's written scope: systems in and out of bounds, hours, techniques, contacts, data handling."},
+ {id:37,obj:"4.3",t:"Lateral movement vs. pivot",d:"Spreading from system to system inside the network, versus using a compromised host as a relay to reach systems behind it."},
+ {id:38,obj:"4.3",t:"Responsible disclosure / bug bounty",d:"A process for outsiders to report vulnerabilities privately so they're fixed before going public; a bug bounty pays for valid reports."},
+ {id:39,obj:"4.3",t:"CVE",d:"Common Vulnerabilities and Exposures: the unique public ID for a known vulnerability. It names the flaw."},
+ {id:40,obj:"4.3",t:"CVSS",d:"Common Vulnerability Scoring System: 0&ndash;10 severity. 7.0&ndash;8.9 high, 9.0&ndash;10 critical. It scores the flaw."},
+ {id:41,obj:"4.3",t:"Exposure factor",d:"The percentage of an asset's value lost if a vulnerability is exploited."},
+ {id:42,obj:"4.3",t:"Environmental variables",d:"Context that changes priority: internet-facing vs. isolated, number of users, business criticality, existing controls."},
+ {id:43,obj:"4.3",t:"Risk tolerance",d:"How much risk the organization will accept while a fix is tested. Low tolerance means faster patching."},
+ {id:44,obj:"4.3",t:"Compensating control",d:"A substitute when you can't patch: disable the service, firewall it off, ACLs, IPS rule."},
+ {id:45,obj:"4.3",t:"Exceptions and exemptions",d:"A formal, approved decision to accept a vulnerability's risk for now, with a review date."},
+ {id:46,obj:"4.3",t:"Validation of remediation",d:"Proving the fix worked: rescanning, auditing a sample, and verification from the patch system."},
+ {id:47,obj:"4.4",t:"Log aggregation",d:"Collecting logs from many devices and formats into one place so they can be searched and correlated."},
+ {id:48,obj:"4.4",t:"Alert tuning",d:"Adjusting rules and thresholds to cut false positives without creating false negatives."},
+ {id:49,obj:"4.4",t:"Quarantine (alert response)",d:"Isolating an affected system so the attacker can't spread while you investigate."},
+ {id:50,obj:"4.4",t:"Archiving",d:"Keeping logs long term, because breaches often go unnoticed for months and regulations may require it."},
+ {id:51,obj:"4.4",t:"SCAP",d:"Security Content Automation Protocol (NIST): a common language for vulnerabilities and config checks, enabling automated find-and-fix."},
+ {id:52,obj:"4.4",t:"Benchmarks",d:"Published best-practice configurations per OS/app/cloud &mdash; e.g. CIS Benchmarks. A ready-made baseline."},
+ {id:53,obj:"4.4",t:"Agent vs. agentless",d:"Installed and always running (works off-network, needs updates), versus runs temporarily with nothing to maintain."},
+ {id:54,obj:"4.4",t:"SIEM",d:"Security information and event management: central logs, cross-source correlation, alerting, long-term look-back."},
+ {id:55,obj:"4.4",t:"SNMP trap",d:"A device pushing an alert to the manager unprompted when a threshold is crossed. UDP 162 (polling uses 161)."},
+ {id:56,obj:"4.4",t:"NetFlow",d:"Flow records &mdash; who talked to whom, on what port, how much &mdash; sent from a probe to a collector. Metadata, not payload."},
+ {id:57,obj:"4.5",t:"Implicit deny",d:"The invisible last rule of a firewall: anything no rule allowed is dropped."},
+ {id:58,obj:"4.5",t:"Rule processing order",d:"Top-down, first match wins. Specific rules go above general ones."},
+ {id:59,obj:"4.5",t:"Screened subnet",d:"A separate segment for internet-facing servers, so a compromise there doesn't reach the internal network. The old DMZ."},
+ {id:60,obj:"4.5",t:"Stateless vs. stateful",d:"Judges each packet alone, versus tracking connections and allowing return traffic automatically."},
+ {id:61,obj:"4.5",t:"Agent-based web filter",d:"Filtering software on the device, so it works on any network &mdash; the answer for remote users."},
+ {id:62,obj:"4.5",t:"Content categorization",d:"Grouping websites into categories so filter policy is written per category, not per site."},
+ {id:63,obj:"4.5",t:"URL reputation",d:"A risk score per site, from trustworthy to high risk; block anything below a threshold."},
+ {id:64,obj:"4.5",t:"DNS filtering",d:"The resolver refuses to resolve malicious domains, protecting every application including malware C2."},
+ {id:65,obj:"4.5",t:"Group Policy",d:"Windows/AD central configuration: password policy, lockout, software restrictions, pushed as GPOs to domains and OUs."},
+ {id:66,obj:"4.5",t:"SELinux",d:"Security-Enhanced Linux: adds mandatory access control, confining every process to what policy allows. Enforcing/permissive/disabled."},
+ {id:67,obj:"4.5",t:"SFTP vs. FTPS",d:"File transfer over SSH (port 22), versus FTP wrapped in TLS (989/990)."},
+ {id:68,obj:"4.5",t:"Secure protocol ports",d:"SSH 22, HTTPS 443, LDAPS 636, IMAPS 993, POP3S 995, SNMPv3 161/162, RDP 3389."},
+ {id:69,obj:"4.5",t:"SPF",d:"Sender Policy Framework: a DNS TXT record listing the servers allowed to send mail for the domain."},
+ {id:70,obj:"4.5",t:"DKIM",d:"DomainKeys Identified Mail: the sending server signs each message; the receiver verifies it with the public key in DNS."},
+ {id:71,obj:"4.5",t:"DMARC",d:"Policy for mail failing SPF/DKIM &mdash; none, quarantine or reject &mdash; plus reports back to the domain owner."},
+ {id:72,obj:"4.5",t:"File integrity monitoring",d:"Alerts when files that shouldn't change (OS binaries, config) do, by comparing against known-good hashes. Tripwire, SFC."},
+ {id:73,obj:"4.5",t:"NAC posture assessment",d:"Checking a device's health (AV, patches, encryption) before admitting it; failures go to a remediation VLAN."},
+ {id:74,obj:"4.5",t:"Persistent vs. dissolvable agent",d:"Permanently installed NAC agent, versus one that runs at connect and removes itself."},
+ {id:75,obj:"4.5",t:"EDR",d:"Endpoint detection and response: behavioural and signature detection on the endpoint with automated response and root-cause analysis."},
+ {id:76,obj:"4.5",t:"XDR",d:"Extended detection and response: correlates endpoint, network, cloud, email and identity data into single incidents."},
+ {id:77,obj:"4.5",t:"User behavior analytics",d:"Baselines normal user and device behaviour and flags deviations &mdash; the insider-threat tool."},
+ {id:78,obj:"4.6",t:"De-provisioning",d:"Removing access promptly when someone leaves or changes role. Slow de-provisioning leaves ex-employees with access."},
+ {id:79,obj:"4.6",t:"Privilege creep",d:"Accumulating access with each role change and never losing the old rights."},
+ {id:80,obj:"4.6",t:"Identity proofing",d:"Confirming a person is who they claim before issuing credentials &mdash; ID documents, in-person checks, knowledge-based questions."},
+ {id:81,obj:"4.6",t:"Attestation",d:"Formal confirmation that access is still correct &mdash; typically managers periodically signing off on their team's permissions."},
+ {id:82,obj:"4.6",t:"SSO vs. federation",d:"Log in once for many systems, versus trusting identities managed by another organization."},
+ {id:83,obj:"4.6",t:"LDAP",d:"Lightweight Directory Access Protocol: queries directories (X.500-based, CN/OU/DC names). Port 389; LDAPS 636."},
+ {id:84,obj:"4.6",t:"SAML",d:"XML-based authentication/SSO: the identity provider issues a signed assertion the web app trusts."},
+ {id:85,obj:"4.6",t:"OAuth",d:"Delegated authorization: lets an app access your data with limited scope via tokens. Authentication comes from OpenID Connect."},
+ {id:86,obj:"4.6",t:"MAC",d:"Mandatory access control: labels and clearances set by administrators; users can't change or share access."},
+ {id:87,obj:"4.6",t:"DAC",d:"Discretionary access control: the resource owner decides who gets access."},
+ {id:88,obj:"4.6",t:"RBAC vs. rule-based",d:"Access by job role/group, versus admin-defined conditions applied to everyone (ACLs, time windows)."},
+ {id:89,obj:"4.6",t:"ABAC",d:"Attribute-based access control: many attributes evaluated together &mdash; user, device, location, time, data sensitivity."},
+ {id:90,obj:"4.6",t:"MFA factor categories",d:"Something you know, have, are; somewhere you are. MFA needs different categories."},
+ {id:91,obj:"4.6",t:"FAR, FRR, CER",d:"Wrong person accepted; right person rejected; the crossover point where they're equal, used to compare biometric systems."},
+ {id:92,obj:"4.6",t:"Security key",d:"Hardware (USB/NFC, FIDO2) holding a private key. Phishing-resistant: it only answers the genuine site."},
+ {id:93,obj:"4.6",t:"Password age vs. expiration",d:"Minimum age stops cycling back to an old password; expiration is the maximum lifetime."},
+ {id:94,obj:"4.6",t:"Passwordless",d:"Authentication with no shared secret &mdash; biometrics on a trusted device, security keys, passkeys."},
+ {id:95,obj:"4.6",t:"Just-in-time permissions",d:"No standing admin rights; elevation is granted on request for a limited time, then removed."},
+ {id:96,obj:"4.6",t:"Password vaulting",d:"Privileged credentials held in an encrypted vault, checked out under policy, logged and often rotated."},
+ {id:97,obj:"4.6",t:"Ephemeral credentials",d:"Temporary credentials created for one session and destroyed after, so the primary credential is never exposed."},
+ {id:98,obj:"4.7",t:"Guard rails",d:"Automated checks that stop harmful actions, like refusing a delete that would wipe a critical volume."},
+ {id:99,obj:"4.7",t:"Workforce multiplier",d:"Automation lets a small team do the work of a large one."},
+ {id:100,obj:"4.7",t:"Technical debt",d:"Scripts that patch symptoms pile up and hide the real problem &mdash; a named downside of automation."},
+ {id:101,obj:"4.7",t:"Automation downsides",d:"Complexity, cost, single point of failure, technical debt, ongoing supportability."},
+ {id:102,obj:"4.8",t:"IR process order",d:"Preparation, detection, analysis, containment, eradication, recovery, lessons learned."},
+ {id:103,obj:"4.8",t:"Precursor vs. indicator",d:"A sign an attack may come (a scan in the logs), versus a sign one has happened (AV detection, IPS alert)."},
+ {id:104,obj:"4.8",t:"Containment",d:"Stopping the spread &mdash; isolate hosts, disable accounts, block addresses &mdash; before eradication."},
+ {id:105,obj:"4.8",t:"Lessons learned",d:"Post-incident review held soon after: what happened, how the response went, what to change."},
+ {id:106,obj:"4.8",t:"Root cause analysis",d:"Working back to how the attacker got in and which control failed, so it doesn't happen again."},
+ {id:107,obj:"4.8",t:"Threat hunting",d:"Proactively searching for attackers already inside who haven't triggered alerts."},
+ {id:108,obj:"4.8",t:"Legal hold",d:"Instruction from legal counsel to preserve specific data for litigation; overrides normal deletion."},
+ {id:109,obj:"4.8",t:"Chain of custody",d:"Documented record of everyone who handled evidence, proving it wasn't altered. Hashes prove digital integrity."},
+ {id:110,obj:"4.8",t:"Order of volatility",d:"Collect the most volatile evidence first: registers/cache, RAM, disk, remote logs, backups."},
+ {id:111,obj:"4.8",t:"E-discovery",d:"Collecting and producing electronically stored information for legal proceedings. It gathers; forensics analyzes."},
+ {id:112,obj:"4.9",t:"Firewall logs",d:"Source/destination IP, ports, allow or block; NGFWs add application, user and URL category."},
+ {id:113,obj:"4.9",t:"OS-specific security logs",d:"Authentication successes and failures, privilege use, changes to critical files and services."},
+ {id:114,obj:"4.9",t:"Metadata",d:"Data about data: email headers, photo GPS and device model, document author, browser details."},
+ {id:115,obj:"4.9",t:"Packet capture",d:"The full contents of network traffic &mdash; the only source that shows exactly what was sent."},
+ {id:116,obj:"4.9",t:"Dashboards",d:"Real-time, at-a-glance status, often on the SOC wall. Current state, not long-term history."}
+];
+
+var QUIZ = [
+ {id:1,obj:"4.1",q:"An organization has defined its server security settings and pushed them to every server. What must happen next in the baseline lifecycle?",c:["Establish","Deploy","Maintain","Decommission"],a:2,e:"Establish, deploy, maintain. Once deployed, baselines must be audited for drift and updated as new vulnerabilities and versions appear."},
+ {id:2,obj:"4.1",q:"Which WPA3 feature prevents an attacker from capturing the handshake and brute-forcing the passphrase offline?",c:["GCMP","SAE","TKIP","WPS"],a:1,e:"Simultaneous Authentication of Equals derives keys without sending a crackable hash, so there is nothing useful to capture and attack offline."},
+ {id:3,obj:"4.1",q:"A company buys phones, lets employees pick from three approved models, and allows personal use. Which deployment model is this?",c:["BYOD","COPE","CYOD","VDI"],a:2,e:"Company-owned and the user chooses the model: choose your own device. COPE is company-owned without the choice of model."},
+ {id:4,obj:"4.1",q:"A developer wants users to be able to confirm that an installer came from the company and hasn't been altered. What should they use?",c:["Input validation","Code signing","Static code analysis","Sandboxing"],a:1,e:"Code signing proves the publisher's identity and the code's integrity. It does not prove the code is free of flaws."},
+ {id:5,obj:"4.1",q:"Which cookie attribute ensures the cookie is sent only over encrypted connections?",c:["HttpOnly","SameSite","Secure","Expires"],a:2,e:"The Secure attribute restricts the cookie to HTTPS. HttpOnly hides it from scripts; SameSite limits cross-site sending."},
+ {id:6,obj:"4.2",q:"Old laptops will be donated to a school. Which disposal approach lets the hardware be reused while protecting company data?",c:["Degaussing","Shredding","Sanitization","Incineration"],a:2,e:"Sanitization (secure wipe or cryptographic erase) removes the data and leaves the device usable. The other options destroy it."},
+ {id:7,obj:"4.2",q:"A disposal vendor shreds 500 hard drives for a bank. What should the bank obtain as proof?",c:["A chain of custody form","A certificate of destruction","A legal hold","An asset tag"],a:1,e:"Certification &mdash; a certificate of destruction &mdash; documents that the media was actually destroyed."},
+ {id:8,obj:"4.2",q:"A network scan finds 40 devices that don't appear in the asset records. Which activity found them?",c:["Inventory","Enumeration","Classification","Procurement"],a:1,e:"Enumeration actively discovers what's present. The inventory is the record, which is exactly what those devices were missing from."},
+ {id:9,obj:"4.3",q:"A tester sends thousands of malformed inputs to a running web application to see what crashes it. What is this?",c:["Static analysis","Fuzzing","Package monitoring","Code signing"],a:1,e:"Fuzzing is dynamic analysis: random or malformed input to a running program, looking for crashes and missing validation."},
+ {id:10,obj:"4.3",q:"Which of these identifies a specific vulnerability rather than rating its severity?",c:["CVSS","CVE","Exposure factor","Risk tolerance"],a:1,e:"CVE assigns the unique identifier (it names the flaw). CVSS provides the 0&ndash;10 severity score."},
+ {id:11,obj:"4.3",q:"A scanner reports a critical vulnerability. On investigation, the affected service isn't installed on that host. How is this finding classified?",c:["True positive","False negative","False positive","Informational"],a:2,e:"Reported but not actually present is a false positive. A false negative is a real vulnerability the scanner missed."},
+ {id:12,obj:"4.3",q:"A vulnerable legacy system can't be patched, so the team blocks its vulnerable port at the firewall and restricts access with an ACL. What have they applied?",c:["An exception","A compensating control","Cyber insurance","Rescanning"],a:1,e:"Compensating controls reduce the risk when the real fix can't be applied. An exception would accept the risk without mitigating it."},
+ {id:13,obj:"4.4",q:"A switch sends an alert to the management station the moment its error counter crosses a threshold, without being asked. What is this?",c:["SNMP polling","An SNMP trap","NetFlow","Syslog archiving"],a:1,e:"A trap is pushed by the device (UDP 162). Polling is the manager asking on a schedule (UDP 161)."},
+ {id:14,obj:"4.4",q:"Which NIST framework lets scanners and patch systems describe vulnerabilities in a common format so remediation can be automated?",c:["CVSS","SCAP","STIX","CIS"],a:1,e:"The Security Content Automation Protocol gives tools a shared language, enabling automatic detection and remediation."},
+ {id:15,obj:"4.4",q:"Analysts are ignoring the SIEM because it raises hundreds of alerts a day, most harmless. What is needed?",c:["Log archiving","Alert tuning","More agents","A packet capture"],a:1,e:"Alert tuning adjusts rules and thresholds to cut false positives while keeping real detections."},
+ {id:16,obj:"4.4",q:"Which data source shows which hosts communicated, over what ports and how much, without capturing contents?",c:["Packet capture","NetFlow","FIM","DLP"],a:1,e:"NetFlow records flow metadata. A packet capture records the full contents."},
+ {id:17,obj:"4.5",q:"A rule allowing all outbound traffic sits above a rule denying outbound SMB, and SMB still leaves the network. Why?",c:["Implicit deny","Rule order &mdash; first match wins","The firewall is stateless","SMB uses UDP"],a:1,e:"Rules are processed top-down and the first match wins, so the broad allow is matched before the deny is ever reached."},
+ {id:18,obj:"4.5",q:"Sales staff work from hotels and home. Which web filtering approach still applies to them?",c:["Centralized proxy","Agent-based filtering","Perimeter firewall URL filtering","Content categorization on the core switch"],a:1,e:"An agent on the device enforces policy on any network. Proxy and firewall filtering only cover traffic that passes through them."},
+ {id:19,obj:"4.5",q:"Which email record tells receiving servers to quarantine or reject mail that fails authentication, and sends reports to the domain owner?",c:["SPF","DKIM","DMARC","MX"],a:2,e:"DMARC sets the policy and reporting on top of SPF and DKIM."},
+ {id:20,obj:"4.5",q:"An administrator wants every Linux service confined to only the files and ports it needs, regardless of file ownership. What should they enable?",c:["Group Policy","SELinux","FIM","DAC"],a:1,e:"SELinux adds mandatory access control to Linux, confining processes by central policy rather than owner permissions."},
+ {id:21,obj:"4.5",q:"Which tool alerts when critical OS binaries change, by comparing them against known-good hashes?",c:["DLP","FIM","UBA","NAC"],a:1,e:"File integrity monitoring watches files that shouldn't change and alerts on modification."},
+ {id:22,obj:"4.5",q:"An employee's account starts downloading large volumes of files at 3 a.m. from systems they've never used. No malware signature fires. What would most likely detect this?",c:["Antivirus","User behavior analytics","SNMP","DNS filtering"],a:1,e:"UBA baselines normal behaviour and flags deviations like unusual hours, volumes and resources."},
+ {id:23,obj:"4.6",q:"A user clicks \"Allow\" to let a scheduling app read their Google calendar without giving it their password. Which protocol is this?",c:["SAML","LDAP","OAuth","RADIUS"],a:2,e:"OAuth provides delegated authorization via tokens with limited scope."},
+ {id:24,obj:"4.6",q:"Access to files is controlled by labels such as Secret and Top Secret, and users cannot change them. Which model is this?",c:["DAC","RBAC","MAC","ABAC"],a:2,e:"Mandatory access control uses administrator-set labels and clearances that users can't override."},
+ {id:25,obj:"4.6",q:"A login requires a password and an answer to a security question. How many authentication factors is that?",c:["One","Two","Three","Zero"],a:0,e:"Both are something you know, so it is a single factor used twice."},
+ {id:26,obj:"4.6",q:"Admins have no standing privileges; they request elevation, receive temporary rights for two hours, and lose them automatically. What is this?",c:["Password vaulting","Just-in-time permissions","Federation","Attestation"],a:1,e:"Just-in-time permissions grant privilege only when needed and remove it afterwards."},
+ {id:27,obj:"4.6",q:"Why set a minimum password age?",c:["To force regular changes","To stop users cycling back to an old password immediately","To lengthen passwords","To enable passwordless login"],a:1,e:"Without a minimum age, a user can change the password repeatedly until history lets them reuse the original."},
+ {id:28,obj:"4.7",q:"Which of these is a named risk of heavy automation?",c:["Workforce multiplier","Technical debt","Enforcing baselines","Reaction time"],a:1,e:"Technical debt, complexity, cost, single point of failure and ongoing supportability are the downsides. The others are benefits."},
+ {id:29,obj:"4.7",q:"A script refuses to run a deletion that would remove a production database volume, even when an admin requests it. What is this an example of?",c:["Escalation","Guard rails","Ticket creation","Continuous integration"],a:1,e:"Guard rails are automated checks that stop harmful actions."},
+ {id:30,obj:"4.8",q:"Malware is confirmed on three workstations. What should happen before the malware is removed?",c:["Lessons learned","Containment","Recovery","Preparation"],a:1,e:"Containment stops the spread first; eradication follows."},
+ {id:31,obj:"4.8",q:"Which evidence should be collected first from a running compromised server?",c:["Hard drive image","Memory (RAM)","Backup tapes","Remote logs"],a:1,e:"Order of volatility: registers and cache, then RAM, then disk, then remote logs and backups."},
+ {id:32,obj:"4.8",q:"Legal counsel instructs IT to preserve all email for three executives because a lawsuit is expected. What is this?",c:["Chain of custody","E-discovery","Legal hold","Data retention policy"],a:2,e:"A legal hold requires specific data to be preserved, overriding normal deletion."},
+ {id:33,obj:"4.8",q:"A security team searches for signs of attackers already inside the network, based on new threat intelligence, before any alert has fired. What is this?",c:["Incident response","Threat hunting","Root cause analysis","Tabletop exercise"],a:1,e:"Threat hunting is proactive; incident response reacts to a detected event."},
+ {id:34,obj:"4.9",q:"An investigator needs to know exactly what data a compromised host sent to an external server over an unencrypted protocol. Which source provides it?",c:["NetFlow","Firewall logs","Packet capture","Dashboard"],a:2,e:"Only a packet capture records the full contents. The others show that a connection happened, not what was in it."},
+ {id:35,obj:"4.9",q:"A photo posted online reveals the GPS coordinates where it was taken. What type of data is this?",c:["Application log","Metadata","Endpoint log","Automated report"],a:1,e:"Metadata is data about data &mdash; including photo location, device model and timestamps."},
+ {id:36,obj:"4.9",q:"Which log would show repeated failed logins against a Windows server's local accounts?",c:["Firewall log","OS-specific security log","NetFlow","Application log"],a:1,e:"The OS security log (the Windows Security event log) records authentication successes and failures."}
+];
+
+var SCENARIOS = [
+ {id:1,obj:"4.1",q:"A retailer's wireless network reaches well into the public car park, and a survey shows two access points the IT team didn't install. The network uses one shared passphrase known to 300 staff. What combination best addresses this?",c:["Increase transmit power and change the passphrase monthly","Adjust AP placement using a heat map, remove the rogue APs, and move to WPA3-Enterprise with 802.1X","Hide the SSID and enable MAC filtering","Switch to an open network with a captive portal"],a:1,e:"The heat map fixes signal leakage, the survey found the rogue APs, and Enterprise mode gives each person their own credentials so leavers can be revoked individually."},
+ {id:2,obj:"4.1",q:"A hospital's infusion pumps run an embedded OS the vendor patches once a year, and they can't run endpoint agents. The security team must reduce risk now. What is the best approach?",c:["Install EDR on each pump","Place the pumps on an isolated segment with firewall rules allowing only required traffic","Replace them with general-purpose tablets","Disable the pumps until patched"],a:1,e:"Embedded devices that can't be hardened much are protected by segmentation and restrictive firewalling."},
+ {id:3,obj:"4.2",q:"A company decommissions 200 SSDs holding customer financial data. The team proposes degaussing them before recycling. What's wrong with the plan?",c:["Nothing &mdash; degaussing is the strongest method","Degaussing doesn't work on SSDs; use cryptographic erase or physical destruction with a certificate of destruction","SSDs don't retain data after power-off","Degaussing is too slow for 200 drives"],a:1,e:"Degaussing only affects magnetic media. SSDs need secure/cryptographic erase or physical destruction, documented by certification."},
+ {id:4,obj:"4.3",q:"Two vulnerabilities are found: CVSS 9.8 on an isolated lab server with no network access, and CVSS 7.5 on the internet-facing payment portal. Staff can patch one today. Which comes first, and why?",c:["The 9.8, because the score is higher","The 7.5, because environmental variables &mdash; internet exposure and business impact &mdash; make it the greater real risk","Neither &mdash; request an exception","Both need a penetration test first"],a:1,e:"CVSS rates the flaw in general. Environmental variables and organizational impact decide priority in your environment."},
+ {id:5,obj:"4.3",q:"A manufacturing controller has a known vulnerability, but the vendor offers no patch and replacing it would halt production. The risk committee reviews it. What is the appropriate formal outcome if they decide to accept it for now?",c:["Ignore it until the vendor patches","A documented exception with compensating controls and a review date","Rescan weekly and do nothing else","Transfer it with cyber insurance only"],a:1,e:"Exceptions are formal, approved and time-bound, ideally paired with compensating controls such as segmentation."},
+ {id:6,obj:"4.4",q:"A breach discovered today began nine months ago. Investigators find the firewall and authentication logs were only kept for 30 days. Which monitoring activity failed?",c:["Alerting","Archiving","Scanning","Alert tuning"],a:1,e:"Archiving keeps logs long enough to investigate breaches that go undetected for months, and may be legally required."},
+ {id:7,obj:"4.5",q:"Users receive convincing emails appearing to come from the company's own CEO domain. The domain has an SPF record but no DKIM and no DMARC. What should be added so receiving servers reject spoofed messages and the company sees reports of abuse?",c:["A second SPF record","DKIM signing plus a DMARC policy of reject with a reporting address","An MX record for the CEO","A web filter blocking the CEO's domain"],a:1,e:"DKIM adds a verifiable signature, and DMARC tells receivers what to do on failure and sends reports back."},
+ {id:8,obj:"4.5",q:"A contractor's laptop connects to the wired network. It is missing six months of patches and its antivirus is disabled, but the contractor's credentials are valid. What should happen?",c:["Allow full access, since authentication succeeded","NAC posture assessment fails it and places it on a remediation VLAN until it complies","Block the switch port permanently","Send an SNMP trap and allow access"],a:1,e:"NAC checks device health as well as identity. Non-compliant devices get limited remediation access, then are re-checked."},
+ {id:9,obj:"4.6",q:"An auditor finds a finance employee who has worked in sales, marketing and HR over eight years and still holds access from every role. What is the problem, and what process would have caught it?",c:["Federation; fix it with SSO","Privilege creep; periodic access reviews (attestation) and de-provisioning on role change","Weak passwords; enforce complexity","MAC misconfiguration; relabel files"],a:1,e:"Accumulated rights are privilege creep. Regular attestation reviews and removing access at each role change prevent it."},
+ {id:10,obj:"4.6",q:"Attackers phish admin credentials, then log in with the stolen password plus a code from a text message after a SIM swap. What change most directly defeats this?",c:["Longer passwords","FIDO2 security keys for admins","Shorter password expiration","Adding a security question"],a:1,e:"Security keys are phishing-resistant and don't depend on SMS. The other options still leave a phishable, interceptable login."},
+ {id:11,obj:"4.8",q:"During an incident, a technician immediately powers off an infected server to stop the malware, then images the disk. Later, investigators can't determine what the malware did in memory. What should have been done differently?",c:["Nothing &mdash; powering off is standard containment","Follow the order of volatility: capture memory first, isolate the server from the network rather than powering it off, and document chain of custody","Wipe the server and restore from backup","Run antivirus before imaging"],a:1,e:"Network isolation contains without destroying volatile evidence. Memory must be captured before power-off."},
+ {id:12,obj:"4.9",q:"An alert shows an internal host making hundreds of DNS requests for random-looking subdomains, then connecting outbound on port 443. The team wants to confirm exfiltration and identify what was sent. Which sources, in combination, give the full picture?",c:["Dashboards and automated reports","DNS/firewall logs to establish the timeline, endpoint logs for the process involved, and packet captures for content where visible","Vulnerability scans only","Application logs only"],a:1,e:"Correlation is the point: network logs show the conversation, endpoint logs show which process, and packet captures show contents where they aren't encrypted."}
+];
+
+var OBJ_COLOR_CLASS = {"4.1":"badge-41","4.2":"badge-42","4.3":"badge-43","4.4":"badge-44","4.5":"badge-45","4.6":"badge-46","4.7":"badge-47","4.8":"badge-48","4.9":"badge-49"};
+var OBJ_VAR = {"4.1":"obj-41","4.2":"obj-42","4.3":"obj-43","4.4":"obj-44","4.5":"obj-45","4.6":"obj-46","4.7":"obj-47","4.8":"obj-48","4.9":"obj-49"};
+
+/* ---------- state ---------- */
+var STORE_KEY = "domain4drill:v1";
+function defaultState(){
+  var os = {}; OBJ_LIST.forEach(function(o){ os[o] = {c:0,t:0}; });
+  return { cardStatus:{}, objStats:os };
+}
+var state = loadState();
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultState();
+    var parsed = JSON.parse(raw);
+    var d = defaultState();
+    parsed.cardStatus = parsed.cardStatus || {};
+    parsed.objStats = parsed.objStats || d.objStats;
+    OBJ_LIST.forEach(function(o){ if(!parsed.objStats[o]) parsed.objStats[o] = {c:0,t:0}; });
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function recordAnswer(obj, correct){
+  state.objStats[obj].t++;
+  if(correct) state.objStats[obj].c++;
+  saveState();
+}
+function recordCard(id, status){
+  state.cardStatus[id] = status;
+  saveState();
+}
+
+/* ---------- tabs ---------- */
+var tabs = document.querySelectorAll(".tab");
+var panels = { flash:document.getElementById("panel-flash"), quiz:document.getElementById("panel-quiz"),
+  scenario:document.getElementById("panel-scenario"), progress:document.getElementById("panel-progress") };
+tabs.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    tabs.forEach(function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== btn.dataset.tab); });
+    if(btn.dataset.tab === "progress") renderProgress();
+  });
+});
+
+/* ---------- flashcards ---------- */
+var flashFilter = "all";
+var flashPool = FLASHCARDS.slice();
+var flashIdx = 0;
+
+function buildFlashFilters(){
+  var row = document.getElementById("flash-filters");
+  row.innerHTML = "";
+  var opts = [["all","All"]].concat(OBJ_LIST.map(function(o){ return [o,o]; })).concat([["weak","Still learning"]]);
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "chip" + (flashFilter === o[0] ? " on" : "");
+    b.textContent = o[1];
+    b.addEventListener("click", function(){ flashFilter = o[0]; applyFlashFilter(); });
+    row.appendChild(b);
+  });
+}
+function applyFlashFilter(){
+  buildFlashFilters();
+  if(flashFilter === "all") flashPool = FLASHCARDS.slice();
+  else if(flashFilter === "weak") flashPool = FLASHCARDS.filter(function(c){ return state.cardStatus[c.id] === "learning"; });
+  else flashPool = FLASHCARDS.filter(function(c){ return c.obj === flashFilter; });
+  if(flashPool.length === 0) flashPool = [{id:0,obj:"4.1",t:"Nothing here yet",d:"No cards marked “still learning” in this filter — nice work. Try another filter."}];
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+}
+function renderFlashCard(){
+  var c = flashPool[flashIdx];
+  document.getElementById("flash-term").textContent = c.t;
+  document.getElementById("flash-def").innerHTML = c.d;
+  document.getElementById("flash-pos").textContent = (flashIdx+1) + " / " + flashPool.length;
+  var badge = document.getElementById("flash-badge");
+  badge.innerHTML = c.id ? '<span class="badge ' + OBJ_COLOR_CLASS[c.obj] + '">' + c.obj + '</span>' : "";
+}
+document.getElementById("flip-card").addEventListener("click", function(){
+  this.classList.toggle("flipped");
+});
+document.getElementById("btn-next").addEventListener("click", function(){
+  flashIdx = (flashIdx+1) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-prev").addEventListener("click", function(){
+  flashIdx = (flashIdx-1+flashPool.length) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-shuffle").addEventListener("click", function(){
+  for(var i=flashPool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=flashPool[i]; flashPool[i]=flashPool[j]; flashPool[j]=t; }
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-know").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"know"); }
+  document.getElementById("btn-next").click();
+});
+document.getElementById("btn-learning").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"learning"); }
+  document.getElementById("btn-next").click();
+});
+
+/* ---------- quiz + scenario shared engine ---------- */
+function makeEngine(kind, pool, roundSize){
+  var filter = "all";
+  var round = [];
+  var idx = 0;
+  var correctCount = 0;
+  var answered = false;
+
+  var filterRow = document.getElementById(kind+"-filters");
+  var startCard = document.getElementById(kind+"-start-card");
+  var runCard = document.getElementById(kind+"-run-card");
+  var endCard = document.getElementById(kind+"-end-card");
+  var startBtn = document.getElementById(kind+"-start");
+  var againBtn = document.getElementById(kind+"-again");
+  var nextBtn = document.getElementById(kind+"-next");
+  var objBadge = document.getElementById(kind+"-obj-badge");
+  var posEl = document.getElementById(kind+"-pos");
+  var qEl = document.getElementById(kind+"-q");
+  var optsEl = document.getElementById(kind+"-opts");
+  var explainEl = document.getElementById(kind+"-explain");
+  var scoreEl = document.getElementById(kind+"-score");
+  var noteEl = document.getElementById(kind+"-score-note");
+
+  function buildFilters(){
+    filterRow.innerHTML = "";
+    [["all","All"]].concat(OBJ_LIST.map(function(o){ return [o,o]; })).forEach(function(o){
+      var b = document.createElement("button");
+      b.className = "chip" + (filter === o[0] ? " on" : "");
+      b.textContent = o[1];
+      b.addEventListener("click", function(){ filter = o[0]; buildFilters(); });
+      filterRow.appendChild(b);
+    });
+  }
+  buildFilters();
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  function start(){
+    var source = filter === "all" ? pool : pool.filter(function(q){ return q.obj === filter; });
+    round = shuffled(source).slice(0, Math.min(roundSize, source.length));
+    idx = 0; correctCount = 0;
+    startCard.hidden = true; endCard.hidden = true; runCard.hidden = false;
+    renderQuestion();
+  }
+  startBtn.addEventListener("click", start);
+  againBtn.addEventListener("click", start);
+
+  function renderQuestion(){
+    answered = false;
+    var q = round[idx];
+    objBadge.innerHTML = '<span class="badge ' + OBJ_COLOR_CLASS[q.obj] + '">' + q.obj + " &middot; " + OBJ_TITLE[q.obj] + '</span>';
+    posEl.textContent = "Question " + (idx+1) + " / " + round.length;
+    qEl.textContent = q.q;
+    optsEl.innerHTML = "";
+    explainEl.hidden = true;
+    nextBtn.disabled = true;
+    q.c.forEach(function(choice, i){
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = choice;
+      b.addEventListener("click", function(){ selectAnswer(i); });
+      optsEl.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i){
+    if(answered) return;
+    answered = true;
+    var q = round[idx];
+    var isCorrect = (i === q.a);
+    if(isCorrect) correctCount++;
+    recordAnswer(q.obj, isCorrect);
+    var optBtns = optsEl.querySelectorAll(".opt");
+    optBtns.forEach(function(b, bi){
+      b.disabled = true;
+      if(bi === q.a) b.classList.add("correct");
+      else if(bi === i) b.classList.add("incorrect");
+    });
+    explainEl.hidden = false;
+    explainEl.textContent = (isCorrect ? "Correct. " : "Not quite. ") + q.e;
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", function(){
+    if(idx < round.length-1){ idx++; renderQuestion(); }
+    else finish();
+  });
+
+  function finish(){
+    runCard.hidden = true; endCard.hidden = false;
+    scoreEl.textContent = correctCount + " / " + round.length;
+    var pct = Math.round(100*correctCount/round.length);
+    var note = pct >= 80 ? "Strong round. Try a filtered objective to sharpen a weaker spot."
+      : pct >= 50 ? "Solid start — check the Progress tab to see which objective needs another pass."
+      : "Worth another round on this objective — flashcard it first, then come back.";
+    noteEl.textContent = note;
+  }
+}
+
+makeEngine("quiz", QUIZ, 10);
+makeEngine("scenario", SCENARIOS, 8);
+
+/* ---------- progress ---------- */
+function renderProgress(){
+  var objWrap = document.getElementById("obj-cards");
+  objWrap.innerHTML = "";
+  var worst = null;
+  OBJ_LIST.forEach(function(o){
+    var s = state.objStats[o];
+    var pct = s.t ? Math.round(100*s.c/s.t) : null;
+    if(pct !== null && s.t >= 3 && (worst === null || pct < worst.pct)) worst = {obj:o, pct:pct};
+    var div = document.createElement("div");
+    div.className = "objcard";
+    div.innerHTML =
+      '<div class="row1">' +
+        '<span class="badge ' + OBJ_COLOR_CLASS[o] + '">' + o + " &middot; " + OBJ_TITLE[o] + '</span>' +
+        '<span style="font-family:var(--font-display);font-size:13px;">' + (pct===null ? "Not started" : pct + "%") + '</span>' +
+      '</div>' +
+      '<div class="bar"><span style="width:' + (pct||0) + '%;background:var(--' + OBJ_VAR[o] + ');"></span></div>' +
+      '<div class="lede" style="margin:0;">' + s.c + ' correct of ' + s.t + ' answered</div>';
+    objWrap.appendChild(div);
+  });
+
+  var weakCard = document.getElementById("weak-card");
+  if(worst){
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><div class="weak">' +
+      '<strong>' + worst.obj + " &middot; " + OBJ_TITLE[worst.obj] + '</strong> is sitting at ' + worst.pct +
+      '% correct. Filter the Flashcards and Quiz tabs to ' + worst.obj + ' for a focused pass.</div>';
+  } else {
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><p class="lede">Answer at least 3 questions in an objective to unlock a weak-area callout.</p>';
+  }
+
+  var totalC = 0, totalT = 0;
+  OBJ_LIST.forEach(function(o){ totalC += state.objStats[o].c; totalT += state.objStats[o].t; });
+  var overall = document.getElementById("overall-stats");
+  overall.innerHTML =
+    '<div class="stattile"><div class="n">' + totalT + '</div><div class="l">Questions answered</div></div>' +
+    '<div class="stattile"><div class="n">' + (totalT? Math.round(100*totalC/totalT):0) + '%</div><div class="l">Overall accuracy</div></div>' +
+    '<div class="stattile"><div class="n">' + Object.keys(state.cardStatus).length + '</div><div class="l">Flashcards reviewed</div></div>';
+
+  var know = 0, learning = 0;
+  Object.keys(state.cardStatus).forEach(function(k){ if(state.cardStatus[k]==="know") know++; else learning++; });
+  var fstats = document.getElementById("flash-stats");
+  fstats.innerHTML =
+    '<div class="stattile"><div class="n">' + know + '</div><div class="l">Marked "Got it"</div></div>' +
+    '<div class="stattile"><div class="n">' + learning + '</div><div class="l">Marked "Still learning"</div></div>' +
+    '<div class="stattile"><div class="n">' + (FLASHCARDS.length-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
+}
+
+document.getElementById("btn-reset").addEventListener("click", function(){
+  if(confirm("Reset all Domain 4 Drill progress? This clears flashcard marks and quiz/scenario stats in this browser.")){
+    state = defaultState();
+    saveState();
+    renderProgress();
+  }
+});
+
+/* ---------- init ---------- */
+applyFlashFilter();
+})();
+</script>
+</body>
+</html>

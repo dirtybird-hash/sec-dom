@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Flashcards, quiz and scenario practice for Security+ Domain 5.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 5 Drill</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#0d7b86; --accent-ink:#ffffff;
+  --obj-51:#2f5fd6; --obj-52:#1f8a5c; --obj-53:#a9791c; --obj-54:#b3437c; --obj-55:#0d7b86; --obj-56:#6d4bc4; --obj-57:#c0562b; --obj-58:#4f6b7a; --obj-59:#8a3fa0;
+  --correct:#1f8a5c; --incorrect:#c1382d;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#3fd0dd; --accent-ink:#06262a;
+    --obj-51:#7ea2ff; --obj-52:#55d69a; --obj-53:#e0b24d; --obj-54:#ea86b8; --obj-55:#3fd0dd; --obj-56:#a98cf0; --obj-57:#f08a5d; --obj-58:#9fb6c3; --obj-59:#d58ff0;
+    --correct:#55d69a; --incorrect:#ef6b5d;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#3fd0dd; --accent-ink:#06262a;
+  --obj-51:#7ea2ff; --obj-52:#55d69a; --obj-53:#e0b24d; --obj-54:#ea86b8; --obj-55:#3fd0dd; --obj-56:#a98cf0; --obj-57:#f08a5d; --obj-58:#9fb6c3; --obj-59:#d58ff0;
+  --correct:#55d69a; --incorrect:#ef6b5d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:760px;margin:0 auto;padding:14px 16px 0;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;margin-top:12px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:10px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.panel{display:flex;flex-direction:column;gap:16px;padding-top:18px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;}
+.lede{color:var(--text-muted);font-size:14px;line-height:1.5;margin:0;}
+.chiprow{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{font-family:var(--font-display);font-size:12px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-muted);border-radius:999px;padding:6px 11px;cursor:pointer;}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent);}
+.badge{font-family:var(--font-display);font-size:11px;letter-spacing:.02em;border-radius:999px;
+  padding:3px 9px;display:inline-block;color:#fff;}
+.badge-51{background:var(--obj-51);}
+.badge-52{background:var(--obj-52);}
+.badge-53{background:var(--obj-53);}
+.badge-54{background:var(--obj-54);}
+.badge-55{background:var(--obj-55);}
+.badge-56{background:var(--obj-56);}
+.badge-57{background:var(--obj-57);}
+.badge-58{background:var(--obj-58);}
+.badge-59{background:var(--obj-59);}
+button.primary{font-family:var(--font-body);font-weight:600;font-size:14px;background:var(--accent);
+  color:var(--accent-ink);border:none;border-radius:10px;padding:11px 18px;cursor:pointer;}
+button.ghost{font-family:var(--font-body);font-weight:600;font-size:14px;background:none;
+  color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 16px;cursor:pointer;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* Flashcards */
+.deck-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+  color:var(--text-muted);font-family:var(--font-display);}
+.flip-outer{perspective:1400px;}
+.flip-card{position:relative;min-height:220px;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;min-height:220px;transition:transform .45s;
+  transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);
+  padding:22px;display:flex;flex-direction:column;gap:12px;justify-content:center;}
+.flip-face.back{transform:rotateY(180deg);background:var(--surface-2);}
+.flip-term{font-family:var(--font-display);font-size:20px;line-height:1.3;}
+.flip-def{font-size:15px;line-height:1.55;}
+.flip-hint{font-size:11px;color:var(--text-muted);font-family:var(--font-display);text-align:center;}
+.deckctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.markrow{display:flex;gap:8px;justify-content:center;}
+.mark-know{background:var(--correct);color:#fff;border:none;}
+.mark-learning{background:var(--incorrect);color:#fff;border:none;}
+
+/* Quiz / scenario */
+.qmeta{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);}
+.qtext{font-size:16px;line-height:1.5;margin:10px 0 16px;}
+.opt{display:block;width:100%;text-align:left;font-size:14.5px;line-height:1.4;background:var(--surface-2);
+  border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px;cursor:pointer;
+  color:var(--text);}
+.opt:hover{border-color:var(--accent);}
+.opt.correct{background:color-mix(in srgb, var(--correct) 20%, var(--surface));border-color:var(--correct);}
+.opt.incorrect{background:color-mix(in srgb, var(--incorrect) 18%, var(--surface));border-color:var(--incorrect);}
+.opt:disabled{cursor:default;}
+.explain{font-size:13.5px;line-height:1.5;background:var(--surface-2);border-left:3px solid var(--accent);
+  padding:10px 12px;border-radius:0 8px 8px 0;margin-top:4px;}
+.roundend{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.roundend .score{font-family:var(--font-display);font-size:34px;}
+
+/* Progress */
+.objcard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface-2);}
+.objcard .row1{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.bar{height:8px;border-radius:999px;background:var(--border);overflow:hidden;}
+.bar > span{display:block;height:100%;border-radius:999px;}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+.stattile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stattile .n{font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums;}
+.stattile .l{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.weak{border:1px solid var(--incorrect);background:color-mix(in srgb, var(--incorrect) 10%, var(--surface));
+  border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;} .flip-term{font-size:18px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 5 Drill</h1>
+      <span class="sub">SY0-701 &middot; Program Management &amp; Oversight &middot; 20%</span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="flash" role="tab">Flashcards</button>
+      <button class="tab" data-tab="quiz" role="tab">Quiz</button>
+      <button class="tab" data-tab="scenario" role="tab">Scenarios</button>
+      <button class="tab" data-tab="progress" role="tab">Progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-flash">
+    <p class="lede">79 term cards drawn from the Domain 5 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <div class="chiprow" id="flash-filters"></div>
+    <div class="card" style="gap:14px;display:flex;flex-direction:column;">
+      <div class="deck-meta">
+        <span id="flash-badge"></span>
+        <span id="flash-pos">1 / 79</span>
+      </div>
+      <div class="flip-outer">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face front">
+              <div class="flip-term" id="flash-term"></div>
+              <div class="flip-hint">tap to reveal</div>
+            </div>
+            <div class="flip-face back">
+              <div class="flip-def" id="flash-def"></div>
+              <div class="flip-hint">tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="markrow">
+        <button class="ghost mark-learning" id="btn-learning">Still learning</button>
+        <button class="ghost mark-know" id="btn-know">Got it</button>
+      </div>
+      <div class="deckctl">
+        <button class="ghost" id="btn-prev">&larr; Prev</button>
+        <button class="ghost" id="btn-shuffle">Shuffle</button>
+        <button class="ghost" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" hidden>
+    <p class="lede">Multiple-choice questions in the exam's own voice. Pick an objective or drill all of Domain 5 &mdash; up to 10 questions a round, with an explanation after every answer.</p>
+    <div class="chiprow" id="quiz-filters"></div>
+    <div class="card" id="quiz-start-card">
+      <button class="primary" id="quiz-start">Start round</button>
+    </div>
+    <div class="card" id="quiz-run-card" hidden>
+      <div class="qmeta">
+        <span id="quiz-obj-badge"></span>
+        <span id="quiz-pos"></span>
+      </div>
+      <div class="qtext" id="quiz-q"></div>
+      <div id="quiz-opts"></div>
+      <div class="explain" id="quiz-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="quiz-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="quiz-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="quiz-score"></div>
+      <p class="lede" id="quiz-score-note"></p>
+      <button class="primary" id="quiz-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- SCENARIOS -->
+  <section class="panel" id="panel-scenario" hidden>
+    <p class="lede">PBQ-style situational questions &mdash; longer setups, closer to what the real exam's performance-based questions feel like. "Which control/concept applies here?"</p>
+    <div class="chiprow" id="scenario-filters"></div>
+    <div class="card" id="scenario-start-card">
+      <button class="primary" id="scenario-start">Start round</button>
+    </div>
+    <div class="card" id="scenario-run-card" hidden>
+      <div class="qmeta">
+        <span id="scenario-obj-badge"></span>
+        <span id="scenario-pos"></span>
+      </div>
+      <div class="qtext" id="scenario-q"></div>
+      <div id="scenario-opts"></div>
+      <div class="explain" id="scenario-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="scenario-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="scenario-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="scenario-score"></div>
+      <p class="lede" id="scenario-score-note"></p>
+      <button class="primary" id="scenario-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="panel-progress" hidden>
+    <p class="lede">Mastery by sub-objective, combining every quiz and scenario answer you've given. Flashcard self-marks are tracked separately below.</p>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Mastery by objective</h3>
+      <div id="obj-cards" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="card" id="weak-card" style="gap:10px;display:flex;flex-direction:column;"></div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Overall</h3>
+      <div class="statgrid" id="overall-stats"></div>
+    </div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Flashcard recall</h3>
+      <div class="statgrid" id="flash-stats"></div>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span class="lede" style="margin:0;">Progress is stored in this browser only.</span>
+      <button class="ghost" id="btn-reset">Reset all progress</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"5.1":"Security Governance","5.2":"Risk Management","5.3":"Third-Party Risk","5.4":"Security Compliance","5.5":"Audits &amp; Assessments","5.6":"Security Awareness"};
+var OBJ_LIST = ["5.1","5.2","5.3","5.4","5.5","5.6"];
+
+var FLASHCARDS = [
+ {id:1,obj:"5.1",t:"Policy",d:"High-level, mandatory statement of what the organization requires and why."},
+ {id:2,obj:"5.1",t:"Standard",d:"Specific, measurable, mandatory requirement that fulfils a policy (e.g. AES-256 at rest)."},
+ {id:3,obj:"5.1",t:"Procedure",d:"Mandatory step-by-step instructions for carrying out a task."},
+ {id:4,obj:"5.1",t:"Guideline",d:"Optional recommendations and best practice where judgment is allowed."},
+ {id:5,obj:"5.1",t:"AUP",d:"Acceptable use policy: what users may and may not do with company systems; signed at onboarding."},
+ {id:6,obj:"5.1",t:"Business continuity",d:"Keeping essential functions running during a disruption, including manual fallbacks."},
+ {id:7,obj:"5.1",t:"Disaster recovery",d:"Restoring IT after a major event: recovery site, data, applications, staff."},
+ {id:8,obj:"5.1",t:"SDLC",d:"Software development lifecycle: idea to retirement with security built in. Waterfall = sequential; agile = short iterative sprints."},
+ {id:9,obj:"5.1",t:"Change control board",d:"Reviews, approves and schedules changes, and confirms each has a backout plan."},
+ {id:10,obj:"5.1",t:"Backout plan",d:"How to undo a change if it fails &mdash; the most important part of a change request."},
+ {id:11,obj:"5.1",t:"Offboarding",d:"Recover equipment and data; disable (don't delete) the account so keys and data aren't lost."},
+ {id:12,obj:"5.1",t:"Playbook",d:"Ordered, step-by-step response procedure for a specific event, like ransomware. SOAR can automate it."},
+ {id:13,obj:"5.1",t:"Regulatory considerations",d:"Laws dictating data protection and retention &mdash; SOX (financial records), HIPAA (health)."},
+ {id:14,obj:"5.1",t:"Centralized vs. decentralized governance",d:"One group decides for all, versus decisions delegated to units or the people doing the work."},
+ {id:15,obj:"5.1",t:"Boards vs. committees",d:"The board sets broad objectives; committees of experts work out how to meet them and report back."},
+ {id:16,obj:"5.1",t:"Data owner",d:"Senior person accountable for a data set; sets its classification and access."},
+ {id:17,obj:"5.1",t:"Data custodian / steward",d:"Handles data day to day: labels, access controls, accuracy, backups, compliance."},
+ {id:18,obj:"5.1",t:"Controller vs. processor",d:"Decides why and how personal data is processed, versus processing it on the controller's instructions."},
+ {id:19,obj:"5.2",t:"Risk assessment timings",d:"Ad hoc (one concern), recurring (scheduled), one-time (a project), continuous (built into operations)."},
+ {id:20,obj:"5.2",t:"Qualitative analysis",d:"Rates risk in categories (low/medium/high, colour grid). Fast, subjective."},
+ {id:21,obj:"5.2",t:"Quantitative analysis",d:"Puts numbers and money on risk: AV, EF, SLE, ARO, ALE."},
+ {id:22,obj:"5.2",t:"SLE",d:"Single loss expectancy: money lost in one event. SLE = AV &times; EF."},
+ {id:23,obj:"5.2",t:"ARO",d:"Annualized rate of occurrence: expected events per year (0.1 = once a decade)."},
+ {id:24,obj:"5.2",t:"ALE",d:"Annualized loss expectancy: expected yearly loss. ALE = SLE &times; ARO."},
+ {id:25,obj:"5.2",t:"Exposure factor",d:"Fraction of an asset's value lost in one event (0.0&ndash;1.0)."},
+ {id:26,obj:"5.2",t:"Probability vs. likelihood",d:"A statistical, quantitative chance versus a qualitative judgment (rare, possible, likely)."},
+ {id:27,obj:"5.2",t:"Risk register",d:"Living list of risks with description, rating, owner and response."},
+ {id:28,obj:"5.2",t:"Key risk indicator",d:"A metric that warns a risk is increasing."},
+ {id:29,obj:"5.2",t:"Risk threshold",d:"The level at which a risk demands action or escalation."},
+ {id:30,obj:"5.2",t:"Risk appetite",d:"How much risk the organization is willing to pursue: expansionary, neutral or conservative."},
+ {id:31,obj:"5.2",t:"Risk tolerance",d:"Acceptable variation around the appetite before action is required."},
+ {id:32,obj:"5.2",t:"Transfer",d:"Shifting the financial impact of a risk to another party, such as an insurer."},
+ {id:33,obj:"5.2",t:"Avoid",d:"Stopping the risky activity altogether."},
+ {id:34,obj:"5.2",t:"Mitigate",d:"Reducing likelihood or impact with controls."},
+ {id:35,obj:"5.2",t:"Exemption vs. exception",d:"Released from the policy entirely, versus a temporary, approved deviation from it."},
+ {id:36,obj:"5.2",t:"BIA",d:"Business impact analysis: identifies critical functions and outage costs, and sets recovery targets."},
+ {id:37,obj:"5.2",t:"RTO",d:"Recovery time objective: how quickly a function must be back in service."},
+ {id:38,obj:"5.2",t:"RPO",d:"Recovery point objective: maximum acceptable data loss, measured in time."},
+ {id:39,obj:"5.2",t:"MTTR",d:"Mean time to repair: average time to fix a failure. Lower is better."},
+ {id:40,obj:"5.2",t:"MTBF",d:"Mean time between failures: total uptime &divide; number of failures. Higher is better."},
+ {id:41,obj:"5.3",t:"Right-to-audit clause",d:"Contract language allowing you to audit a vendor's security."},
+ {id:42,obj:"5.3",t:"Independent assessment",d:"A third-party report on a vendor, such as SOC 2 or ISO 27001 certification."},
+ {id:43,obj:"5.3",t:"Supply chain analysis",d:"Examining a vendor's own suppliers and components. SolarWinds 2020 shipped malware in a signed update."},
+ {id:44,obj:"5.3",t:"Due diligence (vendor)",d:"Investigating a vendor before signing: finances, security, references, background."},
+ {id:45,obj:"5.3",t:"Conflict of interest",d:"Anything that compromises judgment &mdash; the vendor serves your competitor, a relative works there, gifts."},
+ {id:46,obj:"5.3",t:"Vendor questionnaire",d:"Standard security questions to a vendor about data protection, incidents and DR; feeds its risk rating."},
+ {id:47,obj:"5.3",t:"SLA",d:"Service-level agreement: measurable commitments (uptime, response time) and penalties if missed."},
+ {id:48,obj:"5.3",t:"MOU vs. MOA",d:"Informal statement of intent, versus more detailed responsibilities. Neither is a full contract."},
+ {id:49,obj:"5.3",t:"MSA",d:"Master service agreement: the umbrella contract setting general terms for an ongoing relationship."},
+ {id:50,obj:"5.3",t:"SOW / WO",d:"Statement of work / work order: one specific job under the MSA &mdash; scope, deliverables, schedule."},
+ {id:51,obj:"5.3",t:"NDA types",d:"Unilateral (one party bound), bilateral/mutual (both), multilateral (more than two)."},
+ {id:52,obj:"5.3",t:"BPA",d:"Business partners agreement: ownership stakes, profit sharing, decision-making, what happens if it fails."},
+ {id:53,obj:"5.4",t:"Internal vs. external compliance reporting",d:"To your own leadership (often via a chief compliance officer), versus to regulators or partners."},
+ {id:54,obj:"5.4",t:"Consequences of non-compliance",d:"Fines, sanctions, reputational damage, loss of license, contractual impacts."},
+ {id:55,obj:"5.4",t:"Loss of license",d:"Losing the right to operate or sell, e.g. to process card payments."},
+ {id:56,obj:"5.4",t:"Due diligence vs. due care",d:"Researching and understanding the obligations, versus acting reasonably on them."},
+ {id:57,obj:"5.4",t:"Attestation and acknowledgement",d:"An executive signs off that the organization is compliant; employees acknowledge policies."},
+ {id:58,obj:"5.4",t:"Data subject",d:"The identifiable person that personal data is about."},
+ {id:59,obj:"5.4",t:"Right to be forgotten",d:"GDPR right for a data subject to have their personal data erased."},
+ {id:60,obj:"5.4",t:"Data inventory",d:"Knowing what personal data you hold, where, why, who owns it and how long it's kept."},
+ {id:61,obj:"5.4",t:"GDPR",d:"EU General Data Protection Regulation: global reach over EU residents' personal data."},
+ {id:62,obj:"5.5",t:"Attestation (audit)",d:"The formal opinion that follows an audit, vouching that its results are accurate."},
+ {id:63,obj:"5.5",t:"Audit committee",d:"Oversees risk management and directs internal audits."},
+ {id:64,obj:"5.5",t:"Self-assessment",d:"A team checking its own processes against requirements &mdash; internal, not independent."},
+ {id:65,obj:"5.5",t:"Independent third-party audit",d:"Objective external verification others can rely on."},
+ {id:66,obj:"5.5",t:"Known / partially known / unknown environment",d:"Full information (white box), some information (gray), none (black box)."},
+ {id:67,obj:"5.5",t:"Red / blue / purple team",d:"Offensive testing, defensive detection and response, and the two integrated."},
+ {id:68,obj:"5.5",t:"Passive reconnaissance",d:"Gathering information without touching the target's systems: websites, social media, public records."},
+ {id:69,obj:"5.5",t:"Active reconnaissance",d:"Probing the target directly &mdash; ping sweeps, port scans, fingerprinting &mdash; leaving log traces."},
+ {id:70,obj:"5.5",t:"Physical penetration test",d:"Testing locks, doors, badges and staff for physical access."},
+ {id:71,obj:"5.6",t:"Phishing campaign",d:"Simulated phishing sent to staff; clicks reported and clickers auto-enrolled in training."},
+ {id:72,obj:"5.6",t:"Phishing red flags",d:"Urgency, credential requests, look-alike domains, odd attachments, errors, mismatched sender."},
+ {id:73,obj:"5.6",t:"Risky behaviour",d:"Deliberate actions that raise risk, like editing the hosts file or uploading sensitive files."},
+ {id:74,obj:"5.6",t:"Unexpected behaviour",d:"Out-of-pattern activity, like a login from another country or a data-transfer spike."},
+ {id:75,obj:"5.6",t:"Unintentional behaviour",d:"Honest mistakes: wrong domain typed, lost USB drive, misconfiguration."},
+ {id:76,obj:"5.6",t:"Insider threat controls",d:"Multi-person approval for critical changes, file-activity monitoring, controls hard to bypass."},
+ {id:77,obj:"5.6",t:"OPSEC",d:"Operational security: viewing your own information through an attacker's eyes and protecting it."},
+ {id:78,obj:"5.6",t:"Initial vs. recurring (reporting)",d:"First-time issue gets standard training; repeat issue gets extended training and tighter controls."},
+ {id:79,obj:"5.6",t:"Awareness metrics",d:"Click rate falling, report rate rising, MFA and password-manager adoption."}
+];
+
+var QUIZ = [
+ {id:1,obj:"5.1",q:"A document states \"All laptops must use full-disk encryption with AES-256.\" What type of document is this?",c:["Policy","Standard","Procedure","Guideline"],a:1,e:"It sets a specific, measurable requirement, which makes it a standard. The policy would simply require that sensitive data be encrypted."},
+ {id:2,obj:"5.1",q:"Which governance document is the only one that is not mandatory?",c:["Policy","Standard","Procedure","Guideline"],a:3,e:"Guidelines are recommendations. Policies, standards and procedures are all required."},
+ {id:3,obj:"5.1",q:"What is the most important element of a change request?",c:["The requester's name","The backout plan","The CCB meeting date","The ticket number"],a:1,e:"If the change fails, the backout plan is what lets you return to a working state."},
+ {id:4,obj:"5.1",q:"An employee leaves the company. What should happen to their account?",c:["Delete it immediately","Disable it","Leave it active for 90 days","Rename it"],a:1,e:"Disabling removes access while keeping data and encryption keys that deleting the account could destroy."},
+ {id:5,obj:"5.1",q:"An outside payroll company processes employee pay on the instructions of the HR department. What is the payroll company's data role?",c:["Owner","Controller","Processor","Custodian"],a:2,e:"The processor acts on the controller's instructions; HR, which decides the purpose, is the controller."},
+ {id:6,obj:"5.1",q:"Which plan focuses specifically on restoring IT systems after a major event?",c:["Business continuity plan","Disaster recovery plan","Acceptable use policy","Change management policy"],a:1,e:"Disaster recovery restores IT. Business continuity is the broader plan for keeping the business operating."},
+ {id:7,obj:"5.2",q:"A server worth $20,000 would lose 40% of its value in a flood. What is the SLE?",c:["$4,000","$8,000","$12,000","$20,000"],a:1,e:"SLE = AV &times; EF = $20,000 &times; 0.4 = $8,000."},
+ {id:8,obj:"5.2",q:"The SLE for an event is $8,000 and it is expected once every four years. What is the ALE?",c:["$2,000","$8,000","$32,000","$4,000"],a:0,e:"ARO = 0.25, so ALE = SLE &times; ARO = $8,000 &times; 0.25 = $2,000."},
+ {id:9,obj:"5.2",q:"A company buys cyber insurance to cover ransomware losses. Which strategy is this?",c:["Accept","Avoid","Mitigate","Transfer"],a:3,e:"Insurance shifts the financial impact to the insurer. It doesn't reduce the chance of an attack."},
+ {id:10,obj:"5.2",q:"The business says it can lose no more than one hour of transactions after an outage. What metric is being defined?",c:["RTO","RPO","MTTR","MTBF"],a:1,e:"RPO is the maximum acceptable data loss, measured in time. RTO is how quickly service must be restored."},
+ {id:11,obj:"5.2",q:"A risk assessment is performed once, specifically for a planned acquisition. What type is it?",c:["Ad hoc","Recurring","One-time","Continuous"],a:2,e:"One-time assessments are tied to a specific project or event."},
+ {id:12,obj:"5.2",q:"A machine can never be patched, so it is released from the patch policy entirely on condition it stays off the network. Which form of acceptance is this?",c:["Exception","Exemption","Transfer","Mitigation"],a:1,e:"An exemption releases the system from the policy. An exception is a temporary deviation while the policy still applies."},
+ {id:13,obj:"5.3",q:"Which agreement states measurable commitments such as 99.9% uptime and a four-hour repair time?",c:["MOU","NDA","SLA","BPA"],a:2,e:"A service-level agreement defines measurable service commitments and penalties."},
+ {id:14,obj:"5.3",q:"A company signs an umbrella contract with a consultancy, then issues a separate document for each project. What is each project document?",c:["MSA","SOW","MOU","BPA"],a:1,e:"The statement of work defines one specific job under the master service agreement."},
+ {id:15,obj:"5.3",q:"Which contract clause lets a company inspect a vendor's security controls?",c:["Right-to-audit clause","Non-compete clause","Force majeure","Indemnity clause"],a:0,e:"A right-to-audit clause gives contractual permission to audit the vendor."},
+ {id:16,obj:"5.3",q:"A vendor being evaluated also provides the same service to your largest competitor. What concern does this raise?",c:["Due care","Conflict of interest","Supply chain risk","SLA breach"],a:1,e:"A relationship that could compromise the vendor's judgment or your confidentiality is a conflict of interest."},
+ {id:17,obj:"5.4",q:"Under GDPR, a customer asks a company to erase all of their personal data. Which right are they exercising?",c:["Right to access","Right to be forgotten","Data sovereignty","Due care"],a:1,e:"The right to be forgotten (erasure) lets a data subject require their data be deleted."},
+ {id:18,obj:"5.4",q:"A payment processor loses the ability to process card transactions after repeated PCI DSS failures. Which consequence is this?",c:["Fine","Reputational damage","Loss of license","Contractual impact"],a:2,e:"Losing the right to carry on an activity is loss of license."},
+ {id:19,obj:"5.4",q:"A security team researches the regulations that apply to a new market, then implements the controls those regulations require. Which part is due care?",c:["Researching the regulations","Implementing the controls","Both equally","Neither"],a:1,e:"Due diligence is understanding the obligation; due care is acting on it."},
+ {id:20,obj:"5.4",q:"In privacy law, what is the \"data subject\"?",c:["The database storing the data","The company processing the data","The identifiable person the data is about","The regulator"],a:2,e:"The data subject is the person the personal data describes."},
+ {id:21,obj:"5.5",q:"A tester is given network diagrams, source code and credentials before testing. What type of test is this?",c:["Unknown environment","Partially known environment","Known environment","Passive reconnaissance"],a:2,e:"Full disclosure makes it a known-environment (white box) test."},
+ {id:22,obj:"5.5",q:"Which activity is passive reconnaissance?",c:["A ping sweep of the target network","Reading the target's job postings and LinkedIn profiles","OS fingerprinting","A port scan"],a:1,e:"Passive recon never touches the target's systems. The others send traffic the target can log."},
+ {id:23,obj:"5.5",q:"Which gives an objective, unbiased view of an organization's controls?",c:["Self-assessment","Audit committee review","Independent third-party audit","Internal compliance check"],a:2,e:"Only an independent external auditor has no stake in the result."},
+ {id:24,obj:"5.5",q:"Attackers and defenders work together, sharing findings continuously to improve detection. What is this?",c:["Red team","Blue team","Integrated (purple) teaming","Unknown-environment test"],a:2,e:"Integrated testing combines offensive and defensive teams in a feedback loop."},
+ {id:25,obj:"5.6",q:"A user mistypes a domain and lands on a look-alike site. How is this behaviour classified?",c:["Risky","Unexpected","Unintentional","Malicious"],a:2,e:"An honest mistake is unintentional behaviour."},
+ {id:26,obj:"5.6",q:"An account that normally logs in from Ohio authenticates from another continent at 3 a.m. How is this classified?",c:["Risky","Unexpected","Unintentional","Insider threat"],a:1,e:"Activity out of the user's normal pattern is unexpected behaviour."},
+ {id:27,obj:"5.6",q:"Which metric best shows an awareness program is working?",c:["Number of training modules published","Course completion rate","Falling phishing click rate and rising report rate","Hours of training delivered"],a:2,e:"Behaviour change is the goal; completions only show attendance."},
+ {id:28,obj:"5.6",q:"An employee finds a USB drive labelled \"Payroll 2026\" in the car park. What should training tell them to do?",c:["Plug it in to find the owner","Hand it to IT security without plugging it in","Throw it away","Format it first"],a:1,e:"Unknown removable media is a classic malware delivery method; hand it to security."}
+];
+
+var SCENARIOS = [
+ {id:1,obj:"5.1",q:"A firewall change pushed on a Friday evening breaks remote access for the whole company. No one knows the previous configuration, and restoring service takes most of the weekend. Which change management elements were missing?",c:["An AUP and an NDA","Risk assessment, CCB approval and scheduling, and a documented backout plan","A disaster recovery site","A new playbook"],a:1,e:"Formal change management would have assessed risk, scheduled the change in a window and required a way to roll it back."},
+ {id:2,obj:"5.1",q:"A hospital's database administrators apply access labels and run backups, while the chief medical officer decides who may see patient records. Which roles are these?",c:["Both are owners","Administrators are custodians; the CMO is the owner","Administrators are controllers; the CMO is a processor","Both are custodians"],a:1,e:"The owner is accountable and decides access; custodians carry out the day-to-day handling."},
+ {id:3,obj:"5.2",q:"Laptops worth $1,500 each are stolen about 10 times a year, and each theft is a total loss. A tracking and remote-wipe service would cut thefts by 80% and costs $9,000 a year. Is it worth buying on cost alone?",c:["Yes &mdash; it saves $12,000 a year in expected loss and costs $9,000","No &mdash; it costs more than one laptop","Yes &mdash; any control is worth it","No &mdash; ALE is only $1,500"],a:0,e:"SLE = $1,500; ALE = $15,000. Cutting thefts by 80% reduces the ALE by $12,000, which is more than the $9,000 cost."},
+ {id:4,obj:"5.2",q:"The BIA says the order system must be back within 2 hours and lose no more than 5 minutes of orders. Backups currently run nightly and a restore takes 6 hours. What's the problem?",c:["Both RTO and RPO are missed &mdash; nightly backups exceed the 5-minute RPO, and a 6-hour restore exceeds the 2-hour RTO","Only MTBF is too low","Only the RTO is missed","Nothing; nightly backups are standard"],a:0,e:"RPO needs near-continuous replication or very frequent backups; RTO needs a faster recovery method such as a warm standby."},
+ {id:5,obj:"5.2",q:"This month's patch crashes the finance application, and policy requires patches within 3 days. The risk owner approves a 2-week delay while the vendor issues a fix. What is this, and what should accompany it?",c:["An exemption; no documentation needed","An exception, documented with an expiry date and compensating controls","Risk transfer","Risk avoidance"],a:1,e:"A temporary, approved deviation is an exception. It should be documented, time-limited and ideally covered by compensating controls."},
+ {id:6,obj:"5.3",q:"A company learns that malware reached it through a trusted monitoring tool's signed software update. What should its third-party risk program add?",c:["More NDAs","Supply chain analysis, right-to-audit clauses and ongoing vendor monitoring","A stricter AUP","A longer SLA"],a:1,e:"This is a supply chain compromise, as with SolarWinds. Examining vendors' development and supply chain, and keeping the right to audit them, addresses it."},
+ {id:7,obj:"5.3",q:"Two companies agree in principle to collaborate on a research project and want to record their shared goals before lawyers draft a contract. Which document fits?",c:["MSA","SLA","MOU","SOW"],a:2,e:"An MOU records broad intent and isn't a binding contract. The MSA and SOW come later."},
+ {id:8,obj:"5.4",q:"A company discovers a breach of customer data and considers keeping it quiet to protect its share price. What is the compliance problem?",c:["None if no one notices","Breach-disclosure laws require timely notification; concealment adds fines, sanctions and possible criminal liability","Only reputational risk","It's acceptable if the attackers sign an NDA"],a:1,e:"Uber tried this in 2016 and ended up paying $148 million, and its former security chief was convicted. Disclosure deadlines are a legal requirement."},
+ {id:9,obj:"5.4",q:"An EU resident asks an online retailer to delete their account and personal data. The retailer can't find all copies because nobody knows which systems hold customer data. What control was missing?",c:["An SLA","A data inventory with ownership and retention","A stricter password standard","A red team"],a:1,e:"You can't honour the right to be forgotten without knowing where personal data lives."},
+ {id:10,obj:"5.5",q:"A pen tester is told only the company name. They study its website and staff social media, then run port scans and service fingerprinting against its public IP range. Which environment and recon types are these?",c:["Known environment; passive only","Unknown environment; passive then active recon","Partially known; active only","Known environment; active only"],a:1,e:"Given no details, it's an unknown environment. Website and social media research is passive; scans and fingerprinting are active."},
+ {id:11,obj:"5.6",q:"After a phishing simulation, 18% of staff clicked, and eight of them have clicked in three previous campaigns. What's the appropriate response?",c:["Fire all clickers","Standard training for first-time clickers; extended training and tighter controls for the repeat clickers","Stop running simulations","Send the same training to everyone"],a:1,e:"Initial versus recurring: repeat behaviour warrants escalated training and additional safeguards for those users."},
+ {id:12,obj:"5.6",q:"A remote employee's children use the work laptop for homework on the home Wi-Fi, and the employee often works from coffee shops without the VPN. Which training topic applies most directly?",c:["Insider threat","Hybrid/remote work environments","Password management","Removable media"],a:1,e:"Remote-work training covers keeping work devices for work, securing home networks and always using the VPN on public Wi-Fi."}
+];
+
+var OBJ_COLOR_CLASS = {"5.1":"badge-51","5.2":"badge-52","5.3":"badge-53","5.4":"badge-54","5.5":"badge-55","5.6":"badge-56"};
+var OBJ_VAR = {"5.1":"obj-51","5.2":"obj-52","5.3":"obj-53","5.4":"obj-54","5.5":"obj-55","5.6":"obj-56"};
+
+/* ---------- state ---------- */
+var STORE_KEY = "domain5drill:v1";
+function defaultState(){
+  var os = {}; OBJ_LIST.forEach(function(o){ os[o] = {c:0,t:0}; });
+  return { cardStatus:{}, objStats:os };
+}
+var state = loadState();
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultState();
+    var parsed = JSON.parse(raw);
+    var d = defaultState();
+    parsed.cardStatus = parsed.cardStatus || {};
+    parsed.objStats = parsed.objStats || d.objStats;
+    OBJ_LIST.forEach(function(o){ if(!parsed.objStats[o]) parsed.objStats[o] = {c:0,t:0}; });
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function recordAnswer(obj, correct){
+  state.objStats[obj].t++;
+  if(correct) state.objStats[obj].c++;
+  saveState();
+}
+function recordCard(id, status){
+  state.cardStatus[id] = status;
+  saveState();
+}
+
+/* ---------- tabs ---------- */
+var tabs = document.querySelectorAll(".tab");
+var panels = { flash:document.getElementById("panel-flash"), quiz:document.getElementById("panel-quiz"),
+  scenario:document.getElementById("panel-scenario"), progress:document.getElementById("panel-progress") };
+tabs.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    tabs.forEach(function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== btn.dataset.tab); });
+    if(btn.dataset.tab === "progress") renderProgress();
+  });
+});
+
+/* ---------- flashcards ---------- */
+var flashFilter = "all";
+var flashPool = FLASHCARDS.slice();
+var flashIdx = 0;
+
+function buildFlashFilters(){
+  var row = document.getElementById("flash-filters");
+  row.innerHTML = "";
+  var opts = [["all","All"]].concat(OBJ_LIST.map(function(o){ return [o,o]; })).concat([["weak","Still learning"]]);
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "chip" + (flashFilter === o[0] ? " on" : "");
+    b.textContent = o[1];
+    b.addEventListener("click", function(){ flashFilter = o[0]; applyFlashFilter(); });
+    row.appendChild(b);
+  });
+}
+function applyFlashFilter(){
+  buildFlashFilters();
+  if(flashFilter === "all") flashPool = FLASHCARDS.slice();
+  else if(flashFilter === "weak") flashPool = FLASHCARDS.filter(function(c){ return state.cardStatus[c.id] === "learning"; });
+  else flashPool = FLASHCARDS.filter(function(c){ return c.obj === flashFilter; });
+  if(flashPool.length === 0) flashPool = [{id:0,obj:"5.1",t:"Nothing here yet",d:"No cards marked “still learning” in this filter — nice work. Try another filter."}];
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+}
+function renderFlashCard(){
+  var c = flashPool[flashIdx];
+  document.getElementById("flash-term").textContent = c.t;
+  document.getElementById("flash-def").innerHTML = c.d;
+  document.getElementById("flash-pos").textContent = (flashIdx+1) + " / " + flashPool.length;
+  var badge = document.getElementById("flash-badge");
+  badge.innerHTML = c.id ? '<span class="badge ' + OBJ_COLOR_CLASS[c.obj] + '">' + c.obj + '</span>' : "";
+}
+document.getElementById("flip-card").addEventListener("click", function(){
+  this.classList.toggle("flipped");
+});
+document.getElementById("btn-next").addEventListener("click", function(){
+  flashIdx = (flashIdx+1) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-prev").addEventListener("click", function(){
+  flashIdx = (flashIdx-1+flashPool.length) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-shuffle").addEventListener("click", function(){
+  for(var i=flashPool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=flashPool[i]; flashPool[i]=flashPool[j]; flashPool[j]=t; }
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-know").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"know"); }
+  document.getElementById("btn-next").click();
+});
+document.getElementById("btn-learning").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"learning"); }
+  document.getElementById("btn-next").click();
+});
+
+/* ---------- quiz + scenario shared engine ---------- */
+function makeEngine(kind, pool, roundSize){
+  var filter = "all";
+  var round = [];
+  var idx = 0;
+  var correctCount = 0;
+  var answered = false;
+
+  var filterRow = document.getElementById(kind+"-filters");
+  var startCard = document.getElementById(kind+"-start-card");
+  var runCard = document.getElementById(kind+"-run-card");
+  var endCard = document.getElementById(kind+"-end-card");
+  var startBtn = document.getElementById(kind+"-start");
+  var againBtn = document.getElementById(kind+"-again");
+  var nextBtn = document.getElementById(kind+"-next");
+  var objBadge = document.getElementById(kind+"-obj-badge");
+  var posEl = document.getElementById(kind+"-pos");
+  var qEl = document.getElementById(kind+"-q");
+  var optsEl = document.getElementById(kind+"-opts");
+  var explainEl = document.getElementById(kind+"-explain");
+  var scoreEl = document.getElementById(kind+"-score");
+  var noteEl = document.getElementById(kind+"-score-note");
+
+  function buildFilters(){
+    filterRow.innerHTML = "";
+    [["all","All"]].concat(OBJ_LIST.map(function(o){ return [o,o]; })).forEach(function(o){
+      var b = document.createElement("button");
+      b.className = "chip" + (filter === o[0] ? " on" : "");
+      b.textContent = o[1];
+      b.addEventListener("click", function(){ filter = o[0]; buildFilters(); });
+      filterRow.appendChild(b);
+    });
+  }
+  buildFilters();
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  function start(){
+    var source = filter === "all" ? pool : pool.filter(function(q){ return q.obj === filter; });
+    round = shuffled(source).slice(0, Math.min(roundSize, source.length));
+    idx = 0; correctCount = 0;
+    startCard.hidden = true; endCard.hidden = true; runCard.hidden = false;
+    renderQuestion();
+  }
+  startBtn.addEventListener("click", start);
+  againBtn.addEventListener("click", start);
+
+  function renderQuestion(){
+    answered = false;
+    var q = round[idx];
+    objBadge.innerHTML = '<span class="badge ' + OBJ_COLOR_CLASS[q.obj] + '">' + q.obj + " &middot; " + OBJ_TITLE[q.obj] + '</span>';
+    posEl.textContent = "Question " + (idx+1) + " / " + round.length;
+    qEl.textContent = q.q;
+    optsEl.innerHTML = "";
+    explainEl.hidden = true;
+    nextBtn.disabled = true;
+    q.c.forEach(function(choice, i){
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = choice;
+      b.addEventListener("click", function(){ selectAnswer(i); });
+      optsEl.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i){
+    if(answered) return;
+    answered = true;
+    var q = round[idx];
+    var isCorrect = (i === q.a);
+    if(isCorrect) correctCount++;
+    recordAnswer(q.obj, isCorrect);
+    var optBtns = optsEl.querySelectorAll(".opt");
+    optBtns.forEach(function(b, bi){
+      b.disabled = true;
+      if(bi === q.a) b.classList.add("correct");
+      else if(bi === i) b.classList.add("incorrect");
+    });
+    explainEl.hidden = false;
+    explainEl.textContent = (isCorrect ? "Correct. " : "Not quite. ") + q.e;
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", function(){
+    if(idx < round.length-1){ idx++; renderQuestion(); }
+    else finish();
+  });
+
+  function finish(){
+    runCard.hidden = true; endCard.hidden = false;
+    scoreEl.textContent = correctCount + " / " + round.length;
+    var pct = Math.round(100*correctCount/round.length);
+    var note = pct >= 80 ? "Strong round. Try a filtered objective to sharpen a weaker spot."
+      : pct >= 50 ? "Solid start — check the Progress tab to see which objective needs another pass."
+      : "Worth another round on this objective — flashcard it first, then come back.";
+    noteEl.textContent = note;
+  }
+}
+
+makeEngine("quiz", QUIZ, 10);
+makeEngine("scenario", SCENARIOS, 8);
+
+/* ---------- progress ---------- */
+function renderProgress(){
+  var objWrap = document.getElementById("obj-cards");
+  objWrap.innerHTML = "";
+  var worst = null;
+  OBJ_LIST.forEach(function(o){
+    var s = state.objStats[o];
+    var pct = s.t ? Math.round(100*s.c/s.t) : null;
+    if(pct !== null && s.t >= 3 && (worst === null || pct < worst.pct)) worst = {obj:o, pct:pct};
+    var div = document.createElement("div");
+    div.className = "objcard";
+    div.innerHTML =
+      '<div class="row1">' +
+        '<span class="badge ' + OBJ_COLOR_CLASS[o] + '">' + o + " &middot; " + OBJ_TITLE[o] + '</span>' +
+        '<span style="font-family:var(--font-display);font-size:13px;">' + (pct===null ? "Not started" : pct + "%") + '</span>' +
+      '</div>' +
+      '<div class="bar"><span style="width:' + (pct||0) + '%;background:var(--' + OBJ_VAR[o] + ');"></span></div>' +
+      '<div class="lede" style="margin:0;">' + s.c + ' correct of ' + s.t + ' answered</div>';
+    objWrap.appendChild(div);
+  });
+
+  var weakCard = document.getElementById("weak-card");
+  if(worst){
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><div class="weak">' +
+      '<strong>' + worst.obj + " &middot; " + OBJ_TITLE[worst.obj] + '</strong> is sitting at ' + worst.pct +
+      '% correct. Filter the Flashcards and Quiz tabs to ' + worst.obj + ' for a focused pass.</div>';
+  } else {
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><p class="lede">Answer at least 3 questions in an objective to unlock a weak-area callout.</p>';
+  }
+
+  var totalC = 0, totalT = 0;
+  OBJ_LIST.forEach(function(o){ totalC += state.objStats[o].c; totalT += state.objStats[o].t; });
+  var overall = document.getElementById("overall-stats");
+  overall.innerHTML =
+    '<div class="stattile"><div class="n">' + totalT + '</div><div class="l">Questions answered</div></div>' +
+    '<div class="stattile"><div class="n">' + (totalT? Math.round(100*totalC/totalT):0) + '%</div><div class="l">Overall accuracy</div></div>' +
+    '<div class="stattile"><div class="n">' + Object.keys(state.cardStatus).length + '</div><div class="l">Flashcards reviewed</div></div>';
+
+  var know = 0, learning = 0;
+  Object.keys(state.cardStatus).forEach(function(k){ if(state.cardStatus[k]==="know") know++; else learning++; });
+  var fstats = document.getElementById("flash-stats");
+  fstats.innerHTML =
+    '<div class="stattile"><div class="n">' + know + '</div><div class="l">Marked "Got it"</div></div>' +
+    '<div class="stattile"><div class="n">' + learning + '</div><div class="l">Marked "Still learning"</div></div>' +
+    '<div class="stattile"><div class="n">' + (FLASHCARDS.length-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
+}
+
+document.getElementById("btn-reset").addEventListener("click", function(){
+  if(confirm("Reset all Domain 5 Drill progress? This clears flashcard marks and quiz/scenario stats in this browser.")){
+    state = defaultState();
+    saveState();
+    renderProgress();
+  }
+});
+
+/* ---------- init ---------- */
+applyFlashFilter();
+})();
+</script>
+</body>
+</html>

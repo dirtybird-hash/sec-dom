@@ -171,15 +171,17 @@ var TOPICS = [
 <p>Cloud security starts with knowing who is actually responsible for what. The <strong>responsibility matrix</strong> (shared responsibility model) divides it: the <strong>cloud service provider</strong> secures the physical infrastructure, the hypervisor and the facilities; the <strong>customer</strong> secures their own data, identities, access control, encryption and application code.</p>
 <p>Where the line falls shifts with the service model &mdash; the customer owns more in IaaS, less in SaaS &mdash; and most cloud breaches happen in the gap where each side assumed the other had it covered.</p>
 <ul>
-<li><strong>Hybrid considerations</strong> &mdash; running on-premises and cloud together means securing data moving between them, keeping policy consistent across two very different control planes, and defending both.</li>
-<li><strong>Third-party vendors</strong> &mdash; you inherit their security posture without visibility into it. You cannot audit what you cannot see, and their mishandling of your data is still your incident.</li>
+<li><strong>Hybrid considerations</strong> &mdash; a hybrid cloud mixes environments: on-premises with public cloud, or several cloud providers used together. The providers don't talk to each other, so authentication, firewall rules and server settings must be configured separately in each and kept in step by hand &mdash; a mismatch is an opening. Each one logs in its own format, which makes correlation hard, and data moving between them crosses the public internet, so it needs protecting in transit.</li>
+<li><strong>Third-party vendors</strong> &mdash; you inherit their security posture without visibility into it. You cannot audit what you cannot see, and their mishandling of your data is still your incident. The controls: a <strong>vendor risk management</strong> policy, bringing vendors into your incident response process, and ongoing monitoring of their security and availability.</li>
 </ul>
+<blockquote><span class="tag">Gotcha</span>"Hybrid" is used two ways. The textbook definition is on-premises plus public cloud; Professor Messer also uses it for several cloud providers at once. Either way the exam point is the same: more than one environment means more places for configuration to drift.</blockquote>
 <blockquote><span class="tag">Gotcha</span>"The provider handles security" is always half true. They secure the cloud; you secure what you put <em>in</em> it. Misconfigured storage and over-broad permissions are customer-side failures every time.</blockquote>
 `},
 {id:"iac",obj:"3.1",title:"Infrastructure as Code",html:`
 <p><strong>Infrastructure as code (IaC)</strong> defines servers, networks and policy in machine-readable files that are version-controlled and deployed automatically, instead of being configured by hand.</p>
 <p>The security story cuts both ways. Consistency is the win: every environment is built from the same reviewed definition, so configuration drift largely disappears and rebuilding is trivial. The risk is that a mistake propagates just as reliably &mdash; one misconfiguration in the template becomes a misconfiguration in every environment it builds, instantly and everywhere.</p>
 <p>That makes the code itself the control point: it needs access control, code review, and scanning for insecure settings before it ships.</p>
+<p>In practice the definitions are template files, usually <strong>JSON or YAML</strong>, fed through a CI/CD pipeline. Because the definition isn't tied to specific hardware, the same file can rebuild the environment on demand, which is also the basis of <strong>orchestration</strong>: automatically building out a whole application instance whenever it's needed.</p>
 `},
 {id:"serverless",obj:"3.1",title:"Serverless",html:`
 <p><strong>Serverless</strong> runs code as functions invoked on demand, with the provider handling all the underlying infrastructure. There is still a server &mdash; you just never touch it.</p>
@@ -187,7 +189,8 @@ var TOPICS = [
 <p>What remains is entirely application-layer: securing the APIs that trigger functions, keeping function permissions minimal, validating input, and protecting data in transit and at rest. Functions given broader rights than they need are the common failure, because the blast radius of a compromised function is exactly its permission set.</p>
 `},
 {id:"micro",obj:"3.1",title:"Microservices",html:`
-<p><strong>Microservices</strong> break an application into small independent services that communicate over the network, rather than one large monolith.</p>
+<p><strong>Microservices</strong> break an application into small independent services that communicate over the network, rather than one large <strong>monolithic</strong> application where the interface, login and business logic all live in a single executable and every update means reinstalling the whole thing.</p>
+<p>Clients talk to an <strong>API gateway</strong>, which routes each request to the right service. APIs (application programming interfaces) are how the pieces are controlled programmatically, and each service can carry security matched to its job &mdash; the authentication service gets one set of controls, the database-writing service another.</p>
 <p>The resilience benefit is real &mdash; one service failing doesn't take down the application, and services scale and deploy independently. The isolation also limits what a single compromised component can reach.</p>
 <p>The cost is surface area. Every service is a separate thing to authenticate, authorize, patch, monitor and secure, and communication that used to happen inside one process now crosses the network where it can be intercepted. API management and service-to-service authentication become load-bearing security controls rather than architectural niceties.</p>
 <blockquote><span class="tag">Gotcha</span>Microservices trade a <em>smaller blast radius per component</em> for <em>more components to defend</em>. Both halves are true, and an exam question can be written from either side.</blockquote>
@@ -198,7 +201,14 @@ var TOPICS = [
 <li><strong>Logical segmentation</strong> &mdash; separation enforced by configuration rather than cabling: VLANs, subnets, firewall rules, security groups. Far more practical, and it limits lateral movement, but it depends entirely on that configuration being correct.</li>
 <li><strong>Software-defined networking (SDN)</strong> &mdash; separates the control plane from the data plane so the network is programmed centrally. Policy becomes consistent and quick to change, but the controller is a single high-value target and a potential single point of failure.</li>
 </ul>
-<blockquote><span class="tag">Gotcha</span>Air-gapped means <em>physically</em> disconnected. A heavily firewalled VLAN with no allowed routes is still logically segmented, not air-gapped &mdash; the cable exists.</blockquote>
+<div class="tblwrap"><table><caption>The three planes of operation</caption>
+<tr><th>Plane</th><th>What it does</th><th>Examples</th></tr>
+<tr><td><strong>Data plane</strong> (infrastructure layer)</td><td>Actually forwards the traffic</td><td>Switching, routing, NAT, encryption, trunking</td></tr>
+<tr><td><strong>Control plane</strong></td><td>Decides where traffic goes and tells the data plane</td><td>Routing tables, session tables, dynamic routing protocols</td></tr>
+<tr><td><strong>Management plane</strong></td><td>Where administrators configure the device</td><td>SSH, SNMP, APIs, the console port</td></tr>
+</table></div>
+<p>Splitting a device into planes is what lets it be written as software. That's how cloud platforms let you add a firewall or load balancer with a click: the device is virtual. Many SDN deployments are built on the open <strong>OpenFlow</strong> standard.</p>
+<blockquote><span class="tag">Gotcha</span>Air-gapped means <em>physically</em> disconnected. A heavily firewalled VLAN with no allowed routes is still logically segmented, not air-gapped &mdash; the cable exists. VLANs are the scalable answer: one physical switch behaves like several, where true physical isolation would need a separate switch per customer or segment.</blockquote>
 `},
 {id:"onprem",obj:"3.1",title:"On-Premises &amp; Centralized vs. Decentralized",html:`
 <p><strong>On-premises</strong> gives you full control and full responsibility &mdash; physical security, patching, monitoring and capacity are all yours. It can be made very secure, at higher cost and with far less elasticity than cloud.</p>
@@ -209,6 +219,7 @@ var TOPICS = [
 <tr><td>Failure</td><td>Single point of failure and a concentrated target</td><td>More resilient; no single kill shot</td></tr>
 <tr><td>Weakness</td><td>Compromise the centre, reach everything</td><td>Securing communication between nodes</td></tr>
 </table></div>
+<p>Most organizations are decentralized in practice &mdash; several sites, several clouds, several operating systems. The usual fix is a consolidated view: a single console that brings together alerts, logs and patch status. That buys visibility, but if the console goes down you lose sight of everything, and it needs more storage and compute as the organization grows.</p>
 `},
 {id:"virtcontain",obj:"3.1",title:"Virtualization &amp; Containerization",html:`
 <div class="tblwrap"><table>
@@ -218,6 +229,10 @@ var TOPICS = [
 <tr><td>Separation</td><td>Stronger &mdash; hypervisor-enforced</td><td>Weaker &mdash; a shared kernel is a shared failure domain</td></tr>
 <tr><td>Main risk</td><td><strong>VM escape</strong>: breaking out of the guest to reach the hypervisor or host</td><td>Untrusted or unpatched <strong>images</strong>, and insecure registries</td></tr>
 </table></div>
+<ul>
+<li><strong>Hypervisor</strong> &mdash; the software that divides hardware between virtual machines. <strong>Type 1</strong> (bare metal, native) runs directly on the hardware: ESXi, Hyper-V, KVM, XenServer. <strong>Type 2</strong> (hosted) runs as an application on a host operating system: VirtualBox, VMware Workstation.</li>
+<li><strong>Containers</strong> skip the hypervisor and the guest OS. Container software such as <strong>Docker</strong> runs on a single host operating system, and each container holds everything the app needs except the OS. The trade-off is that a container is tied to its host OS family &mdash; Linux containers need a Linux host.</li>
+</ul>
 <p>Container security is largely supply-chain security: where the base image came from, what's inside it, whether the registry is trusted, and how quickly images get rebuilt when a dependency is patched.</p>
 `},
 {id:"iot",obj:"3.1",title:"IoT",html:`
@@ -227,6 +242,7 @@ var TOPICS = [
 `},
 {id:"ics",obj:"3.1",title:"ICS / SCADA",html:`
 <p><strong>Industrial control systems</strong> and <strong>SCADA</strong> (supervisory control and data acquisition) run physical processes &mdash; power generation and distribution, water treatment, manufacturing lines, building systems. A compromise has physical consequences, which makes them high-value targets for nation-state actors.</p>
+<p>Operators run the plant from a central control room instead of visiting each machine. At the device level, <strong>programmable logic controllers (PLCs)</strong> and other embedded hardware do the physical work. Because a breach can be so serious, well-run SCADA networks are strictly segmented from the outside world.</p>
 <p>Three properties make them hard to defend:</p>
 <ol>
 <li><strong>Very long lifespans.</strong> Equipment stays in service for decades, long past any vendor support.</li>
@@ -237,34 +253,35 @@ var TOPICS = [
 `},
 {id:"embedded",obj:"3.1",title:"Embedded Systems &amp; RTOS",html:`
 <p>An <strong>embedded system</strong> is a computer built into a larger device to do one job &mdash; the controller in a printer, a vehicle, a medical pump. The user generally doesn't perceive it as a computer at all, which is part of the problem: it gets no patching, no monitoring, and no place in the asset inventory.</p>
-<p>A <strong>real-time operating system (RTOS)</strong> is used where timing is a correctness requirement, not a preference &mdash; an airbag controller or an industrial actuator must respond within a guaranteed window. That constraint squeezes out security features that introduce variable delay, and it makes updates risky because anything altering timing can break the system's core guarantee.</p>
+<p>A <strong>real-time operating system (RTOS)</strong> is <strong>deterministic</strong>: a critical task gets the whole system's attention immediately, where general-purpose OSes like Windows and Linux are non-deterministic and share resources. Anti-lock brakes are the classic example. An RTOS is used where timing is a correctness requirement, not a preference &mdash; an airbag controller or an industrial actuator must respond within a guaranteed window. That constraint squeezes out security features that introduce variable delay, and it makes updates risky because anything altering timing can break the system's core guarantee.</p>
 <blockquote><span class="tag">Gotcha</span>The recurring theme across IoT, ICS/SCADA, embedded and RTOS is the same: <strong>inability to patch</strong>. When a question describes a system that can't be updated, the expected answer is almost always isolation or a compensating control, not remediation.</blockquote>
 `},
 {id:"considerations",obj:"3.1",title:"Architecture Considerations Checklist",html:`
 <p>The objectives list the factors to weigh when comparing any two architecture models. Expect questions that hand you a scenario and ask which consideration it illustrates.</p>
 <div class="tblwrap"><table><caption>The named considerations</caption>
 <tr><th>Consideration</th><th>The question it answers</th></tr>
-<tr><td><strong>Availability</strong></td><td>Is the system reachable when needed?</td></tr>
-<tr><td><strong>Resilience</strong></td><td>Does it keep working when a component fails?</td></tr>
-<tr><td><strong>Cost</strong></td><td>Capital outlay versus ongoing operational spend.</td></tr>
-<tr><td><strong>Responsiveness</strong></td><td>How quickly does it react under load?</td></tr>
-<tr><td><strong>Scalability</strong></td><td>Can capacity grow with demand?</td></tr>
-<tr><td><strong>Ease of deployment</strong></td><td>How hard is it to stand up and roll out?</td></tr>
-<tr><td><strong>Risk transference</strong></td><td>Moving risk to someone else &mdash; a cloud provider, or an insurer.</td></tr>
-<tr><td><strong>Ease of recovery</strong></td><td>How quickly can it be restored after failure?</td></tr>
-<tr><td><strong>Patch availability</strong></td><td>Does the vendor still issue fixes?</td></tr>
-<tr><td><strong>Inability to patch</strong></td><td>The condition that forces compensating controls.</td></tr>
+<tr><td><strong>Availability</strong></td><td>Is the system reachable when needed &mdash; <em>by the right people</em>? Measured as uptime percentage ("five nines" = 99.999%).</td></tr>
+<tr><td><strong>Resilience</strong></td><td>Does it keep working when a component fails, and how fast does it come back? Measured by <strong>MTTR</strong> (mean time to repair).</td></tr>
+<tr><td><strong>Cost</strong></td><td>Installation, maintenance and replacement &mdash; plus depreciation (capital expense), operational expense and tax implications.</td></tr>
+<tr><td><strong>Responsiveness</strong></td><td>How quickly does it answer a request? Hard to quantify when one transaction has many steps.</td></tr>
+<tr><td><strong>Scalability</strong></td><td>Can capacity grow with demand? <strong>Elasticity</strong> is how quickly it expands and contracts. Security monitoring has to scale with it.</td></tr>
+<tr><td><strong>Ease of deployment</strong></td><td>How hard is it to stand up and roll out? Many moving parts, change control, and often orchestration.</td></tr>
+<tr><td><strong>Risk transference</strong></td><td>Moving risk to someone else &mdash; a cloud provider, or an insurer. <strong>Cybersecurity insurance</strong> can cover ransomware losses, downtime and legal costs; it doesn't stop the attack.</td></tr>
+<tr><td><strong>Ease of recovery</strong></td><td>How quickly can it be restored after failure? Reimaging from a saved image in minutes beats reinstalling from media for an hour.</td></tr>
+<tr><td><strong>Patch availability</strong></td><td>Does the vendor still issue fixes, and do you test and deploy them promptly?</td></tr>
+<tr><td><strong>Inability to patch</strong></td><td>The condition that forces compensating controls &mdash; embedded systems like HVAC controllers and time clocks often have no update path. Wall them off behind a firewall.</td></tr>
 <tr><td><strong>Power</strong></td><td>Consumption and continuity requirements.</td></tr>
-<tr><td><strong>Compute</strong></td><td>Processing capacity available and needed.</td></tr>
+<tr><td><strong>Compute</strong></td><td>Processing capacity available and needed. In the cloud, a scalable compute engine rather than a single CPU.</td></tr>
 </table></div>
+<blockquote><span class="tag">Gotcha</span><strong>Reliability, availability and durability</strong> are different measures. Availability counts all downtime, planned maintenance included. Reliability counts only failures, so a system can be more reliable but less available than another. Durability is about stored data surviving without loss or corruption over the long term.</blockquote>
 `},
 
 {id:"placement",obj:"3.2",title:"Device Placement, Security Zones &amp; Attack Surface",html:`
 <p>Where a security device sits determines what it can actually see and act on. A firewall at the perimeter inspects traffic entering and leaving; it is blind to traffic between two hosts on the same internal segment.</p>
 <ul>
-<li><strong>Security zones</strong> group systems by trust level &mdash; untrusted internet, a screened subnet (DMZ) for public-facing services, trusted internal, and high-security segments for sensitive data. Rules are then written between zones instead of between individual hosts, which scales and documents intent.</li>
-<li><strong>Attack surface</strong> is what you are trying to shrink with placement: fewer exposed services, fewer paths in, fewer things to monitor.</li>
-<li><strong>Connectivity</strong> &mdash; how systems reach each other and the outside world, and which of those paths genuinely need to exist.</li>
+<li><strong>Security zones</strong> group systems by use or access type, not by IP range &mdash; <strong>trusted / untrusted</strong>, or <strong>internal / external</strong>, or finer names like inside, internet, servers, databases and screened. A screened subnet (DMZ) holds public-facing services. Rules are then written between zones instead of between individual hosts, which scales and documents intent.</li>
+<li><strong>Attack surface</strong> is every way in: application code, open ports, the authentication process, and human error such as one misconfigured firewall rule. You shrink it by auditing code, closing unneeded ports, and monitoring traffic in real time.</li>
+<li><strong>Connectivity</strong> &mdash; how systems reach each other and the outside world, and which of those paths genuinely need to exist. Protect the cabling and wall jacks physically, encrypt at the application level in case someone taps a link, and use IPSec tunnels or a VPN concentrator for remote sites and users.</li>
 </ul>
 `},
 {id:"failmodes",obj:"3.2",title:"Failure Modes &amp; Traffic Handling",html:`
@@ -278,26 +295,72 @@ var TOPICS = [
 <tr><td><strong>Inline</strong></td><td>Traffic physically passes through it</td><td>Enforcement point, and a potential bottleneck or failure point</td></tr>
 <tr><td><strong>Tap / monitor</strong></td><td>Receives a mirrored copy</td><td>Zero impact on the live path; detection only</td></tr>
 </table></div>
+<p>A passive copy comes from a <strong>port mirror</strong>, which Cisco calls <strong>SPAN</strong> (Switch Port Analyzer), or from a physical <strong>network tap</strong> spliced into the cable. An IPS fed that way is effectively running as an IDS: it can alert, but the original traffic has already gone through.</p>
 <blockquote><span class="tag">Gotcha</span>Fail-open versus fail-closed is a <strong>CIA trade-off stated as a configuration</strong>. Availability-critical environments tend to fail open; high-security environments fail closed. The "right" answer depends on what the scenario says the organization values.</blockquote>
 `},
 {id:"firewalls",obj:"3.2",title:"Firewall Types",html:`
 <div class="tblwrap"><table><caption>The named firewall types</caption>
 <tr><th>Type</th><th>What it does</th></tr>
-<tr><td><strong>Web application firewall (WAF)</strong></td><td>Inspects HTTP/HTTPS traffic to a web application specifically, blocking SQL injection, XSS and similar application-layer attacks that a network firewall never sees.</td></tr>
-<tr><td><strong>Unified threat management (UTM)</strong></td><td>One appliance bundling firewall, IDS/IPS, antivirus, content filtering and VPN. Simple to run; a single point of failure and often a performance bottleneck.</td></tr>
-<tr><td><strong>Next-generation firewall (NGFW)</strong></td><td>Adds application awareness and deep packet inspection, identifying and controlling traffic by <em>application</em> rather than just port and protocol.</td></tr>
+<tr><td><strong>Web application firewall (WAF)</strong></td><td>Inspects HTTP/HTTPS input to a web application specifically, blocking SQL injection, XSS and similar application-layer attacks that a network firewall never sees. Often deployed alongside an NGFW, and required for cardholder-data apps under <strong>PCI DSS</strong>.</td></tr>
+<tr><td><strong>Unified threat management (UTM)</strong></td><td>An older all-in-one appliance, also called a <strong>web security gateway</strong>: firewall, IDS/IPS, anti-malware, URL filtering, content inspection, spam filtering, VPN endpoint, routing, a CSU/DSU for the WAN link, and bandwidth shaping (QoS). Simple to run, but many look only at layer 4, performance drops as features are switched on, and it's a single point of failure.</td></tr>
+<tr><td><strong>Next-generation firewall (NGFW)</strong></td><td>Operates at layer 7 with full packet decode, identifying and controlling traffic by <em>application</em> rather than just port and protocol &mdash; allow viewing a site but not posting to it, say. Also called an <strong>application layer gateway</strong>, <strong>stateful multilayer inspection</strong> or <strong>deep packet inspection</strong>. Usually adds built-in IPS signatures and URL categories (block "gambling", for example).</td></tr>
 </table></div>
+<p>Network-based firewalls usually also route (layer 3), perform NAT, and terminate VPNs.</p>
 <p><strong>Layer 4 vs. Layer 7</strong> is the underlying distinction. A layer 4 firewall makes decisions on IP addresses, ports and protocol &mdash; fast, but it cannot tell what the traffic actually is. A layer 7 firewall reads application content, so it can distinguish one service from another riding the same port and inspect what's inside.</p>
 <blockquote><span class="tag">Gotcha</span>Anything on port 443 looks identical to a layer 4 firewall. Distinguishing legitimate HTTPS from tunnelled traffic hiding inside it requires layer 7 inspection &mdash; that's the whole argument for NGFW.</blockquote>
 `},
 {id:"appliances",obj:"3.2",title:"Network Appliances",html:`
 <ul>
-<li><strong>Jump server</strong> &mdash; a single hardened, heavily logged host that administrators connect to first, and from which they reach sensitive systems. It collapses many administrative paths into one monitored chokepoint.</li>
-<li><strong>Proxy server</strong> &mdash; an intermediary for requests. A forward proxy sits in front of users for filtering, caching and anonymity; a reverse proxy sits in front of servers to distribute load and hide the back end.</li>
-<li><strong>IPS / IDS</strong> &mdash; intrusion <em>prevention</em> sits inline and blocks; intrusion <em>detection</em> sits passively and alerts. Same analysis, different authority to act.</li>
+<li><strong>Jump server</strong> &mdash; a single hardened, heavily logged host that administrators connect to first, often from outside the network, and from which they reach sensitive systems (SSH into a web server, for example). It collapses many administrative paths into one monitored chokepoint, which is exactly why compromising it is so valuable.</li>
+<li><strong>Proxy server</strong> &mdash; an intermediary that makes requests on someone's behalf, and can cache, apply URL filtering and scan content along the way.</li>
+<li><strong>IPS / IDS</strong> &mdash; intrusion <em>prevention</em> sits inline and blocks; intrusion <em>detection</em> sits passively and alerts. Same analysis, different authority to act. The network- and host-based versions (NIDS, NIPS, HIDS, HIPS) have their own topic.</li>
 <li><strong>Load balancer</strong> &mdash; distributes traffic across multiple servers for both capacity and availability, and removes a failed server from rotation automatically.</li>
-<li><strong>Sensors</strong> &mdash; collection points feeding traffic and telemetry to monitoring systems. Placement decides visibility.</li>
+<li><strong>Sensors and collectors</strong> &mdash; sensors are collection points (built into switches, routers, firewalls and IPSes, or standalone) feeding traffic statistics and logs to a central <strong>collector</strong>. The collector may be a vendor console or a <strong>SIEM</strong> (security information and event management), which consolidates, correlates and reports across every source. Placement decides visibility.</li>
 </ul>
+<div class="tblwrap"><table><caption>Proxy types</caption>
+<tr><th>Type</th><th>What sets it apart</th></tr>
+<tr><td><strong>Forward proxy</strong> (internal)</td><td>Sits in front of internal users and controls their outbound requests to the internet</td></tr>
+<tr><td><strong>Reverse proxy</strong></td><td>Sits in front of internal servers and receives inbound requests for them, dropping malicious ones and caching responses</td></tr>
+<tr><td><strong>Explicit proxy</strong></td><td>The client or OS is configured with the proxy's name or address</td></tr>
+<tr><td><strong>Transparent proxy</strong></td><td>Intercepts traffic with no client configuration; users don't know it's there</td></tr>
+<tr><td><strong>Application proxy</strong></td><td>Understands a specific protocol, such as HTTP. NAT is the simplest proxy of all</td></tr>
+<tr><td><strong>Open proxy</strong></td><td>Run by an unknown third party for anyone to use. Used to get around controls, and it can inject ads or malware &mdash; usually blocked</td></tr>
+</table></div>
+<div class="tblwrap"><table><caption>Load balancer features</caption>
+<tr><th>Feature</th><th>What it means</th></tr>
+<tr><td><strong>Active/active</strong></td><td>Every server is in use; a failed one is dropped and the load spread over the rest</td></tr>
+<tr><td><strong>Active/passive</strong></td><td>Standby servers wait idle and are brought in when an active server fails</td></tr>
+<tr><td><strong>TCP offload</strong></td><td>Keeps persistent connections to the servers instead of a new session per user</td></tr>
+<tr><td><strong>SSL/TLS offload</strong></td><td>Decrypts at the load balancer, often in dedicated hardware, so servers don't have to</td></tr>
+<tr><td><strong>Caching, prioritization, content switching</strong></td><td>Answers repeat requests, favours certain traffic, and sends request types to specific servers</td></tr>
+</table></div>
+`},
+{id:"idsips",obj:"3.2",title:"IDS &amp; IPS &mdash; NIDS, NIPS, HIDS &amp; HIPS",html:`
+<p>Both watch for attacks; the difference is authority. An <strong>intrusion detection system (IDS)</strong> observes and alerts. An <strong>intrusion prevention system (IPS)</strong> sits inline and can drop the traffic or end the session itself.</p>
+<p>The second question is <em>where</em> it runs, which gives four combinations:</p>
+<div class="tblwrap"><table><caption>Where it sits, and whether it can block</caption>
+<tr><th></th><th>Detect and alert</th><th>Detect and block</th></tr>
+<tr><td><strong>Network-based</strong> &mdash; watches traffic on a segment</td><td><strong>NIDS</strong> &mdash; fed a copy from a tap or SPAN port</td><td><strong>NIPS</strong> &mdash; placed inline on the traffic path</td></tr>
+<tr><td><strong>Host-based</strong> &mdash; software on one endpoint</td><td><strong>HIDS</strong> &mdash; watches that machine's logs, files and processes</td><td><strong>HIPS</strong> &mdash; the same, and can stop the action on the host</td></tr>
+</table></div>
+<ul>
+<li><strong>Network-based</strong> covers many hosts from one sensor, but it can't read encrypted payloads and has no idea what happened on the endpoint afterwards.</li>
+<li><strong>Host-based</strong> sees what actually happened on the machine &mdash; including traffic after it's been decrypted, file changes and local logins &mdash; but only where it's installed, and it uses that host's resources.</li>
+</ul>
+<p><strong>How they decide something is an attack:</strong></p>
+<ul>
+<li><strong>Signature-based</strong> &mdash; matches activity against patterns of known attacks. Accurate and quiet for what it knows, blind to anything new, and only as good as its last signature update.</li>
+<li><strong>Anomaly-based</strong> (behavior-based) &mdash; learns a baseline of normal and flags deviations. Can catch novel and zero-day activity, but raises more false alarms and needs a clean baseline to learn from.</li>
+<li><strong>Heuristic</strong> &mdash; rules of thumb about what suspicious activity tends to look like, sitting between the two.</li>
+</ul>
+<div class="tblwrap"><table><caption>The four outcomes</caption>
+<tr><th>Outcome</th><th>What happened</th></tr>
+<tr><td><strong>True positive</strong></td><td>Real attack, and it alerted</td></tr>
+<tr><td><strong>True negative</strong></td><td>Normal activity, and it stayed quiet</td></tr>
+<tr><td><strong>False positive</strong></td><td>Normal activity, but it alerted &mdash; noise, and eventually alert fatigue</td></tr>
+<tr><td><strong>False negative</strong></td><td>Real attack, and it stayed quiet &mdash; the dangerous one</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Placement follows from the name. An IPS must be <strong>inline</strong> to block, so it inherits the fail-open/fail-closed decision. An IDS works from a copy, so it can never break traffic &mdash; and can never stop it. And a <strong>false negative</strong> is worse than a false positive: one wastes an analyst's time, the other means the attack went through unseen.</blockquote>
 `},
 {id:"portsec",obj:"3.2",title:"Port Security &mdash; 802.1X &amp; EAP",html:`
 <p><strong>Port security</strong> controls what is allowed to connect to a physical network port, which is the defence against someone walking in and plugging a device into a wall jack.</p>
@@ -305,18 +368,19 @@ var TOPICS = [
 <ol>
 <li><strong>Supplicant</strong> &mdash; the device requesting access.</li>
 <li><strong>Authenticator</strong> &mdash; the switch or access point controlling the port.</li>
-<li><strong>Authentication server</strong> &mdash; usually RADIUS, which makes the actual decision.</li>
+<li><strong>Authentication server</strong> &mdash; the back-end credential store that makes the actual decision: usually RADIUS, but LDAP, TACACS+ or Kerberos (Active Directory) also appear.</li>
 </ol>
-<p>Only after the server approves does the port open for normal traffic.</p>
+<p>The exchange: the authenticator sends an <strong>EAP request</strong> for identity, the supplicant returns an <strong>EAP response</strong>, the authenticator relays it to the server, the server asks for credentials, and they pass back through the authenticator. Only after the server approves does the port open for normal traffic. 802.1X is also called <strong>NAC</strong> (port-based network access control), and it applies to wired switch ports as well as wireless.</p>
 <p><strong>EAP</strong> (Extensible Authentication Protocol) is the framework carrying that exchange. It isn't one method but a container for many &mdash; certificate-based, credential-based, tunnelled &mdash; which is why you see variants like EAP-TLS and PEAP.</p>
 `},
 {id:"securecomm",obj:"3.2",title:"Secure Communication &amp; Access",html:`
 <ul>
-<li><strong>VPN</strong> &mdash; an encrypted tunnel across an untrusted network. <em>Remote access</em> VPNs connect a user to the corporate network; <em>site-to-site</em> VPNs connect two networks permanently.</li>
+<li><strong>VPN</strong> &mdash; an encrypted tunnel across an untrusted network. <em>Remote access</em> VPNs connect a user to the corporate network; <em>site-to-site</em> VPNs connect two networks permanently, with the firewalls at each end acting as endpoints so no client software is needed.</li>
+<li><strong>VPN concentrator</strong> &mdash; the device that terminates everyone's tunnels and decrypts the traffic into the corporate network. It can be a standalone appliance, software, or built into a firewall or NGFW.</li>
 <li><strong>Tunneling</strong> &mdash; encapsulating one protocol inside another, which is the mechanism a VPN is built on.</li>
-<li><strong>TLS</strong> &mdash; secures traffic at the transport layer. Typical for client VPNs and for essentially all web traffic.</li>
-<li><strong>IPSec</strong> &mdash; secures at the network layer, protecting all IP traffic between endpoints. Typical for site-to-site VPNs. Two modes: <em>transport</em> encrypts only the payload; <em>tunnel</em> encrypts the entire original packet and wraps it in a new one.</li>
-<li><strong>SD-WAN</strong> &mdash; software-defined wide area networking, routing traffic intelligently across multiple links (broadband, MPLS, cellular) based on policy and current conditions.</li>
+<li><strong>TLS</strong> &mdash; secures traffic at the transport layer. Typical for client VPNs and for essentially all web traffic. An <strong>SSL/TLS VPN</strong> runs over TCP 443, so it passes through existing firewalls easily; it can use ordinary login credentials, run clientless in a browser, or be set <strong>always-on</strong> so the laptop connects at startup.</li>
+<li><strong>IPSec</strong> &mdash; secures at the network layer, protecting all IP traffic between endpoints. Typical for site-to-site VPNs. Two modes: <em>transport</em> encrypts only the payload; <em>tunnel</em> encrypts the entire original packet, wraps it in an IPSec header and trailer, and adds a new IP header addressed to the concentrator.</li>
+<li><strong>SD-WAN</strong> &mdash; software-defined wide area networking, routing traffic intelligently across multiple links (broadband, MPLS, cellular) based on policy and current conditions. It exists because applications moved to the cloud: backhauling every remote site through the data centre and then out to the cloud wastes hops.</li>
 <li><strong>SASE</strong> &mdash; secure access service edge, converging SD-WAN with cloud-delivered security so policy follows the user wherever they connect from, rather than requiring traffic to be hauled back to a datacentre first.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>TLS operates at the transport layer and typically protects specific applications; IPSec operates at the network layer and protects everything between the endpoints. Client VPN leans TLS, site-to-site leans IPSec.</blockquote>
@@ -335,18 +399,25 @@ var TOPICS = [
 <tr><td><strong>Legal information</strong></td><td>Contracts, filings, privileged communications.</td></tr>
 <tr><td><strong>Financial information</strong></td><td>Accounts, transactions, payroll.</td></tr>
 <tr><td><strong>Human-readable</strong></td><td>Directly intelligible &mdash; a document, a spreadsheet.</td></tr>
-<tr><td><strong>Non-human-readable</strong></td><td>Requires processing to interpret &mdash; binary formats, encoded data, database files.</td></tr>
+<tr><td><strong>Non-human-readable</strong></td><td>Requires processing to interpret &mdash; binary formats, encoded data, database files. A barcode is both: bars for the machine, printed digits for people.</td></tr>
 </table></div>
+<p>Three more terms show up alongside the named types:</p>
+<ul>
+<li><strong>PII</strong> (personally identifiable information) &mdash; anything that ties back to a person: name, date of birth, mother's maiden name, address, biometrics.</li>
+<li><strong>PHI</strong> (protected health information) &mdash; an individual's health status, records, and even their healthcare payments.</li>
+<li><strong>Proprietary</strong> &mdash; data unique to the organization and used only by it, including its trade secrets.</li>
+</ul>
+<p>Intellectual property is often visible to others and protected by copyright and trademark law. Trade secrets are protected by keeping them hidden. Legal records are often public, but the PII inside them isn't.</p>
 `},
 {id:"dataclass",obj:"3.3",title:"Data Classifications",html:`
 <p>Classification assigns a sensitivity label that then drives handling requirements. The objectives name six.</p>
 <ul>
-<li><strong>Public</strong> &mdash; disclosure causes no harm; intended for release.</li>
+<li><strong>Public</strong> (unclassified) &mdash; disclosure causes no harm; intended for release.</li>
 <li><strong>Private</strong> &mdash; concerns an individual and is not for general distribution.</li>
 <li><strong>Sensitive</strong> &mdash; disclosure would cause harm.</li>
 <li><strong>Confidential</strong> &mdash; restricted to a defined group, with meaningful consequences for disclosure.</li>
-<li><strong>Restricted</strong> &mdash; tightly limited access, typically requiring explicit authorization.</li>
-<li><strong>Critical</strong> &mdash; essential to operations; loss or corruption threatens the organization itself.</li>
+<li><strong>Restricted</strong> &mdash; tightly limited access, typically requiring explicit authorization or a signed non-disclosure agreement.</li>
+<li><strong>Critical</strong> &mdash; essential to operations and must always be available; loss or corruption threatens the organization itself.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>Classification and data <em>type</em> are different axes. A file can be financial (type) and confidential (classification) at once. Questions often supply one and ask for the other.</blockquote>
 `},
@@ -354,15 +425,17 @@ var TOPICS = [
 <div class="tblwrap"><table>
 <tr><th>State</th><th>Where it lives</th><th>How it's protected</th></tr>
 <tr><td><strong>At rest</strong></td><td>Stored on disk, in a database, on backup media</td><td>Full-disk, file, database or record-level encryption; access controls</td></tr>
-<tr><td><strong>In transit</strong></td><td>Moving across a network</td><td>TLS, IPSec, VPN tunnels</td></tr>
+<tr><td><strong>In transit</strong> (in motion)</td><td>Moving across a network</td><td>TLS, IPSec, VPN tunnels; firewall and IPS policy on the path</td></tr>
 <tr><td><strong>In use</strong></td><td>Loaded in memory, being processed</td><td>The hard one &mdash; it must be decrypted to be worked on. Secure enclaves, memory encryption, strict access control</td></tr>
 </table></div>
-<blockquote><span class="tag">Gotcha</span>Data <strong>in use</strong> is the state most often overlooked and the hardest to defend, precisely because processing requires plaintext. That's what secure enclaves and memory encryption exist to address.</blockquote>
+<blockquote><span class="tag">Gotcha</span>Data <strong>in use</strong> is the state most often overlooked and the hardest to defend, precisely because processing requires plaintext. That's what secure enclaves and memory encryption exist to address. The 2013 Target breach is the textbook case: data was encrypted at rest and in transit, but malware on the point-of-sale terminals scraped about 110 million card numbers straight out of RAM.</blockquote>
 `},
 {id:"sovereignty",obj:"3.3",title:"Data Sovereignty &amp; Geolocation",html:`
 <p><strong>Data sovereignty</strong> is the principle that data is subject to the laws of the country it is physically stored in. Put a European customer's data on a server in another jurisdiction and you may have created a compliance violation without any technical failure occurring at all.</p>
+<p>Some laws also dictate <em>where</em> data may be stored. The EU's <strong>GDPR</strong> (General Data Protection Regulation) is the standard example: data collected on EU citizens is expected to be stored in the EU.</p>
 <p>This is what makes cloud region selection a legal decision rather than a performance one. Providers offer region pinning specifically so customers can satisfy sovereignty requirements.</p>
 <p><strong>Geolocation</strong> is knowing where data and users actually are, which supports both compliance and security &mdash; and underpins <strong>geographic restrictions</strong> (geofencing), where access is permitted or denied based on physical location.</p>
+<p>How location is determined: the <strong>IP subnet</strong> is accurate on an internal network but poor for mobile devices. <strong>GPS</strong> is precise. <strong>802.11</strong> location compares the Wi-Fi SSIDs a device can see against databases of known access points, and mobile carriers add their own data. Streaming services blocking out-of-country viewers are geofencing in action; so is granting extra data access only inside the building.</p>
 `},
 {id:"securemethods",obj:"3.3",title:"Methods to Secure Data",html:`
 <div class="tblwrap"><table><caption>The eight named methods</caption>
@@ -376,16 +449,26 @@ var TOPICS = [
 <tr><td><strong>Segmentation</strong></td><td>Separates data so a compromise reaches less of it</td><td>n/a &mdash; architectural</td></tr>
 <tr><td><strong>Permission restrictions</strong></td><td>Limits who can read, write or delete</td><td>n/a &mdash; access control</td></tr>
 </table></div>
+<ul>
+<li><strong>Encryption</strong> turns <strong>plaintext</strong> into <strong>ciphertext</strong>. Good ciphertext bears no resemblance to the input, a property called <strong>confusion</strong>.</li>
+<li><strong>Hashing</strong> produces a fixed-length <strong>message digest</strong> (for example, SHA-256 gives 256 bits, shown as 64 hex characters). A one-character change in the input gives a completely different hash. Two different inputs producing the same hash is a <strong>collision</strong>, and algorithms prone to collisions get retired. Used for password storage, download integrity checks, and, with public-key cryptography, <strong>digital signatures</strong>.</li>
+<li><strong>Obfuscation</strong> keeps code working while making it hard to read. Developers use it to protect their code, and attackers use it to hide malicious scripts. <strong>Masking</strong> is a form of it &mdash; the receipt that shows only the last four digits of a card.</li>
+<li><strong>Tokenization</strong> in tap-to-pay: a token service issues one-time tokens to your phone, and the card number itself never crosses the network. No encryption or hashing is involved.</li>
+<li><strong>Segmentation</strong> means splitting one huge database into several, so one breach doesn't expose everything and each part gets security matched to its content.</li>
+</ul>
 <blockquote><span class="tag">Gotcha</span>Only <strong>encryption</strong> is reversible with a key, and only <strong>hashing</strong> is genuinely one-way. Tokenization looks like encryption but has no mathematical relationship to the original &mdash; the mapping lives in a separate vault.</blockquote>
 `},
 
 {id:"ha",obj:"3.4",title:"High Availability &mdash; Load Balancing vs. Clustering",html:`
-<p><strong>High availability</strong> means the service stays reachable through failures, usually expressed as a percentage of uptime. The two named mechanisms are often confused.</p>
+<p><strong>High availability (HA)</strong> means the service stays reachable through failures, usually expressed as a percentage of uptime. It goes a step beyond <strong>redundancy</strong>: redundant means a spare exists, perhaps still in its box, while HA means the spare is already running and takes over automatically. HA pairs can be <strong>active/passive</strong> (the standby waits) or <strong>active/active</strong> (both carry traffic). Every added layer of HA &mdash; second firewall, second network path, second power feed &mdash; adds cost, until it becomes a business decision whether the downtime risk is worth paying to remove.</p>
+<p>The two named mechanisms are often confused.</p>
 <div class="tblwrap"><table>
 <tr><th></th><th>Load balancing</th><th>Clustering</th></tr>
 <tr><td>Purpose</td><td>Distribute work across multiple active servers</td><td>Group servers so they act as one resilient system</td></tr>
 <tr><td>Primary goal</td><td>Performance and capacity, availability as a benefit</td><td>Availability and failover</td></tr>
 <tr><td>On failure</td><td>The failed node is dropped from rotation</td><td>Another node takes over the failed node's role</td></tr>
+<tr><td>Do the servers know about each other?</td><td>No &mdash; only the load balancer knows the pool</td><td>Yes &mdash; cluster members coordinate, usually via shared storage</td></tr>
+<tr><td>Operating systems</td><td>Can differ</td><td>Usually identical, clustering is configured in the OS</td></tr>
 </table></div>
 <p><strong>Failover</strong> is the act of switching to the standby when the primary fails, and it should be tested rather than assumed.</p>
 `},
@@ -404,7 +487,7 @@ var TOPICS = [
 <p><strong>Multi-cloud</strong> applies the same logic to providers. It removes dependence on any single cloud's availability and reduces vendor lock-in, at the price of managing different security models, different identity systems and different tooling in parallel.</p>
 `},
 {id:"coop",obj:"3.4",title:"Continuity of Operations &amp; Capacity Planning",html:`
-<p><strong>Continuity of operations</strong> is the plan for keeping the business running when normal systems are unavailable &mdash; including the manual and alternative procedures used while technology is down. It is a business plan, not purely a technical one, and it only works if people have practised it.</p>
+<p><strong>Continuity of operations planning (COOP)</strong> is the plan for keeping the business running when normal systems are unavailable &mdash; including the manual and alternative procedures used while technology is down. It is a business plan, not purely a technical one, and it only works if people have practised it. Think paper receipts when the POS system is down, manual sign-offs, or phoning in card approvals.</p>
 <p><strong>Capacity planning</strong> covers three named dimensions, and the first is the one organizations forget:</p>
 <ul>
 <li><strong>People</strong> &mdash; enough trained staff, including cover for absence and turnover. A recovery plan requiring a specific individual is a plan with a single point of failure.</li>
@@ -416,8 +499,8 @@ var TOPICS = [
 <p>An untested recovery plan is a hypothesis. The objectives name four testing methods, in rough order of realism and disruption.</p>
 <ol>
 <li><strong>Tabletop exercise</strong> &mdash; participants talk through their response to a scenario in a room. Cheap, non-disruptive, good for finding gaps in the plan and in people's understanding. Nothing is actually switched over.</li>
-<li><strong>Simulation</strong> &mdash; a realistic drill of the response, exercising the actions without necessarily affecting production.</li>
-<li><strong>Parallel processing</strong> &mdash; the recovery systems are brought up and run alongside production, confirming they work without taking the live service down.</li>
+<li><strong>Simulation</strong> &mdash; a realistic drill of the response, exercising the actions without necessarily affecting production. The familiar example is a <strong>phishing simulation</strong>: send a fake phishing email, see whether filters catch it, and assign training to whoever clicks.</li>
+<li><strong>Parallel processing</strong> &mdash; the recovery systems are brought up and run alongside production, confirming they work without taking the live service down. Professor Messer also uses the term for its other meaning: spreading transactions across multiple CPUs or machines, so losing one processor doesn't stop the work. Know both.</li>
 <li><strong>Failover</strong> &mdash; the real thing: production is actually cut over to the recovery system. The most conclusive test and the most disruptive.</li>
 </ol>
 <blockquote><span class="tag">Gotcha</span>A <strong>tabletop</strong> is discussion only &mdash; no systems are touched. If the scenario describes people walking through a scenario in a conference room, that's the answer regardless of how thorough the discussion sounds.</blockquote>
@@ -426,11 +509,11 @@ var TOPICS = [
 <p>Backups are the last line, and the objectives name the decisions that make them work.</p>
 <ul>
 <li><strong>Onsite / offsite</strong> &mdash; onsite restores fast; offsite survives the event that destroys the site. You need both, which is the reasoning behind keeping multiple copies in more than one location.</li>
-<li><strong>Frequency</strong> &mdash; determines how much data you lose in a failure. Set by the recovery point objective, not by convenience.</li>
+<li><strong>Frequency</strong> &mdash; determines how much data you lose in a failure. Set by the recovery point objective, not by convenience. Different systems warrant different intervals, often as multiple backup sets (daily, weekly, monthly).</li>
 <li><strong>Encryption</strong> &mdash; backup media is a full copy of your data in a portable form. Unencrypted backups are a breach waiting for someone to lose a tape.</li>
-<li><strong>Snapshots</strong> &mdash; point-in-time captures of a system's state, quick to take and quick to roll back to.</li>
+<li><strong>Snapshots</strong> &mdash; point-in-time captures of a system's state, especially VMs and cloud instances. One click to take, a few clicks to roll back to; daily snapshots behave much like incremental backups. Take one before any major change.</li>
 <li><strong>Replication</strong> &mdash; continuously copying data to another system. Excellent for availability, but it faithfully replicates corruption and ransomware encryption too, which is why replication is not a backup.</li>
-<li><strong>Journaling</strong> &mdash; recording changes as they happen so a system can be rolled forward or back to a precise point.</li>
+<li><strong>Journaling</strong> &mdash; writing changes to a journal first, then committing them to the data. If power fails mid-write, the database is either untouched or can be repaired from the journal at startup, so it avoids corruption.</li>
 <li><strong>Recovery</strong> &mdash; the part that actually matters. A backup that has never been restored is unverified.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span><strong>Replication is not a backup.</strong> It copies whatever happens, including the bad thing, in near real time. Backups protect against corruption precisely because they are point-in-time and separate.</blockquote>
@@ -443,6 +526,13 @@ var TOPICS = [
 <tr><td>Runtime</td><td>Minutes</td><td>Hours to days, while fuel lasts</td></tr>
 <tr><td>Purpose</td><td>Ride out brief outages; provide time for a clean shutdown or for the generator to start</td><td>Sustain operations through an extended outage</td></tr>
 </table></div>
+<div class="tblwrap"><table><caption>UPS types</caption>
+<tr><th>Type</th><th>How it works</th></tr>
+<tr><td><strong>Offline / standby</strong></td><td>Runs on utility power and switches to battery when it fails. Cheapest.</td></tr>
+<tr><td><strong>Line-interactive</strong></td><td>Boosts voltage gradually during sags, which suits areas with frequent brownouts</td></tr>
+<tr><td><strong>Online / double-conversion</strong></td><td>Always runs from the battery circuit, so there is no switchover at all</td></tr>
+</table></div>
+<p>A UPS protects against <strong>blackouts</strong> (no power), <strong>brownouts</strong> (low voltage) and <strong>surges</strong> (excess voltage). When the battery runs low it can signal servers to shut down gracefully. A generator may power the whole building or only outlets marked for generator power.</p>
 <p>They're designed to work together: the UPS covers the gap between utility power failing and the generator reaching full output. A UPS also conditions power, smoothing the sags and surges that damage equipment over time.</p>
 <blockquote><span class="tag">Gotcha</span>A generator alone leaves a gap at the moment of failure &mdash; it needs seconds to start, and servers do not tolerate seconds without power. The UPS exists to cover exactly that interval.</blockquote>
 `}
@@ -452,14 +542,23 @@ var GOTCHAS_TABLE = `
 <div class="tblwrap"><table><caption>Every pink callout in Domain 3, collected</caption>
 <tr><th>Pair</th><th>The distinction</th></tr>
 <tr><td>Provider vs. customer responsibility</td><td>They secure the cloud; you secure what you put in it</td></tr>
+<tr><td>Hybrid cloud, two usages</td><td>On-premises plus public cloud vs. several cloud providers at once &mdash; either way, more places to drift</td></tr>
+<tr><td>Reliability vs. availability vs. durability</td><td>Failure downtime only vs. all downtime including maintenance vs. stored data surviving intact</td></tr>
 <tr><td>Air-gapped vs. logical segmentation</td><td>Physically disconnected vs. separated by configuration</td></tr>
 <tr><td>VM vs. container</td><td>Full guest OS, hypervisor-isolated vs. shared kernel, image-based risk</td></tr>
+<tr><td>Type 1 vs. Type 2 hypervisor</td><td>Bare metal on the hardware vs. hosted on an operating system</td></tr>
+<tr><td>Data vs. control vs. management plane</td><td>Forwards traffic vs. decides where it goes vs. where admins configure the device</td></tr>
 <tr><td>Microservices trade-off</td><td>Smaller blast radius per component vs. more components to defend</td></tr>
 <tr><td>Centralized vs. decentralized</td><td>Consistent policy with one target vs. resilient but drifting</td></tr>
 <tr><td>Fail-open vs. fail-closed</td><td>Availability preserved vs. security preserved</td></tr>
 <tr><td>Active vs. passive</td><td>Inline and can block vs. observes a copy and only alerts</td></tr>
 <tr><td>Inline vs. tap/monitor</td><td>Traffic passes through it vs. receives a mirrored copy</td></tr>
+<tr><td>Forward vs. reverse proxy</td><td>Protects outbound user requests vs. protects inbound requests to your servers</td></tr>
+<tr><td>Explicit vs. transparent proxy</td><td>Configured on the client vs. invisible to the user</td></tr>
 <tr><td>IDS vs. IPS</td><td>Detects and alerts vs. sits inline and blocks</td></tr>
+<tr><td>NIDS vs. HIDS</td><td>One sensor watching a network segment vs. software watching one host from the inside</td></tr>
+<tr><td>Signature vs. anomaly detection</td><td>Known patterns, blind to new attacks vs. deviation from a baseline, noisier</td></tr>
+<tr><td>False positive vs. false negative</td><td>Alerted on normal activity vs. missed a real attack &mdash; the dangerous one</td></tr>
 <tr><td>Layer 4 vs. Layer 7</td><td>Ports and addresses vs. application content</td></tr>
 <tr><td>WAF vs. NGFW vs. UTM</td><td>Web app traffic vs. application-aware inspection vs. everything in one box</td></tr>
 <tr><td>TLS vs. IPSec</td><td>Transport layer, per-application vs. network layer, all IP traffic</td></tr>
@@ -468,8 +567,11 @@ var GOTCHAS_TABLE = `
 <tr><td>At rest / in transit / in use</td><td>Stored vs. moving vs. being processed &mdash; in use is the hard one</td></tr>
 <tr><td>Encryption vs. tokenization vs. masking</td><td>Reversible with a key vs. mapped by a vault vs. partially hidden and inferable</td></tr>
 <tr><td>Load balancing vs. clustering</td><td>Distributing work vs. failing over a role</td></tr>
+<tr><td>Redundancy vs. high availability</td><td>A spare exists vs. the spare is already running and takes over automatically</td></tr>
+<tr><td>Active/active vs. active/passive</td><td>Every node carries load vs. standbys wait until needed</td></tr>
 <tr><td>Hot vs. warm vs. cold site</td><td>Recovery time bought with cost</td></tr>
 <tr><td>Tabletop vs. failover test</td><td>Discussion only vs. actually cutting production over</td></tr>
+<tr><td>Parallel processing, two meanings</td><td>Recovery systems run alongside production vs. work spread across multiple CPUs</td></tr>
 <tr><td>Replication vs. backup</td><td>Copies everything including the damage vs. point-in-time and separate</td></tr>
 <tr><td>UPS vs. generator</td><td>Instant but brief vs. delayed but sustained &mdash; you need both</td></tr>
 </table></div>
@@ -539,6 +641,7 @@ function matchingTopics(){
 function topicCard(t, forceOpen){
   var isOpen = !!openIds[t.id] || forceOpen;
   var div = document.createElement("div");
+  div.id = "t-" + t.id;
   div.className = "topic" + (isOpen ? " open" : "");
   div.innerHTML =
     '<button class="topic-head" type="button">' +
@@ -600,6 +703,24 @@ function render(){
 }
 
 render();
+
+/* open a topic when arriving from a link like notebook.html#topic-id */
+function openFromHash(){
+  var h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+  if(!h || !TOPICS.some(function(t){ return t.id === h; })) return;
+  activeTab = "all"; query = ""; searchInput.value = ""; clearBtn.hidden = true;
+  openIds = {}; openIds[h] = true;
+  render();
+  var el = document.getElementById("t-" + h);
+  if(!el) return;
+  setTimeout(function(){
+    var bar = document.querySelector(".topbar");
+    var y = el.getBoundingClientRect().top + window.pageYOffset - (bar ? bar.offsetHeight : 0) - 12;
+    window.scrollTo(0, Math.max(0, y));
+  }, 50);
+}
+openFromHash();
+window.addEventListener("hashchange", openFromHash);
 })();
 </script>
 </body>

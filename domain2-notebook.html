@@ -756,6 +756,7 @@ function matchingTopics(){
 function topicCard(t, forceOpen){
   var isOpen = !!openIds[t.id] || forceOpen;
   var div = document.createElement("div");
+  div.id = "t-" + t.id;
   div.className = "topic" + (isOpen ? " open" : "");
   div.innerHTML =
     '<button class="topic-head" type="button">' +
@@ -817,6 +818,24 @@ function render(){
 }
 
 render();
+
+/* open a topic when arriving from a link like notebook.html#topic-id */
+function openFromHash(){
+  var h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+  if(!h || !TOPICS.some(function(t){ return t.id === h; })) return;
+  activeTab = "all"; query = ""; searchInput.value = ""; clearBtn.hidden = true;
+  openIds = {}; openIds[h] = true;
+  render();
+  var el = document.getElementById("t-" + h);
+  if(!el) return;
+  setTimeout(function(){
+    var bar = document.querySelector(".topbar");
+    var y = el.getBoundingClientRect().top + window.pageYOffset - (bar ? bar.offsetHeight : 0) - 12;
+    window.scrollTo(0, Math.max(0, y));
+  }, 50);
+}
+openFromHash();
+window.addEventListener("hashchange", openFromHash);
 })();
 </script>
 </body>

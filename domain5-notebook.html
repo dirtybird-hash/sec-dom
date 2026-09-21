@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Searchable reference notes for Security+ Domain 5.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 5 Notebook</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#6d4bc4; --accent-ink:#ffffff;
+  --hl-yellow:#a9791c; --hl-yellow-bg:#fbf1d9;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-pink:#b3437c; --hl-pink-bg:#fbeaf2;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#a98cf0; --accent-ink:#1a1030;
+    --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#a98cf0; --accent-ink:#1a1030;
+  --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:800px;margin:0 auto;padding-inline:16px;padding-block:16px 56px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:800px;margin:0 auto;padding:14px 16px 12px;display:flex;flex-direction:column;gap:10px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.searchrow{position:relative;}
+.searchrow input{width:100%;font-family:var(--font-body);font-size:15px;padding:11px 40px 11px 14px;
+  border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.searchrow input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.searchrow .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;
+  color:var(--text-muted);font-family:var(--font-display);font-size:12px;cursor:pointer;padding:6px 8px;}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-muted);padding:2px 2px 0;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.dot.y{background:var(--hl-yellow);} .dot.g{background:var(--hl-green);}
+.dot.b{background:var(--hl-blue);} .dot.p{background:var(--hl-pink);}
+.results-note{font-family:var(--font-display);font-size:12px;color:var(--text-muted);padding-top:14px;}
+.topiclist{display:flex;flex-direction:column;gap:10px;padding-top:14px;}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;}
+.topic-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:none;border:none;text-align:left;padding:15px 16px;cursor:pointer;color:var(--text);}
+.topic-head h2{font-size:15px;margin:0;font-weight:600;letter-spacing:0;}
+.topic-badge{font-family:var(--font-display);font-size:10.5px;letter-spacing:.02em;color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;padding:2px 8px;flex:none;}
+.chev{font-family:var(--font-display);color:var(--text-muted);transition:transform .2s;flex:none;}
+.topic.open .chev{transform:rotate(90deg);}
+.topic-body{padding:0 18px 18px;font-size:14.5px;line-height:1.6;display:none;}
+.topic.open .topic-body{display:block;}
+.topic-body p{margin:0 0 12px;}
+.topic-body strong{color:var(--hl-yellow);background:linear-gradient(transparent 65%, var(--hl-yellow-bg) 65%);
+  font-weight:600;}
+.topic-body ul,.topic-body ol{margin:0 0 12px;padding-left:22px;}
+.topic-body ol{border-left:3px solid var(--hl-blue);padding-left:18px;margin-left:2px;}
+.topic-body li{margin-bottom:7px;}
+.topic-body table{width:100%;border-collapse:collapse;margin:0 0 14px;font-size:13.5px;}
+.topic-body caption{caption-side:top;text-align:left;font-family:var(--font-display);font-size:11px;
+  color:var(--text-muted);margin-bottom:6px;}
+.topic-body th{background:var(--hl-green-bg);color:var(--hl-green);text-align:left;padding:8px 10px;
+  border:1px solid var(--border);font-family:var(--font-display);font-size:11.5px;letter-spacing:.02em;}
+.topic-body td{padding:8px 10px;border:1px solid var(--border);vertical-align:top;}
+.tblwrap{overflow-x:auto;margin-bottom:14px;}
+.tblwrap table{margin-bottom:0;}
+.topic-body blockquote{margin:0 0 12px;border-left:3px solid var(--hl-pink);background:var(--hl-pink-bg);
+  border-radius:0 8px 8px 0;padding:10px 13px;font-size:13.5px;line-height:1.5;}
+.topic-body blockquote .tag{font-family:var(--font-display);color:var(--hl-pink);font-size:11px;
+  text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+.topic-body code{font-family:var(--font-display);font-size:12.5px;background:var(--surface-2);
+  padding:1px 5px;border-radius:4px;}
+.empty{text-align:center;color:var(--text-muted);padding:40px 10px;font-size:14px;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 5 Notebook</h1>
+      <span class="sub">SY0-701 &middot; Security Program Management &amp; Oversight</span>
+    </div>
+    <div class="searchrow">
+      <input type="text" id="search" placeholder="Search Domain 5 notes&hellip; e.g. &quot;ALE&quot;, &quot;RPO&quot;, &quot;right to audit&quot;" autocomplete="off">
+      <button class="clear" id="clear-search" hidden>Clear</button>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="legend">
+      <span><span class="dot y"></span>Terms</span>
+      <span><span class="dot g"></span>Specs &amp; tables</span>
+      <span><span class="dot b"></span>Process &amp; sequence</span>
+      <span><span class="dot p"></span>Gotchas</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="results-note" id="results-note" hidden></div>
+  <div class="topiclist" id="topiclist"></div>
+  <div class="empty" id="empty-state" hidden>No notes match that search. Try a shorter term, or clear the search to browse by objective.</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"5.1":"Security Governance","5.2":"Risk Management","5.3":"Third-Party Risk","5.4":"Security Compliance","5.5":"Audits &amp; Assessments","5.6":"Security Awareness","gotchas":"Gotchas"};
+var TAB_ORDER = ["all","5.1","5.2","5.3","5.4","5.5","5.6","gotchas"];
+var TAB_LABEL = {"all":"All","5.1":"5.1","5.2":"5.2","5.3":"5.3","5.4":"5.4","5.5":"5.5","5.6":"5.6","gotchas":"Gotchas"};
+
+var TOPICS = [
+{id:"govdocs",obj:"5.1",title:"Guidelines, Policies, Standards &amp; Procedures",html:`
+<p>Governance documents form a hierarchy, from the broad <em>why</em> down to the specific <em>how</em>. The exam expects you to tell them apart by how binding and how specific they are.</p>
+<div class="tblwrap"><table><caption>The governance document hierarchy</caption>
+<tr><th>Document</th><th>What it does</th><th>Mandatory?</th><th>Example</th></tr>
+<tr><td><strong>Policy</strong></td><td>States what the organization requires and why, at a high level</td><td>Yes</td><td>"All sensitive data must be encrypted"</td></tr>
+<tr><td><strong>Standard</strong></td><td>Sets the specific, measurable requirement that fulfils a policy</td><td>Yes</td><td>"Use AES-256 for data at rest"</td></tr>
+<tr><td><strong>Procedure</strong></td><td>Step-by-step instructions for carrying it out</td><td>Yes</td><td>"How to enable disk encryption on a new laptop"</td></tr>
+<tr><td><strong>Guideline</strong></td><td>Recommendations and best practice where judgment is allowed</td><td>No</td><td>"Consider a passphrase of four or more words"</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>Guidelines are the only optional one.</strong> If the scenario says "recommended" or "suggested", it's a guideline; if it gives exact values to meet, it's a standard; if it gives numbered steps, it's a procedure.</blockquote>
+`},
+{id:"policies",obj:"5.1",title:"Policies",html:`
+<p>Policies say <em>what</em> must happen and <em>why</em>; technical controls and procedures handle the <em>how</em>. A policy nobody enforces is decoration.</p>
+<div class="tblwrap"><table><caption>The named policies</caption>
+<tr><th>Policy</th><th>Covers</th></tr>
+<tr><td><strong>Acceptable use policy (AUP)</strong></td><td>What users may and may not do with company systems, devices and networks. Signed at onboarding; it also gives the organization legal footing if someone must be disciplined</td></tr>
+<tr><td><strong>Information security policy</strong></td><td>The master statement of how the organization protects the confidentiality, integrity and availability of its information, and who is responsible</td></tr>
+<tr><td><strong>Business continuity</strong></td><td>Keeping essential functions running during a disruption, including manual fallbacks (taking card payments by phone approval when the network is down)</td></tr>
+<tr><td><strong>Disaster recovery</strong></td><td>Restoring IT after a major event (natural, technological or human-caused): recovery site, data restoration, application recovery, staffing</td></tr>
+<tr><td><strong>Incident response</strong></td><td>How security incidents are handled: roles, communication, the response lifecycle (NIST SP 800-61)</td></tr>
+<tr><td><strong>Software development lifecycle (SDLC)</strong></td><td>How software moves from idea to retirement with security built in &mdash; whether by <em>waterfall</em> (sequential phases) or <em>agile</em> (short repeated sprints)</td></tr>
+<tr><td><strong>Change management</strong></td><td>The requirement that changes are requested, assessed, approved, scheduled, documented and reversible</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>Business continuity keeps the business running; disaster recovery restores IT.</strong> BC is the broader plan; DR is the part of it that brings technology back.</blockquote>
+`},
+{id:"standards",obj:"5.1",title:"Standards",html:`
+<p>Standards turn a policy into specific, checkable requirements. Organizations write their own or adopt published ones from bodies such as ISO and NIST.</p>
+<ul>
+<li><strong>Password</strong> &mdash; length and complexity, change frequency, how passwords are stored (salted hashes with an approved algorithm), approved password managers, reset procedures. May also require that network devices authenticate centrally rather than with local accounts.</li>
+<li><strong>Access control</strong> &mdash; which model is used, how access is requested and approved (manager sign-off, completed training), and what triggers removal (departure, contract end, security concern).</li>
+<li><strong>Physical security</strong> &mdash; badges and badge rules for employees, contractors and visitors, lock types, escorts, cameras and monitoring.</li>
+<li><strong>Encryption</strong> &mdash; which algorithms and key lengths are approved, and the requirements for each data state: at rest, in transit and in use.</li>
+</ul>
+`},
+{id:"procedures",obj:"5.1",title:"Procedures &mdash; Change Management, Onboarding &amp; Playbooks",html:`
+<p><strong>Change management</strong> procedure, in order:</p>
+<ol>
+<li>Define the <strong>scope</strong> &mdash; what exactly is changing and on which systems.</li>
+<li>Assess the <strong>risk</strong> &mdash; of making the change and of not making it.</li>
+<li>Write the <strong>plan</strong>, including testing.</li>
+<li>Get <strong>approval</strong> from the system owner and the <strong>change control board (CCB)</strong>, which schedules it into a maintenance window.</li>
+<li>Confirm a <strong>backout plan</strong> exists &mdash; how to undo it if it fails.</li>
+<li>Implement, then <strong>document</strong> what was done.</li>
+</ol>
+<p><strong>Onboarding / offboarding</strong> &mdash; onboarding: sign the AUP and handbook, create accounts, assign rights by role, issue equipment. Offboarding: recover equipment and data, and <strong>disable</strong> the account rather than delete it, since deleting can destroy encryption keys and data you still need.</p>
+<p><strong>Playbooks</strong> &mdash; ordered, step-by-step response procedures for a specific event: ransomware, a data breach, a phishing report. SOAR platforms automate playbooks.</p>
+<blockquote><span class="tag">Gotcha</span>The most important part of a change request is the <strong>backout (rollback) plan</strong>. At offboarding, <strong>disable, don't delete</strong>.</blockquote>
+`},
+{id:"external",obj:"5.1",title:"External Considerations",html:`
+<div class="tblwrap"><table><caption>Pressures from outside the organization</caption>
+<tr><th>Consideration</th><th>What it means</th></tr>
+<tr><td><strong>Regulatory</strong></td><td>Laws and regulations dictating how data is protected and kept &mdash; SOX for public-company financial records, HIPAA for health information, retention mandates</td></tr>
+<tr><td><strong>Legal</strong></td><td>Breach-disclosure deadlines, legal holds, reporting illegal activity, data residency rules for data stored in the cloud</td></tr>
+<tr><td><strong>Industry</strong></td><td>Sector norms and standards: utilities isolate control systems; healthcare balances clinician access with heavy encryption; PCI DSS for anyone handling cards</td></tr>
+<tr><td><strong>Local/regional</strong></td><td>City, county and state rules and records</td></tr>
+<tr><td><strong>National</strong></td><td>Federal law, government and defence requirements</td></tr>
+<tr><td><strong>Global</strong></td><td>Operating across countries means meeting several, sometimes conflicting, data protection regimes (GDPR and others)</td></tr>
+</table></div>
+`},
+{id:"governance",obj:"5.1",title:"Governance Structures, Monitoring &amp; Revision",html:`
+<ul>
+<li><strong>Boards</strong> &mdash; the board of directors sets broad objectives and risk direction.</li>
+<li><strong>Committees</strong> &mdash; subject-matter experts who work out how to meet the board's goals and report back.</li>
+<li><strong>Government entities</strong> &mdash; public-sector governance adds legal, administrative and political constraints, and meetings are often open to the public.</li>
+<li><strong>Centralized vs. decentralized</strong> &mdash; one group decides for the whole organization, versus decisions delegated to business units or the people doing the work. Consistency versus agility; neither is automatically right.</li>
+</ul>
+<p><strong>Monitoring and revision</strong> &mdash; governance documents are living. Review them on a schedule and whenever something changes: new technology, a new threat, an incident, a new regulation, a failed audit.</p>
+`},
+{id:"dataroles",obj:"5.1",title:"Data Roles &mdash; Owner, Controller, Processor, Custodian",html:`
+<p>The objectives name four roles: owners, controllers, processors, and custodians/stewards.</p>
+<div class="tblwrap"><table><caption>Roles and responsibilities for data</caption>
+<tr><th>Role</th><th>Responsibility</th><th>Example</th></tr>
+<tr><td><strong>Owner</strong></td><td>Senior person accountable for the data set; sets classification and who may access it</td><td>VP of Sales owns customer data</td></tr>
+<tr><td><strong>Controller</strong></td><td>Decides <em>why</em> and <em>how</em> personal data is processed</td><td>The payroll department deciding who is paid what</td></tr>
+<tr><td><strong>Processor</strong></td><td>Processes the data on the controller's behalf and instructions</td><td>The outside payroll company that cuts the cheques</td></tr>
+<tr><td><strong>Custodian / steward</strong></td><td>Day-to-day handling: applies labels and access controls, keeps data accurate, backed up and compliant</td><td>IT and database administrators</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>Owner = accountable. Custodian = does the daily work.</strong> Controller decides the purpose; processor acts on the controller's instructions. Under GDPR the controller carries primary responsibility even when a processor does the work.</blockquote>
+`},
+
+{id:"riskassess",obj:"5.2",title:"Risk Identification &amp; Assessment",html:`
+<p><strong>Risk identification</strong> finds what could go wrong &mdash; threats (internal and external), vulnerabilities, and the assets they affect. <strong>Risk assessment</strong> then evaluates them. The objectives name four timings:</p>
+<div class="tblwrap"><table><caption>Types of risk assessment</caption>
+<tr><th>Type</th><th>When</th><th>Example</th></tr>
+<tr><td><strong>Ad hoc</strong></td><td>As needed, for one specific concern</td><td>The CEO hears about a new attack; a group assesses that one threat and disbands</td></tr>
+<tr><td><strong>Recurring</strong></td><td>On a schedule</td><td>Quarterly or annual assessments, sometimes mandated (PCI DSS requires one yearly)</td></tr>
+<tr><td><strong>One-time</strong></td><td>Tied to a specific project</td><td>An acquisition, a new system rollout</td></tr>
+<tr><td><strong>Continuous</strong></td><td>Ongoing, built into operations</td><td>A risk check inside every change request; automated monitoring</td></tr>
+</table></div>
+`},
+{id:"riskanalysis",obj:"5.2",title:"Risk Analysis &mdash; Qualitative vs. Quantitative",html:`
+<p><strong>Qualitative</strong> analysis rates risk in categories (low/medium/high, often a colour-coded grid of likelihood against impact). Fast, good for prioritizing, subjective. <strong>Quantitative</strong> analysis puts money and numbers on it.</p>
+<div class="tblwrap"><table><caption>The quantitative formulas</caption>
+<tr><th>Term</th><th>Meaning</th><th>Formula</th></tr>
+<tr><td><strong>AV</strong> &mdash; asset value</td><td>What the asset is worth to the organization, including lost revenue and fines, not only replacement cost</td><td>&mdash;</td></tr>
+<tr><td><strong>EF</strong> &mdash; exposure factor</td><td>Fraction of the asset lost in one event (0.25 = a quarter; 1.0 = total loss)</td><td>&mdash;</td></tr>
+<tr><td><strong>SLE</strong> &mdash; single loss expectancy</td><td>Money lost in one occurrence</td><td><strong>SLE = AV &times; EF</strong></td></tr>
+<tr><td><strong>ARO</strong> &mdash; annualized rate of occurrence</td><td>Expected occurrences per year (0.1 = once in ten years)</td><td>&mdash;</td></tr>
+<tr><td><strong>ALE</strong> &mdash; annualized loss expectancy</td><td>Expected loss per year</td><td><strong>ALE = SLE &times; ARO</strong></td></tr>
+</table></div>
+<p>Worked example: a laptop worth $1,000 is a total loss when stolen (EF 1.0), so SLE = $1,000. Seven are stolen a year (ARO 7), so ALE = $7,000. A control costing less than $7,000 a year that prevents those thefts pays for itself.</p>
+<ul>
+<li><strong>Probability</strong> &mdash; a quantitative, statistical chance based on data. <strong>Likelihood</strong> &mdash; a qualitative judgment (rare, possible, almost certain). Often used interchangeably.</li>
+<li><strong>Impact</strong> &mdash; the consequence if it happens: to life and safety first, then property, finances and reputation.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Get the order right: <strong>SLE = AV &times; EF</strong>, then <strong>ALE = SLE &times; ARO</strong>. If a control's annual cost exceeds the ALE it reduces, it isn't worth buying.</blockquote>
+`},
+{id:"riskregister",obj:"5.2",title:"Risk Register, Appetite &amp; Tolerance",html:`
+<p>The <strong>risk register</strong> is the living list of identified risks, each with its description, rating, owner and planned response.</p>
+<ul>
+<li><strong>Key risk indicators (KRIs)</strong> &mdash; metrics that warn a risk is rising, such as patching backlog growth or failed-login trends.</li>
+<li><strong>Risk owners</strong> &mdash; a named person accountable for managing each risk.</li>
+<li><strong>Risk threshold</strong> &mdash; the level at which a risk demands action or escalation.</li>
+</ul>
+<div class="tblwrap"><table><caption>Appetite vs. tolerance</caption>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td><strong>Risk appetite</strong></td><td>How much risk the organization is willing to pursue to meet its goals &mdash; a broad stance. <em>Expansionary</em> (accepts more risk for growth), <em>neutral</em>, or <em>conservative</em> (avoids risk)</td></tr>
+<tr><td><strong>Risk tolerance</strong></td><td>The acceptable variation around that appetite for a specific risk &mdash; how far past the target you'll go before acting</td></tr>
+</table></div>
+<p>An analogy: the speed limit is the appetite; how far over it police let you go before ticketing is the tolerance, and it tightens in bad weather.</p>
+<p><strong>Risk reporting</strong> summarizes the register for leadership: top and emerging risks, how each is being handled, and trends, so management can decide where to spend.</p>
+`},
+{id:"riskstrategies",obj:"5.2",title:"Risk Management Strategies",html:`
+<div class="tblwrap"><table><caption>The four responses</caption>
+<tr><th>Strategy</th><th>What it means</th><th>Example</th></tr>
+<tr><td><strong>Transfer</strong></td><td>Shift the financial impact to someone else</td><td>Cyber insurance; outsourcing to a provider under contract</td></tr>
+<tr><td><strong>Accept</strong></td><td>Acknowledge the risk and live with it, because it's low or fixing it costs more</td><td>Documented sign-off by the risk owner</td></tr>
+<tr><td><strong>Avoid</strong></td><td>Stop doing the risky activity altogether</td><td>Retire the legacy service instead of securing it</td></tr>
+<tr><td><strong>Mitigate</strong></td><td>Reduce likelihood or impact with controls</td><td>Deploy an NGFW, MFA, backups</td></tr>
+</table></div>
+<p>Two forms of acceptance are named:</p>
+<ul>
+<li><strong>Exemption</strong> &mdash; the policy doesn't apply to this system at all. An unsupported machine that can never be patched is exempted from the patch policy, on condition it stays off the network.</li>
+<li><strong>Exception</strong> &mdash; the policy still applies, but a temporary deviation is allowed. This month's patch breaks a critical app, so it may be installed after the usual three-day deadline.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Insurance <strong>transfers</strong> risk; it doesn't reduce it. <strong>Exemption</strong> = released from the policy; <strong>exception</strong> = temporary deviation from it.</blockquote>
+`},
+{id:"bia",obj:"5.2",title:"Business Impact Analysis &mdash; RTO, RPO, MTTR, MTBF",html:`
+<p>A <strong>business impact analysis (BIA)</strong> works out which functions matter most and what an outage of each would cost, which then sets recovery targets.</p>
+<div class="tblwrap"><table><caption>The recovery metrics</caption>
+<tr><th>Metric</th><th>Question it answers</th><th>Example</th></tr>
+<tr><td><strong>RTO</strong> &mdash; recovery time objective</td><td>How quickly must the function be back?</td><td>Order system back within 4 hours</td></tr>
+<tr><td><strong>RPO</strong> &mdash; recovery point objective</td><td>How much data can we afford to lose, measured in time?</td><td>No more than 15 minutes of transactions &mdash; so back up at least that often</td></tr>
+<tr><td><strong>MTTR</strong> &mdash; mean time to repair</td><td>On average, how long does a fix take?</td><td>Diagnose, get the part, install, configure</td></tr>
+<tr><td><strong>MTBF</strong> &mdash; mean time between failures</td><td>On average, how long does it run before failing?</td><td>Total uptime &divide; number of failures</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>RTO is about time to recover; RPO is about data loss</strong> (how far back your last good copy is). High MTBF is good; low MTTR is good.</blockquote>
+`},
+
+{id:"vendorassess",obj:"5.3",title:"Vendor Assessment",html:`
+<p>Every vendor that touches your data &mdash; payroll, marketing platforms, cloud hosts, ISPs &mdash; extends your attack surface. Assessment checks their security before and during the relationship, and the contract should spell out the expectations.</p>
+<ul>
+<li><strong>Penetration testing</strong> &mdash; requiring the vendor to be tested, often by an independent specialist, with results shared.</li>
+<li><strong>Right-to-audit clause</strong> &mdash; contract language allowing you to audit the vendor's security, and on what terms.</li>
+<li><strong>Evidence of internal audits</strong> &mdash; the vendor's own audit results showing its controls work.</li>
+<li><strong>Independent assessments</strong> &mdash; third-party reports such as SOC 2 or ISO 27001 certification, which bring an outside view.</li>
+<li><strong>Supply chain analysis</strong> &mdash; examining the vendor's own suppliers, since compromise can come from anywhere upstream. SolarWinds (2020) is the textbook case: malicious code shipped inside a legitimately signed update to thousands of customers.</li>
+</ul>
+`},
+{id:"vendorselect",obj:"5.3",title:"Vendor Selection, Monitoring &amp; Rules of Engagement",html:`
+<ul>
+<li><strong>Due diligence</strong> &mdash; investigating a vendor before signing: financial stability, security posture, references, background checks.</li>
+<li><strong>Conflict of interest</strong> &mdash; anything that could compromise judgment: the vendor also serves your main competitor, a relative of an executive works there, gifts offered for the contract.</li>
+<li><strong>Vendor monitoring</strong> &mdash; continuing after signing: financial health, security reviews, news and breach reports, with a named internal owner for each relationship.</li>
+<li><strong>Questionnaires</strong> &mdash; standard security questionnaires asking vendors how they protect data, handle incidents, plan for disasters and manage their own suppliers. Answers feed the vendor risk rating.</li>
+<li><strong>Rules of engagement</strong> &mdash; the agreed terms for how testing and interaction with the vendor happens: scope, timing, contacts, data handling.</li>
+</ul>
+`},
+{id:"agreements",obj:"5.3",title:"Agreement Types",html:`
+<div class="tblwrap"><table><caption>Agreements, roughly from least to most binding</caption>
+<tr><th>Agreement</th><th>Purpose</th></tr>
+<tr><td><strong>MOU</strong> &mdash; memorandum of understanding</td><td>Informal statement of shared intent and broad goals; not a binding contract</td></tr>
+<tr><td><strong>MOA</strong> &mdash; memorandum of agreement</td><td>More detailed than an MOU, spelling out each party's responsibilities; some binding elements but generally not a full contract</td></tr>
+<tr><td><strong>NDA</strong> &mdash; non-disclosure agreement</td><td>Legally protects confidential information. Unilateral (one party bound), bilateral/mutual, or multilateral</td></tr>
+<tr><td><strong>MSA</strong> &mdash; master service agreement</td><td>The umbrella contract setting general terms (billing, liability, confidentiality) for an ongoing relationship</td></tr>
+<tr><td><strong>SOW / WO</strong> &mdash; statement of work / work order</td><td>Defines a specific piece of work under the MSA: scope, deliverables, schedule, location</td></tr>
+<tr><td><strong>SLA</strong> &mdash; service-level agreement</td><td>Measurable service commitments (uptime, response time, repair time) and the penalties if missed</td></tr>
+<tr><td><strong>BPA</strong> &mdash; business partners agreement</td><td>Terms between partners: ownership stakes, profit sharing, who makes decisions, what happens if the partnership fails</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>MSA is the framework; SOW is each job under it.</strong> An <strong>SLA</strong> is the one with measurable uptime/response numbers. MOU &lt; MOA in formality, and neither is a full contract.</blockquote>
+`},
+
+{id:"compreporting",obj:"5.4",title:"Compliance Reporting &amp; Consequences",html:`
+<p>Compliance means meeting the requirements of laws, regulations, standards and contracts that apply to the organization.</p>
+<ul>
+<li><strong>Internal reporting</strong> &mdash; to leadership, often through a chief compliance officer, on whether the organization is meeting its obligations.</li>
+<li><strong>External reporting</strong> &mdash; to regulators, customers or card brands, often annually. Late or inaccurate reports carry their own penalties.</li>
+</ul>
+<div class="tblwrap"><table><caption>Consequences of non-compliance</caption>
+<tr><th>Consequence</th><th>What it looks like</th></tr>
+<tr><td><strong>Fines</strong></td><td>Monetary penalties from regulators (HIPAA, GDPR, and others)</td></tr>
+<tr><td><strong>Sanctions</strong></td><td>Restrictions on operating, such as being barred from certain markets or trading partners</td></tr>
+<tr><td><strong>Reputational damage</strong></td><td>Lost customer trust and share price after a breach becomes public</td></tr>
+<tr><td><strong>Loss of license</strong></td><td>Losing the right to operate or sell &mdash; e.g. the ability to process card payments</td></tr>
+<tr><td><strong>Contractual impacts</strong></td><td>Breach of contract, penalties or termination by partners</td></tr>
+</table></div>
+<p>Uber is the standard example: a 2016 breach of 57 million records was concealed for a year, including a payment to the attackers disguised as a bug bounty. It ended in $148 million in settlements and a criminal conviction for the former security chief. Prompt disclosure would have avoided most of it.</p>
+`},
+{id:"compmonitor",obj:"5.4",title:"Compliance Monitoring",html:`
+<ul>
+<li><strong>Due diligence / due care</strong> &mdash; due diligence is investigating and understanding the risks and obligations; due care is acting reasonably on that knowledge, doing what a prudent organization would. Together they show good faith.</li>
+<li><strong>Attestation and acknowledgement</strong> &mdash; a responsible executive formally signs off that the organization is compliant; employees acknowledge they've read and accept policies.</li>
+<li><strong>Internal and external</strong> monitoring &mdash; your own compliance team plus outside auditors and regulators.</li>
+<li><strong>Automation</strong> &mdash; tools that continuously collect evidence and flag gaps instead of relying on a yearly scramble.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span><strong>Due diligence = research and understand. Due care = act on it.</strong> Professor Messer frames it as due care for internal activity and due diligence for third parties; the core idea is the same &mdash; knowing, then doing.</blockquote>
+`},
+{id:"privacy",obj:"5.4",title:"Privacy",html:`
+<p>Privacy law applies at every level: <strong>local/regional</strong> (state privacy laws), <strong>national</strong> (HIPAA for health, GLBA for financial institutions), and <strong>global</strong> (the EU's <strong>GDPR</strong>, which follows EU residents' data wherever it goes).</p>
+<ul>
+<li><strong>Data subject</strong> &mdash; the identifiable person the data is about. GDPR frames rights from their point of view.</li>
+<li><strong>Controller vs. processor</strong> &mdash; the controller decides why and how personal data is processed and carries primary responsibility; the processor acts on its instructions, usually bound by contract and NDA.</li>
+<li><strong>Ownership</strong> &mdash; who is accountable for each data set.</li>
+<li><strong>Data inventory and retention</strong> &mdash; knowing what personal data you hold, where, why, who owns it and how long you keep it. You can't honour privacy rights over data you can't find.</li>
+<li><strong>Right to be forgotten</strong> &mdash; under GDPR, a data subject can require their personal data to be erased.</li>
+</ul>
+`},
+
+{id:"audits",obj:"5.5",title:"Audits &amp; Attestation",html:`
+<div class="tblwrap"><table><caption>Internal vs. external</caption>
+<tr><th></th><th>Named items</th><th>Purpose</th></tr>
+<tr><td><strong>Internal</strong></td><td><strong>Compliance</strong> checks, an <strong>audit committee</strong> overseeing risk and directing internal audits, and <strong>self-assessments</strong> by teams against requirements</td><td>Find and fix problems before an outsider does</td></tr>
+<tr><td><strong>External</strong></td><td><strong>Regulatory</strong> audits and <strong>examinations</strong> required by law, <strong>assessments</strong> against a framework, and <strong>independent third-party audits</strong></td><td>Objective verification that others can rely on</td></tr>
+</table></div>
+<p><strong>Attestation</strong> is the formal opinion that follows an audit, stating that the results are accurate and controls are as described. The audit comes first; attestation vouches for it.</p>
+<blockquote><span class="tag">Gotcha</span>An <strong>independent third-party audit</strong> is the answer when a question asks for an objective, unbiased assessment. Self-assessments are internal and can't provide that.</blockquote>
+`},
+{id:"pentesttypes",obj:"5.5",title:"Penetration Testing Types &amp; Reconnaissance",html:`
+<div class="tblwrap"><table><caption>By approach</caption>
+<tr><th>Type</th><th>What it is</th></tr>
+<tr><td><strong>Physical</strong></td><td>Testing locks, doors, badges and staff &mdash; physical access defeats most digital controls</td></tr>
+<tr><td><strong>Offensive</strong> (red team)</td><td>Attacks to find and exploit weaknesses</td></tr>
+<tr><td><strong>Defensive</strong> (blue team)</td><td>Detects and responds to attacks in real time</td></tr>
+<tr><td><strong>Integrated</strong> (purple)</td><td>Red and blue working together in a continuous feedback loop</td></tr>
+</table></div>
+<div class="tblwrap"><table><caption>By knowledge given to the tester</caption>
+<tr><th>Environment</th><th>Tester knows</th><th>Old name</th></tr>
+<tr><td><strong>Known environment</strong></td><td>Full details: network maps, source code, credentials</td><td>White box</td></tr>
+<tr><td><strong>Partially known environment</strong></td><td>Some information, often to focus the test</td><td>Gray box</td></tr>
+<tr><td><strong>Unknown environment</strong></td><td>Nothing; starts like an outside attacker</td><td>Black box</td></tr>
+</table></div>
+<p><strong>Reconnaissance</strong> comes first. <strong>Passive</strong> recon gathers information without touching the target's systems: websites, social media, job postings, public records, DNS registration, dumpster diving. <strong>Active</strong> recon interacts directly &mdash; ping sweeps, port scans, OS fingerprinting, service/version scans &mdash; and leaves traces in the target's logs.</p>
+<blockquote><span class="tag">Gotcha</span>If the target could see it in its logs, it's <strong>active</strong>. Reading their website or LinkedIn is <strong>passive</strong>.</blockquote>
+`},
+
+{id:"phishing",obj:"5.6",title:"Phishing Awareness",html:`
+<ul>
+<li><strong>Campaigns</strong> &mdash; simulated phishing emails sent to staff, with opens and clicks reported centrally and clickers enrolled in training automatically. They also test the email filters.</li>
+<li><strong>Recognizing a phishing attempt</strong> &mdash; urgency or threats, requests for credentials or payment, mismatched or look-alike link domains, unexpected attachments, spelling and grammar errors, a sender who doesn't match the claimed organization.</li>
+<li><strong>Responding to reported suspicious messages</strong> &mdash; a simple, well-known way to report (a button in the mail client), fast triage by security, feedback to the reporter, and removal of the same message from other inboxes.</li>
+</ul>
+`},
+{id:"anomalous",obj:"5.6",title:"Anomalous Behavior Recognition",html:`
+<div class="tblwrap"><table><caption>Three kinds of anomalous behaviour</caption>
+<tr><th>Kind</th><th>Examples</th></tr>
+<tr><td><strong>Risky</strong></td><td>Deliberate actions that raise risk: modifying the hosts file, replacing OS files, uploading sensitive files to personal storage</td></tr>
+<tr><td><strong>Unexpected</strong></td><td>Activity out of pattern: a login from another country, a sudden spike in data transfer, access at 3 a.m.</td></tr>
+<tr><td><strong>Unintentional</strong></td><td>Honest mistakes: typing the wrong domain, losing a USB drive, misconfiguring a security setting</td></tr>
+</table></div>
+`},
+{id:"usertraining",obj:"5.6",title:"User Guidance and Training",html:`
+<p>Train before a user's first login, tailor it by role, include contractors and partners, and track completion.</p>
+<ul>
+<li><strong>Policy/handbooks</strong> &mdash; policies published where people will find them, and acknowledged.</li>
+<li><strong>Situational awareness</strong> &mdash; noticing suspicious links, texts (smishing), calls, tailgaters, or a "free" USB drive in the post.</li>
+<li><strong>Insider threat</strong> &mdash; hard to spot; countered with multi-person approval for critical changes, file-activity monitoring and making controls hard to bypass.</li>
+<li><strong>Password management</strong> &mdash; length, uniqueness, password managers, MFA.</li>
+<li><strong>Removable media and cables</strong> &mdash; unknown USB drives and even charging cables can carry malware.</li>
+<li><strong>Social engineering</strong> &mdash; how to recognize and report manipulation.</li>
+<li><strong>Operational security (OPSEC)</strong> &mdash; thinking like an attacker about what information you're giving away, on social media and in public.</li>
+<li><strong>Hybrid/remote work environments</strong> &mdash; secure home Wi-Fi, VPN use, no family members on work devices, screen privacy in public.</li>
+</ul>
+`},
+{id:"awarenessprog",obj:"5.6",title:"Reporting, Monitoring, Development &amp; Execution",html:`
+<ul>
+<li><strong>Reporting and monitoring</strong> &mdash; track metrics such as phishing click rate, report rate, password manager and MFA adoption. <strong>Initial</strong> findings (first-time clickers) get standard training; <strong>recurring</strong> ones get extended training and tighter controls for that user.</li>
+<li><strong>Development</strong> &mdash; the awareness team builds material (modules, posters, simulated emails) matched to each job function and compliance requirement.</li>
+<li><strong>Execution</strong> &mdash; deliver it (online or in person), on a schedule, and measure whether behaviour actually changes.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>The best awareness metric is <strong>behaviour</strong> &mdash; click rate falling and report rate rising &mdash; not how many people completed a course.</blockquote>
+`}
+];
+
+var GOTCHAS_TABLE = `
+<div class="tblwrap"><table><caption>Every pink callout in Domain 5, collected</caption>
+<tr><th>Pair</th><th>The distinction</th></tr>
+<tr><td>Policy vs. standard vs. procedure vs. guideline</td><td>Why vs. exact requirement vs. steps vs. optional advice</td></tr>
+<tr><td>Business continuity vs. disaster recovery</td><td>Keep the business running vs. restore IT</td></tr>
+<tr><td>Change request essentials</td><td>The backout plan is the most important part</td></tr>
+<tr><td>Offboarding</td><td>Disable the account, don't delete it</td></tr>
+<tr><td>Owner vs. custodian</td><td>Accountable vs. does the daily work</td></tr>
+<tr><td>Controller vs. processor</td><td>Decides why and how vs. processes on instructions</td></tr>
+<tr><td>Qualitative vs. quantitative</td><td>Categories like high/medium/low vs. numbers and money</td></tr>
+<tr><td>SLE and ALE</td><td>SLE = AV &times; EF; ALE = SLE &times; ARO</td></tr>
+<tr><td>Probability vs. likelihood</td><td>Statistical figure vs. qualitative judgment</td></tr>
+<tr><td>Risk appetite vs. tolerance</td><td>How much risk you'll pursue vs. how far past it you'll go before acting</td></tr>
+<tr><td>Transfer / accept / avoid / mitigate</td><td>Insure it vs. live with it vs. stop doing it vs. reduce it</td></tr>
+<tr><td>Exemption vs. exception</td><td>Released from the policy vs. temporary deviation from it</td></tr>
+<tr><td>RTO vs. RPO</td><td>Time to be back vs. how much data you can lose</td></tr>
+<tr><td>MTTR vs. MTBF</td><td>Average repair time (lower is better) vs. average run time before failure (higher is better)</td></tr>
+<tr><td>MOU vs. MOA</td><td>Broad intent vs. more detailed responsibilities &mdash; neither a full contract</td></tr>
+<tr><td>MSA vs. SOW</td><td>Umbrella terms vs. one specific job under them</td></tr>
+<tr><td>SLA</td><td>Measurable service commitments and penalties</td></tr>
+<tr><td>Due diligence vs. due care</td><td>Research and understand vs. act on it reasonably</td></tr>
+<tr><td>Audit vs. attestation</td><td>The examination vs. the formal opinion vouching for its results</td></tr>
+<tr><td>Self-assessment vs. independent audit</td><td>Internal check vs. objective outside verification</td></tr>
+<tr><td>Known / partially known / unknown</td><td>White box vs. gray box vs. black box</td></tr>
+<tr><td>Passive vs. active recon</td><td>Never touches the target vs. probes it and leaves log traces</td></tr>
+<tr><td>Red / blue / purple</td><td>Offensive vs. defensive vs. integrated</td></tr>
+<tr><td>Risky vs. unexpected vs. unintentional</td><td>Deliberate risky act vs. out-of-pattern activity vs. honest mistake</td></tr>
+<tr><td>Awareness success</td><td>Measure behaviour change, not course completions</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
+`;
+
+var SEARCH_INDEX = {};
+(function buildIndex(){
+  var scratch = document.createElement("div");
+  TOPICS.forEach(function(t){
+    scratch.innerHTML = t.title + " " + t.html;
+    SEARCH_INDEX[t.id] = (scratch.textContent || "").toLowerCase();
+  });
+})();
+
+var activeTab = "all";
+var query = "";
+var openIds = {};
+
+var tabsEl = document.getElementById("tabs");
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab" + (activeTab === k && !query ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      activeTab = k;
+      searchInput.value = "";
+      query = "";
+      clearBtn.hidden = true;
+      render();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+
+var searchInput = document.getElementById("search");
+var clearBtn = document.getElementById("clear-search");
+searchInput.addEventListener("input", function(){
+  query = searchInput.value.trim().toLowerCase();
+  clearBtn.hidden = query.length === 0;
+  render();
+});
+clearBtn.addEventListener("click", function(){
+  searchInput.value = "";
+  query = "";
+  clearBtn.hidden = true;
+  render();
+});
+
+var listEl = document.getElementById("topiclist");
+var emptyEl = document.getElementById("empty-state");
+var notesEl = document.getElementById("results-note");
+
+function matchingTopics(){
+  if(query){
+    return TOPICS.filter(function(t){ return SEARCH_INDEX[t.id].indexOf(query) !== -1; });
+  }
+  if(activeTab === "all") return TOPICS;
+  if(activeTab === "gotchas") return [];
+  return TOPICS.filter(function(t){ return t.obj === activeTab; });
+}
+
+function topicCard(t, forceOpen){
+  var isOpen = !!openIds[t.id] || forceOpen;
+  var div = document.createElement("div");
+  div.id = "t-" + t.id;
+  div.className = "topic" + (isOpen ? " open" : "");
+  div.innerHTML =
+    '<button class="topic-head" type="button">' +
+      '<h2>' + t.title + '</h2>' +
+      '<span style="display:flex;align-items:center;gap:8px;">' +
+        '<span class="topic-badge">' + t.obj + '</span>' +
+        '<span class="chev">&#9656;</span>' +
+      '</span>' +
+    '</button>' +
+    '<div class="topic-body">' + t.html + '</div>';
+  div.querySelector(".topic-head").addEventListener("click", function(){
+    var nowOpen = !div.classList.contains("open");
+    div.classList.toggle("open", nowOpen);
+    openIds[t.id] = nowOpen;
+  });
+  return div;
+}
+
+function render(){
+  buildTabs();
+  listEl.innerHTML = "";
+  notesEl.hidden = true;
+  emptyEl.hidden = true;
+
+  if(activeTab === "gotchas" && !query){
+    var card = document.createElement("div");
+    card.className = "topic open";
+    card.innerHTML =
+      '<button class="topic-head" type="button"><h2>Domain 5 Gotchas &mdash; quick-scan compare cards</h2>' +
+      '<span class="chev">&#9656;</span></button>' +
+      '<div class="topic-body">' + GOTCHAS_TABLE + '</div>';
+    card.querySelector(".topic-head").addEventListener("click", function(){
+      card.classList.toggle("open");
+    });
+    listEl.appendChild(card);
+    return;
+  }
+
+  var matches = matchingTopics();
+
+  if(query){
+    notesEl.hidden = false;
+    notesEl.textContent = matches.length + (matches.length === 1 ? ' result for "' : ' results for "') + searchInput.value.trim() + '"';
+  }
+
+  if(matches.length === 0){
+    emptyEl.hidden = false;
+    return;
+  }
+
+  matches.forEach(function(t){
+    var forceOpen = !!query && matches.length <= 6;
+    listEl.appendChild(topicCard(t, forceOpen));
+  });
+
+  if(!query && matches.length > 0 && Object.keys(openIds).length === 0){
+    listEl.firstChild.classList.add("open");
+  }
+}
+
+render();
+
+/* open a topic when arriving from a link like notebook.html#topic-id */
+function openFromHash(){
+  var h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+  if(!h || !TOPICS.some(function(t){ return t.id === h; })) return;
+  activeTab = "all"; query = ""; searchInput.value = ""; clearBtn.hidden = true;
+  openIds = {}; openIds[h] = true;
+  render();
+  var el = document.getElementById("t-" + h);
+  if(!el) return;
+  setTimeout(function(){
+    var bar = document.querySelector(".topbar");
+    var y = el.getBoundingClientRect().top + window.pageYOffset - (bar ? bar.offsetHeight : 0) - 12;
+    window.scrollTo(0, Math.max(0, y));
+  }, 50);
+}
+openFromHash();
+window.addEventListener("hashchange", openFromHash);
+})();
+</script>
+</body>
+</html>

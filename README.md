@@ -15,6 +15,15 @@ Open `index.html` in any browser — no build step, no dependencies, no server r
 | `domain2-notebook.html` | Domain 2 reference notes |
 | `domain2-match.html` | Domain 2 matching game |
 | `domain2-drill.html` | Domain 2 flashcards, quiz and scenario questions |
+| `domain3-notebook.html` | Domain 3 reference notes |
+| `domain3-match.html` | Domain 3 matching game |
+| `domain3-drill.html` | Domain 3 flashcards, quiz and scenario questions |
+| `domain4-notebook.html` | Domain 4 reference notes |
+| `domain4-match.html` | Domain 4 matching game |
+| `domain4-drill.html` | Domain 4 flashcards, quiz and scenario questions |
+| `domain5-notebook.html` | Domain 5 reference notes |
+| `domain5-match.html` | Domain 5 matching game |
+| `domain5-drill.html` | Domain 5 flashcards, quiz and scenario questions |
 
 **Notebook** — browse or search notes by topic. Definitions, comparison tables, and gotcha call-outs, filtered by objective, plus a dedicated tab collecting every easily-confused pair.
 
@@ -28,11 +37,11 @@ Open `index.html` in any browser — no build step, no dependencies, no server r
 |--------|--------|--------|
 | 1.0 General Security Concepts | 12% | Built |
 | 2.0 Threats, Vulnerabilities, and Mitigations | 22% | Built |
-| 3.0 Security Architecture | 18% | Not started |
-| 4.0 Security Operations | 28% | Not started |
-| 5.0 Security Program Management and Oversight | 20% | Not started |
+| 3.0 Security Architecture | 18% | Built |
+| 4.0 Security Operations | 28% | Built |
+| 5.0 Security Program Management and Oversight | 20% | Built |
 
-34% of the exam by weight is currently covered.
+All five domains — 100% of the exam by weight — are covered.
 
 ## Notes
 

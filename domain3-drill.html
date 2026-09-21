@@ -166,12 +166,12 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
   <!-- FLASHCARDS -->
   <section class="panel" id="panel-flash">
-    <p class="lede">75 term cards drawn from the Domain 3 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <p class="lede">92 term cards drawn from the Domain 3 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
     <div class="chiprow" id="flash-filters"></div>
     <div class="card" style="gap:14px;display:flex;flex-direction:column;">
       <div class="deck-meta">
         <span id="flash-badge"></span>
-        <span id="flash-pos">1 / 75</span>
+        <span id="flash-pos">1 / 92</span>
       </div>
       <div class="flip-outer">
         <div class="flip-card" id="flip-card">
@@ -324,6 +324,23 @@ var FLASHCARDS = [
  {id:37,obj:"3.2",t:"IPSec transport vs. tunnel",d:"Transport encrypts only the payload; tunnel encrypts the whole original packet and wraps it in a new one."},
  {id:38,obj:"3.2",t:"SD-WAN",d:"Routes traffic across multiple links &mdash; broadband, MPLS, cellular &mdash; by policy and current conditions."},
  {id:39,obj:"3.2",t:"SASE",d:"SD-WAN converged with cloud-delivered security, so policy follows the user instead of hauling traffic to a datacentre."},
+ {id:76,obj:"3.2",t:"NIDS vs. NIPS",d:"Both network-based. NIDS works from a copy of traffic and alerts; NIPS sits inline and blocks."},
+ {id:77,obj:"3.2",t:"HIDS vs. HIPS",d:"Both run on a single host. HIDS alerts on suspicious logs, file changes and processes; HIPS can stop the action."},
+ {id:78,obj:"3.2",t:"Network- vs. host-based detection",d:"One sensor covers a whole segment but can't read encrypted payloads, versus seeing decrypted activity on the endpoint but only where installed."},
+ {id:79,obj:"3.2",t:"Signature vs. anomaly-based",d:"Known attack patterns, accurate but blind to new attacks, versus deviation from a learned baseline, catches novel activity but noisier."},
+ {id:80,obj:"3.2",t:"False positive",d:"The system alerted, but the activity was normal. Costs analyst time and breeds alert fatigue."},
+ {id:81,obj:"3.2",t:"False negative",d:"A real attack the system missed &mdash; the dangerous outcome."},
+ {id:82,obj:"3.1",t:"Data / control / management plane",d:"Forwards traffic, versus decides where it goes (routing tables), versus where admins configure the device (SSH, SNMP, APIs)."},
+ {id:83,obj:"3.1",t:"Type 1 vs. Type 2 hypervisor",d:"Bare metal on the hardware (ESXi, Hyper-V, KVM), versus hosted on an operating system (VirtualBox)."},
+ {id:84,obj:"3.1",t:"Deterministic OS",d:"An RTOS gives a critical task the whole system immediately &mdash; anti-lock brakes. Windows and Linux are non-deterministic."},
+ {id:85,obj:"3.1",t:"MTTR",d:"Mean time to repair &mdash; a measure of resilience: how long it takes to replace or restore what failed."},
+ {id:86,obj:"3.2",t:"Explicit vs. transparent proxy",d:"Configured on the client or OS by name or address, versus intercepting traffic with no configuration and invisible to users."},
+ {id:87,obj:"3.2",t:"Open proxy",d:"Run by an unknown third party for anyone to use. Bypasses controls and can inject ads or malware, so it is usually blocked."},
+ {id:88,obj:"3.2",t:"Load balancer offloading",d:"TCP offload keeps persistent server connections; SSL/TLS offload decrypts at the load balancer so the servers don't have to."},
+ {id:89,obj:"3.2",t:"UTM (web security gateway)",d:"Older all-in-one appliance: firewall, IPS, anti-malware, URL and spam filtering, VPN, QoS. Often layer 4 only, and it slows as features are enabled."},
+ {id:90,obj:"3.3",t:"PII vs. PHI",d:"Anything that identifies a person, versus an individual's health status, records and healthcare payments."},
+ {id:91,obj:"3.4",t:"Redundancy vs. high availability",d:"A spare exists, perhaps still boxed, versus a spare already running that takes over automatically."},
+ {id:92,obj:"3.4",t:"UPS types",d:"Offline/standby switches to battery on failure; line-interactive boosts voltage in brownouts; online/double-conversion always runs from battery."},
  {id:40,obj:"3.3",t:"Regulated data",d:"Governed by law or standard &mdash; health records, cardholder data, personal data. Handling is dictated externally."},
  {id:41,obj:"3.3",t:"Trade secret",d:"Value depends on secrecy; protection is lost the moment it's disclosed."},
  {id:42,obj:"3.3",t:"Human vs. non-human-readable",d:"Directly intelligible, versus needing processing to interpret &mdash; binary formats, encoded data."},
@@ -388,8 +405,14 @@ var QUIZ = [
  {id:23,obj:"3.4",q:"Which component covers the gap between utility power failing and a generator reaching full output?",c:["A UPS","A second generator","A load balancer","Platform diversity"],a:0,e:"A generator needs seconds to start and servers do not tolerate seconds without power. The UPS provides instant battery power to bridge that interval."},
  {id:24,obj:"3.4",q:"Which capacity planning dimension is most commonly overlooked?",c:["Technology","Infrastructure","People","Bandwidth"],a:2,e:"Plans that depend on one specific trained individual contain a single point of failure. Staffing, cover and turnover are part of capacity."},
  {id:25,obj:"3.1",q:"Which consideration describes shifting risk to a cloud provider or an insurer?",c:["Risk transference","Ease of recovery","Responsiveness","Resilience"],a:0,e:"Risk transference moves the consequence of a risk to another party, rather than reducing the risk itself."},
- {id:26,obj:"3.2",q:"Which technology converges SD-WAN with cloud-delivered security so policy follows the user?",c:["UTM","SASE","NGFW","IPSec"],a:1,e:"Secure access service edge applies security at the cloud edge, removing the need to backhaul traffic to a datacentre for inspection."}
-];
+ {id:26,obj:"3.2",q:"Which technology converges SD-WAN with cloud-delivered security so policy follows the user?",c:["UTM","SASE","NGFW","IPSec"],a:1,e:"Secure access service edge applies security at the cloud edge, removing the need to backhaul traffic to a datacentre for inspection."},
+ {id:27,obj:"3.2",q:"A sensor connected to a switch's SPAN port analyzes traffic for the whole segment and raises alerts, but cannot stop anything. What is it?",c:["HIPS","NIPS","NIDS","HIDS"],a:2,e:"Network-based, working from a copy of traffic, alert-only: a NIDS. A NIPS would have to sit inline to block; HIDS and HIPS run on individual hosts."},
+ {id:28,obj:"3.2",q:"An organization wants to detect attacks that have never been seen before. Which detection method fits, and what is the trade-off?",c:["Signature-based; it needs frequent updates","Anomaly-based; it produces more false positives","Signature-based; it cannot inspect encrypted traffic","Anomaly-based; it cannot run on hosts"],a:1,e:"Anomaly-based detection flags deviations from a learned baseline, so it can catch novel activity. The cost is noise, because legitimate but unusual behavior gets flagged too."},
+ {id:29,obj:"3.2",q:"A breach is discovered weeks later. The IDS logged the attack traffic but never raised an alert. How is this outcome classified?",c:["True positive","False positive","True negative","False negative"],a:3,e:"A real attack that produced no alert is a false negative \u2014 the most dangerous outcome, because nothing prompts a response."},
+ {id:30,obj:"3.1",q:"An administrator connects to a core switch over SSH to change its configuration. Which plane of operation is being used?",c:["Data plane","Control plane","Management plane","Infrastructure layer"],a:2,e:"Configuration happens in the management plane (SSH, SNMP, APIs). The control plane manages routing and session tables, and the data plane forwards the traffic."},
+ {id:31,obj:"3.2",q:"Users' browsers are sending web requests through a company proxy, yet nobody configured proxy settings on any device. What kind of proxy is this?",c:["Explicit proxy","Transparent proxy","Open proxy","Reverse proxy"],a:1,e:"A transparent proxy intercepts traffic with no client configuration, so users have no idea it is there. An explicit proxy has to be named in the application or OS settings."},
+ {id:32,obj:"3.4",q:"Two firewalls are installed as a pair. If the primary fails, the second is already running and takes over with no one noticing. What does this pair provide that a spare firewall kept in a closet would not?",c:["Redundancy","High availability","Platform diversity","Geographic dispersion"],a:1,e:"A boxed spare is redundancy: it has to be racked, powered and configured first. High availability means the spare is already running and fails over automatically."},
+ {id:33,obj:"3.4",q:"A branch office sees frequent brownouts. Which UPS type is designed to raise voltage gradually during those sags without switching to battery?",c:["Offline / standby","Line-interactive","Online / double-conversion","A generator"],a:1,e:"A line-interactive UPS boosts voltage during sags. Standby UPSes switch to battery only when power fails, and online UPSes always run from the battery circuit."},];
 
 var SCENARIOS = [
  {id:1,obj:"3.1",q:"A manufacturer runs controllers on a production line that cannot be taken offline outside a single annual maintenance window. The vendor stopped issuing firmware updates four years ago. What is the realistic security approach?",c:["Schedule monthly patching regardless of production impact","Isolate the systems and apply compensating controls","Replace the controllers immediately","Accept the risk and take no action"],a:1,e:"Patching is not available and downtime is not permitted, so remediation is off the table. Network isolation plus monitoring is the standard ICS/SCADA answer."},

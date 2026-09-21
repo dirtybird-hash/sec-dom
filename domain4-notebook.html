@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Searchable reference notes for Security+ Domain 4.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 4 Notebook</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#8a6210; --accent-ink:#ffffff;
+  --hl-yellow:#a9791c; --hl-yellow-bg:#fbf1d9;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-pink:#b3437c; --hl-pink-bg:#fbeaf2;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#e0b24d; --accent-ink:#2a1e05;
+    --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#e0b24d; --accent-ink:#2a1e05;
+  --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:800px;margin:0 auto;padding-inline:16px;padding-block:16px 56px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:800px;margin:0 auto;padding:14px 16px 12px;display:flex;flex-direction:column;gap:10px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.searchrow{position:relative;}
+.searchrow input{width:100%;font-family:var(--font-body);font-size:15px;padding:11px 40px 11px 14px;
+  border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.searchrow input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.searchrow .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;
+  color:var(--text-muted);font-family:var(--font-display);font-size:12px;cursor:pointer;padding:6px 8px;}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-muted);padding:2px 2px 0;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.dot.y{background:var(--hl-yellow);} .dot.g{background:var(--hl-green);}
+.dot.b{background:var(--hl-blue);} .dot.p{background:var(--hl-pink);}
+.results-note{font-family:var(--font-display);font-size:12px;color:var(--text-muted);padding-top:14px;}
+.topiclist{display:flex;flex-direction:column;gap:10px;padding-top:14px;}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;}
+.topic-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:none;border:none;text-align:left;padding:15px 16px;cursor:pointer;color:var(--text);}
+.topic-head h2{font-size:15px;margin:0;font-weight:600;letter-spacing:0;}
+.topic-badge{font-family:var(--font-display);font-size:10.5px;letter-spacing:.02em;color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;padding:2px 8px;flex:none;}
+.chev{font-family:var(--font-display);color:var(--text-muted);transition:transform .2s;flex:none;}
+.topic.open .chev{transform:rotate(90deg);}
+.topic-body{padding:0 18px 18px;font-size:14.5px;line-height:1.6;display:none;}
+.topic.open .topic-body{display:block;}
+.topic-body p{margin:0 0 12px;}
+.topic-body strong{color:var(--hl-yellow);background:linear-gradient(transparent 65%, var(--hl-yellow-bg) 65%);
+  font-weight:600;}
+.topic-body ul,.topic-body ol{margin:0 0 12px;padding-left:22px;}
+.topic-body ol{border-left:3px solid var(--hl-blue);padding-left:18px;margin-left:2px;}
+.topic-body li{margin-bottom:7px;}
+.topic-body table{width:100%;border-collapse:collapse;margin:0 0 14px;font-size:13.5px;}
+.topic-body caption{caption-side:top;text-align:left;font-family:var(--font-display);font-size:11px;
+  color:var(--text-muted);margin-bottom:6px;}
+.topic-body th{background:var(--hl-green-bg);color:var(--hl-green);text-align:left;padding:8px 10px;
+  border:1px solid var(--border);font-family:var(--font-display);font-size:11.5px;letter-spacing:.02em;}
+.topic-body td{padding:8px 10px;border:1px solid var(--border);vertical-align:top;}
+.tblwrap{overflow-x:auto;margin-bottom:14px;}
+.tblwrap table{margin-bottom:0;}
+.topic-body blockquote{margin:0 0 12px;border-left:3px solid var(--hl-pink);background:var(--hl-pink-bg);
+  border-radius:0 8px 8px 0;padding:10px 13px;font-size:13.5px;line-height:1.5;}
+.topic-body blockquote .tag{font-family:var(--font-display);color:var(--hl-pink);font-size:11px;
+  text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+.topic-body code{font-family:var(--font-display);font-size:12.5px;background:var(--surface-2);
+  padding:1px 5px;border-radius:4px;}
+.empty{text-align:center;color:var(--text-muted);padding:40px 10px;font-size:14px;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 4 Notebook</h1>
+      <span class="sub">SY0-701 &middot; Security Operations</span>
+    </div>
+    <div class="searchrow">
+      <input type="text" id="search" placeholder="Search Domain 4 notes&hellip; e.g. &quot;DMARC&quot;, &quot;SNMP trap&quot;, &quot;legal hold&quot;" autocomplete="off">
+      <button class="clear" id="clear-search" hidden>Clear</button>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="legend">
+      <span><span class="dot y"></span>Terms</span>
+      <span><span class="dot g"></span>Specs &amp; tables</span>
+      <span><span class="dot b"></span>Process &amp; sequence</span>
+      <span><span class="dot p"></span>Gotchas</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="results-note" id="results-note" hidden></div>
+  <div class="topiclist" id="topiclist"></div>
+  <div class="empty" id="empty-state" hidden>No notes match that search. Try a shorter term, or clear the search to browse by objective.</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"4.1":"Security Techniques","4.2":"Asset Management","4.3":"Vulnerability Management",
+  "4.4":"Alerting &amp; Monitoring","4.5":"Enterprise Capabilities","4.6":"Identity &amp; Access Management",
+  "4.7":"Automation &amp; Orchestration","4.8":"Incident Response","4.9":"Investigation Data Sources","gotchas":"Gotchas"};
+var TAB_ORDER = ["all","4.1","4.2","4.3","4.4","4.5","4.6","4.7","4.8","4.9","gotchas"];
+var TAB_LABEL = {"all":"All","4.1":"4.1","4.2":"4.2","4.3":"4.3","4.4":"4.4","4.5":"4.5","4.6":"4.6","4.7":"4.7","4.8":"4.8","4.9":"4.9","gotchas":"Gotchas"};
+
+var TOPICS = [
+{id:"baselines",obj:"4.1",title:"Secure Baselines &mdash; Establish, Deploy, Maintain",html:`
+<p>A <strong>secure baseline</strong> is the agreed set of security settings every instance of a system should carry: firewall settings, patch level, OS options, application configuration and file permissions. It turns "secure" from an opinion into something you can check.</p>
+<ol>
+<li><strong>Establish</strong> &mdash; start from a trusted source rather than from scratch: the OS vendor (Microsoft's Security Compliance Toolkit), the application developer, or a published benchmark such as CIS. Where two sources conflict, pick what fits this system and document why.</li>
+<li><strong>Deploy</strong> &mdash; push it automatically, because nobody configures three thousand machines by hand. Active Directory Group Policy for Windows, MDM for mobile, configuration management or IaC for servers and cloud. Test before rollout.</li>
+<li><strong>Maintain</strong> &mdash; baselines drift and go stale. Audit regularly that systems still match, remediate the ones that don't, and update the baseline itself when a new vulnerability, application version or OS release changes what "secure" means.</li>
+</ol>
+<blockquote><span class="tag">Gotcha</span>The order is fixed: <strong>establish &rarr; deploy &rarr; maintain</strong>. A question about checking that systems still match the standard is asking about <em>maintain</em>, not deploy.</blockquote>
+`},
+{id:"hardening",obj:"4.1",title:"Hardening Targets",html:`
+<p><strong>Hardening</strong> is reducing a system's attack surface beyond its default configuration. Defaults are built for easy setup, not security. The objectives name each target; the core moves are the same everywhere (patch, remove what isn't needed, change defaults, restrict access), but the emphasis shifts.</p>
+<div class="tblwrap"><table><caption>What hardening emphasizes on each target</caption>
+<tr><th>Target</th><th>Main hardening moves</th></tr>
+<tr><td><strong>Mobile devices</strong></td><td>Keep OS and apps patched, enforce screen lock and PIN, separate work and personal data, manage through MDM</td></tr>
+<tr><td><strong>Workstations</strong></td><td>Patch OS, applications and firmware on a regular cycle; remove unused software, since every installed program adds surface; endpoint protection</td></tr>
+<tr><td><strong>Switches &amp; routers</strong></td><td>Change default credentials; use central authentication (RADIUS/TACACS+); disable unused ports and services; manage over SSH, never Telnet; apply the vendor's firmware updates, which are rare and so significant</td></tr>
+<tr><td><strong>Cloud infrastructure</strong></td><td>Lock down the management console and the workstations that reach it; least privilege on every role; EDR on cloud workloads; back up, ideally to a separate provider</td></tr>
+<tr><td><strong>Servers</strong></td><td>OS updates and service packs; strong password policy; disable unused accounts; restrict which hosts can connect; anti-malware/EDR</td></tr>
+<tr><td><strong>ICS/SCADA</strong></td><td>Isolate &mdash; often air-gapped or heavily segmented, with no internet access and very limited, monitored entry points</td></tr>
+<tr><td><strong>Embedded systems</strong></td><td>Patches are rare, so apply them quickly when they come; segment and put a firewall in front</td></tr>
+<tr><td><strong>RTOS</strong></td><td>Isolate from the network, run the minimum services, add host-based or separate firewall protection if it must communicate</td></tr>
+<tr><td><strong>IoT devices</strong></td><td>Change default credentials, prioritize vendor patches, put them on their own network segment</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>For anything that can't be patched well &mdash; ICS/SCADA, embedded, RTOS, IoT &mdash; the expected answer is <strong>segmentation or isolation</strong>. Same logic as Domain 3's "inability to patch".</blockquote>
+`},
+{id:"wirelessinstall",obj:"4.1",title:"Wireless Devices &mdash; Installation Considerations, Site Surveys &amp; Heat Maps",html:`
+<p>Wireless security starts before anything is configured, with where the access points go and what else is on the air.</p>
+<ul>
+<li><strong>Site survey</strong> &mdash; examines the environment before and after installation: existing access points (yours and the neighbors'), which channels and frequencies are in use, and sources of interference. It decides channel plans and AP placement, and it should be repeated because the environment changes.</li>
+<li><strong>Heat map</strong> &mdash; a visual map of signal strength across the floor plan, produced by walking the space with survey software. It shows dead spots where users will struggle and overspill where the signal leaks into the car park for anyone to try.</li>
+<li><strong>Tools</strong> &mdash; Wi-Fi survey software reports SSID, BSSID, channel, band and signal strength; a <strong>spectrum analyzer</strong> shows everything on the frequency, including non-Wi-Fi interference like microwaves.</li>
+</ul>
+<p>The security point: coverage that extends well beyond your walls is attack surface, and a survey is also how you spot rogue access points that shouldn't exist.</p>
+`},
+{id:"mobile",obj:"4.1",title:"Mobile Solutions &mdash; MDM, Deployment Models &amp; Connections",html:`
+<p><strong>Mobile device management (MDM)</strong> is the central console that enforces policy on phones and tablets: require a PIN and screen lock, push or block apps, disable the camera in secure areas (often by location), encrypt, separate business data into its own container, and remotely wipe a lost device.</p>
+<div class="tblwrap"><table><caption>Deployment models</caption>
+<tr><th>Model</th><th>Who owns it</th><th>Trade-off</th></tr>
+<tr><td><strong>BYOD</strong> &mdash; bring your own device</td><td>The employee</td><td>Cheap and convenient; hardest to control. Must protect company data <em>and</em> the user's privacy, so containerization and selective wipe matter</td></tr>
+<tr><td><strong>COPE</strong> &mdash; corporate-owned, personally enabled</td><td>The company</td><td>Company controls the device fully, but personal use is allowed; business data is still partitioned</td></tr>
+<tr><td><strong>CYOD</strong> &mdash; choose your own device</td><td>The company</td><td>Like COPE, but the user picks the model from an approved list</td></tr>
+</table></div>
+<p><strong>Connection methods</strong> each carry their own risk:</p>
+<ul>
+<li><strong>Cellular</strong> &mdash; carrier network divided into cells; exposure to traffic monitoring and location tracking, so keep devices patched.</li>
+<li><strong>Wi-Fi</strong> &mdash; public networks are often unencrypted; nearby attackers can eavesdrop, run on-path attacks or jam. Use a VPN on untrusted networks.</li>
+<li><strong>Bluetooth</strong> &mdash; a short-range personal area network (PAN). Pair deliberately, and don't auto-accept connections from unknown devices.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>COPE and CYOD are both <strong>company-owned</strong>. The difference is only whether the user chose the model. BYOD is the only model where the employee owns the device.</blockquote>
+`},
+{id:"wifisec",obj:"4.1",title:"Wireless Security Settings &mdash; WPA3, RADIUS &amp; EAP",html:`
+<p><strong>WPA2</strong>'s weakness is its four-way handshake: an attacker who captures it can take a hash derived from the pre-shared key and brute-force it offline, as slowly as needed. <strong>WPA3</strong> removes that opportunity.</p>
+<ul>
+<li><strong>SAE</strong> (Simultaneous Authentication of Equals, the "dragonfly" handshake) &mdash; a Diffie-Hellman-style exchange where both sides derive the session key without ever sending a crackable hash. Every user gets their own session key even on a shared password, so users can't read each other's traffic.</li>
+<li><strong>GCMP</strong> (Galois/Counter Mode Protocol) &mdash; the <strong>cryptographic protocol</strong> behind WPA3, the stronger encryption mode, giving confidentiality plus integrity through GMAC. WPA2 used CCMP (AES).</li>
+<li><strong>Mutual authentication</strong> &mdash; the client and access point authenticate each other.</li>
+</ul>
+<div class="tblwrap"><table><caption>Security modes</caption>
+<tr><th>Mode</th><th>How users authenticate</th><th>Where you'd see it</th></tr>
+<tr><td><strong>Open</strong></td><td>No authentication</td><td>Guest hotspots (often behind a captive portal)</td></tr>
+<tr><td><strong>WPA3-Personal</strong> (PSK/SAE)</td><td>One shared passphrase</td><td>Homes, small offices</td></tr>
+<tr><td><strong>WPA3-Enterprise</strong> (802.1X)</td><td>Individual credentials checked by a RADIUS/AAA server</td><td>Organizations. Disable one account, and that person's access ends everywhere</td></tr>
+</table></div>
+<p><strong>AAA</strong> is the framework behind enterprise mode: <strong>authentication</strong> (prove who you are), <strong>authorization</strong> (what you may reach) and <strong>accounting</strong> (a record of the session: when, how long, how much data). <strong>RADIUS</strong> (Remote Authentication Dial-In User Service) is the common AAA protocol, still named for dial-up but used for Wi-Fi, VPNs and device logins.</p>
+<p><strong>Authentication protocols</strong> are the EAP methods carried inside 802.1X: <strong>EAP-TLS</strong> (certificates on both sides, the strongest), <strong>PEAP</strong> and <strong>EAP-TTLS</strong> (a TLS tunnel protecting a password exchange), and <strong>EAP-FAST</strong> (a Cisco-originated tunnel without server certificates).</p>
+<blockquote><span class="tag">Gotcha</span>The WPA3 answer to "offline dictionary attack on the handshake" is <strong>SAE</strong>. The answer to "each employee should use their own login" is <strong>Enterprise/802.1X</strong>, not a longer shared passphrase.</blockquote>
+`},
+{id:"appsec",obj:"4.1",title:"Application Security",html:`
+<ul>
+<li><strong>Input validation</strong> &mdash; check every input against what's expected (type, length, format, range) and reject the rest. It is the core defence against injection and overflow attacks. Validate on the server; client-side checks are a convenience that attackers simply skip.</li>
+<li><strong>Secure cookies</strong> &mdash; cookies hold session state, so they're worth stealing. The <em>Secure</em> attribute sends them only over HTTPS; <em>HttpOnly</em> hides them from scripts (limiting XSS theft); <em>SameSite</em> limits cross-site sending. Never store sensitive data in a cookie; the user can read it.</li>
+<li><strong>Static code analysis</strong> (SAST) &mdash; scans source code without running it, catching things like unchecked buffers and injectable queries early. It misses flaws in logic and implementation (weak crypto use, broken authentication design) and produces false positives, so results need human review.</li>
+<li><strong>Code signing</strong> &mdash; the developer signs the code with a private key backed by a CA-issued certificate. The OS checks the signature at install, confirming <em>who</em> published it and that it <em>hasn't changed</em> since. It proves origin and integrity, not that the code is safe.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Code signing proves <strong>authenticity and integrity</strong> &mdash; not that the software is free of vulnerabilities or malware. Signed malware exists, usually via stolen signing keys.</blockquote>
+`},
+{id:"sandbox",obj:"4.1",title:"Sandboxing &amp; Monitoring",html:`
+<p><strong>Sandboxing</strong> runs code in an isolated environment where it can reach only what it needs. Mobile operating systems sandbox every app (the browser can't read your photos unless you allow it). Security teams detonate suspicious files in a sandbox to watch what they do. Developers test in a sandbox that can't touch production.</p>
+<p><strong>Monitoring</strong> closes the loop on application security: application logs and alerts that show injection attempts, attempts to exploit old vulnerabilities, unusual file transfers, and spikes in requests. Hardening assumes something will eventually get through; monitoring is how you find out when it does.</p>
+`},
+
+{id:"acquisition",obj:"4.2",title:"Acquisition &amp; Assignment",html:`
+<p><strong>Acquisition / procurement</strong> is a security control, not just purchasing. A formal process means IT and security review what's bought &mdash; supported, patchable, from a trustworthy supplier, with acceptable licence and contract terms &mdash; before it's on the network. Informal buying is how shadow IT starts.</p>
+<p>The rough order: requirement &rarr; IT and purchasing review &rarr; budget and approvals &rarr; supplier negotiation &rarr; purchase &rarr; delivery &rarr; invoice.</p>
+<p><strong>Assignment / accounting</strong> records what each asset is and who answers for it:</p>
+<ul>
+<li><strong>Ownership</strong> &mdash; a named person or team responsible for the asset. Unowned assets don't get patched.</li>
+<li><strong>Classification</strong> &mdash; what kind of asset it is and how sensitive the data it holds is, which sets how it's protected and later disposed of.</li>
+</ul>
+`},
+{id:"assettrack",obj:"4.2",title:"Monitoring &amp; Asset Tracking",html:`
+<p>You can't secure what you don't know you have. Asset tracking follows every asset through its whole life cycle.</p>
+<ul>
+<li><strong>Inventory</strong> &mdash; the authoritative list: what each asset is, where it is, who has it, what's installed on it. Physical <strong>asset tags</strong> (numbers or barcodes) tie the device to the record and help recover lost or stolen equipment.</li>
+<li><strong>Enumeration</strong> &mdash; actively discovering what's actually present, by scanning the network or querying devices, and breaking an asset down into its components and installed software. Enumeration is how you find the devices the inventory doesn't know about.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span><strong>Inventory</strong> is the record you keep; <strong>enumeration</strong> is discovering what's really there. The gap between the two is where unmanaged devices live.</blockquote>
+`},
+{id:"disposal",obj:"4.2",title:"Disposal, Decommissioning &amp; Data Retention",html:`
+<div class="tblwrap"><table><caption>Getting data off retired equipment</caption>
+<tr><th>Method</th><th>What happens</th><th>Device reusable?</th></tr>
+<tr><td><strong>Sanitization</strong></td><td>Data is removed so it can't be recovered &mdash; secure wipe/overwrite, or cryptographic erase (destroy the encryption key)</td><td>Yes</td></tr>
+<tr><td><strong>Destruction</strong></td><td>The media is physically ruined &mdash; shredding, pulverizing, drilling, incineration, or <strong>degaussing</strong> (a strong magnetic field that wipes magnetic media and usually ruins the drive)</td><td>No</td></tr>
+<tr><td><strong>Certification</strong></td><td>Documented proof that sanitization or destruction happened, typically a <strong>certificate of destruction</strong> from a third-party service</td><td>&mdash;</td></tr>
+</table></div>
+<p>The choice depends on where the device goes next: reuse inside the organization may justify a wipe, while leaving the organization or holding highly sensitive data points to destruction.</p>
+<p><strong>Data retention</strong> is the other side: how long data must be <em>kept</em>, often set by law or regulation (financial records, email, logs), and when it must be disposed of. Keeping data longer than required is its own risk; it's more to breach and more to hand over in litigation.</p>
+<blockquote><span class="tag">Gotcha</span>Degaussing only works on <strong>magnetic</strong> media. It does nothing to an SSD or flash drive; those need secure erase, cryptographic erase or physical destruction.</blockquote>
+`},
+
+{id:"vulnid",obj:"4.3",title:"Identification Methods &mdash; Scans &amp; Application Testing",html:`
+<ul>
+<li><strong>Vulnerability scan</strong> &mdash; automated checks for known weaknesses across hosts: open ports, missing patches, weak configuration, unsupported software. It <em>does not exploit</em> anything. Scan from outside (the attacker's view) and inside (the insider's), and use credentialed scans for deeper results.</li>
+<li><strong>Static analysis</strong> (SAST) &mdash; examines source code without running it.</li>
+<li><strong>Dynamic analysis</strong> (DAST) &mdash; tests the running application. <strong>Fuzzing</strong> is the classic technique: throw large volumes of random or malformed input at it and watch for crashes, errors or odd behaviour, which reveal missing input validation.</li>
+<li><strong>Package monitoring</strong> &mdash; track the third-party libraries and packages your software depends on, and where they came from. Confirm packages are genuine, from the real source, and alert when a dependency picks up a known vulnerability.</li>
+<li><strong>System/process audit</strong> &mdash; reviewing configurations and procedures against policy or a standard, which finds weaknesses that aren't software bugs.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Static = code at rest, not executed. Dynamic = running application, fuzzing. If the question says "random input to a running program," it's <strong>dynamic analysis / fuzzing</strong>.</blockquote>
+`},
+{id:"threatfeeds",obj:"4.3",title:"Threat Feeds &amp; Threat Intelligence",html:`
+<p>Threat intelligence tells you what attackers are doing now, so you can check whether it applies to you before it arrives.</p>
+<div class="tblwrap"><table><caption>Where threat intelligence comes from</caption>
+<tr><th>Source</th><th>What it is</th></tr>
+<tr><td><strong>OSINT</strong> &mdash; open-source intelligence</td><td>Anything publicly available: security researchers' posts, forums, social media, government advisories, public records</td></tr>
+<tr><td><strong>Proprietary / third-party</strong></td><td>Paid feeds from vendors who see many customers at once and spot trends before they reach you</td></tr>
+<tr><td><strong>Information-sharing organizations</strong></td><td>Groups whose members share indicators with each other, often by sector (ISACs, e.g. for finance or health) or alliances like the Cyber Threat Alliance</td></tr>
+<tr><td><strong>Dark web</strong></td><td>Hidden networks reachable only with special software, where stolen data and attack tools are traded. Monitor it for your organization's name, credentials and data</td></tr>
+</table></div>
+`},
+{id:"pentest",obj:"4.3",title:"Penetration Testing &amp; Responsible Disclosure",html:`
+<p>A <strong>penetration test</strong> goes further than a scan: it actually exploits vulnerabilities to prove what an attacker could do. That makes it riskier, so it runs under written <strong>rules of engagement</strong> (scope, systems in and out of bounds, permitted hours and techniques, emergency contacts, handling of any sensitive data found).</p>
+<p>Terms you'll meet: <strong>lateral movement</strong> (spreading from the first system to others), <strong>persistence</strong> (keeping access with a backdoor or new account), and <strong>pivoting</strong> (using a compromised host to reach systems behind it).</p>
+<p><strong>Responsible disclosure program</strong> &mdash; a published process for outsiders to report vulnerabilities to you privately, giving you time to fix before details go public (and a CVE entry is published). A <strong>bug bounty program</strong> adds a reward for valid reports.</p>
+<blockquote><span class="tag">Gotcha</span><strong>Vulnerability scan</strong> identifies and does not exploit. <strong>Penetration test</strong> exploits. If the scenario involves actually gaining access, it's a pen test.</blockquote>
+`},
+{id:"vulnanalysis",obj:"4.3",title:"Analysis &mdash; Confirming &amp; Prioritizing",html:`
+<p>Scan output is raw. Analysis turns it into an ordered to-do list.</p>
+<p><strong>Confirmation</strong> first: a <strong>false positive</strong> reports a vulnerability that isn't there; a <strong>false negative</strong> misses one that is (worse, because nobody looks). Keep scanner signatures updated. A low-severity or informational finding is not a false positive &mdash; it's real, just minor.</p>
+<div class="tblwrap"><table><caption>The prioritization vocabulary</caption>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td><strong>CVE</strong> &mdash; Common Vulnerabilities and Exposures</td><td>The public catalogue that gives each known vulnerability a unique ID (CVE-year-number). It names the flaw</td></tr>
+<tr><td><strong>CVSS</strong> &mdash; Common Vulnerability Scoring System</td><td>A 0&ndash;10 severity score: low 0.1&ndash;3.9, medium 4.0&ndash;6.9, high 7.0&ndash;8.9, critical 9.0&ndash;10. It rates the flaw. The NVD publishes CVSS scores for each CVE</td></tr>
+<tr><td><strong>Vulnerability classification</strong></td><td>Grouping by type (injection, misconfiguration, missing patch) so fixes and trends can be handled together</td></tr>
+<tr><td><strong>Exposure factor</strong></td><td>The percentage of an asset's value lost if the vulnerability is exploited</td></tr>
+<tr><td><strong>Environmental variables</strong></td><td>Context that raises or lowers urgency: internet-facing or isolated lab, number of users, revenue-critical or not, compensating controls already in place</td></tr>
+<tr><td><strong>Industry/organizational impact</strong></td><td>What exploitation would do to <em>this</em> business &mdash; a hospital closing its emergency department, a utility losing power delivery</td></tr>
+<tr><td><strong>Risk tolerance</strong></td><td>How much risk the organization will accept while a fix is tested; low tolerance means patching faster</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>CVE names it; CVSS scores it.</strong> A CVSS 9.8 on an isolated lab box can rightly rank below a 7.5 on the public web server &mdash; environmental variables adjust the raw score.</blockquote>
+`},
+{id:"vulnresponse",obj:"4.3",title:"Vulnerability Response, Validation &amp; Reporting",html:`
+<div class="tblwrap"><table><caption>Response options</caption>
+<tr><th>Option</th><th>When it fits</th></tr>
+<tr><td><strong>Patching</strong></td><td>The primary fix. Scheduled for routine updates; emergency out-of-cycle for actively exploited zero-days</td></tr>
+<tr><td><strong>Insurance</strong></td><td>Transfers the financial impact (ransomware losses, recovery, legal costs). It doesn't reduce the likelihood</td></tr>
+<tr><td><strong>Segmentation</strong></td><td>Isolates vulnerable systems so exploitation can't spread; unpatchable systems may go on their own segment or be air-gapped</td></tr>
+<tr><td><strong>Compensating controls</strong></td><td>When you can't patch: disable the vulnerable service, block it at the firewall, restrict access with ACLs, add a host firewall or IPS rule</td></tr>
+<tr><td><strong>Exceptions and exemptions</strong></td><td>A formal, documented decision (usually by a committee) to accept the risk and not remediate for now &mdash; with a review date, not forever</td></tr>
+</table></div>
+<p><strong>Validation of remediation</strong> proves the fix worked: <strong>rescanning</strong> the systems, <strong>auditing</strong> a sample by hand, and <strong>verification</strong> from the patch system that deployment succeeded.</p>
+<p><strong>Reporting</strong> gives management the picture at scale: vulnerabilities found and fixed, systems still exposed, exceptions granted, and trends over time.</p>
+<blockquote><span class="tag">Gotcha</span>Patching is the fix; a <strong>compensating control</strong> is a substitute when you can't patch. An <strong>exception</strong> accepts the risk outright and needs formal approval, not one admin's decision.</blockquote>
+`},
+
+{id:"monitorres",obj:"4.4",title:"Monitoring Computing Resources",html:`
+<p>Monitoring covers three layers, and each answers a different question.</p>
+<ul>
+<li><strong>Systems</strong> &mdash; who logged in and from where (a login from a country with no employees is a red flag), services running, backups completing, software versions that need patches.</li>
+<li><strong>Applications</strong> &mdash; availability, errors, and unusual data volumes that may signal exfiltration.</li>
+<li><strong>Infrastructure</strong> &mdash; network devices, VPN usage by employees, vendors and guests, firewall and IPS attack trends, bandwidth.</li>
+</ul>
+`},
+{id:"monitoract",obj:"4.4",title:"Monitoring Activities &amp; Alert Response",html:`
+<ol>
+<li><strong>Log aggregation</strong> &mdash; collect logs in many formats from many devices into one place, normalized so they can be searched and correlated.</li>
+<li><strong>Scanning</strong> &mdash; continuously check endpoints: OS versions, installed apps, drivers, compliance with the baseline.</li>
+<li><strong>Alerting</strong> &mdash; real-time notification when something crosses a threshold: a burst of failed logins (password spraying), a large outbound transfer.</li>
+<li><strong>Reporting</strong> &mdash; actionable reports (which devices are non-compliant and what to fix) and ad hoc "what if" reports (how many systems are exposed if this OS goes end-of-life).</li>
+<li><strong>Archiving</strong> &mdash; keep logs long term. Breaches often go unnoticed for months, so the evidence has to still exist when you look back; retention may also be required by law.</li>
+</ol>
+<p><strong>Alert response and remediation/validation</strong>:</p>
+<ul>
+<li><strong>Quarantine</strong> &mdash; isolate the affected system so the attacker can't spread or pivot while you investigate.</li>
+<li><strong>Alert tuning</strong> &mdash; adjust thresholds and rules to cut false positives without creating false negatives. Too noisy, and analysts stop reading; too quiet, and attacks pass silently.</li>
+</ul>
+`},
+{id:"scapbench",obj:"4.4",title:"SCAP, Benchmarks &amp; Agents vs. Agentless",html:`
+<p><strong>SCAP</strong> (Security Content Automation Protocol) is a NIST-maintained set of standards that gives security tools a common language for vulnerabilities and configuration checks. Because a scanner, a firewall and a patch system describe the same issue the same way, the whole loop can be automated: the scanner finds it, the management system fixes it.</p>
+<p><strong>Benchmarks</strong> are published best-practice configurations for a specific OS, application, device or cloud service &mdash; the <strong>CIS</strong> (Center for Internet Security) Benchmarks are the best known. They're a ready-made starting point for a secure baseline.</p>
+<div class="tblwrap"><table><caption>Agents vs. agentless</caption>
+<tr><th></th><th>Agent-based</th><th>Agentless</th></tr>
+<tr><td>Install</td><td>Software permanently installed on the device</td><td>Nothing installed; runs remotely or temporarily (at login or VPN connect) and removes itself</td></tr>
+<tr><td>Coverage</td><td>Always running, continuous visibility, works off-network</td><td>Only when it runs</td></tr>
+<tr><td>Upkeep</td><td>Agent and its definitions must be updated</td><td>No agent maintenance</td></tr>
+</table></div>
+`},
+{id:"montools",obj:"4.4",title:"Monitoring Tools &mdash; SIEM, DLP, SNMP &amp; NetFlow",html:`
+<div class="tblwrap"><table><caption>The named tools</caption>
+<tr><th>Tool</th><th>What it contributes</th></tr>
+<tr><td><strong>SIEM</strong> &mdash; security information and event management</td><td>Central log store with correlation across sources (VPN login + file access + firewall block = one story), alerting, dashboards and long-term forensic look-back</td></tr>
+<tr><td><strong>Antivirus / anti-malware</strong></td><td>Detects and blocks malicious code on endpoints; the two terms are now effectively interchangeable</td></tr>
+<tr><td><strong>DLP</strong> &mdash; data loss prevention</td><td>Spots and blocks sensitive data (card numbers, SSNs, health data) leaving where it should stay</td></tr>
+<tr><td><strong>SNMP traps</strong></td><td>SNMP normally has a manager <em>poll</em> devices for statistics (UDP 161). A <strong>trap</strong> is the device pushing an alert to the manager unprompted when a threshold is crossed (UDP 162)</td></tr>
+<tr><td><strong>NetFlow</strong></td><td>Flow records &mdash; who talked to whom, on what port, how much &mdash; gathered by a probe and sent to a collector. Metadata about traffic, not the payload</td></tr>
+<tr><td><strong>Vulnerability scanners</strong></td><td>Scheduled discovery of devices and known weaknesses, feeding results into the monitoring picture</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>SNMP polling vs. trap</strong>: polling is the manager asking on a schedule (port 161); a trap is the device telling the manager immediately (port 162). <strong>NetFlow vs. packet capture</strong>: NetFlow records the conversation's metadata; a packet capture records the contents.</blockquote>
+`},
+
+{id:"fwrules",obj:"4.5",title:"Firewall Rules, Access Lists &amp; Screened Subnets",html:`
+<p>A firewall rule base (also called an <strong>access control list, ACL</strong>) is a list of rules matching on source, destination, port/protocol and, on an NGFW, application, user or URL category, each with an allow or deny action.</p>
+<ul>
+<li>Rules are processed <strong>top-down, first match wins</strong>, so specific rules go above general ones.</li>
+<li>Anything that matches no rule hits the <strong>implicit deny</strong> at the bottom.</li>
+<li>Rules are written by <strong>ports/protocols</strong>: allow TCP 443 to the web server, allow TCP 22 only from the admin subnet, deny inbound ICMP, and so on. Open only what the service needs.</li>
+<li><strong>Stateless</strong> ACLs judge each packet alone; <strong>stateful</strong> firewalls track connections and allow the return traffic automatically.</li>
+</ul>
+<p>A <strong>screened subnet</strong> (the old DMZ) is a separate segment for internet-facing services. Rules let the internet reach those servers, but not pass through them into the internal network, so a compromised web server doesn't expose everything behind it.</p>
+<blockquote><span class="tag">Gotcha</span>A broad "allow" rule placed above a specific "deny" means the deny is never reached. When a question asks why a block isn't working, check the <strong>rule order</strong>.</blockquote>
+`},
+{id:"idstune",obj:"4.5",title:"IDS/IPS &mdash; Signatures &amp; Trends",html:`
+<p>How NIDS, HIDS and IPS work is in the Domain 3 Notebook (3.2). For 4.5, the question is how you <em>tune</em> them.</p>
+<ul>
+<li><strong>Signatures</strong> &mdash; the rule base holds thousands of patterns for specific known attacks. You enable, disable, or group them (block every SQL-injection signature at once, for example), and keep them updated. Out-of-date signatures produce false negatives.</li>
+<li><strong>Trends</strong> &mdash; looking across alerts over time: which attacks are rising, which hosts are targeted most, where false positives cluster. Trend data tells you which rules to tighten, which to relax, and where to focus.</li>
+</ul>
+<p>A common rollout: deploy an IPS in detect-only mode first, tune out the false positives, then switch it to blocking.</p>
+`},
+{id:"webfilter",obj:"4.5",title:"Web Filtering",html:`
+<p>Web filters control which websites users can reach, both to enforce acceptable use and to keep malware out.</p>
+<div class="tblwrap"><table><caption>The web filter terms</caption>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td><strong>Agent-based</strong></td><td>Filtering software on the device itself, centrally managed. It works on any network, including home and hotel Wi-Fi</td></tr>
+<tr><td><strong>Centralized proxy</strong></td><td>All web traffic goes through a proxy that filters, caches and logs. It only protects users whose traffic passes through it</td></tr>
+<tr><td><strong>URL scanning</strong></td><td>Checking each requested URL against allow and block lists and threat intelligence</td></tr>
+<tr><td><strong>Content categorization</strong></td><td>Sites grouped into categories (gambling, malware, social media, news) so policy can be written per category instead of per site</td></tr>
+<tr><td><strong>Block rules</strong></td><td>The policy itself: block by URL, domain or category, or allow but log</td></tr>
+<tr><td><strong>Reputation</strong></td><td>A risk score for each site, from trustworthy to high risk, often assigned automatically; block anything below a threshold</td></tr>
+</table></div>
+<p><strong>DNS filtering</strong> works one layer earlier: the DNS resolver refuses to resolve known-malicious domains. It protects every application, not just browsers &mdash; including malware trying to reach its command-and-control server.</p>
+<blockquote><span class="tag">Gotcha</span>Firewall or proxy filtering stops working when a laptop leaves the building. If the scenario involves <strong>remote or travelling users</strong>, the answer is <strong>agent-based</strong> filtering (or cloud DNS filtering).</blockquote>
+`},
+{id:"ossec",obj:"4.5",title:"Operating System Security &mdash; Group Policy &amp; SELinux",html:`
+<ul>
+<li><strong>Group Policy</strong> &mdash; the Windows/Active Directory mechanism for pushing configuration and security settings to users and computers centrally: password and lockout policy, screen lock, software restrictions, drive mappings, firewall settings. Settings are bundled into Group Policy Objects (GPOs) and linked to domains or organizational units (OUs).</li>
+<li><strong>SELinux</strong> (Security-Enhanced Linux) &mdash; adds <strong>mandatory access control</strong> to Linux, which by default uses discretionary access control. Policy decides what every process may touch, so a compromised service is confined to its allowed files and ports. Modes: <em>enforcing</em> (blocks and logs), <em>permissive</em> (logs only), <em>disabled</em>.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Standard Linux permissions are <strong>DAC</strong> (the owner decides). <strong>SELinux adds MAC</strong> (central policy decides). If a question asks how to enforce least privilege on Linux processes regardless of file owner, it's SELinux.</blockquote>
+`},
+{id:"secprotocols",obj:"4.5",title:"Implementing Secure Protocols",html:`
+<p>Three decisions: <strong>protocol selection</strong> (use the encrypted version), <strong>port selection</strong> (the port suggests but doesn't guarantee encryption; verify with a packet capture), and the <strong>transport method</strong> (encrypt everything in the tunnel &mdash; WPA3 on wireless, or a VPN &mdash; when the application itself can't).</p>
+<div class="tblwrap"><table><caption>Insecure protocols and their replacements</caption>
+<tr><th>Insecure</th><th>Port</th><th>Secure replacement</th><th>Port</th></tr>
+<tr><td>Telnet</td><td>23</td><td>SSH</td><td>22</td></tr>
+<tr><td>FTP</td><td>20/21</td><td>SFTP (over SSH) / FTPS (over TLS)</td><td>22 / 989&ndash;990</td></tr>
+<tr><td>HTTP</td><td>80</td><td>HTTPS</td><td>443</td></tr>
+<tr><td>SMTP</td><td>25</td><td>SMTP with TLS</td><td>465 / 587</td></tr>
+<tr><td>POP3</td><td>110</td><td>POP3S</td><td>995</td></tr>
+<tr><td>IMAP</td><td>143</td><td>IMAPS</td><td>993</td></tr>
+<tr><td>LDAP</td><td>389</td><td>LDAPS</td><td>636</td></tr>
+<tr><td>SNMPv1/v2c</td><td>161/162</td><td>SNMPv3</td><td>161/162</td></tr>
+<tr><td>DNS</td><td>53</td><td>DNSSEC (integrity only), DoH/DoT</td><td>53 / 443 / 853</td></tr>
+</table></div>
+<p>Other ports worth knowing: RDP 3389, Kerberos 88, RADIUS 1812/1813, TACACS+ 49, NTP 123, SMB 445, syslog 514, DHCP 67/68.</p>
+<blockquote><span class="tag">Gotcha</span><strong>SFTP</strong> runs over SSH on port 22. <strong>FTPS</strong> is FTP wrapped in TLS. They're different protocols despite the similar names. And <strong>DNSSEC signs DNS records for integrity; it does not encrypt them</strong>.</blockquote>
+`},
+{id:"emailsec",obj:"4.5",title:"Email Security &mdash; SPF, DKIM, DMARC &amp; Gateways",html:`
+<p>Email was built with no sender verification, so spoofing is trivial. Three DNS-published records fix that, each building on the last:</p>
+<div class="tblwrap"><table><caption>The email authentication stack</caption>
+<tr><th>Record</th><th>What it proves</th><th>How</th></tr>
+<tr><td><strong>SPF</strong> &mdash; Sender Policy Framework</td><td>The sending <em>server</em> is authorized for this domain</td><td>A DNS TXT record listing the servers allowed to send mail for the domain</td></tr>
+<tr><td><strong>DKIM</strong> &mdash; DomainKeys Identified Mail</td><td>The message really came from the domain and <em>wasn't altered</em> in transit</td><td>The sending mail server digitally signs each message; the receiver checks it against the public key published in DNS</td></tr>
+<tr><td><strong>DMARC</strong> &mdash; Domain-based Message Authentication, Reporting and Conformance</td><td>What to <em>do</em> when SPF/DKIM fail, and <em>reports</em> back to the domain owner</td><td>A DNS TXT policy: none (monitor), quarantine (spam folder) or reject, plus a reporting address</td></tr>
+</table></div>
+<p>An email <strong>gateway</strong> sits in front of the mail server (on-premises in the screened subnet, or as a cloud service), checking inbound and outbound mail for spam, malware, phishing and sensitive data before it's delivered.</p>
+<blockquote><span class="tag">Gotcha</span>SPF = <strong>which servers</strong>. DKIM = <strong>signature/integrity</strong>. DMARC = <strong>policy and reporting</strong> built on top of the other two. DMARC alone does nothing without SPF or DKIM.</blockquote>
+`},
+{id:"fim",obj:"4.5",title:"File Integrity Monitoring",html:`
+<p><strong>File integrity monitoring (FIM)</strong> watches files that shouldn't change &mdash; OS binaries, system configuration, application executables, the registry &mdash; and alerts when they do. It works by recording a known-good hash of each file and comparing against it. A changed system file is a classic sign of a rootkit or tampering.</p>
+<p>Examples: Windows <strong>System File Checker (SFC)</strong> scans protected files on demand and restores good copies; <strong>Tripwire</strong> is the classic real-time FIM tool on Linux; HIPS and EDR agents often include it.</p>
+`},
+{id:"dlp",obj:"4.5",title:"Data Loss Prevention (DLP)",html:`
+<p><strong>DLP</strong> identifies sensitive data &mdash; card numbers, SSNs, health records, source code &mdash; and stops it going where it shouldn't. It can block, encrypt, quarantine or just alert.</p>
+<div class="tblwrap"><table><caption>Where DLP runs</caption>
+<tr><th>Placement</th><th>Watches</th></tr>
+<tr><td><strong>Endpoint</strong></td><td>Data in use on the device: copying to USB, printing, uploading. Can disable removable storage entirely</td></tr>
+<tr><td><strong>Network</strong></td><td>Data in motion, from an appliance or NGFW</td></tr>
+<tr><td><strong>Storage</strong></td><td>Data at rest on file servers and databases, finding sensitive files in the wrong place</td></tr>
+<tr><td><strong>Cloud / email</strong></td><td>Uploads to cloud apps and outbound email, the most common leak path</td></tr>
+</table></div>
+`},
+{id:"nac",obj:"4.5",title:"Network Access Control (NAC)",html:`
+<p><strong>NAC</strong> decides whether a device may join the network, and on what terms, by checking both identity (usually 802.1X) and <strong>posture</strong>: is antivirus running and current, is the OS patched, is disk encryption on, is the company certificate present?</p>
+<ul>
+<li><strong>Persistent agent</strong> &mdash; permanently installed, checking continuously.</li>
+<li><strong>Dissolvable agent</strong> &mdash; downloaded at connect, runs the check, then removes itself.</li>
+<li><strong>Agentless</strong> &mdash; integrated with the directory, checking at login and logout with nothing installed.</li>
+</ul>
+<p>A device that fails is typically placed on a <strong>quarantine or remediation VLAN</strong> with just enough access to fix itself, then re-checked.</p>
+`},
+{id:"edrxdr",obj:"4.5",title:"EDR, XDR &amp; User Behavior Analytics",html:`
+<p>With over a million new malware variants a day, signature-based antivirus alone can't keep up.</p>
+<ul>
+<li><strong>EDR</strong> (endpoint detection and response) &mdash; an agent that combines signatures with behavioural analysis, machine learning and process monitoring. It can <em>respond</em> automatically (isolate the host, kill the process, roll back changes) and supports root-cause analysis of how the infection happened.</li>
+<li><strong>XDR</strong> (extended detection and response) &mdash; EDR's reach extended across endpoints, network, cloud, email and identity, correlating them so one attack shows up as one incident instead of scattered alerts. Fewer missed detections, fewer false positives, faster investigation.</li>
+<li><strong>User behavior analytics (UBA / UEBA)</strong> &mdash; learns a baseline of how each user and device normally behaves and flags deviations: a 3 a.m. login, a sudden bulk download, access to systems the person never uses.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span><strong>EDR = one endpoint's view. XDR = correlated across many sources.</strong> UBA is about <em>people's</em> behaviour, which makes it the answer for insider threats and compromised accounts that pass every signature check.</blockquote>
+`},
+
+{id:"provisioning",obj:"4.6",title:"Provisioning, Permissions &amp; Identity Proofing",html:`
+<p>IAM (identity and access management) exists to give the right people the right access at the right time, and take it away when that stops being true.</p>
+<ul>
+<li><strong>Provisioning / de-provisioning user accounts</strong> &mdash; create the account and its access at onboarding; adjust it when someone changes role; disable it promptly at offboarding. Slow de-provisioning is how ex-employees keep access.</li>
+<li><strong>Permission assignments and implications</strong> &mdash; grant through groups rather than to individuals, start from least privilege, and watch for <strong>privilege creep</strong> (people collecting access with every role change and never losing any). Every excess permission is something an attacker inherits if the account is compromised.</li>
+<li><strong>Identity proofing</strong> &mdash; confirming someone is who they claim before issuing credentials: government ID, in-person checks, background checks, or knowledge-based questions drawn from public and credit records.</li>
+<li><strong>Attestation</strong> &mdash; formal confirmation that access is still correct, usually a periodic review where managers sign off on their team's permissions. Also used for a device vouching for its own integrity (hardware attestation via TPM).</li>
+</ul>
+`},
+{id:"sso",obj:"4.6",title:"Federation, SSO, LDAP, SAML &amp; OAuth",html:`
+<p><strong>Single sign-on (SSO)</strong> means authenticating once and reaching many systems without logging in again, usually for a set period. <strong>Federation</strong> extends that trust across organizations: you log in to a site with an identity another party manages ("Sign in with Google"). The site trusts the identity provider instead of keeping its own password store.</p>
+<div class="tblwrap"><table><caption>The named protocols</caption>
+<tr><th>Protocol</th><th>Role</th><th>Key facts</th></tr>
+<tr><td><strong>LDAP</strong> &mdash; Lightweight Directory Access Protocol</td><td>Querying and updating a directory (users, groups, devices)</td><td>Based on X.500; entries named by distinguished names like CN=, OU=, DC=. Port 389; LDAPS 636. Active Directory speaks it</td></tr>
+<tr><td><strong>SAML</strong> &mdash; Security Assertion Markup Language</td><td><strong>Authentication</strong> and SSO for web apps</td><td>XML-based. The identity provider issues a signed assertion the service provider trusts. Built for browsers, not native mobile apps</td></tr>
+<tr><td><strong>OAuth</strong> &mdash; Open Authorization</td><td><strong>Authorization</strong> &mdash; delegated access</td><td>Lets an app act on your behalf with limited scope ("allow this app to read your calendar") using access tokens, without seeing your password. Paired with <strong>OpenID Connect</strong> when authentication is also needed</td></tr>
+</table></div>
+<p>The SAML flow: user requests the app &rarr; app redirects to the identity provider &rarr; user authenticates there &rarr; identity provider returns a signed assertion &rarr; browser presents it to the app &rarr; access granted.</p>
+<p><strong>Interoperability</strong> is the practical constraint: the IAM pieces you choose must work with what you already have. A new VPN concentrator that speaks LDAP fits an Active Directory shop; an app that uses OAuth needs an authentication source that can feed it.</p>
+<blockquote><span class="tag">Gotcha</span><strong>OAuth is authorization, not authentication.</strong> SAML and OpenID Connect authenticate; OAuth delegates access. SSO is the user experience; federation is the trust relationship across organizations.</blockquote>
+`},
+{id:"acmodels",obj:"4.6",title:"Access Control Models",html:`
+<div class="tblwrap"><table><caption>Who decides who gets access</caption>
+<tr><th>Model</th><th>Decided by</th><th>Recognize it by</th></tr>
+<tr><td><strong>Mandatory (MAC)</strong></td><td>The system, via labels set by administrators</td><td>Classification labels (confidential, secret, top secret) and clearances. Users can't change or share access. Military/government; SELinux</td></tr>
+<tr><td><strong>Discretionary (DAC)</strong></td><td>The resource's owner</td><td>"The person who created the file decides who can open it." Flexible, weakest control. Standard Windows and Linux file permissions</td></tr>
+<tr><td><strong>Role-based (RBAC)</strong></td><td>Job function</td><td>Rights assigned to roles/groups (nurse, HR, manager); users inherit them by joining. Windows groups</td></tr>
+<tr><td><strong>Rule-based</strong></td><td>Admin-defined rules applied to everyone</td><td>Conditions that don't depend on who you are: firewall ACLs, "this form only from the corporate network"</td></tr>
+<tr><td><strong>Attribute-based (ABAC)</strong></td><td>Many attributes evaluated together</td><td>Combinations of user, resource, action and environment: department + device + location + time + data sensitivity. The most granular; common in zero trust</td></tr>
+</table></div>
+<ul>
+<li><strong>Time-of-day restrictions</strong> &mdash; access only allowed in set hours (lab systems 8&ndash;6, no training-room network overnight). Remember time zones in global organizations.</li>
+<li><strong>Least privilege</strong> &mdash; only the access the job requires, nothing standing "just in case". Limits what malware or a stolen account can do.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span><strong>Role-based</strong> keys on the job title; <strong>rule-based</strong> keys on a condition that applies to everyone. If the scenario mentions labels and clearances, it's <strong>MAC</strong>; if it says the owner grants access, it's <strong>DAC</strong>; if it combines several conditions, it's <strong>ABAC</strong>.</blockquote>
+`},
+{id:"mfa",obj:"4.6",title:"Multifactor Authentication",html:`
+<p><strong>MFA</strong> requires factors from <em>different categories</em>. Two passwords is still one factor.</p>
+<div class="tblwrap"><table><caption>Factors</caption>
+<tr><th>Factor</th><th>Examples</th></tr>
+<tr><td><strong>Something you know</strong></td><td>Password, PIN, passphrase, unlock pattern, security question</td></tr>
+<tr><td><strong>Something you have</strong></td><td>Smart card, security key, hardware or software token, a phone receiving a code</td></tr>
+<tr><td><strong>Something you are</strong></td><td>Fingerprint, face, iris, retina, voice</td></tr>
+<tr><td><strong>Somewhere you are</strong></td><td>GPS or IP geolocation, the network you're on. Usually a supporting check rather than a sole factor</td></tr>
+</table></div>
+<p>The named implementations:</p>
+<ul>
+<li><strong>Biometrics</strong> &mdash; stores a mathematical template, not a picture. Hard to change if compromised, so best combined with another factor. Accuracy trade-off: <em>false acceptance rate</em> (letting the wrong person in) vs. <em>false rejection rate</em> (locking the right person out); the <em>crossover error rate</em>, where they're equal, is how systems are compared.</li>
+<li><strong>Hard / soft authentication tokens</strong> &mdash; generate one-time codes, either on a dedicated device (hard) or an authenticator app (soft). SMS codes count as "something you have" but are the weakest option because of SIM swapping.</li>
+<li><strong>Security keys</strong> &mdash; USB/NFC hardware (FIDO2) holding a private key; phishing-resistant because the key only answers the genuine site.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Password + security question = <strong>one factor</strong> (both "know"). Password + fingerprint = two. Count <em>categories</em>, not steps.</blockquote>
+`},
+{id:"passwords",obj:"4.6",title:"Password Concepts, Managers &amp; Passwordless",html:`
+<div class="tblwrap"><table><caption>Password best practices</caption>
+<tr><th>Setting</th><th>Guidance</th></tr>
+<tr><td><strong>Length</strong></td><td>The biggest single factor; at least 8, preferably 12&ndash;15+. Passphrases make length easy</td></tr>
+<tr><td><strong>Complexity</strong></td><td>Mix of upper, lower, numbers and symbols, raising <em>entropy</em> (unpredictability)</td></tr>
+<tr><td><strong>Reuse</strong></td><td>Password history blocks recycling old passwords; every account should have its own</td></tr>
+<tr><td><strong>Expiration</strong></td><td>How long until a forced change (e.g. 90 days)</td></tr>
+<tr><td><strong>Age</strong></td><td>Minimum age stops users changing a password repeatedly to cycle back to an old one</td></tr>
+</table></div>
+<p><strong>Password managers</strong> store unique, random passwords in one encrypted vault behind a strong master credential and MFA. They can be built into the OS or browser, third-party, or enterprise-managed, and often flag weak, reused or breached passwords.</p>
+<p><strong>Passwordless</strong> authentication removes the shared secret entirely: biometrics on a trusted device, security keys, passkeys, Windows Hello PIN (a local unlock tied to the device, not a password sent to a server). Nothing reusable to phish or spray.</p>
+<blockquote><span class="tag">Gotcha</span><strong>Expiration</strong> is the maximum lifetime; <strong>age</strong> (minimum) stops the "change it five times and back to the old one" trick. They work together with password history.</blockquote>
+`},
+{id:"pam",obj:"4.6",title:"Privileged Access Management (PAM)",html:`
+<p>Admin accounts are the most valuable accounts to steal. <strong>PAM tools</strong> reduce how often privilege exists and how exposed it is when it does.</p>
+<ul>
+<li><strong>Just-in-time permissions</strong> (JIT) &mdash; no standing admin rights. A user requests elevation, policy approves it, and access is granted for a limited time, then removed. A compromised account holds no admin rights to abuse.</li>
+<li><strong>Password vaulting</strong> &mdash; privileged credentials live in an encrypted vault, checked out under policy and logged; often rotated after each use. Users may never see the real password.</li>
+<li><strong>Ephemeral credentials</strong> &mdash; temporary credentials generated for one session and destroyed after, so the primary credential is never exposed.</li>
+</ul>
+<p>The JIT flow: request &rarr; policy check by the vault &rarr; temporary credential issued &rarr; work performed and recorded &rarr; credential expires.</p>
+`},
+
+{id:"automation",obj:"4.7",title:"Automation &amp; Orchestration &mdash; Use Cases",html:`
+<p>Automation runs a single task by script; orchestration strings automated tasks together across systems. Both run at machine speed, without typos, around the clock.</p>
+<div class="tblwrap"><table><caption>The named use cases</caption>
+<tr><th>Use case</th><th>Example</th></tr>
+<tr><td><strong>User provisioning</strong></td><td>New hire: account, groups, mailbox, home directory, all from one HR trigger</td></tr>
+<tr><td><strong>Resource provisioning</strong></td><td>Spin up servers, storage and network in the cloud, with security controls included, and remove them when done</td></tr>
+<tr><td><strong>Guard rails</strong></td><td>Automated checks that stop dangerous actions, such as refusing a delete that would wipe a critical volume</td></tr>
+<tr><td><strong>Security groups</strong></td><td>Add or remove users automatically by role; alert when someone is added to Administrators</td></tr>
+<tr><td><strong>Ticket creation</strong></td><td>An alert or email becomes a routed help-desk ticket without anyone typing it</td></tr>
+<tr><td><strong>Escalation</strong></td><td>The script tries the fix first and only pages the on-call engineer if it fails</td></tr>
+<tr><td><strong>Enabling/disabling services and access</strong></td><td>Turn services or accounts on and off on schedule or on trigger</td></tr>
+<tr><td><strong>Continuous integration and testing</strong></td><td>Code is built, tested and security-scanned automatically on every commit</td></tr>
+<tr><td><strong>Integrations and application programming interfaces (APIs)</strong></td><td>Scripts talk to firewalls, cloud platforms and tools through their APIs instead of clicking through consoles</td></tr>
+</table></div>
+`},
+{id:"autobenefits",obj:"4.7",title:"Automation &mdash; Benefits &amp; Considerations",html:`
+<div class="tblwrap"><table><caption>Benefits vs. considerations</caption>
+<tr><th>Benefits</th><th>Other considerations</th></tr>
+<tr><td><strong>Efficiency / time saving</strong> &mdash; repeatable work done without people</td><td><strong>Complexity</strong> &mdash; more moving parts to test and understand</td></tr>
+<tr><td><strong>Enforcing baselines</strong> &mdash; every system configured and kept the same way</td><td><strong>Cost</strong> &mdash; someone has to build and test the scripts</td></tr>
+<tr><td><strong>Standard infrastructure configurations</strong> &mdash; every new firewall or router ships with the required controls</td><td><strong>Single point of failure</strong> &mdash; if the automation breaks, everything depending on it breaks too</td></tr>
+<tr><td><strong>Scaling in a secure manner</strong> &mdash; security grows with the environment instead of lagging</td><td><strong>Technical debt</strong> &mdash; scripts that patch symptoms can hide the real problem and pile up</td></tr>
+<tr><td><strong>Employee retention</strong> &mdash; people freed from tedious tasks</td><td><strong>Ongoing supportability</strong> &mdash; scripts need updating as OSes, APIs and staff change</td></tr>
+<tr><td><strong>Reaction time</strong> &mdash; fixes applied in seconds, 24/7</td><td></td></tr>
+<tr><td><strong>Workforce multiplier</strong> &mdash; a small team does the work of a large one</td><td></td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>A question asking for a <em>downside</em> of automation wants one of: complexity, cost, <strong>single point of failure</strong>, <strong>technical debt</strong>, or ongoing supportability.</blockquote>
+`},
+
+{id:"irprocess",obj:"4.8",title:"Incident Response Process",html:`
+<p>CompTIA lists seven phases, in order. NIST SP 800-61 groups the same work into four, and questions may use either framing.</p>
+<ol>
+<li><strong>Preparation</strong> &mdash; before anything happens: the plan, contact lists, communication methods, the incident "go bag" (forensic laptop, clean media, imaging tools), network diagrams, baselines, known-good images and file hashes.</li>
+<li><strong>Detection</strong> &mdash; recognizing that something is happening, from alerts, logs, users or outside reports. <em>Precursors</em> suggest an attack may come (a scan in the web logs); <em>indicators</em> show one has (an IPS alert, AV detection, unexpected config change, traffic spike).</li>
+<li><strong>Analysis</strong> &mdash; confirming it's real, determining scope and severity, and deciding priorities.</li>
+<li><strong>Containment</strong> &mdash; stop the spread: isolate hosts, disable accounts, block addresses. Suspicious files can be run in a <strong>sandbox</strong> to see what they do (though some malware detects sandboxes and hides).</li>
+<li><strong>Eradication</strong> &mdash; remove the cause: delete malware, close the vulnerability, remove attacker accounts.</li>
+<li><strong>Recovery</strong> &mdash; restore from known-good backups or rebuild, return to production, monitor closely.</li>
+<li><strong>Lessons learned</strong> &mdash; a post-incident review soon after, while memory is fresh: what happened, how the response went, what to change.</li>
+</ol>
+<p>NIST's four: preparation &rarr; detection &amp; analysis &rarr; containment, eradication &amp; recovery &rarr; post-incident activity.</p>
+<blockquote><span class="tag">Gotcha</span><strong>Containment comes before eradication.</strong> Stop the bleeding first, then remove the cause. Wiping a machine before containment can let the attacker keep spreading elsewhere &mdash; and destroys evidence.</blockquote>
+`},
+{id:"irtraining",obj:"4.8",title:"Training, Testing, Root Cause &amp; Threat Hunting",html:`
+<ul>
+<li><strong>Training</strong> &mdash; responders are trained before incidents, on the initial response, investigation and reporting procedures. Expensive, but far cheaper than learning during a real breach.</li>
+<li><strong>Testing</strong> &mdash; a <strong>tabletop exercise</strong> talks through a scenario around a table with no systems touched. A <strong>simulation</strong> actually exercises the response: phishing simulations, a social-engineering call to the help desk, a test exfiltration to see if monitoring notices. Use test systems, not production.</li>
+<li><strong>Root cause analysis</strong> &mdash; working back from the incident to how the attacker actually got in and which control failed. Fix the root cause, not only the symptom, or it will happen again. There may be more than one.</li>
+<li><strong>Threat hunting</strong> &mdash; proactively searching for attackers already inside who haven't triggered an alert, using threat intelligence and hypotheses rather than waiting for an alarm.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span><strong>Threat hunting is proactive</strong> &mdash; looking for what the alerts missed. Incident response is reactive. Root cause analysis happens <em>after</em>, to prevent a repeat.</blockquote>
+`},
+{id:"forensics",obj:"4.8",title:"Digital Forensics",html:`
+<p>Forensics collects and analyzes evidence in a way that will hold up later, possibly in court, years after the event.</p>
+<div class="tblwrap"><table><caption>The named terms</caption>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td><strong>Legal hold</strong></td><td>An instruction from legal counsel to preserve specific data because litigation is expected. It overrides normal deletion and retention schedules</td></tr>
+<tr><td><strong>Chain of custody</strong></td><td>A documented record of every person who handled the evidence, when, and why, proving it wasn't altered. Digital evidence uses hashes to prove integrity</td></tr>
+<tr><td><strong>Acquisition</strong></td><td>Collecting the evidence: disk images, memory, logs, VM snapshots, firmware. Capture the most volatile first (CPU and memory before disk before backups)</td></tr>
+<tr><td><strong>Reporting</strong></td><td>Summary, how the evidence was acquired and verified, analysis, conclusion</td></tr>
+<tr><td><strong>Preservation</strong></td><td>Keep the original untouched and work on verified copies. Capture live systems before powering off, since encryption or remote wipe can destroy data</td></tr>
+<tr><td><strong>E-discovery</strong></td><td>Collecting and producing electronically stored information for legal proceedings. It gathers; forensics analyzes</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>Order of volatility</strong>: collect what disappears fastest first &mdash; CPU registers and cache, RAM, then disk, then remote logs and backups. Pulling the plug first loses everything in memory.</blockquote>
+`},
+
+{id:"logdata",obj:"4.9",title:"Log Data",html:`
+<div class="tblwrap"><table><caption>What each log type tells an investigator</caption>
+<tr><th>Log</th><th>What it shows</th></tr>
+<tr><td><strong>Firewall logs</strong></td><td>Source and destination IP, ports, allowed or blocked. NGFWs add application, user and URL category</td></tr>
+<tr><td><strong>Application logs</strong></td><td>Events recorded by the app itself: errors, logins, transactions. Windows Event Viewer's Application log; /var/log on Linux</td></tr>
+<tr><td><strong>Endpoint logs</strong></td><td>Logons/logoffs, processes started, device changes, lockouts, security software events on laptops, desktops and phones</td></tr>
+<tr><td><strong>OS-specific security logs</strong></td><td>Authentication successes and failures, privilege use, changes to critical files and services (the Windows Security log)</td></tr>
+<tr><td><strong>IPS/IDS logs</strong></td><td>Which known attacks or signatures fired, against which hosts, and what action was taken</td></tr>
+<tr><td><strong>Network logs</strong></td><td>Switches, routers, access points, VPN concentrators: routing changes, authentication errors, interface attacks</td></tr>
+<tr><td><strong>Metadata</strong></td><td>Data about data: email headers (the servers a message passed through), photo GPS coordinates and device model, document author, browser and OS details</td></tr>
+</table></div>
+<p>The value comes from <strong>correlation</strong>: one log shows a piece of the story; the SIEM lines them up into the whole sequence. Filter what you send to it, because volume is enormous.</p>
+`},
+{id:"datasources",obj:"4.9",title:"Data Sources for Investigations",html:`
+<ul>
+<li><strong>Vulnerability scans</strong> &mdash; what was exposed and when: missing patches, open shares, disabled antivirus. Tells you whether the attacker's likely entry point was known.</li>
+<li><strong>Automated reports</strong> &mdash; scheduled output from the SIEM or other tools. Useful only if someone reads them; keep them specific, since broad reports over terabytes are slow.</li>
+<li><strong>Dashboards</strong> &mdash; real-time, at-a-glance status, often on the SOC wall. Good for current state, not for long-term history.</li>
+<li><strong>Packet captures</strong> &mdash; the full contents of network traffic (e.g. Wireshark). The most detailed source and the most storage-hungry; shows exactly what was sent, if it wasn't encrypted.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>To see <strong>what was actually sent</strong>, you need a <strong>packet capture</strong>. NetFlow and firewall logs show who talked to whom and how much, not the contents.</blockquote>
+`}
+];
+
+var GOTCHAS_TABLE = `
+<div class="tblwrap"><table><caption>Every pink callout in Domain 4, collected</caption>
+<tr><th>Pair</th><th>The distinction</th></tr>
+<tr><td>Establish / deploy / maintain</td><td>Define the baseline vs. push it out vs. keep checking and updating it</td></tr>
+<tr><td>Hardening unpatchable targets</td><td>ICS, embedded, RTOS, IoT &rarr; segment or isolate</td></tr>
+<tr><td>BYOD vs. COPE vs. CYOD</td><td>Employee-owned vs. company-owned, personal use allowed vs. company-owned, user picks the model</td></tr>
+<tr><td>WPA3-Personal vs. WPA3-Enterprise</td><td>One shared passphrase (SAE) vs. individual credentials via 802.1X/RADIUS</td></tr>
+<tr><td>Code signing proves</td><td>Who published it and that it hasn't changed &mdash; not that it's safe</td></tr>
+<tr><td>Inventory vs. enumeration</td><td>The record you keep vs. discovering what's really there</td></tr>
+<tr><td>Sanitization vs. destruction</td><td>Data removed, device reusable vs. media physically ruined</td></tr>
+<tr><td>Degaussing</td><td>Magnetic media only &mdash; useless on SSDs and flash</td></tr>
+<tr><td>Static vs. dynamic analysis</td><td>Code not running vs. running application (fuzzing)</td></tr>
+<tr><td>Vulnerability scan vs. pen test</td><td>Identifies without exploiting vs. actually exploits</td></tr>
+<tr><td>CVE vs. CVSS</td><td>Names the vulnerability vs. scores its severity 0&ndash;10</td></tr>
+<tr><td>False positive vs. false negative (scans)</td><td>Reported but not there vs. there but not reported &mdash; the worse one</td></tr>
+<tr><td>Patch vs. compensating control vs. exception</td><td>Fix it vs. work around it vs. formally accept the risk</td></tr>
+<tr><td>SNMP poll vs. trap</td><td>Manager asks on a schedule (UDP 161) vs. device pushes an alert (UDP 162)</td></tr>
+<tr><td>NetFlow vs. packet capture</td><td>Who talked to whom and how much vs. the full contents</td></tr>
+<tr><td>Agent-based vs. agentless</td><td>Installed and always on vs. runs temporarily, nothing to maintain</td></tr>
+<tr><td>Firewall rule order</td><td>Top-down, first match wins, implicit deny at the bottom</td></tr>
+<tr><td>Stateless vs. stateful</td><td>Each packet judged alone vs. connections tracked, return traffic allowed</td></tr>
+<tr><td>Proxy filtering vs. agent-based filtering</td><td>Only protects traffic through the proxy vs. works on any network</td></tr>
+<tr><td>DNS filtering</td><td>Refuses to resolve bad domains &mdash; covers every app, including malware C2</td></tr>
+<tr><td>DAC vs. MAC on Linux</td><td>Owner decides (default permissions) vs. central policy decides (SELinux)</td></tr>
+<tr><td>SFTP vs. FTPS</td><td>FTP-like transfer over SSH, port 22 vs. FTP wrapped in TLS, 989/990</td></tr>
+<tr><td>DNSSEC</td><td>Integrity and authenticity of DNS records &mdash; no encryption</td></tr>
+<tr><td>SPF vs. DKIM vs. DMARC</td><td>Which servers may send vs. signature and integrity vs. policy and reporting</td></tr>
+<tr><td>EDR vs. XDR</td><td>One endpoint vs. correlated across endpoints, network, cloud and email</td></tr>
+<tr><td>UBA</td><td>Baselines people's behaviour &mdash; the insider-threat answer</td></tr>
+<tr><td>SAML vs. OAuth</td><td>Authentication/SSO assertions vs. delegated authorization</td></tr>
+<tr><td>SSO vs. federation</td><td>Log in once for many systems vs. trusting another organization's identities</td></tr>
+<tr><td>MAC vs. DAC vs. RBAC vs. rule vs. ABAC</td><td>Labels vs. owner vs. job role vs. condition for everyone vs. many attributes combined</td></tr>
+<tr><td>Counting MFA factors</td><td>Count categories, not steps &mdash; password + security question is one factor</td></tr>
+<tr><td>FAR vs. FRR</td><td>Wrong person let in vs. right person locked out; CER is where they meet</td></tr>
+<tr><td>Password expiration vs. minimum age</td><td>Maximum lifetime vs. stops cycling back to an old password</td></tr>
+<tr><td>JIT vs. standing privilege</td><td>Temporary admin rights on request vs. permanent rights waiting to be stolen</td></tr>
+<tr><td>Automation downsides</td><td>Complexity, cost, single point of failure, technical debt, supportability</td></tr>
+<tr><td>Containment vs. eradication</td><td>Stop the spread first, then remove the cause</td></tr>
+<tr><td>Tabletop vs. simulation</td><td>Talk-through with no systems touched vs. exercising the actual response</td></tr>
+<tr><td>Threat hunting vs. incident response</td><td>Proactively looking for what alerts missed vs. reacting to a detected incident</td></tr>
+<tr><td>Order of volatility</td><td>Registers/cache &rarr; RAM &rarr; disk &rarr; remote logs &rarr; backups</td></tr>
+<tr><td>E-discovery vs. forensics</td><td>Gather and produce the data vs. analyze it</td></tr>
+<tr><td>Legal hold</td><td>Preserve specified data for litigation &mdash; overrides normal deletion</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
+`;
+
+var SEARCH_INDEX = {};
+(function buildIndex(){
+  var scratch = document.createElement("div");
+  TOPICS.forEach(function(t){
+    scratch.innerHTML = t.title + " " + t.html;
+    SEARCH_INDEX[t.id] = (scratch.textContent || "").toLowerCase();
+  });
+})();
+
+var activeTab = "all";
+var query = "";
+var openIds = {};
+
+var tabsEl = document.getElementById("tabs");
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab" + (activeTab === k && !query ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      activeTab = k;
+      searchInput.value = "";
+      query = "";
+      clearBtn.hidden = true;
+      render();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+
+var searchInput = document.getElementById("search");
+var clearBtn = document.getElementById("clear-search");
+searchInput.addEventListener("input", function(){
+  query = searchInput.value.trim().toLowerCase();
+  clearBtn.hidden = query.length === 0;
+  render();
+});
+clearBtn.addEventListener("click", function(){
+  searchInput.value = "";
+  query = "";
+  clearBtn.hidden = true;
+  render();
+});
+
+var listEl = document.getElementById("topiclist");
+var emptyEl = document.getElementById("empty-state");
+var notesEl = document.getElementById("results-note");
+
+function matchingTopics(){
+  if(query){
+    return TOPICS.filter(function(t){ return SEARCH_INDEX[t.id].indexOf(query) !== -1; });
+  }
+  if(activeTab === "all") return TOPICS;
+  if(activeTab === "gotchas") return [];
+  return TOPICS.filter(function(t){ return t.obj === activeTab; });
+}
+
+function topicCard(t, forceOpen){
+  var isOpen = !!openIds[t.id] || forceOpen;
+  var div = document.createElement("div");
+  div.id = "t-" + t.id;
+  div.className = "topic" + (isOpen ? " open" : "");
+  div.innerHTML =
+    '<button class="topic-head" type="button">' +
+      '<h2>' + t.title + '</h2>' +
+      '<span style="display:flex;align-items:center;gap:8px;">' +
+        '<span class="topic-badge">' + t.obj + '</span>' +
+        '<span class="chev">&#9656;</span>' +
+      '</span>' +
+    '</button>' +
+    '<div class="topic-body">' + t.html + '</div>';
+  div.querySelector(".topic-head").addEventListener("click", function(){
+    var nowOpen = !div.classList.contains("open");
+    div.classList.toggle("open", nowOpen);
+    openIds[t.id] = nowOpen;
+  });
+  return div;
+}
+
+function render(){
+  buildTabs();
+  listEl.innerHTML = "";
+  notesEl.hidden = true;
+  emptyEl.hidden = true;
+
+  if(activeTab === "gotchas" && !query){
+    var card = document.createElement("div");
+    card.className = "topic open";
+    card.innerHTML =
+      '<button class="topic-head" type="button"><h2>Domain 4 Gotchas &mdash; quick-scan compare cards</h2>' +
+      '<span class="chev">&#9656;</span></button>' +
+      '<div class="topic-body">' + GOTCHAS_TABLE + '</div>';
+    card.querySelector(".topic-head").addEventListener("click", function(){
+      card.classList.toggle("open");
+    });
+    listEl.appendChild(card);
+    return;
+  }
+
+  var matches = matchingTopics();
+
+  if(query){
+    notesEl.hidden = false;
+    notesEl.textContent = matches.length + (matches.length === 1 ? ' result for "' : ' results for "') + searchInput.value.trim() + '"';
+  }
+
+  if(matches.length === 0){
+    emptyEl.hidden = false;
+    return;
+  }
+
+  matches.forEach(function(t){
+    var forceOpen = !!query && matches.length <= 6;
+    listEl.appendChild(topicCard(t, forceOpen));
+  });
+
+  if(!query && matches.length > 0 && Object.keys(openIds).length === 0){
+    listEl.firstChild.classList.add("open");
+  }
+}
+
+render();
+
+/* open a topic when arriving from a link like notebook.html#topic-id */
+function openFromHash(){
+  var h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+  if(!h || !TOPICS.some(function(t){ return t.id === h; })) return;
+  activeTab = "all"; query = ""; searchInput.value = ""; clearBtn.hidden = true;
+  openIds = {}; openIds[h] = true;
+  render();
+  var el = document.getElementById("t-" + h);
+  if(!el) return;
+  setTimeout(function(){
+    var bar = document.querySelector(".topbar");
+    var y = el.getBoundingClientRect().top + window.pageYOffset - (bar ? bar.offsetHeight : 0) - 12;
+    window.scrollTo(0, Math.max(0, y));
+  }, 50);
+}
+openFromHash();
+window.addEventListener("hashchange", openFromHash);
+})();
+</script>
+</body>
+</html>
