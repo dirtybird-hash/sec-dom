@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Searchable reference notes for Security+ Domain 3.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 3 Notebook</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#1f8a5c; --accent-ink:#ffffff;
+  --hl-yellow:#a9791c; --hl-yellow-bg:#fbf1d9;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-pink:#b3437c; --hl-pink-bg:#fbeaf2;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#55d69a; --accent-ink:#0b2418;
+    --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#55d69a; --accent-ink:#0b2418;
+  --hl-yellow:#e0b24d; --hl-yellow-bg:#332a15;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-pink:#ea86b8; --hl-pink-bg:#301b26;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:800px;margin:0 auto;padding-inline:16px;padding-block:16px 56px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:800px;margin:0 auto;padding:14px 16px 12px;display:flex;flex-direction:column;gap:10px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.searchrow{position:relative;}
+.searchrow input{width:100%;font-family:var(--font-body);font-size:15px;padding:11px 40px 11px 14px;
+  border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.searchrow input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.searchrow .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;
+  color:var(--text-muted);font-family:var(--font-display);font-size:12px;cursor:pointer;padding:6px 8px;}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-muted);padding:2px 2px 0;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.dot.y{background:var(--hl-yellow);} .dot.g{background:var(--hl-green);}
+.dot.b{background:var(--hl-blue);} .dot.p{background:var(--hl-pink);}
+.results-note{font-family:var(--font-display);font-size:12px;color:var(--text-muted);padding-top:14px;}
+.topiclist{display:flex;flex-direction:column;gap:10px;padding-top:14px;}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;}
+.topic-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:none;border:none;text-align:left;padding:15px 16px;cursor:pointer;color:var(--text);}
+.topic-head h2{font-size:15px;margin:0;font-weight:600;letter-spacing:0;}
+.topic-badge{font-family:var(--font-display);font-size:10.5px;letter-spacing:.02em;color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;padding:2px 8px;flex:none;}
+.chev{font-family:var(--font-display);color:var(--text-muted);transition:transform .2s;flex:none;}
+.topic.open .chev{transform:rotate(90deg);}
+.topic-body{padding:0 18px 18px;font-size:14.5px;line-height:1.6;display:none;}
+.topic.open .topic-body{display:block;}
+.topic-body p{margin:0 0 12px;}
+.topic-body strong{color:var(--hl-yellow);background:linear-gradient(transparent 65%, var(--hl-yellow-bg) 65%);
+  font-weight:600;}
+.topic-body ul,.topic-body ol{margin:0 0 12px;padding-left:22px;}
+.topic-body ol{border-left:3px solid var(--hl-blue);padding-left:18px;margin-left:2px;}
+.topic-body li{margin-bottom:7px;}
+.topic-body table{width:100%;border-collapse:collapse;margin:0 0 14px;font-size:13.5px;}
+.topic-body caption{caption-side:top;text-align:left;font-family:var(--font-display);font-size:11px;
+  color:var(--text-muted);margin-bottom:6px;}
+.topic-body th{background:var(--hl-green-bg);color:var(--hl-green);text-align:left;padding:8px 10px;
+  border:1px solid var(--border);font-family:var(--font-display);font-size:11.5px;letter-spacing:.02em;}
+.topic-body td{padding:8px 10px;border:1px solid var(--border);vertical-align:top;}
+.tblwrap{overflow-x:auto;margin-bottom:14px;}
+.tblwrap table{margin-bottom:0;}
+.topic-body blockquote{margin:0 0 12px;border-left:3px solid var(--hl-pink);background:var(--hl-pink-bg);
+  border-radius:0 8px 8px 0;padding:10px 13px;font-size:13.5px;line-height:1.5;}
+.topic-body blockquote .tag{font-family:var(--font-display);color:var(--hl-pink);font-size:11px;
+  text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+.topic-body code{font-family:var(--font-display);font-size:12.5px;background:var(--surface-2);
+  padding:1px 5px;border-radius:4px;}
+.empty{text-align:center;color:var(--text-muted);padding:40px 10px;font-size:14px;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 3 Notebook</h1>
+      <span class="sub">SY0-701 &middot; Security Architecture</span>
+    </div>
+    <div class="searchrow">
+      <input type="text" id="search" placeholder="Search Domain 3 notes&hellip; e.g. &quot;SASE&quot;, &quot;fail-closed&quot;, &quot;cold site&quot;" autocomplete="off">
+      <button class="clear" id="clear-search" hidden>Clear</button>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="legend">
+      <span><span class="dot y"></span>Terms</span>
+      <span><span class="dot g"></span>Specs &amp; tables</span>
+      <span><span class="dot b"></span>Process &amp; sequence</span>
+      <span><span class="dot p"></span>Gotchas</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="results-note" id="results-note" hidden></div>
+  <div class="topiclist" id="topiclist"></div>
+  <div class="empty" id="empty-state" hidden>No notes match that search. Try a shorter term, or clear the search to browse by objective.</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"3.1":"Architecture Models","3.2":"Secure Infrastructure","3.3":"Protecting Data",
+  "3.4":"Resilience &amp; Recovery","gotchas":"Gotchas"};
+var TAB_ORDER = ["all","3.1","3.2","3.3","3.4","gotchas"];
+var TAB_LABEL = {"all":"All","3.1":"3.1","3.2":"3.2","3.3":"3.3","3.4":"3.4","gotchas":"Gotchas"};
+
+var TOPICS = [
+{id:"cloud",obj:"3.1",title:"Cloud &mdash; Responsibility, Hybrid &amp; Third Parties",html:`
+<p>Cloud security starts with knowing who is actually responsible for what. The <strong>responsibility matrix</strong> (shared responsibility model) divides it: the <strong>cloud service provider</strong> secures the physical infrastructure, the hypervisor and the facilities; the <strong>customer</strong> secures their own data, identities, access control, encryption and application code.</p>
+<p>Where the line falls shifts with the service model &mdash; the customer owns more in IaaS, less in SaaS &mdash; and most cloud breaches happen in the gap where each side assumed the other had it covered.</p>
+<ul>
+<li><strong>Hybrid considerations</strong> &mdash; running on-premises and cloud together means securing data moving between them, keeping policy consistent across two very different control planes, and defending both.</li>
+<li><strong>Third-party vendors</strong> &mdash; you inherit their security posture without visibility into it. You cannot audit what you cannot see, and their mishandling of your data is still your incident.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>"The provider handles security" is always half true. They secure the cloud; you secure what you put <em>in</em> it. Misconfigured storage and over-broad permissions are customer-side failures every time.</blockquote>
+`},
+{id:"iac",obj:"3.1",title:"Infrastructure as Code",html:`
+<p><strong>Infrastructure as code (IaC)</strong> defines servers, networks and policy in machine-readable files that are version-controlled and deployed automatically, instead of being configured by hand.</p>
+<p>The security story cuts both ways. Consistency is the win: every environment is built from the same reviewed definition, so configuration drift largely disappears and rebuilding is trivial. The risk is that a mistake propagates just as reliably &mdash; one misconfiguration in the template becomes a misconfiguration in every environment it builds, instantly and everywhere.</p>
+<p>That makes the code itself the control point: it needs access control, code review, and scanning for insecure settings before it ships.</p>
+`},
+{id:"serverless",obj:"3.1",title:"Serverless",html:`
+<p><strong>Serverless</strong> runs code as functions invoked on demand, with the provider handling all the underlying infrastructure. There is still a server &mdash; you just never touch it.</p>
+<p>It removes a whole category of work: no OS to patch, no server to harden, no capacity to manage. That genuinely shrinks the attack surface you're responsible for.</p>
+<p>What remains is entirely application-layer: securing the APIs that trigger functions, keeping function permissions minimal, validating input, and protecting data in transit and at rest. Functions given broader rights than they need are the common failure, because the blast radius of a compromised function is exactly its permission set.</p>
+`},
+{id:"micro",obj:"3.1",title:"Microservices",html:`
+<p><strong>Microservices</strong> break an application into small independent services that communicate over the network, rather than one large monolith.</p>
+<p>The resilience benefit is real &mdash; one service failing doesn't take down the application, and services scale and deploy independently. The isolation also limits what a single compromised component can reach.</p>
+<p>The cost is surface area. Every service is a separate thing to authenticate, authorize, patch, monitor and secure, and communication that used to happen inside one process now crosses the network where it can be intercepted. API management and service-to-service authentication become load-bearing security controls rather than architectural niceties.</p>
+<blockquote><span class="tag">Gotcha</span>Microservices trade a <em>smaller blast radius per component</em> for <em>more components to defend</em>. Both halves are true, and an exam question can be written from either side.</blockquote>
+`},
+{id:"netinfra",obj:"3.1",title:"Network Infrastructure &mdash; Isolation, Segmentation &amp; SDN",html:`
+<ul>
+<li><strong>Physical isolation / air-gapped</strong> &mdash; no network connection to anything else, at all. The strongest available separation, used for classified and critical-infrastructure systems. The trade-off is operational: patching and monitoring require physically carrying media in, which is also how air-gapped systems have historically been compromised.</li>
+<li><strong>Logical segmentation</strong> &mdash; separation enforced by configuration rather than cabling: VLANs, subnets, firewall rules, security groups. Far more practical, and it limits lateral movement, but it depends entirely on that configuration being correct.</li>
+<li><strong>Software-defined networking (SDN)</strong> &mdash; separates the control plane from the data plane so the network is programmed centrally. Policy becomes consistent and quick to change, but the controller is a single high-value target and a potential single point of failure.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Air-gapped means <em>physically</em> disconnected. A heavily firewalled VLAN with no allowed routes is still logically segmented, not air-gapped &mdash; the cable exists.</blockquote>
+`},
+{id:"onprem",obj:"3.1",title:"On-Premises &amp; Centralized vs. Decentralized",html:`
+<p><strong>On-premises</strong> gives you full control and full responsibility &mdash; physical security, patching, monitoring and capacity are all yours. It can be made very secure, at higher cost and with far less elasticity than cloud.</p>
+<div class="tblwrap"><table><caption>Centralized vs. decentralized architecture</caption>
+<tr><th></th><th>Centralized</th><th>Decentralized</th></tr>
+<tr><td>Policy</td><td>Consistent, enforced from one place</td><td>Varies by node; drift is common</td></tr>
+<tr><td>Monitoring</td><td>One view of everything</td><td>Fragmented, harder to correlate</td></tr>
+<tr><td>Failure</td><td>Single point of failure and a concentrated target</td><td>More resilient; no single kill shot</td></tr>
+<tr><td>Weakness</td><td>Compromise the centre, reach everything</td><td>Securing communication between nodes</td></tr>
+</table></div>
+`},
+{id:"virtcontain",obj:"3.1",title:"Virtualization &amp; Containerization",html:`
+<div class="tblwrap"><table>
+<tr><th></th><th>Virtual machines</th><th>Containers</th></tr>
+<tr><td>Isolates</td><td>A full guest OS per instance</td><td>The application and its dependencies, sharing the host kernel</td></tr>
+<tr><td>Overhead</td><td>Heavier &mdash; each VM runs its own OS</td><td>Light and fast to start</td></tr>
+<tr><td>Separation</td><td>Stronger &mdash; hypervisor-enforced</td><td>Weaker &mdash; a shared kernel is a shared failure domain</td></tr>
+<tr><td>Main risk</td><td><strong>VM escape</strong>: breaking out of the guest to reach the hypervisor or host</td><td>Untrusted or unpatched <strong>images</strong>, and insecure registries</td></tr>
+</table></div>
+<p>Container security is largely supply-chain security: where the base image came from, what's inside it, whether the registry is trusted, and how quickly images get rebuilt when a dependency is patched.</p>
+`},
+{id:"iot",obj:"3.1",title:"IoT",html:`
+<p><strong>Internet of Things</strong> devices are purpose-built, cheap, and deployed in volume &mdash; sensors, cameras, thermostats, badge readers, medical equipment.</p>
+<p>The security problems follow from the economics. Limited compute means weak or absent cryptography. Vendors ship default credentials and often stop issuing firmware updates early. Devices are deployed in the hundreds with no inventory, so nobody knows what's on the network. And they're rarely covered by endpoint protection, so a compromised device sits inside the network, unmonitored, indefinitely.</p>
+<p>The standard mitigation is segmentation: put them on their own network where a compromise reaches nothing that matters.</p>
+`},
+{id:"ics",obj:"3.1",title:"ICS / SCADA",html:`
+<p><strong>Industrial control systems</strong> and <strong>SCADA</strong> (supervisory control and data acquisition) run physical processes &mdash; power generation and distribution, water treatment, manufacturing lines, building systems. A compromise has physical consequences, which makes them high-value targets for nation-state actors.</p>
+<p>Three properties make them hard to defend:</p>
+<ol>
+<li><strong>Very long lifespans.</strong> Equipment stays in service for decades, long past any vendor support.</li>
+<li><strong>Availability outranks confidentiality.</strong> A production line cannot be stopped to install a patch, so the maintenance window that would let you fix things may effectively never come.</li>
+<li><strong>Protocols built without security.</strong> Many industrial protocols predate any assumption of network exposure and have no authentication at all.</li>
+</ol>
+<p>Because patching is often impossible, defence leans on isolation and compensating controls rather than remediation.</p>
+`},
+{id:"embedded",obj:"3.1",title:"Embedded Systems &amp; RTOS",html:`
+<p>An <strong>embedded system</strong> is a computer built into a larger device to do one job &mdash; the controller in a printer, a vehicle, a medical pump. The user generally doesn't perceive it as a computer at all, which is part of the problem: it gets no patching, no monitoring, and no place in the asset inventory.</p>
+<p>A <strong>real-time operating system (RTOS)</strong> is used where timing is a correctness requirement, not a preference &mdash; an airbag controller or an industrial actuator must respond within a guaranteed window. That constraint squeezes out security features that introduce variable delay, and it makes updates risky because anything altering timing can break the system's core guarantee.</p>
+<blockquote><span class="tag">Gotcha</span>The recurring theme across IoT, ICS/SCADA, embedded and RTOS is the same: <strong>inability to patch</strong>. When a question describes a system that can't be updated, the expected answer is almost always isolation or a compensating control, not remediation.</blockquote>
+`},
+{id:"considerations",obj:"3.1",title:"Architecture Considerations Checklist",html:`
+<p>The objectives list the factors to weigh when comparing any two architecture models. Expect questions that hand you a scenario and ask which consideration it illustrates.</p>
+<div class="tblwrap"><table><caption>The named considerations</caption>
+<tr><th>Consideration</th><th>The question it answers</th></tr>
+<tr><td><strong>Availability</strong></td><td>Is the system reachable when needed?</td></tr>
+<tr><td><strong>Resilience</strong></td><td>Does it keep working when a component fails?</td></tr>
+<tr><td><strong>Cost</strong></td><td>Capital outlay versus ongoing operational spend.</td></tr>
+<tr><td><strong>Responsiveness</strong></td><td>How quickly does it react under load?</td></tr>
+<tr><td><strong>Scalability</strong></td><td>Can capacity grow with demand?</td></tr>
+<tr><td><strong>Ease of deployment</strong></td><td>How hard is it to stand up and roll out?</td></tr>
+<tr><td><strong>Risk transference</strong></td><td>Moving risk to someone else &mdash; a cloud provider, or an insurer.</td></tr>
+<tr><td><strong>Ease of recovery</strong></td><td>How quickly can it be restored after failure?</td></tr>
+<tr><td><strong>Patch availability</strong></td><td>Does the vendor still issue fixes?</td></tr>
+<tr><td><strong>Inability to patch</strong></td><td>The condition that forces compensating controls.</td></tr>
+<tr><td><strong>Power</strong></td><td>Consumption and continuity requirements.</td></tr>
+<tr><td><strong>Compute</strong></td><td>Processing capacity available and needed.</td></tr>
+</table></div>
+`},
+
+{id:"placement",obj:"3.2",title:"Device Placement, Security Zones &amp; Attack Surface",html:`
+<p>Where a security device sits determines what it can actually see and act on. A firewall at the perimeter inspects traffic entering and leaving; it is blind to traffic between two hosts on the same internal segment.</p>
+<ul>
+<li><strong>Security zones</strong> group systems by trust level &mdash; untrusted internet, a screened subnet (DMZ) for public-facing services, trusted internal, and high-security segments for sensitive data. Rules are then written between zones instead of between individual hosts, which scales and documents intent.</li>
+<li><strong>Attack surface</strong> is what you are trying to shrink with placement: fewer exposed services, fewer paths in, fewer things to monitor.</li>
+<li><strong>Connectivity</strong> &mdash; how systems reach each other and the outside world, and which of those paths genuinely need to exist.</li>
+</ul>
+`},
+{id:"failmodes",obj:"3.2",title:"Failure Modes &amp; Traffic Handling",html:`
+<p>Three paired decisions define how an inline security device behaves. All three come up constantly.</p>
+<div class="tblwrap"><table>
+<tr><th>Choice</th><th>Meaning</th><th>Trade-off</th></tr>
+<tr><td><strong>Fail-open</strong></td><td>If the device fails, traffic keeps flowing</td><td>Availability preserved, security lost</td></tr>
+<tr><td><strong>Fail-closed</strong></td><td>If the device fails, traffic stops</td><td>Security preserved, availability lost</td></tr>
+<tr><td><strong>Active</strong></td><td>Sits inline and can block</td><td>Can stop an attack; can also stop legitimate traffic</td></tr>
+<tr><td><strong>Passive</strong></td><td>Observes a copy of traffic</td><td>Cannot break anything; cannot block anything either</td></tr>
+<tr><td><strong>Inline</strong></td><td>Traffic physically passes through it</td><td>Enforcement point, and a potential bottleneck or failure point</td></tr>
+<tr><td><strong>Tap / monitor</strong></td><td>Receives a mirrored copy</td><td>Zero impact on the live path; detection only</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Fail-open versus fail-closed is a <strong>CIA trade-off stated as a configuration</strong>. Availability-critical environments tend to fail open; high-security environments fail closed. The "right" answer depends on what the scenario says the organization values.</blockquote>
+`},
+{id:"firewalls",obj:"3.2",title:"Firewall Types",html:`
+<div class="tblwrap"><table><caption>The named firewall types</caption>
+<tr><th>Type</th><th>What it does</th></tr>
+<tr><td><strong>Web application firewall (WAF)</strong></td><td>Inspects HTTP/HTTPS traffic to a web application specifically, blocking SQL injection, XSS and similar application-layer attacks that a network firewall never sees.</td></tr>
+<tr><td><strong>Unified threat management (UTM)</strong></td><td>One appliance bundling firewall, IDS/IPS, antivirus, content filtering and VPN. Simple to run; a single point of failure and often a performance bottleneck.</td></tr>
+<tr><td><strong>Next-generation firewall (NGFW)</strong></td><td>Adds application awareness and deep packet inspection, identifying and controlling traffic by <em>application</em> rather than just port and protocol.</td></tr>
+</table></div>
+<p><strong>Layer 4 vs. Layer 7</strong> is the underlying distinction. A layer 4 firewall makes decisions on IP addresses, ports and protocol &mdash; fast, but it cannot tell what the traffic actually is. A layer 7 firewall reads application content, so it can distinguish one service from another riding the same port and inspect what's inside.</p>
+<blockquote><span class="tag">Gotcha</span>Anything on port 443 looks identical to a layer 4 firewall. Distinguishing legitimate HTTPS from tunnelled traffic hiding inside it requires layer 7 inspection &mdash; that's the whole argument for NGFW.</blockquote>
+`},
+{id:"appliances",obj:"3.2",title:"Network Appliances",html:`
+<ul>
+<li><strong>Jump server</strong> &mdash; a single hardened, heavily logged host that administrators connect to first, and from which they reach sensitive systems. It collapses many administrative paths into one monitored chokepoint.</li>
+<li><strong>Proxy server</strong> &mdash; an intermediary for requests. A forward proxy sits in front of users for filtering, caching and anonymity; a reverse proxy sits in front of servers to distribute load and hide the back end.</li>
+<li><strong>IPS / IDS</strong> &mdash; intrusion <em>prevention</em> sits inline and blocks; intrusion <em>detection</em> sits passively and alerts. Same analysis, different authority to act.</li>
+<li><strong>Load balancer</strong> &mdash; distributes traffic across multiple servers for both capacity and availability, and removes a failed server from rotation automatically.</li>
+<li><strong>Sensors</strong> &mdash; collection points feeding traffic and telemetry to monitoring systems. Placement decides visibility.</li>
+</ul>
+`},
+{id:"portsec",obj:"3.2",title:"Port Security &mdash; 802.1X &amp; EAP",html:`
+<p><strong>Port security</strong> controls what is allowed to connect to a physical network port, which is the defence against someone walking in and plugging a device into a wall jack.</p>
+<p><strong>802.1X</strong> is port-based network access control. A device connecting to a switch port or wireless network is placed in an unauthorized state where it can do nothing but authenticate. Three roles:</p>
+<ol>
+<li><strong>Supplicant</strong> &mdash; the device requesting access.</li>
+<li><strong>Authenticator</strong> &mdash; the switch or access point controlling the port.</li>
+<li><strong>Authentication server</strong> &mdash; usually RADIUS, which makes the actual decision.</li>
+</ol>
+<p>Only after the server approves does the port open for normal traffic.</p>
+<p><strong>EAP</strong> (Extensible Authentication Protocol) is the framework carrying that exchange. It isn't one method but a container for many &mdash; certificate-based, credential-based, tunnelled &mdash; which is why you see variants like EAP-TLS and PEAP.</p>
+`},
+{id:"securecomm",obj:"3.2",title:"Secure Communication &amp; Access",html:`
+<ul>
+<li><strong>VPN</strong> &mdash; an encrypted tunnel across an untrusted network. <em>Remote access</em> VPNs connect a user to the corporate network; <em>site-to-site</em> VPNs connect two networks permanently.</li>
+<li><strong>Tunneling</strong> &mdash; encapsulating one protocol inside another, which is the mechanism a VPN is built on.</li>
+<li><strong>TLS</strong> &mdash; secures traffic at the transport layer. Typical for client VPNs and for essentially all web traffic.</li>
+<li><strong>IPSec</strong> &mdash; secures at the network layer, protecting all IP traffic between endpoints. Typical for site-to-site VPNs. Two modes: <em>transport</em> encrypts only the payload; <em>tunnel</em> encrypts the entire original packet and wraps it in a new one.</li>
+<li><strong>SD-WAN</strong> &mdash; software-defined wide area networking, routing traffic intelligently across multiple links (broadband, MPLS, cellular) based on policy and current conditions.</li>
+<li><strong>SASE</strong> &mdash; secure access service edge, converging SD-WAN with cloud-delivered security so policy follows the user wherever they connect from, rather than requiring traffic to be hauled back to a datacentre first.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>TLS operates at the transport layer and typically protects specific applications; IPSec operates at the network layer and protects everything between the endpoints. Client VPN leans TLS, site-to-site leans IPSec.</blockquote>
+`},
+{id:"controlsel",obj:"3.2",title:"Selection of Effective Controls",html:`
+<p>The objectives close 3.2 by asking you to <em>choose</em>, not just recognize. Given a scenario, the expected reasoning runs: what is being protected, what is it worth, what threatens it, what does the control cost, and what does it break.</p>
+<p>A control is effective when it addresses the actual threat in that scenario, is proportionate to the value of the asset, and doesn't impose so much friction that people route around it. The most secure configuration that stops the business working is not the correct answer, and neither is the cheapest control that leaves the threat untouched.</p>
+`},
+
+{id:"datatypes",obj:"3.3",title:"Data Types",html:`
+<div class="tblwrap"><table><caption>The named data types</caption>
+<tr><th>Type</th><th>What it is</th></tr>
+<tr><td><strong>Regulated</strong></td><td>Data governed by law or standard &mdash; health records, cardholder data, personal data under privacy law. Handling is dictated externally.</td></tr>
+<tr><td><strong>Trade secret</strong></td><td>Information whose value depends on staying secret; protection is lost once disclosed.</td></tr>
+<tr><td><strong>Intellectual property</strong></td><td>Patents, designs, source code, creative work.</td></tr>
+<tr><td><strong>Legal information</strong></td><td>Contracts, filings, privileged communications.</td></tr>
+<tr><td><strong>Financial information</strong></td><td>Accounts, transactions, payroll.</td></tr>
+<tr><td><strong>Human-readable</strong></td><td>Directly intelligible &mdash; a document, a spreadsheet.</td></tr>
+<tr><td><strong>Non-human-readable</strong></td><td>Requires processing to interpret &mdash; binary formats, encoded data, database files.</td></tr>
+</table></div>
+`},
+{id:"dataclass",obj:"3.3",title:"Data Classifications",html:`
+<p>Classification assigns a sensitivity label that then drives handling requirements. The objectives name six.</p>
+<ul>
+<li><strong>Public</strong> &mdash; disclosure causes no harm; intended for release.</li>
+<li><strong>Private</strong> &mdash; concerns an individual and is not for general distribution.</li>
+<li><strong>Sensitive</strong> &mdash; disclosure would cause harm.</li>
+<li><strong>Confidential</strong> &mdash; restricted to a defined group, with meaningful consequences for disclosure.</li>
+<li><strong>Restricted</strong> &mdash; tightly limited access, typically requiring explicit authorization.</li>
+<li><strong>Critical</strong> &mdash; essential to operations; loss or corruption threatens the organization itself.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Classification and data <em>type</em> are different axes. A file can be financial (type) and confidential (classification) at once. Questions often supply one and ask for the other.</blockquote>
+`},
+{id:"datastates",obj:"3.3",title:"Data States",html:`
+<div class="tblwrap"><table>
+<tr><th>State</th><th>Where it lives</th><th>How it's protected</th></tr>
+<tr><td><strong>At rest</strong></td><td>Stored on disk, in a database, on backup media</td><td>Full-disk, file, database or record-level encryption; access controls</td></tr>
+<tr><td><strong>In transit</strong></td><td>Moving across a network</td><td>TLS, IPSec, VPN tunnels</td></tr>
+<tr><td><strong>In use</strong></td><td>Loaded in memory, being processed</td><td>The hard one &mdash; it must be decrypted to be worked on. Secure enclaves, memory encryption, strict access control</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Data <strong>in use</strong> is the state most often overlooked and the hardest to defend, precisely because processing requires plaintext. That's what secure enclaves and memory encryption exist to address.</blockquote>
+`},
+{id:"sovereignty",obj:"3.3",title:"Data Sovereignty &amp; Geolocation",html:`
+<p><strong>Data sovereignty</strong> is the principle that data is subject to the laws of the country it is physically stored in. Put a European customer's data on a server in another jurisdiction and you may have created a compliance violation without any technical failure occurring at all.</p>
+<p>This is what makes cloud region selection a legal decision rather than a performance one. Providers offer region pinning specifically so customers can satisfy sovereignty requirements.</p>
+<p><strong>Geolocation</strong> is knowing where data and users actually are, which supports both compliance and security &mdash; and underpins <strong>geographic restrictions</strong> (geofencing), where access is permitted or denied based on physical location.</p>
+`},
+{id:"securemethods",obj:"3.3",title:"Methods to Secure Data",html:`
+<div class="tblwrap"><table><caption>The eight named methods</caption>
+<tr><th>Method</th><th>What it does</th><th>Reversible?</th></tr>
+<tr><td><strong>Geographic restrictions</strong></td><td>Allows or denies access based on location</td><td>n/a &mdash; access control</td></tr>
+<tr><td><strong>Encryption</strong></td><td>Makes data unreadable without the key</td><td>Yes, with the key</td></tr>
+<tr><td><strong>Hashing</strong></td><td>One-way fingerprint for integrity and password storage</td><td>No</td></tr>
+<tr><td><strong>Masking</strong></td><td>Hides part of a value while showing the rest</td><td>No, but vulnerable to inference</td></tr>
+<tr><td><strong>Tokenization</strong></td><td>Substitutes a meaningless token mapped only by the issuing system</td><td>Only by the token vault</td></tr>
+<tr><td><strong>Obfuscation</strong></td><td>Makes data hard to interpret without truly protecting it</td><td>Yes, if you know the trick</td></tr>
+<tr><td><strong>Segmentation</strong></td><td>Separates data so a compromise reaches less of it</td><td>n/a &mdash; architectural</td></tr>
+<tr><td><strong>Permission restrictions</strong></td><td>Limits who can read, write or delete</td><td>n/a &mdash; access control</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>Only <strong>encryption</strong> is reversible with a key, and only <strong>hashing</strong> is genuinely one-way. Tokenization looks like encryption but has no mathematical relationship to the original &mdash; the mapping lives in a separate vault.</blockquote>
+`},
+
+{id:"ha",obj:"3.4",title:"High Availability &mdash; Load Balancing vs. Clustering",html:`
+<p><strong>High availability</strong> means the service stays reachable through failures, usually expressed as a percentage of uptime. The two named mechanisms are often confused.</p>
+<div class="tblwrap"><table>
+<tr><th></th><th>Load balancing</th><th>Clustering</th></tr>
+<tr><td>Purpose</td><td>Distribute work across multiple active servers</td><td>Group servers so they act as one resilient system</td></tr>
+<tr><td>Primary goal</td><td>Performance and capacity, availability as a benefit</td><td>Availability and failover</td></tr>
+<tr><td>On failure</td><td>The failed node is dropped from rotation</td><td>Another node takes over the failed node's role</td></tr>
+</table></div>
+<p><strong>Failover</strong> is the act of switching to the standby when the primary fails, and it should be tested rather than assumed.</p>
+`},
+{id:"sites",obj:"3.4",title:"Site Considerations &mdash; Hot, Warm &amp; Cold",html:`
+<div class="tblwrap"><table><caption>Recovery sites, fastest to cheapest</caption>
+<tr><th>Site</th><th>State</th><th>Recovery time</th><th>Cost</th></tr>
+<tr><td><strong>Hot site</strong></td><td>Fully equipped, data replicated, staffed or ready to be &mdash; you can cut over now</td><td>Minutes</td><td>Highest</td></tr>
+<tr><td><strong>Warm site</strong></td><td>Hardware and connectivity in place, but data must be restored before it's usable</td><td>Hours to days</td><td>Middle</td></tr>
+<tr><td><strong>Cold site</strong></td><td>Space, power and connectivity only; all equipment and data must be brought in</td><td>Days to weeks</td><td>Lowest</td></tr>
+</table></div>
+<p><strong>Geographic dispersion</strong> is the requirement that the alternate site be far enough away that the same event &mdash; hurricane, flood, regional power loss &mdash; cannot take out both. A backup site across the parking lot satisfies the checklist and fails the purpose.</p>
+<blockquote><span class="tag">Gotcha</span>Hot, warm and cold trade <strong>cost against recovery time</strong>, directly. If a question stresses budget constraints, it's steering toward cold; if it stresses an aggressive recovery objective, it's steering toward hot.</blockquote>
+`},
+{id:"diversity",obj:"3.4",title:"Platform Diversity &amp; Multi-Cloud",html:`
+<p><strong>Platform diversity</strong> means deliberately not running everything on the same vendor, OS or hardware. A vulnerability or a vendor outage then takes out part of the estate rather than all of it. The cost is complexity: more platforms to patch, staff, monitor and secure, and more places for configuration to drift.</p>
+<p><strong>Multi-cloud</strong> applies the same logic to providers. It removes dependence on any single cloud's availability and reduces vendor lock-in, at the price of managing different security models, different identity systems and different tooling in parallel.</p>
+`},
+{id:"coop",obj:"3.4",title:"Continuity of Operations &amp; Capacity Planning",html:`
+<p><strong>Continuity of operations</strong> is the plan for keeping the business running when normal systems are unavailable &mdash; including the manual and alternative procedures used while technology is down. It is a business plan, not purely a technical one, and it only works if people have practised it.</p>
+<p><strong>Capacity planning</strong> covers three named dimensions, and the first is the one organizations forget:</p>
+<ul>
+<li><strong>People</strong> &mdash; enough trained staff, including cover for absence and turnover. A recovery plan requiring a specific individual is a plan with a single point of failure.</li>
+<li><strong>Technology</strong> &mdash; enough compute, storage and bandwidth for both normal load and surge.</li>
+<li><strong>Infrastructure</strong> &mdash; the facilities, power and space to support it.</li>
+</ul>
+`},
+{id:"testing",obj:"3.4",title:"Recovery Testing",html:`
+<p>An untested recovery plan is a hypothesis. The objectives name four testing methods, in rough order of realism and disruption.</p>
+<ol>
+<li><strong>Tabletop exercise</strong> &mdash; participants talk through their response to a scenario in a room. Cheap, non-disruptive, good for finding gaps in the plan and in people's understanding. Nothing is actually switched over.</li>
+<li><strong>Simulation</strong> &mdash; a realistic drill of the response, exercising the actions without necessarily affecting production.</li>
+<li><strong>Parallel processing</strong> &mdash; the recovery systems are brought up and run alongside production, confirming they work without taking the live service down.</li>
+<li><strong>Failover</strong> &mdash; the real thing: production is actually cut over to the recovery system. The most conclusive test and the most disruptive.</li>
+</ol>
+<blockquote><span class="tag">Gotcha</span>A <strong>tabletop</strong> is discussion only &mdash; no systems are touched. If the scenario describes people walking through a scenario in a conference room, that's the answer regardless of how thorough the discussion sounds.</blockquote>
+`},
+{id:"backups",obj:"3.4",title:"Backups",html:`
+<p>Backups are the last line, and the objectives name the decisions that make them work.</p>
+<ul>
+<li><strong>Onsite / offsite</strong> &mdash; onsite restores fast; offsite survives the event that destroys the site. You need both, which is the reasoning behind keeping multiple copies in more than one location.</li>
+<li><strong>Frequency</strong> &mdash; determines how much data you lose in a failure. Set by the recovery point objective, not by convenience.</li>
+<li><strong>Encryption</strong> &mdash; backup media is a full copy of your data in a portable form. Unencrypted backups are a breach waiting for someone to lose a tape.</li>
+<li><strong>Snapshots</strong> &mdash; point-in-time captures of a system's state, quick to take and quick to roll back to.</li>
+<li><strong>Replication</strong> &mdash; continuously copying data to another system. Excellent for availability, but it faithfully replicates corruption and ransomware encryption too, which is why replication is not a backup.</li>
+<li><strong>Journaling</strong> &mdash; recording changes as they happen so a system can be rolled forward or back to a precise point.</li>
+<li><strong>Recovery</strong> &mdash; the part that actually matters. A backup that has never been restored is unverified.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span><strong>Replication is not a backup.</strong> It copies whatever happens, including the bad thing, in near real time. Backups protect against corruption precisely because they are point-in-time and separate.</blockquote>
+`},
+{id:"power",obj:"3.4",title:"Power Resilience",html:`
+<p>Two named components, and they solve different problems on different timescales.</p>
+<div class="tblwrap"><table>
+<tr><th></th><th>UPS</th><th>Generator</th></tr>
+<tr><td>Engages</td><td>Instantly &mdash; battery, no gap</td><td>After a short delay for start-up</td></tr>
+<tr><td>Runtime</td><td>Minutes</td><td>Hours to days, while fuel lasts</td></tr>
+<tr><td>Purpose</td><td>Ride out brief outages; provide time for a clean shutdown or for the generator to start</td><td>Sustain operations through an extended outage</td></tr>
+</table></div>
+<p>They're designed to work together: the UPS covers the gap between utility power failing and the generator reaching full output. A UPS also conditions power, smoothing the sags and surges that damage equipment over time.</p>
+<blockquote><span class="tag">Gotcha</span>A generator alone leaves a gap at the moment of failure &mdash; it needs seconds to start, and servers do not tolerate seconds without power. The UPS exists to cover exactly that interval.</blockquote>
+`}
+];
+
+var GOTCHAS_TABLE = `
+<div class="tblwrap"><table><caption>Every pink callout in Domain 3, collected</caption>
+<tr><th>Pair</th><th>The distinction</th></tr>
+<tr><td>Provider vs. customer responsibility</td><td>They secure the cloud; you secure what you put in it</td></tr>
+<tr><td>Air-gapped vs. logical segmentation</td><td>Physically disconnected vs. separated by configuration</td></tr>
+<tr><td>VM vs. container</td><td>Full guest OS, hypervisor-isolated vs. shared kernel, image-based risk</td></tr>
+<tr><td>Microservices trade-off</td><td>Smaller blast radius per component vs. more components to defend</td></tr>
+<tr><td>Centralized vs. decentralized</td><td>Consistent policy with one target vs. resilient but drifting</td></tr>
+<tr><td>Fail-open vs. fail-closed</td><td>Availability preserved vs. security preserved</td></tr>
+<tr><td>Active vs. passive</td><td>Inline and can block vs. observes a copy and only alerts</td></tr>
+<tr><td>Inline vs. tap/monitor</td><td>Traffic passes through it vs. receives a mirrored copy</td></tr>
+<tr><td>IDS vs. IPS</td><td>Detects and alerts vs. sits inline and blocks</td></tr>
+<tr><td>Layer 4 vs. Layer 7</td><td>Ports and addresses vs. application content</td></tr>
+<tr><td>WAF vs. NGFW vs. UTM</td><td>Web app traffic vs. application-aware inspection vs. everything in one box</td></tr>
+<tr><td>TLS vs. IPSec</td><td>Transport layer, per-application vs. network layer, all IP traffic</td></tr>
+<tr><td>IPSec transport vs. tunnel mode</td><td>Encrypts the payload vs. encrypts the whole original packet</td></tr>
+<tr><td>Data type vs. classification</td><td>What the data is vs. how sensitive it is &mdash; two separate axes</td></tr>
+<tr><td>At rest / in transit / in use</td><td>Stored vs. moving vs. being processed &mdash; in use is the hard one</td></tr>
+<tr><td>Encryption vs. tokenization vs. masking</td><td>Reversible with a key vs. mapped by a vault vs. partially hidden and inferable</td></tr>
+<tr><td>Load balancing vs. clustering</td><td>Distributing work vs. failing over a role</td></tr>
+<tr><td>Hot vs. warm vs. cold site</td><td>Recovery time bought with cost</td></tr>
+<tr><td>Tabletop vs. failover test</td><td>Discussion only vs. actually cutting production over</td></tr>
+<tr><td>Replication vs. backup</td><td>Copies everything including the damage vs. point-in-time and separate</td></tr>
+<tr><td>UPS vs. generator</td><td>Instant but brief vs. delayed but sustained &mdash; you need both</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
+`;
+
+var SEARCH_INDEX = {};
+(function buildIndex(){
+  var scratch = document.createElement("div");
+  TOPICS.forEach(function(t){
+    scratch.innerHTML = t.title + " " + t.html;
+    SEARCH_INDEX[t.id] = (scratch.textContent || "").toLowerCase();
+  });
+})();
+
+var activeTab = "all";
+var query = "";
+var openIds = {};
+
+var tabsEl = document.getElementById("tabs");
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab" + (activeTab === k && !query ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      activeTab = k;
+      searchInput.value = "";
+      query = "";
+      clearBtn.hidden = true;
+      render();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+
+var searchInput = document.getElementById("search");
+var clearBtn = document.getElementById("clear-search");
+searchInput.addEventListener("input", function(){
+  query = searchInput.value.trim().toLowerCase();
+  clearBtn.hidden = query.length === 0;
+  render();
+});
+clearBtn.addEventListener("click", function(){
+  searchInput.value = "";
+  query = "";
+  clearBtn.hidden = true;
+  render();
+});
+
+var listEl = document.getElementById("topiclist");
+var emptyEl = document.getElementById("empty-state");
+var notesEl = document.getElementById("results-note");
+
+function matchingTopics(){
+  if(query){
+    return TOPICS.filter(function(t){ return SEARCH_INDEX[t.id].indexOf(query) !== -1; });
+  }
+  if(activeTab === "all") return TOPICS;
+  if(activeTab === "gotchas") return [];
+  return TOPICS.filter(function(t){ return t.obj === activeTab; });
+}
+
+function topicCard(t, forceOpen){
+  var isOpen = !!openIds[t.id] || forceOpen;
+  var div = document.createElement("div");
+  div.className = "topic" + (isOpen ? " open" : "");
+  div.innerHTML =
+    '<button class="topic-head" type="button">' +
+      '<h2>' + t.title + '</h2>' +
+      '<span style="display:flex;align-items:center;gap:8px;">' +
+        '<span class="topic-badge">' + t.obj + '</span>' +
+        '<span class="chev">&#9656;</span>' +
+      '</span>' +
+    '</button>' +
+    '<div class="topic-body">' + t.html + '</div>';
+  div.querySelector(".topic-head").addEventListener("click", function(){
+    var nowOpen = !div.classList.contains("open");
+    div.classList.toggle("open", nowOpen);
+    openIds[t.id] = nowOpen;
+  });
+  return div;
+}
+
+function render(){
+  buildTabs();
+  listEl.innerHTML = "";
+  notesEl.hidden = true;
+  emptyEl.hidden = true;
+
+  if(activeTab === "gotchas" && !query){
+    var card = document.createElement("div");
+    card.className = "topic open";
+    card.innerHTML =
+      '<button class="topic-head" type="button"><h2>Domain 3 Gotchas &mdash; quick-scan compare cards</h2>' +
+      '<span class="chev">&#9656;</span></button>' +
+      '<div class="topic-body">' + GOTCHAS_TABLE + '</div>';
+    card.querySelector(".topic-head").addEventListener("click", function(){
+      card.classList.toggle("open");
+    });
+    listEl.appendChild(card);
+    return;
+  }
+
+  var matches = matchingTopics();
+
+  if(query){
+    notesEl.hidden = false;
+    notesEl.textContent = matches.length + (matches.length === 1 ? ' result for "' : ' results for "') + searchInput.value.trim() + '"';
+  }
+
+  if(matches.length === 0){
+    emptyEl.hidden = false;
+    return;
+  }
+
+  matches.forEach(function(t){
+    var forceOpen = !!query && matches.length <= 6;
+    listEl.appendChild(topicCard(t, forceOpen));
+  });
+
+  if(!query && matches.length > 0 && Object.keys(openIds).length === 0){
+    listEl.firstChild.classList.add("open");
+  }
+}
+
+render();
+})();
+</script>
+</body>
+</html>

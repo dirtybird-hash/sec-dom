@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Flashcards, quiz and scenario practice for Security+ Domain 3.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 3 Drill</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#0d7b86; --accent-ink:#ffffff;
+  --obj-31:#2f5fd6; --obj-32:#1f8a5c; --obj-33:#b7861f; --obj-34:#b3437c;
+  --correct:#1f8a5c; --incorrect:#c1382d;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --radius:14px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#3fd0dd; --accent-ink:#06262a;
+    --obj-31:#7ea2ff; --obj-32:#55d69a; --obj-33:#e0b24d; --obj-34:#ea86b8;
+    --correct:#55d69a; --incorrect:#ef6b5d;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#3fd0dd; --accent-ink:#06262a;
+  --obj-31:#7ea2ff; --obj-32:#55d69a; --obj-33:#e0b24d; --obj-34:#ea86b8;
+  --correct:#55d69a; --incorrect:#ef6b5d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:760px;margin:0 auto;padding:14px 16px 0;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;margin-top:12px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:10px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.panel{display:flex;flex-direction:column;gap:16px;padding-top:18px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;}
+.lede{color:var(--text-muted);font-size:14px;line-height:1.5;margin:0;}
+.chiprow{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{font-family:var(--font-display);font-size:12px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-muted);border-radius:999px;padding:6px 11px;cursor:pointer;}
+.chip.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent);}
+.badge{font-family:var(--font-display);font-size:11px;letter-spacing:.02em;border-radius:999px;
+  padding:3px 9px;display:inline-block;color:#fff;}
+.badge-31{background:var(--obj-31);} .badge-32{background:var(--obj-32);}
+.badge-33{background:var(--obj-33);} .badge-34{background:var(--obj-34);}
+button.primary{font-family:var(--font-body);font-weight:600;font-size:14px;background:var(--accent);
+  color:var(--accent-ink);border:none;border-radius:10px;padding:11px 18px;cursor:pointer;}
+button.ghost{font-family:var(--font-body);font-weight:600;font-size:14px;background:none;
+  color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 16px;cursor:pointer;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* Flashcards */
+.deck-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+  color:var(--text-muted);font-family:var(--font-display);}
+.flip-outer{perspective:1400px;}
+.flip-card{position:relative;min-height:220px;cursor:pointer;}
+.flip-inner{position:relative;width:100%;height:100%;min-height:220px;transition:transform .45s;
+  transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);
+  padding:22px;display:flex;flex-direction:column;gap:12px;justify-content:center;}
+.flip-face.back{transform:rotateY(180deg);background:var(--surface-2);}
+.flip-term{font-family:var(--font-display);font-size:20px;line-height:1.3;}
+.flip-def{font-size:15px;line-height:1.55;}
+.flip-hint{font-size:11px;color:var(--text-muted);font-family:var(--font-display);text-align:center;}
+.deckctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.markrow{display:flex;gap:8px;justify-content:center;}
+.mark-know{background:var(--correct);color:#fff;border:none;}
+.mark-learning{background:var(--incorrect);color:#fff;border:none;}
+
+/* Quiz / scenario */
+.qmeta{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);}
+.qtext{font-size:16px;line-height:1.5;margin:10px 0 16px;}
+.opt{display:block;width:100%;text-align:left;font-size:14.5px;line-height:1.4;background:var(--surface-2);
+  border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px;cursor:pointer;
+  color:var(--text);}
+.opt:hover{border-color:var(--accent);}
+.opt.correct{background:color-mix(in srgb, var(--correct) 20%, var(--surface));border-color:var(--correct);}
+.opt.incorrect{background:color-mix(in srgb, var(--incorrect) 18%, var(--surface));border-color:var(--incorrect);}
+.opt:disabled{cursor:default;}
+.explain{font-size:13.5px;line-height:1.5;background:var(--surface-2);border-left:3px solid var(--accent);
+  padding:10px 12px;border-radius:0 8px 8px 0;margin-top:4px;}
+.roundend{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.roundend .score{font-family:var(--font-display);font-size:34px;}
+
+/* Progress */
+.objcard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface-2);}
+.objcard .row1{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.bar{height:8px;border-radius:999px;background:var(--border);overflow:hidden;}
+.bar > span{display:block;height:100%;border-radius:999px;}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+.stattile{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stattile .n{font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums;}
+.stattile .l{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.weak{border:1px solid var(--incorrect);background:color-mix(in srgb, var(--incorrect) 10%, var(--surface));
+  border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
+[hidden]{display:none!important;}
+@media (max-width:480px){.brand h1{font-size:16px;} .flip-term{font-size:18px;}}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 3 Drill</h1>
+      <span class="sub">SY0-701 &middot; Security Architecture &middot; 18%</span>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="flash" role="tab">Flashcards</button>
+      <button class="tab" data-tab="quiz" role="tab">Quiz</button>
+      <button class="tab" data-tab="scenario" role="tab">Scenarios</button>
+      <button class="tab" data-tab="progress" role="tab">Progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-flash">
+    <p class="lede">75 term cards drawn from the Domain 3 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <div class="chiprow" id="flash-filters"></div>
+    <div class="card" style="gap:14px;display:flex;flex-direction:column;">
+      <div class="deck-meta">
+        <span id="flash-badge"></span>
+        <span id="flash-pos">1 / 75</span>
+      </div>
+      <div class="flip-outer">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face front">
+              <div class="flip-term" id="flash-term"></div>
+              <div class="flip-hint">tap to reveal</div>
+            </div>
+            <div class="flip-face back">
+              <div class="flip-def" id="flash-def"></div>
+              <div class="flip-hint">tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="markrow">
+        <button class="ghost mark-learning" id="btn-learning">Still learning</button>
+        <button class="ghost mark-know" id="btn-know">Got it</button>
+      </div>
+      <div class="deckctl">
+        <button class="ghost" id="btn-prev">&larr; Prev</button>
+        <button class="ghost" id="btn-shuffle">Shuffle</button>
+        <button class="ghost" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" hidden>
+    <p class="lede">Multiple-choice questions in the exam's own voice. Pick an objective or drill all of Domain 3 &mdash; up to 10 questions a round, with an explanation after every answer.</p>
+    <div class="chiprow" id="quiz-filters"></div>
+    <div class="card" id="quiz-start-card">
+      <button class="primary" id="quiz-start">Start round</button>
+    </div>
+    <div class="card" id="quiz-run-card" hidden>
+      <div class="qmeta">
+        <span id="quiz-obj-badge"></span>
+        <span id="quiz-pos"></span>
+      </div>
+      <div class="qtext" id="quiz-q"></div>
+      <div id="quiz-opts"></div>
+      <div class="explain" id="quiz-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="quiz-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="quiz-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="quiz-score"></div>
+      <p class="lede" id="quiz-score-note"></p>
+      <button class="primary" id="quiz-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- SCENARIOS -->
+  <section class="panel" id="panel-scenario" hidden>
+    <p class="lede">PBQ-style situational questions &mdash; longer setups, closer to what the real exam's performance-based questions feel like. "Which control/concept applies here?"</p>
+    <div class="chiprow" id="scenario-filters"></div>
+    <div class="card" id="scenario-start-card">
+      <button class="primary" id="scenario-start">Start round</button>
+    </div>
+    <div class="card" id="scenario-run-card" hidden>
+      <div class="qmeta">
+        <span id="scenario-obj-badge"></span>
+        <span id="scenario-pos"></span>
+      </div>
+      <div class="qtext" id="scenario-q"></div>
+      <div id="scenario-opts"></div>
+      <div class="explain" id="scenario-explain" hidden></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+        <button class="primary" id="scenario-next" disabled>Next</button>
+      </div>
+    </div>
+    <div class="card roundend" id="scenario-end-card" hidden>
+      <h2>Round complete</h2>
+      <div class="score" id="scenario-score"></div>
+      <p class="lede" id="scenario-score-note"></p>
+      <button class="primary" id="scenario-again">Run another round</button>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="panel-progress" hidden>
+    <p class="lede">Mastery by sub-objective, combining every quiz and scenario answer you've given. Flashcard self-marks are tracked separately below.</p>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Mastery by objective</h3>
+      <div id="obj-cards" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="card" id="weak-card" style="gap:10px;display:flex;flex-direction:column;"></div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Overall</h3>
+      <div class="statgrid" id="overall-stats"></div>
+    </div>
+    <div class="card" style="gap:12px;display:flex;flex-direction:column;">
+      <h3 style="margin:0;font-size:14px;">Flashcard recall</h3>
+      <div class="statgrid" id="flash-stats"></div>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span class="lede" style="margin:0;">Progress is stored in this browser only.</span>
+      <button class="ghost" id="btn-reset">Reset all progress</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var OBJ_TITLE = {"3.1":"Architecture Models","3.2":"Secure Infrastructure","3.3":"Protecting Data","3.4":"Resilience &amp; Recovery"};
+var OBJ_LIST = ["3.1","3.2","3.3","3.4"];
+
+var FLASHCARDS = [
+ {id:1,obj:"3.1",t:"Responsibility matrix",d:"The shared responsibility model &mdash; the provider secures the cloud, the customer secures what they put in it."},
+ {id:2,obj:"3.1",t:"Hybrid considerations",d:"Running on-prem and cloud together: securing data between them and keeping policy consistent across two control planes."},
+ {id:3,obj:"3.1",t:"Third-party vendor risk",d:"You inherit their security posture without visibility into it, and their mishandling of your data is still your incident."},
+ {id:4,obj:"3.1",t:"Infrastructure as code",d:"Infrastructure defined in version-controlled files. Consistency is the win; a mistake propagates just as reliably."},
+ {id:5,obj:"3.1",t:"Serverless",d:"Functions invoked on demand with no server to patch or harden. What remains is API, permission and input security."},
+ {id:6,obj:"3.1",t:"Microservices",d:"An app split into small networked services. Smaller blast radius per component, more components to defend."},
+ {id:7,obj:"3.1",t:"Air-gapped",d:"Physically disconnected from any network. Strongest separation; patching and monitoring become the weak point."},
+ {id:8,obj:"3.1",t:"Logical segmentation",d:"Separation by configuration &mdash; VLANs, subnets, firewall rules. Limits lateral movement if configured correctly."},
+ {id:9,obj:"3.1",t:"Software-defined networking",d:"Control plane separated from data plane, programmed centrally. Consistent policy; the controller is a high-value target."},
+ {id:10,obj:"3.1",t:"Centralized vs. decentralized",d:"Consistent policy with a single point of failure, versus resilience with policy drift between nodes."},
+ {id:11,obj:"3.1",t:"Containerization",d:"Isolates an app and its dependencies on a shared kernel. Security is largely image and registry trust."},
+ {id:12,obj:"3.1",t:"VM escape",d:"Breaking out of a guest to reach the hypervisor or host &mdash; the risk virtualization's whole model depends on preventing."},
+ {id:13,obj:"3.1",t:"IoT security problem",d:"Limited compute means weak crypto, vendors ship defaults and stop patching, and devices go uninventoried."},
+ {id:14,obj:"3.1",t:"ICS / SCADA",d:"Runs physical processes. Decades-long lifespans, availability outranks confidentiality, and protocols built without authentication."},
+ {id:15,obj:"3.1",t:"RTOS",d:"Timing is a correctness requirement, so security features that add variable delay get squeezed out."},
+ {id:16,obj:"3.1",t:"Embedded system",d:"A computer built into a larger device for one job &mdash; unpatched, unmonitored, and absent from the asset inventory."},
+ {id:17,obj:"3.1",t:"Risk transference",d:"Shifting risk to a third party &mdash; a cloud provider, or an insurer."},
+ {id:18,obj:"3.1",t:"Inability to patch",d:"The shared thread across IoT, ICS, embedded and RTOS. Forces isolation and compensating controls instead of remediation."},
+ {id:19,obj:"3.2",t:"Device placement",d:"Where a device sits decides what it can see. A perimeter firewall is blind to traffic between two internal hosts."},
+ {id:20,obj:"3.2",t:"Security zones",d:"Systems grouped by trust level so rules are written between zones rather than between individual hosts."},
+ {id:21,obj:"3.2",t:"Fail-open vs. fail-closed",d:"On failure, traffic keeps flowing (availability preserved) versus traffic stops (security preserved)."},
+ {id:22,obj:"3.2",t:"Active vs. passive",d:"Inline and able to block, versus observing a copy and only alerting."},
+ {id:23,obj:"3.2",t:"Inline vs. tap/monitor",d:"Traffic physically passes through it, versus receiving a mirrored copy with no impact on the live path."},
+ {id:24,obj:"3.2",t:"Web application firewall",d:"Inspects HTTP/HTTPS to a web app, catching SQLi and XSS that a network firewall never sees."},
+ {id:25,obj:"3.2",t:"UTM",d:"One appliance bundling firewall, IDS/IPS, antivirus, filtering and VPN. Simple to run; single point of failure."},
+ {id:26,obj:"3.2",t:"Next-generation firewall",d:"Adds application awareness and deep packet inspection, controlling traffic by application rather than port."},
+ {id:27,obj:"3.2",t:"Layer 4 vs. Layer 7",d:"Addresses, ports and protocol versus application content. Everything on 443 looks identical at layer 4."},
+ {id:28,obj:"3.2",t:"Jump server",d:"A hardened, heavily logged host administrators connect through, collapsing many admin paths into one chokepoint."},
+ {id:29,obj:"3.2",t:"Forward vs. reverse proxy",d:"In front of users for filtering and caching, versus in front of servers to spread load and hide the back end."},
+ {id:30,obj:"3.2",t:"IDS vs. IPS",d:"Same analysis, different authority &mdash; detection alerts passively, prevention sits inline and blocks."},
+ {id:31,obj:"3.2",t:"Load balancer",d:"Distributes traffic across servers for capacity and availability, dropping failed nodes from rotation."},
+ {id:32,obj:"3.2",t:"802.1X",d:"Port-based access control. The port does nothing but authenticate until the authentication server approves."},
+ {id:33,obj:"3.2",t:"802.1X three roles",d:"Supplicant (the device), authenticator (the switch or AP), authentication server (usually RADIUS)."},
+ {id:34,obj:"3.2",t:"EAP",d:"The framework carrying authentication exchanges &mdash; a container for many methods, not one method."},
+ {id:35,obj:"3.2",t:"VPN types",d:"Remote access connects a user to the network; site-to-site permanently connects two networks."},
+ {id:36,obj:"3.2",t:"TLS vs. IPSec",d:"Transport layer, typically per-application, versus network layer, protecting all IP traffic between endpoints."},
+ {id:37,obj:"3.2",t:"IPSec transport vs. tunnel",d:"Transport encrypts only the payload; tunnel encrypts the whole original packet and wraps it in a new one."},
+ {id:38,obj:"3.2",t:"SD-WAN",d:"Routes traffic across multiple links &mdash; broadband, MPLS, cellular &mdash; by policy and current conditions."},
+ {id:39,obj:"3.2",t:"SASE",d:"SD-WAN converged with cloud-delivered security, so policy follows the user instead of hauling traffic to a datacentre."},
+ {id:40,obj:"3.3",t:"Regulated data",d:"Governed by law or standard &mdash; health records, cardholder data, personal data. Handling is dictated externally."},
+ {id:41,obj:"3.3",t:"Trade secret",d:"Value depends on secrecy; protection is lost the moment it's disclosed."},
+ {id:42,obj:"3.3",t:"Human vs. non-human-readable",d:"Directly intelligible, versus needing processing to interpret &mdash; binary formats, encoded data."},
+ {id:43,obj:"3.3",t:"Data classifications",d:"Public, private, sensitive, confidential, restricted, critical &mdash; a sensitivity label that drives handling."},
+ {id:44,obj:"3.3",t:"Type vs. classification",d:"Two separate axes. A file can be financial (type) and confidential (classification) at the same time."},
+ {id:45,obj:"3.3",t:"Data at rest",d:"Stored on disk, in a database or on backup media. Protected by encryption and access control."},
+ {id:46,obj:"3.3",t:"Data in transit",d:"Moving across a network. Protected by TLS, IPSec and VPN tunnels."},
+ {id:47,obj:"3.3",t:"Data in use",d:"Loaded in memory and being processed &mdash; the hardest state, because processing requires plaintext."},
+ {id:48,obj:"3.3",t:"Data sovereignty",d:"Data is subject to the laws of the country it is physically stored in, which makes cloud region a legal decision."},
+ {id:49,obj:"3.3",t:"Geolocation and geofencing",d:"Knowing where data and users are, and permitting or denying access based on physical location."},
+ {id:50,obj:"3.3",t:"Masking",d:"Shows part of a value and hides the rest. Weak to inference, which is why tokenization is usually stronger."},
+ {id:51,obj:"3.3",t:"Tokenization",d:"A meaningless substitute with no mathematical relationship to the original, mapped back only by a separate vault."},
+ {id:52,obj:"3.3",t:"Obfuscation",d:"Makes data hard to interpret without genuinely protecting it. Reversible if you know the trick."},
+ {id:53,obj:"3.3",t:"Permission restrictions",d:"Limiting who can read, write or delete &mdash; access control applied at the data itself."},
+ {id:54,obj:"3.4",t:"High availability",d:"The service stays reachable through failures, usually expressed as a percentage of uptime."},
+ {id:55,obj:"3.4",t:"Load balancing vs. clustering",d:"Distributing work across active servers for capacity, versus grouping servers so one takes over a failed node's role."},
+ {id:56,obj:"3.4",t:"Failover",d:"Switching to the standby when the primary fails. Should be tested, not assumed."},
+ {id:57,obj:"3.4",t:"Hot site",d:"Fully equipped with data replicated &mdash; recovery in minutes, at the highest cost."},
+ {id:58,obj:"3.4",t:"Warm site",d:"Hardware and connectivity ready, but data must be restored. Hours to days."},
+ {id:59,obj:"3.4",t:"Cold site",d:"Space and power only; everything must be brought in. Days to weeks, at the lowest cost."},
+ {id:60,obj:"3.4",t:"Geographic dispersion",d:"The alternate site is far enough away that one event cannot take out both."},
+ {id:61,obj:"3.4",t:"Platform diversity",d:"Deliberately not running everything on one vendor or OS, so one flaw doesn't take out the whole estate."},
+ {id:62,obj:"3.4",t:"Multi-cloud",d:"Spreading across providers to remove dependence on one cloud's availability and reduce lock-in."},
+ {id:63,obj:"3.4",t:"Continuity of operations",d:"The plan for running the business while normal systems are down, including manual procedures."},
+ {id:64,obj:"3.4",t:"Capacity planning",d:"People, technology and infrastructure. People is the one organizations forget."},
+ {id:65,obj:"3.4",t:"Tabletop exercise",d:"Participants talk through a scenario in a room. Cheap and non-disruptive; nothing is actually switched over."},
+ {id:66,obj:"3.4",t:"Simulation",d:"A realistic drill of the response, exercising the actions without necessarily affecting production."},
+ {id:67,obj:"3.4",t:"Parallel processing",d:"Recovery systems brought up alongside production to confirm they work without taking the live service down."},
+ {id:68,obj:"3.4",t:"Failover test",d:"Production actually cut over to the recovery system. Most conclusive and most disruptive."},
+ {id:69,obj:"3.4",t:"Onsite vs. offsite backup",d:"Fast to restore, versus surviving the event that destroys the site. You need both."},
+ {id:70,obj:"3.4",t:"Backup frequency",d:"Determines how much data you lose in a failure. Set by the recovery point objective."},
+ {id:71,obj:"3.4",t:"Snapshot",d:"A point-in-time capture of system state, quick to take and quick to roll back to."},
+ {id:72,obj:"3.4",t:"Replication is not a backup",d:"It copies continuously &mdash; including corruption and ransomware encryption &mdash; in near real time."},
+ {id:73,obj:"3.4",t:"Journaling",d:"Recording changes as they happen so a system can be rolled forward or back to a precise point."},
+ {id:74,obj:"3.4",t:"UPS",d:"Battery power engaging instantly, lasting minutes. Also conditions power against sags and surges."},
+ {id:75,obj:"3.4",t:"Generator",d:"Sustains operations for hours or days, but needs seconds to start &mdash; which is the gap the UPS covers."}
+];
+
+var QUIZ = [
+ {id:1,obj:"3.1",q:"Under the cloud shared responsibility model, who is responsible for configuring access controls on stored data?",c:["The cloud service provider","The customer","Split evenly between both","Whichever party owns the hypervisor"],a:1,e:"The provider secures the infrastructure; the customer secures their own data, identities, encryption and configuration. Misconfigured storage is a customer-side failure."},
+ {id:2,obj:"3.1",q:"A single misconfiguration in a deployment template results in every environment being built insecurely. This illustrates a risk of:",c:["Serverless computing","Infrastructure as code","Containerization","Multi-cloud"],a:1,e:"IaC propagates whatever it defines with perfect consistency \u2014 including mistakes. That is why the code itself needs review and scanning."},
+ {id:3,obj:"3.1",q:"Which architecture removes the need to patch and harden servers, shifting the security focus to APIs and function permissions?",c:["Microservices","Containerization","Serverless","Virtualization"],a:2,e:"Serverless hands infrastructure management to the provider. What remains for the customer is application-layer: API security, minimal function permissions, and input validation."},
+ {id:4,obj:"3.1",q:"A system is described as air-gapped. This means:",c:["It sits behind a next-generation firewall","It has no physical network connection to other systems","It is on an isolated VLAN","It uses only encrypted communications"],a:1,e:"Air-gapped means physically disconnected. An isolated VLAN is logical segmentation \u2014 the cable still exists."},
+ {id:5,obj:"3.1",q:"Which of these presents the greatest challenge when securing ICS/SCADA environments?",c:["They generate excessive log volume","Availability requirements often prevent patching","They rely exclusively on wireless links","They cannot support network segmentation"],a:1,e:"Production processes frequently cannot be stopped for maintenance, so the window to patch may never arrive. Isolation and compensating controls fill the gap."},
+ {id:6,obj:"3.1",q:"Compared to virtual machines, containers provide:",c:["Stronger isolation via the hypervisor","Lighter weight but weaker isolation, sharing the host kernel","Complete independence from the host OS","Guaranteed protection against escape attacks"],a:1,e:"Containers share the host kernel, which makes them fast and small but means the separation between them is weaker than hypervisor-enforced VM isolation."},
+ {id:7,obj:"3.2",q:"A security appliance is configured so that traffic stops entirely if the device fails. This is:",c:["Fail-open","Fail-closed","Passive monitoring","Tap mode"],a:1,e:"Fail-closed prioritizes security over availability. Fail-open does the reverse, letting traffic through if the device dies."},
+ {id:8,obj:"3.2",q:"Which device receives a mirrored copy of traffic and therefore cannot block an attack?",c:["An inline IPS","A next-generation firewall","A passive sensor in tap mode","A web application firewall"],a:2,e:"Tap or monitor mode sees a copy, so it has no ability to interrupt the live path. That is also why it cannot break anything."},
+ {id:9,obj:"3.2",q:"An organization needs to distinguish legitimate HTTPS traffic from a tunnelling application also using port 443. What is required?",c:["Layer 4 filtering","Layer 7 inspection","Port security","A load balancer"],a:1,e:"At layer 4 everything on 443 looks identical. Only application-layer inspection can identify what the traffic actually is."},
+ {id:10,obj:"3.2",q:"Administrators must connect to one hardened, heavily logged host before reaching sensitive servers. This host is a:",c:["Reverse proxy","Jump server","Load balancer","Sensor"],a:1,e:"A jump server collapses many administrative access paths into a single monitored chokepoint."},
+ {id:11,obj:"3.2",q:"In 802.1X, which component makes the actual authentication decision?",c:["The supplicant","The authenticator","The authentication server","The switch port"],a:2,e:"The supplicant requests access, the authenticator (switch or AP) controls the port, and the authentication server \u2014 usually RADIUS \u2014 decides."},
+ {id:12,obj:"3.2",q:"Which is typically used to secure a site-to-site VPN, protecting all IP traffic between two networks?",c:["TLS","IPSec","SASE","802.1X"],a:1,e:"IPSec operates at the network layer, protecting everything between the endpoints. TLS is transport-layer and more typical for client VPNs and web traffic."},
+ {id:13,obj:"3.2",q:"IPSec tunnel mode differs from transport mode in that it:",c:["Uses stronger encryption algorithms","Encrypts the entire original packet and encapsulates it","Requires certificate authentication","Operates at layer 7"],a:1,e:"Transport mode encrypts only the payload; tunnel mode encrypts the whole original packet and wraps it inside a new one."},
+ {id:14,obj:"3.3",q:"Customer data stored in a datacentre in another country may create a compliance violation even with no technical failure. This concerns:",c:["Geolocation","Data sovereignty","Data classification","Segmentation"],a:1,e:"Data sovereignty means data falls under the laws of the country physically storing it, which is why cloud region selection is a legal decision."},
+ {id:15,obj:"3.3",q:"Which data state is hardest to protect, because the data must be readable to be worked on?",c:["At rest","In transit","In use","Archived"],a:2,e:"Data in use sits decrypted in memory during processing. Secure enclaves and memory encryption exist specifically to address this."},
+ {id:16,obj:"3.3",q:"A payment system replaces card numbers with values that have no mathematical relationship to the original, mapped back only by a separate system. This is:",c:["Encryption","Masking","Tokenization","Hashing"],a:2,e:"Tokenization substitutes a meaningless placeholder. Unlike encryption there is no key relationship \u2014 the mapping lives in a separate vault."},
+ {id:17,obj:"3.3",q:"A receipt displays only the last four digits of an account number. This method is:",c:["Tokenization","Masking","Hashing","Obfuscation"],a:1,e:"Masking hides part of a value while showing the rest. Its weakness is inference \u2014 enough partial values can narrow down the original."},
+ {id:18,obj:"3.3",q:"Which classification would apply to data whose loss or corruption threatens the organization's ability to operate?",c:["Confidential","Restricted","Critical","Private"],a:2,e:"Critical data is essential to operations. Confidential and restricted describe who may see it, not what its loss would do."},
+ {id:19,obj:"3.4",q:"An organization needs recovery within minutes and accepts high cost. Which site type fits?",c:["Cold site","Warm site","Hot site","Mobile site"],a:2,e:"A hot site is fully equipped with data replicated and can be cut over almost immediately \u2014 the fastest and most expensive option."},
+ {id:20,obj:"3.4",q:"A backup site is located in the same industrial park as the primary. Which requirement does this fail?",c:["Platform diversity","Geographic dispersion","Capacity planning","Journaling"],a:1,e:"Geographic dispersion requires enough distance that a single regional event \u2014 flood, storm, power loss \u2014 cannot take out both sites."},
+ {id:21,obj:"3.4",q:"Staff discuss their response to a ransomware scenario in a conference room. No systems are touched. This is a:",c:["Simulation","Parallel processing test","Tabletop exercise","Failover test"],a:2,e:"A tabletop is discussion only. It is cheap and non-disruptive, and good at exposing gaps in the plan and in people's understanding of it."},
+ {id:22,obj:"3.4",q:"Why is replication alone insufficient as a backup strategy?",c:["It is too slow for large datasets","It faithfully copies corruption and encryption to the replica","It cannot be encrypted","It only works within one datacentre"],a:1,e:"Replication copies whatever happens in near real time, including ransomware encryption. Backups protect against that precisely because they are point-in-time and separate."},
+ {id:23,obj:"3.4",q:"Which component covers the gap between utility power failing and a generator reaching full output?",c:["A UPS","A second generator","A load balancer","Platform diversity"],a:0,e:"A generator needs seconds to start and servers do not tolerate seconds without power. The UPS provides instant battery power to bridge that interval."},
+ {id:24,obj:"3.4",q:"Which capacity planning dimension is most commonly overlooked?",c:["Technology","Infrastructure","People","Bandwidth"],a:2,e:"Plans that depend on one specific trained individual contain a single point of failure. Staffing, cover and turnover are part of capacity."},
+ {id:25,obj:"3.1",q:"Which consideration describes shifting risk to a cloud provider or an insurer?",c:["Risk transference","Ease of recovery","Responsiveness","Resilience"],a:0,e:"Risk transference moves the consequence of a risk to another party, rather than reducing the risk itself."},
+ {id:26,obj:"3.2",q:"Which technology converges SD-WAN with cloud-delivered security so policy follows the user?",c:["UTM","SASE","NGFW","IPSec"],a:1,e:"Secure access service edge applies security at the cloud edge, removing the need to backhaul traffic to a datacentre for inspection."}
+];
+
+var SCENARIOS = [
+ {id:1,obj:"3.1",q:"A manufacturer runs controllers on a production line that cannot be taken offline outside a single annual maintenance window. The vendor stopped issuing firmware updates four years ago. What is the realistic security approach?",c:["Schedule monthly patching regardless of production impact","Isolate the systems and apply compensating controls","Replace the controllers immediately","Accept the risk and take no action"],a:1,e:"Patching is not available and downtime is not permitted, so remediation is off the table. Network isolation plus monitoring is the standard ICS/SCADA answer."},
+ {id:2,obj:"3.1",q:"A development team wants faster deployments and less server maintenance. They move an API to functions that run only when invoked, with no servers to manage. What now carries most of their security burden?",c:["OS patching and hardening","Physical datacentre security","Function permissions, API security and input validation","Hypervisor configuration"],a:2,e:"Serverless removes the infrastructure work but leaves the application layer entirely with the customer. Over-permissioned functions are the usual failure."},
+ {id:3,obj:"3.1",q:"A hospital deploys 400 networked infusion pumps. They ship with default credentials, run stripped-down firmware, and the vendor issues updates rarely. What is the most practical mitigation?",c:["Install endpoint detection on each pump","Place them on a segmented network with restricted access","Require multifactor authentication on each device","Replace them with general-purpose computers"],a:1,e:"IoT devices rarely support endpoint agents and cannot be hardened much. Segmentation limits what a compromised device can reach, which is the achievable control."},
+ {id:4,obj:"3.2",q:"A company's IPS sits inline on the path to its e-commerce platform. During a hardware fault the IPS fails and all customer traffic stops, costing significant revenue. Which configuration choice caused this, and what is the trade-off?",c:["Fail-open \u2014 it sacrificed security for uptime","Fail-closed \u2014 it sacrificed availability for security","Passive mode \u2014 it could not inspect traffic","Tap mode \u2014 it duplicated traffic unnecessarily"],a:1,e:"Fail-closed stops traffic when the device fails, preserving security at the cost of availability. For a revenue-generating site, fail-open may be the better business choice."},
+ {id:5,obj:"3.2",q:"Security staff need to monitor traffic on a critical production segment, but cannot risk any device introducing latency or becoming a failure point. What placement satisfies both requirements?",c:["An inline next-generation firewall","A passive sensor receiving mirrored traffic from a tap","A jump server on the segment","A web application firewall"],a:1,e:"Tap or monitor placement gives visibility with zero impact on the live path. The trade-off is that it can only detect, never block."},
+ {id:6,obj:"3.2",q:"An attacker who gains access to a conference room jack finds their device cannot reach anything on the network until it presents valid credentials to a RADIUS server. What control is in place?",c:["A host-based firewall","802.1X port-based access control","A reverse proxy","Network address translation"],a:1,e:"802.1X leaves the port unauthorized until an authentication server approves the supplicant \u2014 exactly the defence against unauthorized physical connections."},
+ {id:7,obj:"3.3",q:"A European bank plans to migrate customer records to a cloud provider. Legal advises that the data must remain within EU jurisdiction. What concept drives this requirement, and what is the technical remedy?",c:["Geolocation; enable geofencing on user access","Data sovereignty; select an EU region for storage","Data classification; label the records confidential","Segmentation; isolate the database"],a:1,e:"Data sovereignty means storage location determines applicable law. Providers offer region pinning precisely so customers can satisfy this."},
+ {id:8,obj:"3.3",q:"A analytics team must work with production records containing personal data. The data must be usable for computation but the real values must never be exposed to the analysts. Which method best fits?",c:["Full-disk encryption","Tokenization","Masking only the first characters","Hashing every field"],a:1,e:"Tokenization substitutes values with placeholders that preserve format and usability while carrying no relationship to the original. Hashing would destroy usability; masking is vulnerable to inference."},
+ {id:9,obj:"3.4",q:"An organization replicates its database to a secondary datacentre continuously. Ransomware encrypts the primary database, and within seconds the encrypted state appears on the replica. What was the flaw in this strategy?",c:["The replication link was not encrypted","Replication is not a backup \u2014 it copies damage faithfully","The secondary site lacked geographic dispersion","The replica had insufficient capacity"],a:1,e:"Replication reproduces whatever happens, including destruction. Point-in-time backups kept separate are what allow recovery to a pre-incident state."},
+ {id:10,obj:"3.4",q:"A company budgets for disaster recovery but cannot justify the cost of duplicate live infrastructure. They lease space with power and connectivity, planning to ship equipment in if disaster strikes. What have they chosen, and what is the consequence?",c:["A hot site; recovery in minutes","A warm site; recovery in hours","A cold site; recovery in days to weeks","Geographic dispersion; no recovery impact"],a:2,e:"A cold site provides only the facility. It is the cheapest option and carries the longest recovery time \u2014 an acceptable trade only if the recovery time objective allows it."},
+ {id:11,obj:"3.4",q:"After a regional storm knocks out utility power, a datacentre's servers stay up without interruption for the twenty seconds before the diesel generator reaches full output, then continue running for two days. Which components did what?",c:["The generator covered both periods","The UPS covered the initial seconds; the generator sustained operations","Platform diversity provided continuity","Load balancing redirected traffic"],a:1,e:"A UPS engages instantly on battery but lasts only minutes. The generator sustains operations but needs time to start. They are designed to hand off to each other."},
+ {id:12,obj:"3.4",q:"A recovery plan has been documented and reviewed annually for three years, but never exercised. During a real outage the team discovers the restore procedure references a system decommissioned two years ago. What testing would most likely have caught this?",c:["Any testing at all \u2014 even a tabletop walkthrough","Only a full failover test","Only parallel processing","Increasing backup frequency"],a:0,e:"A tabletop walkthrough would have surfaced the stale reference immediately, at almost no cost. An untested plan is a hypothesis, and reviewing a document is not the same as exercising it."}
+];
+
+var OBJ_COLOR_CLASS = {"3.1":"badge-31","3.2":"badge-32","3.3":"badge-33","3.4":"badge-34"};
+var OBJ_VAR = {"3.1":"obj-31","3.2":"obj-32","3.3":"obj-33","3.4":"obj-34"};
+
+/* ---------- state ---------- */
+var STORE_KEY = "domain3drill:v1";
+function defaultState(){
+  return { cardStatus:{}, objStats:{"3.1":{c:0,t:0},"3.2":{c:0,t:0},"3.3":{c:0,t:0},"3.4":{c:0,t:0}} };
+}
+var state = loadState();
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultState();
+    var parsed = JSON.parse(raw);
+    var d = defaultState();
+    parsed.cardStatus = parsed.cardStatus || {};
+    parsed.objStats = parsed.objStats || d.objStats;
+    OBJ_LIST.forEach(function(o){ if(!parsed.objStats[o]) parsed.objStats[o] = {c:0,t:0}; });
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function recordAnswer(obj, correct){
+  state.objStats[obj].t++;
+  if(correct) state.objStats[obj].c++;
+  saveState();
+}
+function recordCard(id, status){
+  state.cardStatus[id] = status;
+  saveState();
+}
+
+/* ---------- tabs ---------- */
+var tabs = document.querySelectorAll(".tab");
+var panels = { flash:document.getElementById("panel-flash"), quiz:document.getElementById("panel-quiz"),
+  scenario:document.getElementById("panel-scenario"), progress:document.getElementById("panel-progress") };
+tabs.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    tabs.forEach(function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== btn.dataset.tab); });
+    if(btn.dataset.tab === "progress") renderProgress();
+  });
+});
+
+/* ---------- flashcards ---------- */
+var flashFilter = "all";
+var flashPool = FLASHCARDS.slice();
+var flashIdx = 0;
+
+function buildFlashFilters(){
+  var row = document.getElementById("flash-filters");
+  row.innerHTML = "";
+  var opts = [["all","All"],["3.1","3.1"],["3.2","3.2"],["3.3","3.3"],["3.4","3.4"],["weak","Still learning"]];
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "chip" + (flashFilter === o[0] ? " on" : "");
+    b.textContent = o[1];
+    b.addEventListener("click", function(){ flashFilter = o[0]; applyFlashFilter(); });
+    row.appendChild(b);
+  });
+}
+function applyFlashFilter(){
+  buildFlashFilters();
+  if(flashFilter === "all") flashPool = FLASHCARDS.slice();
+  else if(flashFilter === "weak") flashPool = FLASHCARDS.filter(function(c){ return state.cardStatus[c.id] === "learning"; });
+  else flashPool = FLASHCARDS.filter(function(c){ return c.obj === flashFilter; });
+  if(flashPool.length === 0) flashPool = [{id:0,obj:"3.1",t:"Nothing here yet",d:"No cards marked “still learning” in this filter — nice work. Try another filter."}];
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+}
+function renderFlashCard(){
+  var c = flashPool[flashIdx];
+  document.getElementById("flash-term").textContent = c.t;
+  document.getElementById("flash-def").innerHTML = c.d;
+  document.getElementById("flash-pos").textContent = (flashIdx+1) + " / " + flashPool.length;
+  var badge = document.getElementById("flash-badge");
+  badge.innerHTML = c.id ? '<span class="badge ' + OBJ_COLOR_CLASS[c.obj] + '">' + c.obj + '</span>' : "";
+}
+document.getElementById("flip-card").addEventListener("click", function(){
+  this.classList.toggle("flipped");
+});
+document.getElementById("btn-next").addEventListener("click", function(){
+  flashIdx = (flashIdx+1) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-prev").addEventListener("click", function(){
+  flashIdx = (flashIdx-1+flashPool.length) % flashPool.length;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-shuffle").addEventListener("click", function(){
+  for(var i=flashPool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=flashPool[i]; flashPool[i]=flashPool[j]; flashPool[j]=t; }
+  flashIdx = 0;
+  document.getElementById("flip-card").classList.remove("flipped");
+  renderFlashCard();
+});
+document.getElementById("btn-know").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"know"); }
+  document.getElementById("btn-next").click();
+});
+document.getElementById("btn-learning").addEventListener("click", function(){
+  var c = flashPool[flashIdx]; if(c.id){ recordCard(c.id,"learning"); }
+  document.getElementById("btn-next").click();
+});
+
+/* ---------- quiz + scenario shared engine ---------- */
+function makeEngine(kind, pool, roundSize){
+  var filter = "all";
+  var round = [];
+  var idx = 0;
+  var correctCount = 0;
+  var answered = false;
+
+  var filterRow = document.getElementById(kind+"-filters");
+  var startCard = document.getElementById(kind+"-start-card");
+  var runCard = document.getElementById(kind+"-run-card");
+  var endCard = document.getElementById(kind+"-end-card");
+  var startBtn = document.getElementById(kind+"-start");
+  var againBtn = document.getElementById(kind+"-again");
+  var nextBtn = document.getElementById(kind+"-next");
+  var objBadge = document.getElementById(kind+"-obj-badge");
+  var posEl = document.getElementById(kind+"-pos");
+  var qEl = document.getElementById(kind+"-q");
+  var optsEl = document.getElementById(kind+"-opts");
+  var explainEl = document.getElementById(kind+"-explain");
+  var scoreEl = document.getElementById(kind+"-score");
+  var noteEl = document.getElementById(kind+"-score-note");
+
+  function buildFilters(){
+    filterRow.innerHTML = "";
+    [["all","All"],["3.1","3.1"],["3.2","3.2"],["3.3","3.3"],["3.4","3.4"]].forEach(function(o){
+      var b = document.createElement("button");
+      b.className = "chip" + (filter === o[0] ? " on" : "");
+      b.textContent = o[1];
+      b.addEventListener("click", function(){ filter = o[0]; buildFilters(); });
+      filterRow.appendChild(b);
+    });
+  }
+  buildFilters();
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  function start(){
+    var source = filter === "all" ? pool : pool.filter(function(q){ return q.obj === filter; });
+    round = shuffled(source).slice(0, Math.min(roundSize, source.length));
+    idx = 0; correctCount = 0;
+    startCard.hidden = true; endCard.hidden = true; runCard.hidden = false;
+    renderQuestion();
+  }
+  startBtn.addEventListener("click", start);
+  againBtn.addEventListener("click", start);
+
+  function renderQuestion(){
+    answered = false;
+    var q = round[idx];
+    objBadge.innerHTML = '<span class="badge ' + OBJ_COLOR_CLASS[q.obj] + '">' + q.obj + " &middot; " + OBJ_TITLE[q.obj] + '</span>';
+    posEl.textContent = "Question " + (idx+1) + " / " + round.length;
+    qEl.textContent = q.q;
+    optsEl.innerHTML = "";
+    explainEl.hidden = true;
+    nextBtn.disabled = true;
+    q.c.forEach(function(choice, i){
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = choice;
+      b.addEventListener("click", function(){ selectAnswer(i); });
+      optsEl.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i){
+    if(answered) return;
+    answered = true;
+    var q = round[idx];
+    var isCorrect = (i === q.a);
+    if(isCorrect) correctCount++;
+    recordAnswer(q.obj, isCorrect);
+    var optBtns = optsEl.querySelectorAll(".opt");
+    optBtns.forEach(function(b, bi){
+      b.disabled = true;
+      if(bi === q.a) b.classList.add("correct");
+      else if(bi === i) b.classList.add("incorrect");
+    });
+    explainEl.hidden = false;
+    explainEl.textContent = (isCorrect ? "Correct. " : "Not quite. ") + q.e;
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", function(){
+    if(idx < round.length-1){ idx++; renderQuestion(); }
+    else finish();
+  });
+
+  function finish(){
+    runCard.hidden = true; endCard.hidden = false;
+    scoreEl.textContent = correctCount + " / " + round.length;
+    var pct = Math.round(100*correctCount/round.length);
+    var note = pct >= 80 ? "Strong round. Try a filtered objective to sharpen a weaker spot."
+      : pct >= 50 ? "Solid start — check the Progress tab to see which objective needs another pass."
+      : "Worth another round on this objective — flashcard it first, then come back.";
+    noteEl.textContent = note;
+  }
+}
+
+makeEngine("quiz", QUIZ, 10);
+makeEngine("scenario", SCENARIOS, 8);
+
+/* ---------- progress ---------- */
+function renderProgress(){
+  var objWrap = document.getElementById("obj-cards");
+  objWrap.innerHTML = "";
+  var worst = null;
+  OBJ_LIST.forEach(function(o){
+    var s = state.objStats[o];
+    var pct = s.t ? Math.round(100*s.c/s.t) : null;
+    if(pct !== null && s.t >= 3 && (worst === null || pct < worst.pct)) worst = {obj:o, pct:pct};
+    var div = document.createElement("div");
+    div.className = "objcard";
+    div.innerHTML =
+      '<div class="row1">' +
+        '<span class="badge ' + OBJ_COLOR_CLASS[o] + '">' + o + " &middot; " + OBJ_TITLE[o] + '</span>' +
+        '<span style="font-family:var(--font-display);font-size:13px;">' + (pct===null ? "Not started" : pct + "%") + '</span>' +
+      '</div>' +
+      '<div class="bar"><span style="width:' + (pct||0) + '%;background:var(--' + OBJ_VAR[o] + ');"></span></div>' +
+      '<div class="lede" style="margin:0;">' + s.c + ' correct of ' + s.t + ' answered</div>';
+    objWrap.appendChild(div);
+  });
+
+  var weakCard = document.getElementById("weak-card");
+  if(worst){
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><div class="weak">' +
+      '<strong>' + worst.obj + " &middot; " + OBJ_TITLE[worst.obj] + '</strong> is sitting at ' + worst.pct +
+      '% correct. Filter the Flashcards and Quiz tabs to ' + worst.obj + ' for a focused pass.</div>';
+  } else {
+    weakCard.innerHTML = '<h3 style="margin:0;font-size:14px;">Weakest area</h3><p class="lede">Answer at least 3 questions in an objective to unlock a weak-area callout.</p>';
+  }
+
+  var totalC = 0, totalT = 0;
+  OBJ_LIST.forEach(function(o){ totalC += state.objStats[o].c; totalT += state.objStats[o].t; });
+  var overall = document.getElementById("overall-stats");
+  overall.innerHTML =
+    '<div class="stattile"><div class="n">' + totalT + '</div><div class="l">Questions answered</div></div>' +
+    '<div class="stattile"><div class="n">' + (totalT? Math.round(100*totalC/totalT):0) + '%</div><div class="l">Overall accuracy</div></div>' +
+    '<div class="stattile"><div class="n">' + Object.keys(state.cardStatus).length + '</div><div class="l">Flashcards reviewed</div></div>';
+
+  var know = 0, learning = 0;
+  Object.keys(state.cardStatus).forEach(function(k){ if(state.cardStatus[k]==="know") know++; else learning++; });
+  var fstats = document.getElementById("flash-stats");
+  fstats.innerHTML =
+    '<div class="stattile"><div class="n">' + know + '</div><div class="l">Marked "Got it"</div></div>' +
+    '<div class="stattile"><div class="n">' + learning + '</div><div class="l">Marked "Still learning"</div></div>' +
+    '<div class="stattile"><div class="n">' + (FLASHCARDS.length-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
+}
+
+document.getElementById("btn-reset").addEventListener("click", function(){
+  if(confirm("Reset all Domain 3 Drill progress? This clears flashcard marks and quiz/scenario stats in this browser.")){
+    state = defaultState();
+    saveState();
+    renderProgress();
+  }
+});
+
+/* ---------- init ---------- */
+applyFlashFilter();
+})();
+</script>
+</body>
+</html>

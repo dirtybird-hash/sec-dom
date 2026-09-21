@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Term-and-definition matching game for Security+ Domain 3.">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Domain 3 Match</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface-2:#eef1f2; --border:#dbe0e3;
+  --text:#171b1f; --text-muted:#5a6570;
+  --accent:#1f8a5c; --accent-ink:#ffffff;
+  --hl-blue:#2f5fd6; --hl-blue-bg:#eaf0fd;
+  --hl-green:#1f8a5c; --hl-green-bg:#e7f4ee;
+  --bad:#c23b3b; --bad-bg:#fbe9e9;
+  --cable-1:#0d7b86; --cable-2:#2f5fd6; --cable-3:#1f8a5c;
+  --cable-4:#b3437c; --cable-5:#a9791c; --cable-6:#6d4bc4;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 4px 14px rgba(20,24,28,.06);
+  --shadow-lift:0 6px 22px rgba(20,24,28,.16);
+  --radius:12px;
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+    --text:#e7edf1; --text-muted:#93a2ac;
+    --accent:#55d69a; --accent-ink:#0b2418;
+    --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+    --hl-green:#55d69a; --hl-green-bg:#12291f;
+    --bad:#f0817c; --bad-bg:#331616;
+    --cable-1:#3fd0dd; --cable-2:#7ea2ff; --cable-3:#55d69a;
+    --cable-4:#ea86b8; --cable-5:#e0b24d; --cable-6:#a98cf0;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+    --shadow-lift:0 10px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#151c22; --surface-2:#1b242b; --border:#2b363e;
+  --text:#e7edf1; --text-muted:#93a2ac;
+  --accent:#55d69a; --accent-ink:#0b2418;
+  --hl-blue:#7ea2ff; --hl-blue-bg:#161f34;
+  --hl-green:#55d69a; --hl-green-bg:#12291f;
+  --bad:#f0817c; --bad-bg:#331616;
+  --cable-1:#3fd0dd; --cable-2:#7ea2ff; --cable-3:#55d69a;
+  --cable-4:#ea86b8; --cable-5:#e0b24d; --cable-6:#a98cf0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+  --shadow-lift:0 10px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);margin:0;}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:14px 56px;}
+h1{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:860px;margin:0 auto;padding:12px 16px 10px;display:flex;flex-direction:column;gap:9px;}
+.backlink{font-family:var(--font-display);font-size:11.5px;letter-spacing:.03em;color:var(--text-muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;}
+.backlink:hover{color:var(--accent);}
+.backlink .arr{transition:transform .14s ease;}
+.backlink:hover .arr{transform:translateX(-3px);}
+.backlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.brand h1{font-size:18px;margin:0;}
+.brand .sub{font-size:12px;color:var(--text-muted);font-family:var(--font-display);}
+.tabs{display:flex;gap:4px;overflow-x:auto;}
+.tab{font-family:var(--font-display);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;
+  background:none;border:none;color:var(--text-muted);padding:8px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.controlrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.sizegroup{display:flex;gap:3px;background:var(--surface-2);border-radius:8px;padding:3px;}
+.sizebtn{font-family:var(--font-display);font-size:11.5px;background:none;border:none;color:var(--text-muted);
+  padding:6px 10px;border-radius:6px;cursor:pointer;}
+.sizebtn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow);}
+.newround{font-family:var(--font-display);font-size:12px;background:var(--accent);color:var(--accent-ink);
+  border:none;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap;}
+.newround:active{opacity:.85;}
+
+/* ---------- HUD ---------- */
+.hud{display:flex;flex-direction:column;gap:8px;padding:16px 0 18px;}
+.track{height:5px;border-radius:99px;background:var(--surface-2);overflow:hidden;}
+.track .bar{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--cable-2),var(--accent));
+  transition:width .35s cubic-bezier(.3,1.2,.5,1);}
+.hudstats{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-size:12px;
+  color:var(--text-muted);flex-wrap:wrap;}
+.hudstats .num{color:var(--text);font-variant-numeric:tabular-nums;}
+.streak{color:var(--cable-5);opacity:0;transform:translateY(3px);transition:opacity .2s,transform .2s;}
+.streak.show{opacity:1;transform:none;}
+.streak.hot{color:var(--cable-4);}
+
+/* ---------- board ---------- */
+.board{position:relative;display:grid;grid-template-columns:minmax(0,0.82fr) minmax(0,1.18fr);
+  gap:clamp(30px,8vw,72px);}
+.cables{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible;}
+.col{display:grid;gap:10px;position:relative;z-index:1;}
+
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:13px 14px;text-align:left;color:var(--text);font-family:var(--font-body);
+  display:flex;align-items:center;min-height:56px;cursor:pointer;
+  transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease, opacity .3s ease;}
+.card.term{font-family:var(--font-display);font-size:13.5px;font-weight:500;touch-action:pan-y;}
+.card.def{font-size:13px;line-height:1.45;}
+.card:hover{border-color:var(--text-muted);}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+.port{position:absolute;width:11px;height:11px;border-radius:50%;background:var(--surface);
+  border:2px solid var(--border);top:50%;transition:all .16s ease;}
+.card.term .port{right:-6px;transform:translateY(-50%);}
+.card.def .port{left:-6px;transform:translateY(-50%);}
+.card.term:hover .port{border-color:var(--accent);}
+
+.card.armed{border-color:var(--accent);box-shadow:var(--shadow-lift);transform:translateY(-1px);}
+.card.armed .port{border-color:var(--accent);background:var(--accent);transform:translateY(-50%) scale(1.25);}
+.card.dragging{border-color:var(--accent);box-shadow:var(--shadow-lift);}
+.card.hot{border-color:var(--accent);box-shadow:var(--shadow-lift);transform:translateY(-1px);}
+.card.hot .port{border-color:var(--accent);background:var(--accent);transform:translateY(-50%) scale(1.35);}
+.card.wrong{border-color:var(--bad);background:var(--bad-bg);animation:shake .34s;}
+.card.locked{opacity:.62;cursor:default;box-shadow:none;background:var(--surface-2);}
+.card.locked:hover{border-color:var(--border);transform:none;}
+.card.locked .port{background:var(--pair-color);border-color:var(--pair-color);}
+.card.justlocked{animation:pop .4s cubic-bezier(.3,1.4,.5,1);}
+
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-5px);}
+  40%{transform:translateX(5px);}60%{transform:translateX(-3px);}80%{transform:translateX(3px);}}
+@keyframes pop{0%{transform:scale(1);}35%{transform:scale(1.035);}100%{transform:scale(1);}}
+@keyframes dash{to{stroke-dashoffset:-24;}}
+@keyframes cablepulse{0%,100%{opacity:.18;}50%{opacity:.5;}}
+
+/* ---------- cables ---------- */
+.cable{fill:none;stroke-linecap:round;}
+.cable.core{stroke-width:2.4;}
+.cable.halo{stroke-width:8;opacity:.18;}
+.cable.live{stroke:var(--accent);stroke-width:2.4;stroke-dasharray:7 7;animation:dash .55s linear infinite;}
+.cable.badline{stroke:var(--bad);stroke-width:2.4;}
+.c1{stroke:var(--cable-1);} .c2{stroke:var(--cable-2);} .c3{stroke:var(--cable-3);}
+.c4{stroke:var(--cable-4);} .c5{stroke:var(--cable-5);} .c6{stroke:var(--cable-6);}
+.cable.halo.finale{animation:cablepulse .9s ease-in-out;}
+
+/* ---------- completion ---------- */
+.done{display:none;text-align:center;padding:46px 16px 20px;}
+.done.show{display:block;}
+.done .kicker{font-family:var(--font-display);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-muted);}
+.done .time{font-family:var(--font-display);font-size:44px;font-weight:600;color:var(--accent);
+  margin:8px 0 2px;font-variant-numeric:tabular-nums;}
+.done .best{font-family:var(--font-display);font-size:12.5px;color:var(--cable-3);min-height:18px;}
+.done .line{font-size:13.5px;color:var(--text-muted);margin:16px 0 24px;}
+.again{font-family:var(--font-display);font-size:13px;background:var(--accent);color:var(--accent-ink);
+  border:none;border-radius:10px;padding:12px 22px;cursor:pointer;}
+
+.hint{font-family:var(--font-display);font-size:11.5px;color:var(--text-muted);padding-top:18px;text-align:center;}
+
+@media (max-width:560px){
+  .brand h1{font-size:16px;}
+  .card{min-height:50px;padding:11px 11px;}
+  .card.term{font-size:12.5px;}
+  .card.def{font-size:12px;line-height:1.4;}
+  .done .time{font-size:36px;}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
+
+/* ---- mobile polish: larger tap targets, tighter tab row ---- */
+@media (max-width:520px){
+  .tab{padding:11px 9px;}
+  .sizebtn{padding:11px 12px;}
+  .newround{padding:12px 16px;}
+  .chip{padding:10px 13px;}
+  .backlink{padding:6px 2px 6px 0;}
+  button.ghost,button.primary,.again{padding:13px 18px;}
+}
+@media (hover:none){
+  .card:hover,.topic:hover,.domtab:hover{transform:none;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="backlink" href="index.html"><span class="arr">&larr;</span> Security+ Toolkit</a>
+    <div class="brand">
+      <h1>Domain 3 Match</h1>
+      <span class="sub">patch each term to its definition</span>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="controlrow">
+      <div class="sizegroup" id="sizegroup"></div>
+      <button class="newround" id="newround" type="button">New round</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hud">
+    <div class="track"><div class="bar" id="bar"></div></div>
+    <div class="hudstats">
+      <span>Patched <span class="num" id="stat-count">0/8</span></span>
+      <span>Time <span class="num" id="stat-time">0:00</span></span>
+      <span>Attempts <span class="num" id="stat-moves">0</span></span>
+      <span class="streak" id="stat-streak">streak &times;2</span>
+      <span id="stat-best-wrap" hidden>Best <span class="num" id="stat-best">&mdash;</span></span>
+    </div>
+  </div>
+
+  <div class="board" id="board">
+    <svg class="cables" id="cables" aria-hidden="true"></svg>
+    <div class="col" id="col-terms"></div>
+    <div class="col" id="col-defs"></div>
+  </div>
+
+  <p class="hint" id="hint">Drag a term across to its definition &mdash; or tap one, then the other.</p>
+
+  <div class="done" id="done">
+    <div class="kicker">Panel patched</div>
+    <div class="time" id="done-time">0:00</div>
+    <div class="best" id="done-best"></div>
+    <div class="line" id="done-line"></div>
+    <button class="again" id="playagain" type="button">Play again</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var TAB_ORDER = ["all","3.1","3.2","3.3","3.4","gotchas"];
+var TAB_LABEL = {"all":"All","3.1":"3.1","3.2":"3.2","3.3":"3.3","3.4":"3.4","gotchas":"Gotchas"};
+var SIZES = [6,8,10];
+
+var PAIRS = [
+/* ---------- 3.1 Architecture Models ---------- */
+{id:"a1",obj:"3.1",term:"Responsibility matrix",def:"The provider secures the cloud; the customer secures what they put in it"},
+{id:"a2",obj:"3.1",term:"Hybrid considerations",def:"On-premises and cloud together, with consistent policy the hard part"},
+{id:"a3",obj:"3.1",term:"Infrastructure as code",def:"Infrastructure defined in version-controlled files and deployed automatically"},
+{id:"a4",obj:"3.1",term:"Serverless",def:"Code runs as on-demand functions with no server for you to manage"},
+{id:"a5",obj:"3.1",term:"Microservices",def:"An application split into small independent services talking over the network"},
+{id:"a6",obj:"3.1",term:"Air-gapped",def:"Physically disconnected from every other network"},
+{id:"a7",obj:"3.1",term:"Logical segmentation",def:"Separation enforced by configuration rather than by cabling"},
+{id:"a8",obj:"3.1",term:"Software-defined networking",def:"Control plane split from the data plane and programmed centrally"},
+{id:"a9",obj:"3.1",term:"Centralized architecture",def:"Consistent policy and one view &mdash; and one point of failure"},
+{id:"a10",obj:"3.1",term:"Decentralized architecture",def:"More resilient, but policy drifts between nodes"},
+{id:"a11",obj:"3.1",term:"Containerization",def:"Isolates an app and its dependencies while sharing the host kernel"},
+{id:"a12",obj:"3.1",term:"Virtual machine",def:"A full guest operating system isolated by the hypervisor"},
+{id:"a13",obj:"3.1",term:"IoT",def:"Purpose-built devices with weak crypto, rarely patched, deployed in volume"},
+{id:"a14",obj:"3.1",term:"ICS / SCADA",def:"Runs physical processes, where availability outranks confidentiality"},
+{id:"a15",obj:"3.1",term:"RTOS",def:"An OS where response timing is a correctness requirement, not a preference"},
+{id:"a16",obj:"3.1",term:"Embedded system",def:"A computer built into a larger device to do one job"},
+{id:"a17",obj:"3.1",term:"Risk transference",def:"Shifting risk to a third party such as a provider or an insurer"},
+{id:"a18",obj:"3.1",term:"Inability to patch",def:"The condition that forces you to reach for compensating controls"},
+
+/* ---------- 3.2 Secure Infrastructure ---------- */
+{id:"b1",obj:"3.2",term:"Security zone",def:"Systems grouped by trust level, with rules written between the groups"},
+{id:"b2",obj:"3.2",term:"Fail-open",def:"The device fails and traffic keeps flowing"},
+{id:"b3",obj:"3.2",term:"Fail-closed",def:"The device fails and traffic stops"},
+{id:"b4",obj:"3.2",term:"Passive device",def:"Watches a copy of traffic &mdash; alerts, but cannot block"},
+{id:"b5",obj:"3.2",term:"Tap / monitor",def:"Receives mirrored traffic with no impact on the live path"},
+{id:"b6",obj:"3.2",term:"Web application firewall",def:"Inspects HTTP traffic for injection and scripting attacks"},
+{id:"b7",obj:"3.2",term:"UTM",def:"One appliance bundling firewall, IDS, antivirus, filtering and VPN"},
+{id:"b8",obj:"3.2",term:"Next-generation firewall",def:"Application-aware inspection that goes beyond port and protocol"},
+{id:"b9",obj:"3.2",term:"Layer 4 filtering",def:"Decisions made on addresses, ports and protocol"},
+{id:"b10",obj:"3.2",term:"Layer 7 filtering",def:"Decisions made on the application content itself"},
+{id:"b11",obj:"3.2",term:"Jump server",def:"A hardened, heavily logged chokepoint for administrative access"},
+{id:"b12",obj:"3.2",term:"Reverse proxy",def:"Sits in front of servers, spreading load and hiding the back end"},
+{id:"b13",obj:"3.2",term:"IDS",def:"Detects and alerts, but does not block"},
+{id:"b14",obj:"3.2",term:"IPS",def:"Sits inline and blocks recognized attacks"},
+{id:"b15",obj:"3.2",term:"Load balancer",def:"Distributes traffic across servers for capacity and availability"},
+{id:"b16",obj:"3.2",term:"802.1X",def:"Port-based access control &mdash; the port stays shut until authentication succeeds"},
+{id:"b17",obj:"3.2",term:"Supplicant",def:"The device asking for network access"},
+{id:"b18",obj:"3.2",term:"Authenticator",def:"The switch or access point controlling the port"},
+{id:"b19",obj:"3.2",term:"EAP",def:"The framework that carries the authentication exchange"},
+{id:"b20",obj:"3.2",term:"IPSec",def:"Network-layer protection for all IP traffic between endpoints"},
+{id:"b21",obj:"3.2",term:"TLS",def:"Transport-layer protection, typical for web traffic and client VPNs"},
+{id:"b22",obj:"3.2",term:"SASE",def:"SD-WAN converged with cloud security that follows the user"},
+{id:"b23",obj:"3.2",term:"IPSec tunnel mode",def:"Encrypts the whole original packet and wraps it in a new one"},
+
+/* ---------- 3.3 Protecting Data ---------- */
+{id:"c1",obj:"3.3",term:"Regulated data",def:"Handling dictated externally by law or standard"},
+{id:"c2",obj:"3.3",term:"Trade secret",def:"Its value depends entirely on staying undisclosed"},
+{id:"c3",obj:"3.3",term:"Non-human-readable",def:"Requires processing before it can be interpreted"},
+{id:"c4",obj:"3.3",term:"Public data",def:"Disclosure causes no harm; intended for release"},
+{id:"c5",obj:"3.3",term:"Restricted data",def:"Tightly limited, needing explicit authorization"},
+{id:"c6",obj:"3.3",term:"Critical data",def:"Loss or corruption threatens the organization itself"},
+{id:"c7",obj:"3.3",term:"Data at rest",def:"Sitting on disk, in a database, or on backup media"},
+{id:"c8",obj:"3.3",term:"Data in transit",def:"Moving across a network"},
+{id:"c9",obj:"3.3",term:"Data in use",def:"Loaded in memory and actively being processed"},
+{id:"c10",obj:"3.3",term:"Data sovereignty",def:"Data falls under the laws of the country physically storing it"},
+{id:"c11",obj:"3.3",term:"Geographic restrictions",def:"Access allowed or denied based on physical location"},
+{id:"c12",obj:"3.3",term:"Tokenization",def:"A meaningless substitute value mapped back only by a separate vault"},
+{id:"c13",obj:"3.3",term:"Masking",def:"Shows part of a value while hiding the rest"},
+{id:"c14",obj:"3.3",term:"Hashing",def:"A one-way fingerprint that cannot be reversed"},
+{id:"c15",obj:"3.3",term:"Segmentation",def:"Separating data so a compromise reaches less of it"},
+{id:"c16",obj:"3.3",term:"Permission restrictions",def:"Limiting who may read, write or delete"},
+
+/* ---------- 3.4 Resilience & Recovery ---------- */
+{id:"d1",obj:"3.4",term:"Load balancing",def:"Spreading work across multiple active servers"},
+{id:"d2",obj:"3.4",term:"Clustering",def:"Servers grouped so one takes over another's role on failure"},
+{id:"d3",obj:"3.4",term:"Failover",def:"Switching to the standby when the primary fails"},
+{id:"d4",obj:"3.4",term:"Hot site",def:"Fully equipped and replicated &mdash; cut over in minutes"},
+{id:"d5",obj:"3.4",term:"Warm site",def:"Hardware is ready but the data still has to be restored"},
+{id:"d6",obj:"3.4",term:"Cold site",def:"Space and power only; everything else must be brought in"},
+{id:"d7",obj:"3.4",term:"Geographic dispersion",def:"Far enough apart that one event can't take out both"},
+{id:"d8",obj:"3.4",term:"Platform diversity",def:"Deliberately avoiding a single vendor or OS across the estate"},
+{id:"d9",obj:"3.4",term:"Multi-cloud",def:"Spreading across providers to dodge one cloud's outage and lock-in"},
+{id:"d10",obj:"3.4",term:"Continuity of operations",def:"The plan for running the business while systems are down"},
+{id:"d11",obj:"3.4",term:"Capacity planning",def:"Ensuring enough people, technology and infrastructure"},
+{id:"d12",obj:"3.4",term:"Tabletop exercise",def:"Talking a scenario through in a room &mdash; nothing is switched over"},
+{id:"d13",obj:"3.4",term:"Simulation",def:"A realistic drill of the response without necessarily touching production"},
+{id:"d14",obj:"3.4",term:"Parallel processing",def:"Recovery systems run alongside production to prove they work"},
+{id:"d15",obj:"3.4",term:"Snapshot",def:"A point-in-time capture of a system's state"},
+{id:"d16",obj:"3.4",term:"Replication",def:"Continuous copying &mdash; which faithfully copies the damage too"},
+{id:"d17",obj:"3.4",term:"Journaling",def:"Recording changes so a system can roll forward or back precisely"},
+{id:"d18",obj:"3.4",term:"UPS",def:"Battery power that engages instantly and lasts minutes"},
+{id:"d19",obj:"3.4",term:"Generator",def:"Sustained power after a short start-up delay"},
+
+/* ---------- Gotchas ---------- */
+{id:"g1",obj:"gotchas",term:"Air-gapped vs. logical segmentation",def:"Physically disconnected vs. separated by configuration"},
+{id:"g2",obj:"gotchas",term:"VM vs. container",def:"Full guest OS, hypervisor-isolated vs. shared kernel, image-based risk"},
+{id:"g3",obj:"gotchas",term:"Fail-open vs. fail-closed",def:"Availability preserved vs. security preserved"},
+{id:"g4",obj:"gotchas",term:"Active vs. passive",def:"Inline and can block vs. watches a copy and only alerts"},
+{id:"g5",obj:"gotchas",term:"IDS vs. IPS",def:"Detects and alerts vs. sits inline and blocks"},
+{id:"g6",obj:"gotchas",term:"Layer 4 vs. Layer 7",def:"Ports and addresses vs. application content"},
+{id:"g7",obj:"gotchas",term:"TLS vs. IPSec",def:"Transport layer, per-application vs. network layer, all IP traffic"},
+{id:"g8",obj:"gotchas",term:"Transport vs. tunnel mode",def:"Encrypts the payload vs. encrypts the whole original packet"},
+{id:"g9",obj:"gotchas",term:"Data type vs. classification",def:"What the data is vs. how sensitive it is &mdash; two separate axes"},
+{id:"g10",obj:"gotchas",term:"Encryption vs. tokenization",def:"Reversible with a key vs. mapped by a separate vault, no relationship"},
+{id:"g11",obj:"gotchas",term:"Load balancing vs. clustering",def:"Distributing work vs. failing over a role"},
+{id:"g12",obj:"gotchas",term:"Tabletop vs. failover test",def:"Discussion only vs. actually cutting production over"},
+{id:"g13",obj:"gotchas",term:"Replication vs. backup",def:"Copies everything including the damage vs. point-in-time and separate"},
+{id:"g14",obj:"gotchas",term:"UPS vs. generator",def:"Instant but brief vs. delayed but sustained &mdash; you need both"},
+{id:"g15",obj:"gotchas",term:"Centralized vs. decentralized",def:"Consistent policy with one target vs. resilient but drifting"}
+];
+
+var SVGNS = "http://www.w3.org/2000/svg";
+var STORE_KEY = "domain3match:v1";
+
+/* ---------- elements ---------- */
+var boardEl = document.getElementById("board");
+var svgEl = document.getElementById("cables");
+var termsCol = document.getElementById("col-terms");
+var defsCol = document.getElementById("col-defs");
+var tabsEl = document.getElementById("tabs");
+var sizeEl = document.getElementById("sizegroup");
+var barEl = document.getElementById("bar");
+var statCount = document.getElementById("stat-count");
+var statTime = document.getElementById("stat-time");
+var statMoves = document.getElementById("stat-moves");
+var statStreak = document.getElementById("stat-streak");
+var statBestWrap = document.getElementById("stat-best-wrap");
+var statBest = document.getElementById("stat-best");
+var doneEl = document.getElementById("done");
+var hintEl = document.getElementById("hint");
+
+/* ---------- state ---------- */
+var activeTab = "all";
+var roundSize = 8;
+var roundPairs = [];
+var termEls = {};
+var defEls = {};
+var links = [];          /* {pairId, core, halo} */
+var linked = 0;
+var moves = 0;
+var streak = 0;
+var bestStreak = 0;
+var startTime = null;
+var timerHandle = null;
+var armedTerm = null;
+var drag = null;
+var suppressClick = false;
+var best = loadBest();
+
+function loadBest(){
+  try{ var raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : {}; }
+  catch(e){ return {}; }
+}
+function saveBest(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(best)); }catch(e){}
+}
+function bestKey(){ return activeTab + ":" + roundSize; }
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+  return a;
+}
+function poolForTab(tab){
+  if(tab === "all") return PAIRS.filter(function(p){ return p.obj !== "gotchas"; });
+  return PAIRS.filter(function(p){ return p.obj === tab; });
+}
+function fmtTime(ms){
+  var s = Math.floor(ms/1000), m = Math.floor(s/60);
+  s = s % 60;
+  return m + ":" + (s<10?"0":"") + s;
+}
+
+/* ---------- chrome ---------- */
+function buildTabs(){
+  tabsEl.innerHTML = "";
+  TAB_ORDER.forEach(function(k){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab" + (activeTab === k ? " active" : "");
+    b.textContent = TAB_LABEL[k];
+    b.setAttribute("role","tab");
+    b.addEventListener("click", function(){
+      if(activeTab === k) return;
+      activeTab = k;
+      startRound();
+    });
+    tabsEl.appendChild(b);
+  });
+}
+function buildSizes(){
+  sizeEl.innerHTML = "";
+  SIZES.forEach(function(n){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "sizebtn" + (roundSize === n ? " active" : "");
+    b.textContent = n + " pairs";
+    b.addEventListener("click", function(){
+      if(roundSize === n) return;
+      roundSize = n;
+      startRound();
+    });
+    sizeEl.appendChild(b);
+  });
+}
+
+/* ---------- round ---------- */
+function startRound(){
+  buildTabs();
+  buildSizes();
+  clearInterval(timerHandle);
+  timerHandle = null;
+  startTime = null;
+  linked = 0; moves = 0; streak = 0; bestStreak = 0;
+  armedTerm = null; drag = null; suppressClick = false;
+  links = [];
+  svgEl.innerHTML = "";
+  doneEl.classList.remove("show");
+  boardEl.style.display = "";
+  hintEl.style.display = "";
+
+  var pool = shuffle(poolForTab(activeTab).slice());
+  roundPairs = pool.slice(0, Math.min(roundSize, pool.length));
+
+  statTime.textContent = "0:00";
+  statMoves.textContent = "0";
+  statStreak.classList.remove("show","hot");
+  updateProgress();
+
+  var bk = best[bestKey()];
+  if(bk){
+    statBestWrap.hidden = false;
+    statBest.textContent = fmtTime(bk.timeMs);
+  } else {
+    statBestWrap.hidden = true;
+  }
+
+  renderBoard();
+}
+
+function renderBoard(){
+  termsCol.innerHTML = "";
+  defsCol.innerHTML = "";
+  termEls = {}; defEls = {};
+
+  var terms = shuffle(roundPairs.slice());
+  var defs = shuffle(roundPairs.slice());
+
+  terms.forEach(function(p){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "card term";
+    b.dataset.pair = p.id;
+    b.innerHTML = '<span>' + p.term + '</span><span class="port"></span>';
+    wireTerm(b, p.id);
+    termsCol.appendChild(b);
+    termEls[p.id] = b;
+  });
+
+  defs.forEach(function(p){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "card def";
+    b.dataset.pair = p.id;
+    b.innerHTML = '<span class="port"></span><span>' + p.def + '</span>';
+    b.addEventListener("click", function(){
+      if(armedTerm) attempt(armedTerm, p.id);
+    });
+    defsCol.appendChild(b);
+    defEls[p.id] = b;
+  });
+}
+
+function updateProgress(){
+  statCount.textContent = linked + "/" + roundPairs.length;
+  barEl.style.width = (roundPairs.length ? (linked / roundPairs.length) * 100 : 0) + "%";
+}
+
+function startTimerIfNeeded(){
+  if(startTime) return;
+  startTime = Date.now();
+  timerHandle = setInterval(function(){
+    statTime.textContent = fmtTime(Date.now() - startTime);
+  }, 250);
+}
+
+/* ---------- geometry ---------- */
+function portPoint(el, side){
+  var r = el.getBoundingClientRect();
+  var b = boardEl.getBoundingClientRect();
+  return { x: (side === "right" ? r.right : r.left) - b.left, y: r.top + r.height/2 - b.top };
+}
+function pathD(p1, p2){
+  var dx = Math.max(34, Math.abs(p2.x - p1.x) * 0.42);
+  return "M" + p1.x + "," + p1.y + " C" + (p1.x + dx) + "," + p1.y +
+         " " + (p2.x - dx) + "," + p2.y + " " + p2.x + "," + p2.y;
+}
+function makePath(cls){
+  var p = document.createElementNS(SVGNS, "path");
+  p.setAttribute("class", cls);
+  svgEl.appendChild(p);
+  return p;
+}
+function redrawLinks(){
+  links.forEach(function(l){
+    var t = termEls[l.pairId], d = defEls[l.pairId];
+    if(!t || !d) return;
+    var dStr = pathD(portPoint(t, "right"), portPoint(d, "left"));
+    l.core.setAttribute("d", dStr);
+    l.halo.setAttribute("d", dStr);
+    l.core.style.strokeDasharray = "";
+    l.core.style.strokeDashoffset = "";
+  });
+}
+if(window.ResizeObserver){
+  new ResizeObserver(function(){ redrawLinks(); }).observe(boardEl);
+} else {
+  window.addEventListener("resize", redrawLinks);
+}
+
+/* ---------- interaction ---------- */
+function disarm(){
+  if(armedTerm && termEls[armedTerm]) termEls[armedTerm].classList.remove("armed");
+  armedTerm = null;
+}
+function clearHot(){
+  var hot = defsCol.querySelector(".card.hot");
+  if(hot) hot.classList.remove("hot");
+}
+
+function wireTerm(el, pairId){
+  el.addEventListener("pointerdown", function(ev){
+    suppressClick = false;
+    if(el.classList.contains("locked")) return;
+    drag = { pairId: pairId, el: el, x0: ev.clientX, y0: ev.clientY, active: false, path: null };
+    try{ el.setPointerCapture(ev.pointerId); }catch(e){}
+  });
+
+  el.addEventListener("pointermove", function(ev){
+    if(!drag || drag.el !== el) return;
+    var dist = Math.abs(ev.clientX - drag.x0) + Math.abs(ev.clientY - drag.y0);
+    if(!drag.active){
+      if(dist < 8) return;
+      drag.active = true;
+      disarm();
+      startTimerIfNeeded();
+      el.classList.add("dragging");
+      drag.path = makePath("cable live");
+    }
+    ev.preventDefault();
+    var b = boardEl.getBoundingClientRect();
+    var from = portPoint(el, "right");
+    var to = { x: ev.clientX - b.left, y: ev.clientY - b.top };
+    drag.path.setAttribute("d", pathD(from, to));
+
+    clearHot();
+    var over = document.elementFromPoint(ev.clientX, ev.clientY);
+    var card = over && over.closest ? over.closest(".card.def") : null;
+    if(card && !card.classList.contains("locked")) card.classList.add("hot");
+  });
+
+  function endDrag(ev){
+    if(!drag || drag.el !== el) return;
+    var wasActive = drag.active;
+    var path = drag.path;
+    el.classList.remove("dragging");
+    clearHot();
+
+    if(wasActive){
+      suppressClick = true;
+      var over = document.elementFromPoint(ev.clientX, ev.clientY);
+      var card = over && over.closest ? over.closest(".card.def") : null;
+      if(card && !card.classList.contains("locked")){
+        if(path) path.remove();
+        drag = null;
+        attempt(pairId, card.dataset.pair);
+        return;
+      }
+      if(path){
+        path.setAttribute("class", "cable badline");
+        setTimeout(function(){ path.remove(); }, 180);
+      }
+    }
+    drag = null;
+  }
+  el.addEventListener("pointerup", endDrag);
+  el.addEventListener("pointercancel", function(ev){
+    if(drag && drag.path) drag.path.remove();
+    el.classList.remove("dragging");
+    clearHot();
+    drag = null;
+  });
+
+  el.addEventListener("click", function(){
+    if(suppressClick){ suppressClick = false; return; }
+    if(el.classList.contains("locked")) return;
+    startTimerIfNeeded();
+    if(armedTerm === pairId){ disarm(); return; }
+    disarm();
+    armedTerm = pairId;
+    el.classList.add("armed");
+  });
+}
+
+function attempt(termPairId, defPairId){
+  startTimerIfNeeded();
+  moves++;
+  statMoves.textContent = String(moves);
+  var t = termEls[termPairId], d = defEls[defPairId];
+  disarm();
+
+  if(termPairId === defPairId){
+    lockPair(termPairId);
+  } else {
+    streak = 0;
+    statStreak.classList.remove("show","hot");
+    [t, d].forEach(function(el){
+      if(!el) return;
+      el.classList.add("wrong");
+      setTimeout(function(){ el.classList.remove("wrong"); }, 360);
+    });
+  }
+}
+
+function lockPair(pairId){
+  var t = termEls[pairId], d = defEls[pairId];
+  var colorIdx = (linked % 6) + 1;
+  var colorVar = "var(--cable-" + colorIdx + ")";
+
+  var halo = makePath("cable halo c" + colorIdx);
+  var core = makePath("cable core c" + colorIdx);
+  var dStr = pathD(portPoint(t, "right"), portPoint(d, "left"));
+  halo.setAttribute("d", dStr);
+  core.setAttribute("d", dStr);
+
+  var len = 0;
+  try{ len = core.getTotalLength(); }catch(e){}
+  if(len){
+    core.style.strokeDasharray = len;
+    core.style.strokeDashoffset = len;
+    core.getBoundingClientRect();
+    core.style.transition = "stroke-dashoffset .42s ease-out";
+    core.style.strokeDashoffset = "0";
+  }
+
+  links.push({pairId: pairId, core: core, halo: halo});
+
+  [t, d].forEach(function(el){
+    el.style.setProperty("--pair-color", colorVar);
+    el.classList.add("locked","justlocked");
+    setTimeout(function(){ el.classList.remove("justlocked"); }, 420);
+  });
+
+  linked++;
+  streak++;
+  if(streak > bestStreak) bestStreak = streak;
+  if(streak >= 2){
+    statStreak.textContent = "streak ×" + streak;
+    statStreak.classList.add("show");
+    statStreak.classList.toggle("hot", streak >= 4);
+  }
+  updateProgress();
+
+  if(linked === roundPairs.length) setTimeout(finish, 480);
+}
+
+function finish(){
+  clearInterval(timerHandle);
+  var elapsed = startTime ? Date.now() - startTime : 0;
+  links.forEach(function(l, i){
+    l.halo.classList.add("finale");
+    l.halo.style.animationDelay = (i * 70) + "ms";
+  });
+
+  var bk = best[bestKey()];
+  var isBest = !bk || elapsed < bk.timeMs;
+  if(isBest){ best[bestKey()] = {timeMs: elapsed, moves: moves}; saveBest(); }
+
+  document.getElementById("done-time").textContent = fmtTime(elapsed);
+  var bestLine = document.getElementById("done-best");
+  bestLine.textContent = isBest ? "New best for " + TAB_LABEL[activeTab] + " / " + roundSize + " pairs"
+                                : "Best " + fmtTime(best[bestKey()].timeMs);
+  var perfect = moves === roundPairs.length;
+  document.getElementById("done-line").textContent =
+    roundPairs.length + " pairs · " + moves + (moves === 1 ? " attempt" : " attempts") +
+    (perfect ? " · clean run, no misses" : " · best streak " + bestStreak);
+
+  setTimeout(function(){
+    boardEl.style.display = "none";
+    hintEl.style.display = "none";
+    doneEl.classList.add("show");
+  }, 900);
+}
+
+document.addEventListener("pointerdown", function(ev){
+  if(!ev.target.closest(".card")) disarm();
+});
+document.getElementById("newround").addEventListener("click", startRound);
+document.getElementById("playagain").addEventListener("click", startRound);
+
+startRound();
+})();
+</script>
+</body>
+</html>

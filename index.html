@@ -216,13 +216,25 @@ var DOMAINS = [
      url:"domain2-drill.html"}]
 },
 {
-  id:"3", name:"Security Architecture", weight:18, status:"Not started",
+  id:"3", name:"Security Architecture", weight:18, status:"Built",
   objectives:[
     ["3.1","Compare and contrast security implications of different architecture models."],
     ["3.2","Given a scenario, apply security principles to secure enterprise infrastructure."],
     ["3.3","Compare and contrast concepts and strategies to protect data."],
     ["3.4","Explain the importance of resilience and recovery in security architecture."]],
-  tools:[]
+  tools:[
+    {k:"notebook",name:"Notebook",kind:"Reference",
+     desc:"Architecture models, secure infrastructure, protecting data, resilience and recovery &mdash; searchable and tabbed by objective.",
+     meta:"30 topics &middot; search &middot; 6 tabs",
+     url:"domain3-notebook.html"},
+    {k:"match",name:"Match",kind:"Practice",
+     desc:"Patch each term to its definition against the clock, drag or tap.",
+     meta:"91 pairs &middot; 6&ndash;10 per round",
+     url:"domain3-match.html"},
+    {k:"drill",name:"Drill",kind:"Assessment",
+     desc:"Flashcards, multiple-choice, and scenario/PBQ-style questions with a weak-area tracker.",
+     meta:"75 flashcards &middot; 26 quiz &middot; 12 scenarios",
+     url:"domain3-drill.html"}]
 },
 {
   id:"4", name:"Security Operations", weight:28, status:"Not started",
