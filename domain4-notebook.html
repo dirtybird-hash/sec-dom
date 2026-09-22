@@ -175,6 +175,7 @@ var TOPICS = [
 <li><strong>Deploy</strong> &mdash; push it automatically, because nobody configures three thousand machines by hand. Active Directory Group Policy for Windows, MDM for mobile, configuration management or IaC for servers and cloud. Test before rollout.</li>
 <li><strong>Maintain</strong> &mdash; baselines drift and go stale. Audit regularly that systems still match, remediate the ones that don't, and update the baseline itself when a new vulnerability, application version or OS release changes what "secure" means.</li>
 </ol>
+<p>One baseline rarely fits everything. A domain controller, a kiosk workstation and a development test box need different settings, and a test environment may deliberately allow things production never should. Expect separate baselines per <strong>system type</strong> and per <strong>environment</strong>, each checked against its own standard.</p>
 <blockquote><span class="tag">Gotcha</span>The order is fixed: <strong>establish &rarr; deploy &rarr; maintain</strong>. A question about checking that systems still match the standard is asking about <em>maintain</em>, not deploy.</blockquote>
 `},
 {id:"hardening",obj:"4.1",title:"Hardening Targets",html:`
@@ -191,6 +192,7 @@ var TOPICS = [
 <tr><td><strong>RTOS</strong></td><td>Isolate from the network, run the minimum services, add host-based or separate firewall protection if it must communicate</td></tr>
 <tr><td><strong>IoT devices</strong></td><td>Change default credentials, prioritize vendor patches, put them on their own network segment</td></tr>
 </table></div>
+<p>On switches, hardening goes beyond shutting unused ports: put unused ports in an unused VLAN, segment traffic with VLANs, and turn on <strong>port security</strong> so a port only accepts known MAC addresses (and shuts down or alerts when a new one appears). On routers, apply ACLs to filter what can reach the router and what it forwards, and restrict management access to an admin subnet.</p>
 <blockquote><span class="tag">Gotcha</span>For anything that can't be patched well &mdash; ICS/SCADA, embedded, RTOS, IoT &mdash; the expected answer is <strong>segmentation or isolation</strong>. Same logic as Domain 3's "inability to patch".</blockquote>
 `},
 {id:"firmware",obj:"4.1",title:"Firmware &amp; Printer Hardening",html:`
@@ -242,6 +244,7 @@ var TOPICS = [
 <p><strong>AAA</strong> is the framework behind enterprise mode: <strong>authentication</strong> (prove who you are), <strong>authorization</strong> (what you may reach) and <strong>accounting</strong> (a record of the session: when, how long, how much data). <strong>RADIUS</strong> (Remote Authentication Dial-In User Service) is the common AAA protocol, still named for dial-up but used for Wi-Fi, VPNs and device logins.</p>
 <p><strong>Authentication protocols</strong> are the EAP methods carried inside 802.1X: <strong>EAP-TLS</strong> (certificates on both sides, the strongest), <strong>PEAP</strong> and <strong>EAP-TTLS</strong> (a TLS tunnel protecting a password exchange), and <strong>EAP-FAST</strong> (a Cisco-originated tunnel without server certificates).</p>
 <p>GCMP is built on <strong>GCM</strong> (Galois/Counter Mode).</p>
+<p><strong>Fine print on WPA3 ciphers:</strong> in the Wi-Fi Alliance specification, <strong>WPA3-Personal</strong> still encrypts with <strong>AES-CCMP</strong> (128-bit) &mdash; what it changes is the handshake (SAE). <strong>GCMP-256</strong> is required by the optional <strong>WPA3-Enterprise 192-bit mode</strong>. CompTIA and most study material simply pair "WPA3 = GCMP", so on the exam choose <strong>GCMP</strong> for WPA3 and <strong>CCMP</strong> for WPA2.</p>
 <blockquote><span class="tag">Gotcha</span>The WPA3 answer to "offline dictionary attack on the handshake" is <strong>SAE</strong>. The answer to "each employee should use their own login" is <strong>Enterprise/802.1X</strong>, not a longer shared passphrase.</blockquote>
 `},
 {id:"wifilegacy",obj:"4.1",title:"Wireless Security Evolution &mdash; WEP to WPA3",html:`
@@ -250,7 +253,7 @@ var TOPICS = [
 <tr><td><strong>WEP</strong> &mdash; Wired Equivalent Privacy</td><td>RC4 with a short, reused IV</td><td>Broken &mdash; crackable in minutes. Never use</td></tr>
 <tr><td><strong>WPA</strong> &mdash; Wi-Fi Protected Access</td><td><strong>TKIP</strong> (Temporal Key Integrity Protocol), still RC4</td><td>Interim fix for WEP hardware; deprecated</td></tr>
 <tr><td><strong>WPA2</strong></td><td>AES with CCMP</td><td>Still common; PSK handshake can be cracked offline</td></tr>
-<tr><td><strong>WPA3</strong></td><td>AES with GCMP (Galois/Counter Mode), SAE</td><td>Current</td></tr>
+<tr><td><strong>WPA3</strong></td><td>AES with GCMP (Galois/Counter Mode), SAE &mdash; exam answer; strictly, GCMP-256 is the Enterprise 192-bit mode and Personal keeps CCMP</td><td>Current</td></tr>
 </table></div>
 <ul>
 <li><strong>WPS</strong> (Wi-Fi Protected Setup) &mdash; the PIN method can be brute-forced; disable it.</li>
@@ -288,6 +291,7 @@ var TOPICS = [
 <li><strong>Ownership</strong> &mdash; a named person or team responsible for the asset. Unowned assets don't get patched.</li>
 <li><strong>Classification</strong> &mdash; what kind of asset it is and how sensitive the data it holds is, which sets how it's protected and later disposed of.</li>
 </ul><p>High-value business systems such as <strong>ERP</strong> (enterprise resource planning: finance, HR, supply chain in one platform) deserve particular scrutiny at procurement, because they concentrate so much sensitive data.</p>
+<p>Procurement is where <strong>supply chain risk</strong> is controlled. Buying from authorized vendors avoids counterfeit or tampered hardware, and the contract should spell out security obligations up front: how long patches will be provided, how vulnerabilities will be disclosed and fixed, and when the product reaches end-of-life. A product with no committed support is a future unpatchable system.</p>
 
 `},
 {id:"assettrack",obj:"4.2",title:"Monitoring &amp; Asset Tracking",html:`
@@ -297,6 +301,7 @@ var TOPICS = [
 <li><strong>Enumeration</strong> &mdash; actively discovering what's actually present, by scanning the network or querying devices, and breaking an asset down into its components and installed software. Enumeration is how you find the devices the inventory doesn't know about.</li>
 </ul>
 <p>Mobile devices are also tracked by hardware identifiers such as the <strong>ESN</strong> (electronic serial number) or IMEI, which let a lost or stolen phone be identified and blocked.</p>
+<p>An accurate inventory pays off in two scenarios the exam likes. <strong>Patch management</strong>: you can only patch devices you know exist. <strong>Incident response</strong>: when an alert names a host, the inventory tells you what it is, where it sits, who owns it and what data it holds, so containment starts in minutes instead of hours.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Inventory</strong> is the record you keep; <strong>enumeration</strong> is discovering what's really there. The gap between the two is where unmanaged devices live.</blockquote>
 `},
 {id:"disposal",obj:"4.2",title:"Disposal, Decommissioning &amp; Data Retention",html:`
@@ -347,6 +352,7 @@ var TOPICS = [
 <p>A <strong>penetration test</strong> goes further than a scan: it actually exploits vulnerabilities to prove what an attacker could do. That makes it riskier, so it runs under written <strong>rules of engagement</strong> (scope, systems in and out of bounds, permitted hours and techniques, emergency contacts, handling of any sensitive data found).</p>
 <p>Terms you'll meet: <strong>lateral movement</strong> (spreading from the first system to others), <strong>persistence</strong> (keeping access with a backdoor or new account), and <strong>pivoting</strong> (using a compromised host to reach systems behind it).</p>
 <p><strong>Responsible disclosure program</strong> &mdash; a published process for outsiders to report vulnerabilities to you privately, giving you time to fix before details go public (and a CVE entry is published). A <strong>bug bounty program</strong> adds a reward for valid reports.</p>
+<p>A bug bounty only works with clear published rules: which systems are in scope, which techniques are forbidden (denial of service, social engineering, touching customer data), and how to report. Without them, a researcher's testing can be indistinguishable from an attack, and disputes arise over what counts as authorized.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Vulnerability scan</strong> identifies and does not exploit. <strong>Penetration test</strong> exploits. If the scenario involves actually gaining access, it's a pen test.</blockquote>
 `},
 {id:"vulnanalysis",obj:"4.3",title:"Analysis &mdash; Confirming &amp; Prioritizing",html:`
@@ -362,6 +368,7 @@ var TOPICS = [
 <tr><td><strong>Industry/organizational impact</strong></td><td>What exploitation would do to <em>this</em> business &mdash; a hospital closing its emergency department, a utility losing power delivery</td></tr>
 <tr><td><strong>Risk tolerance</strong></td><td>How much risk the organization will accept while a fix is tested; low tolerance means patching faster</td></tr>
 </table></div>
+<p>Exposure factor feeds straight into quantitative risk: <strong>SLE = asset value x exposure factor</strong>. A $200,000 server with an exposure factor of 25% has a single loss expectancy of $50,000. Multiply SLE by the annualized rate of occurrence (ARO) to get ALE, the expected yearly loss.</p>
 <blockquote><span class="tag">Gotcha</span><strong>CVE names it; CVSS scores it.</strong> A CVSS 9.8 on an isolated lab box can rightly rank below a 7.5 on the public web server &mdash; environmental variables adjust the raw score.</blockquote>
 `},
 {id:"vulnresponse",obj:"4.3",title:"Vulnerability Response, Validation &amp; Reporting",html:`
@@ -375,6 +382,7 @@ var TOPICS = [
 </table></div>
 <p><strong>Validation of remediation</strong> proves the fix worked: <strong>rescanning</strong> the systems, <strong>auditing</strong> a sample by hand, and <strong>verification</strong> from the patch system that deployment succeeded.</p>
 <p><strong>Reporting</strong> gives management the picture at scale: vulnerabilities found and fixed, systems still exposed, exceptions granted, and trends over time.</p>
+<p>Patching has its own risk: an untested patch can crash a production system, which is why patches go through a test environment first unless the vulnerability is being actively exploited. And an exception is never just "leave it alone" &mdash; the approved exception normally comes with extra monitoring or a compensating control to reduce the risk that was accepted.</p>
 <blockquote><span class="tag">Gotcha</span>Patching is the fix; a <strong>compensating control</strong> is a substitute when you can't patch. An <strong>exception</strong> accepts the risk outright and needs formal approval, not one admin's decision.</blockquote>
 `},
 
@@ -409,6 +417,7 @@ var TOPICS = [
 <tr><td>Coverage</td><td>Always running, continuous visibility, works off-network</td><td>Only when it runs</td></tr>
 <tr><td>Upkeep</td><td>Agent and its definitions must be updated</td><td>No agent maintenance</td></tr>
 </table></div><p>Within SCAP, <strong>OVAL</strong> (Open Vulnerability Assessment Language) is the language for describing what to check on a system and what state counts as vulnerable.</p>
+<p>Agentless monitoring usually works by querying the device over the network with its existing management protocols &mdash; SNMP, SSH or WMI. It is quicker to roll out (nothing to install, good for network gear and appliances that can't run an agent) but sees less detail than an agent sitting on the host.</p>
 
 `},
 {id:"montools",obj:"4.4",title:"Monitoring Tools &mdash; SIEM, DLP, SNMP &amp; NetFlow",html:`
@@ -421,6 +430,7 @@ var TOPICS = [
 <tr><td><strong>NetFlow</strong></td><td>Flow records &mdash; who talked to whom, on what port, how much &mdash; gathered by a probe and sent to a collector. Metadata about traffic, not the payload</td></tr>
 <tr><td><strong>Vulnerability scanners</strong></td><td>Scheduled discovery of devices and known weaknesses, feeding results into the monitoring picture</td></tr>
 </table></div>
+<p>NetFlow earns its place in scenarios about <strong>traffic patterns</strong>: a sudden flood of flows toward one server suggests DDoS; a workstation sending gigabytes to an unfamiliar external address at 2 a.m. suggests exfiltration. It flags that something is wrong and who is involved; a packet capture is what shows the actual content.</p>
 <blockquote><span class="tag">Gotcha</span><strong>SNMP polling vs. trap</strong>: polling is the manager asking on a schedule (port 161); a trap is the device telling the manager immediately (port 162). <strong>NetFlow vs. packet capture</strong>: NetFlow records the conversation's metadata; a packet capture records the contents.</blockquote>
 `},
 
@@ -433,6 +443,7 @@ var TOPICS = [
 <li><strong>Stateless</strong> ACLs judge each packet alone; <strong>stateful</strong> firewalls track connections and allow the return traffic automatically.</li>
 </ul>
 <p>A <strong>screened subnet</strong> (the old DMZ) is a separate segment for internet-facing services. Rules let the internet reach those servers, but not pass through them into the internal network, so a compromised web server doesn't expose everything behind it.</p>
+<p>Don't forget <strong>egress</strong> (outbound) rules. Many organizations allow all outbound traffic, which lets malware reach its command-and-control server and lets attackers move data out freely. Restricting outbound traffic to what's needed &mdash; for example, only the proxy may reach the internet on 80/443, and only the internal DNS servers may query external DNS &mdash; turns the firewall into a detection and containment point too.</p>
 <blockquote><span class="tag">Gotcha</span>A broad "allow" rule placed above a specific "deny" means the deny is never reached. When a question asks why a block isn't working, check the <strong>rule order</strong>.</blockquote>
 `},
 {id:"nat",obj:"4.5",title:"NAT, PAT &amp; DNAT",html:`
@@ -464,6 +475,7 @@ var TOPICS = [
 </table></div>
 <p><strong>DNS filtering</strong> works one layer earlier: the DNS resolver refuses to resolve known-malicious domains. It protects every application, not just browsers &mdash; including malware trying to reach its command-and-control server.</p>
 <p>Browsers can be pointed at the filtering proxy automatically with a <strong>PAC</strong> (proxy auto-configuration) file. A URL is one kind of <strong>URI</strong> (uniform resource identifier).</p>
+<p>An agent on the endpoint is also harder to get around. A user who switches browsers, changes proxy settings or uses a different app to reach a blocked site still passes through the agent, whereas a proxy only sees traffic that is actually sent to it.</p>
 <blockquote><span class="tag">Gotcha</span>Firewall or proxy filtering stops working when a laptop leaves the building. If the scenario involves <strong>remote or travelling users</strong>, the answer is <strong>agent-based</strong> filtering (or cloud DNS filtering).</blockquote>
 `},
 {id:"ossec",obj:"4.5",title:"Operating System Security &mdash; Group Policy &amp; SELinux",html:`
@@ -472,6 +484,7 @@ var TOPICS = [
 <li><strong>SELinux</strong> (Security-Enhanced Linux) &mdash; adds <strong>mandatory access control</strong> to Linux, which by default uses discretionary access control. Policy decides what every process may touch, so a compromised service is confined to its allowed files and ports. Modes: <em>enforcing</em> (blocks and logs), <em>permissive</em> (logs only), <em>disabled</em>.</li>
 </ul>
 <p>File permissions on Linux can be extended with a file-system access control list (<strong>FACL</strong>) to grant rights to more than one user or group.</p>
+<p>The point of SELinux in a scenario is that its policy applies <strong>even to root</strong>. If an attacker compromises a web server process running with high privileges, SELinux still limits it to the files, ports and actions the web server policy allows, so the compromise stays contained.</p>
 <blockquote><span class="tag">Gotcha</span>Standard Linux permissions are <strong>DAC</strong> (the owner decides). <strong>SELinux adds MAC</strong> (central policy decides). If a question asks how to enforce least privilege on Linux processes regardless of file owner, it's SELinux.</blockquote>
 `},
 {id:"secprotocols",obj:"4.5",title:"Implementing Secure Protocols",html:`
@@ -513,7 +526,8 @@ var TOPICS = [
 `},
 {id:"fim",obj:"4.5",title:"File Integrity Monitoring",html:`
 <p><strong>File integrity monitoring (FIM)</strong> watches files that shouldn't change &mdash; OS binaries, system configuration, application executables, the registry &mdash; and alerts when they do. It works by recording a known-good hash of each file and comparing against it. A changed system file is a classic sign of a rootkit or tampering.</p>
-<p>Examples: Windows <strong>System File Checker (SFC)</strong> scans protected files on demand and restores good copies; <strong>Tripwire</strong> is the classic real-time FIM tool on Linux; HIPS and EDR agents often include it.</p>
+<p>Examples: Windows <strong>System File Checker (SFC)</strong> scans protected files on demand and restores good copies; <strong>Tripwire</strong> is the classic real-time FIM tool on Linux; HIPS and EDR agents often include it.</p><p>Attackers often edit or clear log files to hide their tracks, so FIM is worth pointing at security logs and audit configuration as well as system binaries. An alert that a log file shrank or an audit policy changed is a strong sign someone is covering up activity.</p>
+
 `},
 {id:"dlp",obj:"4.5",title:"Data Loss Prevention (DLP)",html:`
 <p><strong>DLP</strong> identifies sensitive data &mdash; card numbers, SSNs, health records, source code &mdash; and stops it going where it shouldn't. It can block, encrypt, quarantine or just alert.</p>
@@ -564,6 +578,7 @@ var TOPICS = [
 </table></div>
 <p>The SAML flow: user requests the app &rarr; app redirects to the identity provider &rarr; user authenticates there &rarr; identity provider returns a signed assertion &rarr; browser presents it to the app &rarr; access granted.</p>
 <p><strong>Interoperability</strong> is the practical constraint: the IAM pieces you choose must work with what you already have. A new VPN concentrator that speaks LDAP fits an Active Directory shop; an app that uses OAuth needs an authentication source that can feed it.</p>
+<p>SSO's convenience is also its risk: it concentrates everything behind one credential and one identity provider. If an SSO account is compromised, the attacker reaches every connected application; if the identity provider goes down, nobody can log in to anything. That's why SSO is paired with strong MFA and a highly available identity provider.</p>
 <blockquote><span class="tag">Gotcha</span><strong>OAuth is authorization, not authentication.</strong> SAML and OpenID Connect authenticate; OAuth delegates access. SSO is the user experience; federation is the trust relationship across organizations.</blockquote>
 `},
 {id:"kerberos",obj:"4.6",title:"Kerberos &amp; NTLM",html:`
@@ -648,6 +663,7 @@ var TOPICS = [
 <tr><td><strong>Continuous integration and testing</strong></td><td>Code is built, tested and security-scanned automatically on every commit</td></tr>
 <tr><td><strong>Integrations and application programming interfaces (APIs)</strong></td><td>Scripts talk to firewalls, cloud platforms and tools through their APIs instead of clicking through consoles</td></tr>
 </table></div><p>The usual scripting languages are <strong>Bash</strong> (Bourne Again Shell) on Linux and macOS, PowerShell on Windows, and Python everywhere.</p>
+<p>Integrations are where automation pays off in security: a vulnerability scanner that opens a ticket assigned to the system owner for each critical finding, or a SIEM alert that triggers a script to disable the account and isolate the host. Automated <strong>de-provisioning</strong> matters as much as provisioning &mdash; access removed the moment HR marks someone as leaving, not whenever someone remembers.</p>
 
 `},
 {id:"autobenefits",obj:"4.7",title:"Automation &mdash; Benefits &amp; Considerations",html:`
@@ -677,6 +693,7 @@ var TOPICS = [
 </ol>
 <p>NIST's four: preparation &rarr; detection &amp; analysis &rarr; containment, eradication &amp; recovery &rarr; post-incident activity.</p>
 <p>The people doing this work are the incident response team &mdash; called a <strong>CIRT</strong> (computer incident response team), CSIRT, or <strong>CERT</strong> (computer emergency response team). National CERTs also publish advisories. The <strong>IRP</strong> (incident response plan) is the document that defines the team, roles and procedures.</p>
+<p>Containment comes in two stages. <strong>Short-term</strong> containment stops the damage right now &mdash; pull the host off the network, disable the account, block the IP. <strong>Long-term</strong> containment keeps things safe while the fix is prepared, such as moving the system to a restricted VLAN or applying temporary firewall rules so business can continue. After recovery, keep watching closely for signs of reinfection, which means eradication missed something.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Containment comes before eradication.</strong> Stop the bleeding first, then remove the cause. Wiping a machine before containment can let the attacker keep spreading elsewhere &mdash; and destroys evidence.</blockquote>
 `},
 {id:"irtraining",obj:"4.8",title:"Training, Testing, Root Cause &amp; Threat Hunting",html:`
@@ -700,6 +717,7 @@ var TOPICS = [
 <tr><td><strong>Preservation</strong></td><td>Keep the original untouched and work on verified copies. Capture live systems before powering off, since encryption or remote wipe can destroy data</td></tr>
 <tr><td><strong>E-discovery</strong></td><td>Collecting and producing electronically stored information for legal proceedings. It gathers; forensics analyzes</td></tr>
 </table></div>
+<p>Disk acquisition uses a <strong>bit-by-bit image</strong> (every sector, including deleted and unallocated space), taken through a <strong>write blocker</strong> so the original drive can't be altered. Hash the original and the image; matching hashes prove the copy is exact, and re-hashing later proves nothing has changed since.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Order of volatility</strong>: collect what disappears fastest first &mdash; CPU registers and cache, RAM, then disk, then remote logs and backups. Pulling the plug first loses everything in memory.</blockquote>
 `},
 
@@ -714,7 +732,8 @@ var TOPICS = [
 <tr><td><strong>Network logs</strong></td><td>Switches, routers, access points, VPN concentrators: routing changes, authentication errors, interface attacks</td></tr>
 <tr><td><strong>Metadata</strong></td><td>Data about data: email headers (the servers a message passed through), photo GPS coordinates and device model, document author, browser and OS details</td></tr>
 </table></div>
-<p>The value comes from <strong>correlation</strong>: one log shows a piece of the story; the SIEM lines them up into the whole sequence. Filter what you send to it, because volume is enormous.</p>
+<p>The value comes from <strong>correlation</strong>: one log shows a piece of the story; the SIEM lines them up into the whole sequence. Filter what you send to it, because volume is enormous.</p><p>Match the log to the question:</p><ul><li><strong>Firewall</strong> &mdash; an outside IP connecting in, or unusual outbound traffic to a strange destination</li><li><strong>Application / web server</strong> &mdash; SQL injection strings or odd API calls against the app</li><li><strong>Endpoint</strong> &mdash; an unexpected process or new file on one machine (malware)</li><li><strong>OS security log</strong> &mdash; privilege escalation or repeated failed logins on a server</li><li><strong>IPS/IDS</strong> &mdash; a port scan or brute-force attempt that was detected or blocked</li><li><strong>Metadata / timestamps</strong> &mdash; building the timeline of what happened in which order across systems</li></ul>
+
 `},
 {id:"datasources",obj:"4.9",title:"Data Sources for Investigations",html:`
 <ul>

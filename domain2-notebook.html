@@ -185,6 +185,7 @@ var TOPICS = [
 <tr><td><strong>Level of sophistication / capability</strong></td><td>Low capability actors rely on commodity tools that are widely available. Higher capability actors write new exploits. At the top, an actor can reach for non-cyber tools &mdash; political or military assets.</td></tr>
 <tr><td><strong>Resources / funding</strong></td><td>High capability has to be paid for. Sophisticated groups need custom tooling and skilled strategists, coders, and social engineers. The best-funded receive money from nation-states or organized crime.</td></tr>
 </table></div>
+<p><strong>Putting the attributes together.</strong> Most actor questions can be answered by profiling on all three attributes at once:</p><ul><li><strong>Nation-state</strong> &mdash; external, very high capability, very high funding.</li><li><strong>Organized crime</strong> &mdash; external, high capability, well funded by its own profits.</li><li><strong>Hacktivist</strong> &mdash; external, capability varies widely, usually limited funding.</li><li><strong>Unskilled attacker</strong> &mdash; external, low capability, little or no funding.</li><li><strong>Insider</strong> &mdash; internal, capability varies, low funding needed because access is already granted.</li><li><strong>Shadow IT</strong> &mdash; internal, usually well-meaning, no attack funding at all.</li></ul><p>If a scenario describes custom malware and years of undetected access, the resources point to a nation-state; commodity tools downloaded from a forum point to an unskilled attacker.</p>
 <blockquote><span class="tag">Gotcha</span>Internal vs. external describes the <strong>threat actor</strong>, not where the attack physically happens. An external actor can absolutely attack on-premises &mdash; walking into the building doesn't make them an insider. What makes an insider is having been granted access.</blockquote>
 `},
 {id:"motives",obj:"2.1",title:"Motivations of Threat Actors",html:`
@@ -259,7 +260,8 @@ var TOPICS = [
 <tr><th>Approach</th><th>How it works</th></tr>
 <tr><td><strong>Client-based</strong></td><td>An agent is installed on each host, runs the scan locally, and reports to a management server.</td></tr>
 <tr><td><strong>Agentless</strong></td><td>Scans a host without installing anything. This is the form most likely to be used in threat actor reconnaissance.</td></tr>
-</table></div>
+</table></div><p>The same client-based vs. agentless split matters for the software you run, not just scanning. A client-based approach puts an agent on every endpoint &mdash; one more piece of software that must be patched and that could itself be exploited, but it sees the host in detail. Agentless relies on remote connections and credentials, so it installs nothing but has less visibility, and devices that cannot run an agent at all (printers, IoT, appliances) often end up with the fewest controls.</p>
+
 `},
 {id:"network",obj:"2.2",title:"Unsecure Networks, Open Ports &amp; Default Credentials",html:`
 <p>An exploit is classed by where the code has to run:</p>
@@ -283,7 +285,8 @@ var TOPICS = [
 <li><strong>Cloud</strong> &mdash; the actor only needs one account, service, or host with weak credentials. Developer and cloud-admin accounts are prime targets, as is the cloud service provider itself.</li>
 <li><strong>Default credentials</strong> &mdash; a device or app left on its factory password, which is usually published in the setup documentation.</li>
 <li><strong>Open service ports</strong> &mdash; an unauthenticated connection to a TCP or UDP port whose listening application may be exploitable or disruptable.</li>
-</ul>
+</ul><p>Default credentials are why IoT devices get recruited into botnets so easily. The Mirai botnet simply scanned the internet for cameras and routers still using factory usernames and passwords, logged in, and turned hundreds of thousands of them into a DDoS army &mdash; no exploit required. Changing defaults on first setup closes this vector completely.</p>
+
 `},
 {id:"lure",obj:"2.2",title:"File-Based, Image-Based &amp; Removable Device",html:`
 <p>Three of the vector categories named in objective 2.2, and they work the same way: a <strong>lure</strong> &mdash; something attractive that conceals something dangerous. The target opens the bait and it delivers the payload. These get used when the actor can't run a remote or local exploit directly and needs the user to do the work for them.</p>
@@ -295,6 +298,7 @@ var TOPICS = [
 </table></div>
 <p>Reducing this surface means endpoint security management: vulnerability management, antivirus, execution control, and intrusion detection.</p>
 <p>Macro malware is usually written in <strong>VBA</strong> (Visual Basic for Applications), the scripting language built into Office.</p>
+<p>Removable media's big advantage to an attacker is that it skips the network entirely. The firewall, email filter and web proxy never see the file, which is why USB delivery is the classic route into an air-gapped network &mdash; Stuxnet is the standard example. Mitigations are endpoint-level: disable autorun, block or restrict USB storage by policy, and scan media before use.</p>
 <blockquote><span class="tag">Gotcha</span>The objectives list <strong>file-based</strong> and <strong>image-based</strong> as separate vector categories, so a question can ask you to classify one. If the payload rode in on a picture, the answer is image-based even though an image is technically a file.</blockquote>
 `},
 {id:"message",obj:"2.2",title:"Message-Based &amp; Voice Call Vectors",html:`
@@ -330,7 +334,8 @@ var TOPICS = [
 <tr><td><strong>Business partner</strong></td><td>A closer relationship with closely aligned goals and shared marketing opportunities.</td></tr>
 </table></div>
 <p>Every supplier has its own supply chain, so the breadth is enormous: for one motherboard to be trustworthy, the chip fabricator, firmware developer, OEM reseller, courier, and the staff who provision the device must <em>all</em> be trustworthy. Securing it essentially means denying malicious actors the time or resources to modify what's supplied. For most businesses, using reputable vendors is the best practical effort; government and military exercise far greater scrutiny. Take particular care with secondhand equipment.</p>
-<p><strong>Managed service providers (MSPs)</strong> provision and support IT resources on an outsourced basis. From a security standpoint this is complex &mdash; the MSP is hard to monitor, and every one of its employees is a potential insider threat.</p>
+<p><strong>Managed service providers (MSPs)</strong> provision and support IT resources on an outsourced basis. From a security standpoint this is complex &mdash; the MSP is hard to monitor, and every one of its employees is a potential insider threat.</p><p>The attraction of an MSP to an attacker is scale: one compromise delivers a trusted, already-authenticated path into every client that MSP manages. That one-to-many effect is why MSPs and widely used software vendors are high-value targets &mdash; the Kaseya ransomware attack spread to many downstream businesses through a single MSP management tool. Limit what access a provider holds, require MFA on their accounts, and monitor their activity like any other privileged user.</p>
+
 `},
 {id:"human",obj:"2.2",title:"Human Vectors &amp; Social Engineering",html:`
 <p>People &mdash; employees, contractors, suppliers, customers &mdash; are collectively the <strong>human vector</strong>. <strong>Social engineering</strong> means either eliciting information from someone or getting them to perform an action for the actor. Also called "hacking the human," and it includes written communication, not just face-to-face.</p>
@@ -431,7 +436,8 @@ var TOPICS = [
 `},
 {id:"osvuln",obj:"2.3",title:"Operating System Vulnerabilities",html:`
 <p>The OS is the largest single body of code on a machine and sits underneath everything else, so a flaw there potentially exposes every application running on top of it. Attackers watch patch releases closely &mdash; a published fix also publishes the existence of the weakness for anyone who hasn't applied it yet.</p>
-<p>The exposure comes from three directions: the gap between a patch being released and being deployed, systems that cannot be patched without breaking a dependent application, and operating systems that are past vendor support entirely and will never receive a fix.</p>
+<p>The exposure comes from three directions: the gap between a patch being released and being deployed, systems that cannot be patched without breaking a dependent application, and operating systems that are past vendor support entirely and will never receive a fix.</p><p>The usual payoff of an OS flaw is privilege escalation. An attacker who has a foothold as an ordinary user exploits a kernel or service bug to become administrator or SYSTEM/root, and from there can disable security tools, dump credentials and move laterally. Weak OS access controls &mdash; services running with too much privilege, writable system folders &mdash; lead to the same result without any bug at all.</p>
+
 `},
 {id:"webvuln",obj:"2.3",title:"Web-Based &mdash; SQL Injection &amp; XSS",html:`
 <p>Both are injection flaws, but they attack different targets.</p>
@@ -453,6 +459,7 @@ var TOPICS = [
 <li><strong>End-of-life (EOL)</strong> &mdash; the manufacturer has stopped selling and stopped supporting the product. No more patches are coming, ever.</li>
 <li><strong>Legacy</strong> &mdash; the device is still in production use well past its intended lifespan, often because replacing it means replacing a process built around it.</li>
 </ul>
+<p>Firmware compromise is valued by attackers for persistence. Because firmware sits below the operating system, malicious code there survives an OS reinstall and even a disk replacement, and OS-level security tools usually cannot see it. That is why firmware integrity checks and Secure Boot matter, and why the fix for a firmware infection may be reflashing from a trusted image or replacing the hardware.</p>
 <blockquote><span class="tag">Gotcha</span>End-of-life is the vendor's decision to stop supporting; legacy is your organization's decision to keep running it anyway. A legacy device may still be supported; an EOL device by definition is not.</blockquote>
 `},
 {id:"virtvuln",obj:"2.3",title:"Virtualization Vulnerabilities",html:`
@@ -469,7 +476,8 @@ var TOPICS = [
 <li><strong>Weakly protected management consoles</strong> &mdash; one compromised administrative account can reach everything, from anywhere on the internet.</li>
 <li><strong>Shared responsibility confusion</strong> &mdash; the provider secures the infrastructure; the customer secures their own data, identities and configuration. Gaps appear where each side assumes the other is covering something.</li>
 <li><strong>Availability</strong> &mdash; a denial of service against a cloud-hosted service, or an outage at the provider, takes the organization down with it.</li>
-</ul>
+</ul><p>Multi-tenancy is the other cloud-specific concern: many customers share the same physical hosts, storage and networks, kept apart only by the provider's logical isolation. A flaw in that isolation (the same risk as VM escape and resource reuse) could expose one tenant to another, which is why regulated workloads sometimes pay for dedicated hosts.</p>
+
 `},
 {id:"supplyvuln",obj:"2.3",title:"Supply Chain Vulnerabilities",html:`
 <p>Objective 2.3 names three providers, each a distinct route in:</p>
@@ -518,6 +526,7 @@ var TOPICS = [
 <li>The patch ships &mdash; and the vulnerability stops being a zero-day, though it stays exploitable on every unpatched system.</li>
 </ol>
 <p>Publicly tracked flaws are assigned <strong>CVE</strong> identifiers in a common database, which is how organizations correlate a vendor advisory with their own scanner findings.</p>
+<p>Since there is no patch and no signature, zero-day defence relies on controls that do not need to recognize the specific exploit: behaviour-based detection and EDR, application allow listing, least privilege, segmentation to contain spread, and good monitoring to spot the after-effects. This is the strongest argument for defence in depth.</p>
 <blockquote><span class="tag">Gotcha</span>A vulnerability stops being a zero-day the moment a patch is available &mdash; not when you get around to applying it. Unpatched systems afterwards are a patch-management failure, not a zero-day.</blockquote>
 `},
 
@@ -529,6 +538,7 @@ var TOPICS = [
 <tr><td><strong>Worm</strong></td><td>Self-replicating. Moves across the network under its own power with no user action at all, which is why worms spread so fast.</td><td>Itself, over the network</td></tr>
 <tr><td><strong>Virus</strong></td><td>Attaches to a host file or program and needs that host to be executed to run and replicate.</td><td>A user running the infected host</td></tr>
 </table></div>
+<p><strong>Indicators to match to each type:</strong></p><ul><li><strong>Ransomware</strong> &mdash; files suddenly renamed with a new extension, ransom notes in every folder, a spike in disk activity, shadow copies/backups deleted, then files that will not open.</li><li><strong>Trojan / RAT</strong> &mdash; an unfamiliar program running after a download, new outbound connections to an unknown host, remote activity nobody at the keyboard performed.</li><li><strong>Worm</strong> &mdash; a sudden jump in traffic on one port (e.g. SMB 445) across many hosts at once, and rapid infections without users doing anything.</li><li><strong>Virus</strong> &mdash; modified or corrupted executables and documents, crashes tied to opening particular files.</li></ul>
 <blockquote><span class="tag">Gotcha</span>The virus-versus-worm line is user action. A <strong>virus</strong> needs someone to run something; a <strong>worm</strong> propagates on its own. If the scenario says it spread across the network overnight with nobody clicking anything, it's a worm.</blockquote>
 `},
 {id:"malware2",obj:"2.4",title:"Spyware, Bloatware, Keyloggers, Logic Bombs &amp; Rootkits",html:`
@@ -540,6 +550,7 @@ var TOPICS = [
 <li><strong>Rootkit</strong> &mdash; embeds in the kernel or below it and modifies the operating system's own reporting so the malware becomes invisible to normal tools. Detection often requires booting from separate media; removal frequently means rebuilding the machine.</li>
 </ul>
 <p>Bootkits infect the <strong>MBR</strong> (master boot record) or boot loader so they run before the operating system and its security tools. UEFI Secure Boot, which checks the boot loader's signature, is the defence. Bloatware is also called a <strong>PUP</strong> (potentially unwanted program).</p>
+<p><strong>Indicators to match to each type:</strong> spyware shows up as unknown processes, browser changes and steady outbound traffic reporting data; a keylogger as an unknown process or an unexpected device between keyboard and PC; a logic bomb usually only after it fires, often on a meaningful date or right after an employee's departure. A rootkit's tell is <em>inconsistency</em> &mdash; the machine's own tools report nothing, while an offline scan or a network capture shows files, processes or connections the OS is hiding.</p>
 <blockquote><span class="tag">Gotcha</span>Bloatware is the odd one here &mdash; it isn't malware at all. It appears in this objective because unwanted preinstalled software is still a security problem, not because it's malicious.</blockquote>
 `},
 {id:"physatk",obj:"2.4",title:"Physical Attacks",html:`
@@ -548,6 +559,7 @@ var TOPICS = [
 <li><strong>RFID cloning</strong> &mdash; copying an access badge. Many cards transmit a static identifier with no authentication, so a reader held near a victim's badge can capture it and a blank card can be written with the copy in seconds.</li>
 <li><strong>Environmental</strong> &mdash; attacking the conditions a facility depends on rather than the systems themselves: cutting power, defeating cooling so equipment overheats and shuts down, or interfering with fire suppression.</li>
 </ul>
+<p>The indicator of RFID cloning is in the access logs rather than on the door: the same badge used at two entrances at once, a badge entering while its owner is known to be elsewhere or on leave, or entries at odd hours. Environmental attacks show up as hardware sensor alerts &mdash; temperature, humidity or power warnings &mdash; followed by unexpected shutdowns.</p>
 <blockquote><span class="tag">Gotcha</span>"Brute force" appears twice in objective 2.4 &mdash; once under physical attacks and once under password attacks. The answer depends entirely on whether the scenario describes a door or a login.</blockquote>
 `},
 {id:"dos",obj:"2.4",title:"Denial of Service &amp; DDoS",html:`
@@ -559,6 +571,7 @@ var TOPICS = [
 <tr><td><strong>Amplified</strong></td><td>The same trick chosen for protocols where a small request produces a much larger response &mdash; DNS and NTP are the usual examples. A modest amount of attacker bandwidth turns into an overwhelming flood.</td></tr>
 </table></div>
 <p>The two are usually combined: reflection hides the origin, amplification supplies the volume.</p><p><strong>RTBH</strong> (remotely triggered black hole) routing is an ISP-level DDoS response: traffic to the targeted address is dropped at the provider's edge, via BGP, before it reaches your link. It stops the flood but also takes the target offline, so it's a last resort.</p>
+<p>The tell for reflection and amplification is traffic you never asked for: a flood of DNS responses (source port 53) or NTP responses arriving from thousands of legitimate servers, with no matching requests from your side. A plain volumetric DDoS instead shows huge request volume from many botnet addresses. Either way the symptoms at the target are the same &mdash; saturated bandwidth, overloaded servers, services timing out.</p>
 
 `},
 {id:"dnsatk",obj:"2.4",title:"DNS Attacks",html:`
@@ -568,7 +581,8 @@ var TOPICS = [
 <li><strong>Domain hijacking</strong> &mdash; taking control of the domain registration itself, usually by compromising the registrar account. The attacker then controls where the entire domain points, legitimately, from the internet's point of view.</li>
 <li><strong>URL redirection</strong> &mdash; modifying local resolution, often via a host file entry on the victim's machine, to send specific names elsewhere.</li>
 <li><strong>DNS tunnelling</strong> &mdash; encoding other traffic inside DNS queries to slip data past a firewall that permits DNS unconditionally.</li>
-</ul>
+</ul><p><strong>Indicators.</strong> DNS poisoning shows as a known hostname resolving to an unexpected IP address, often alongside certificate warnings when users reach the fake site. DNS tunnelling shows as an unusually high volume of queries to one domain, with long, random-looking subdomains and heavy use of TXT records &mdash; data being smuggled out in the query names.</p>
+
 `},
 {id:"wireless",obj:"2.4",title:"Wireless Attacks",html:`
 <ul>
@@ -586,6 +600,7 @@ var TOPICS = [
 <li><strong>ARP poisoning</strong> is the standard local-network method: the attacker sends forged ARP replies so victims associate the attacker's MAC address with the gateway's IP, routing their traffic through the attacker's machine. ARP has no authentication whatsoever, which is why this works.</li>
 <li><strong>On-path browser</strong> (formerly man-in-the-browser) places malware inside the victim's browser instead of on the network. Because it sits inside the endpoint, it sees data <em>before</em> encryption and <em>after</em> decryption &mdash; TLS provides no protection at all against it.</li>
 </ul><p>ARP poisoning only works inside the local area network (<strong>LAN</strong>), because ARP never crosses a router.</p>
+<p><strong>Indicators.</strong> In an ARP table, two different IP addresses (typically the gateway and another host) mapped to the same MAC address is the classic sign of ARP poisoning. Users seeing certificate warnings for sites that normally work, or a site suddenly served over HTTP instead of HTTPS, suggests someone in the path is intercepting or stripping TLS.</p>
 
 `},
 {id:"replay",obj:"2.4",title:"Replay &amp; Credential Replay",html:`
@@ -597,6 +612,7 @@ var TOPICS = [
 <li><strong>Nonces and session IDs</strong> &mdash; a value used once, so a replayed message carries a stale one.</li>
 <li><strong>Sequence numbers</strong> &mdash; detect out-of-order or duplicated messages.</li>
 </ul>
+<p>Pass the hash is the credential replay example most likely to appear: in Windows networks using NTLM, an attacker who steals a password hash from memory can present the hash itself to authenticate to other systems &mdash; no cracking needed. Indicators are the same account logging on to many machines in a short time, or sessions from hosts that account never normally uses. Kerberos, restricting admin logons, and credential protection features reduce the risk.</p>
 <blockquote><span class="tag">Gotcha</span>Replay reuses <em>captured legitimate data</em> unchanged; an on-path attack <em>modifies traffic in real time</em>. A replay attacker doesn't need to stay in the middle &mdash; only to have been there once.</blockquote>
 `},
 {id:"appatk",obj:"2.4",title:"Application Attacks",html:`
@@ -610,6 +626,7 @@ var TOPICS = [
 <tr><td><strong>Directory traversal</strong></td><td>Manipulating a file path &mdash; typically with <code>../</code> sequences &mdash; to read files outside the directory the application intended to expose.</td></tr>
 </table></div>
 <p>Cross-site request forgery is also abbreviated <strong>XSRF</strong>.</p>
+<p><strong>Reading the logs.</strong> Web server and WAF logs usually give the attack away by its input: a single quote followed by strings such as <em>OR 1=1</em>, <em>UNION SELECT</em> or <em>--</em> points to SQL injection; <em>../</em> sequences or their URL-encoded form <em>%2e%2e%2f</em>, especially reaching for files like /etc/passwd, point to directory traversal; script tags in a form field point to XSS. For CSRF, the indicator is a state-changing action (password change, funds transfer) recorded against a user who says they never performed it.</p>
 <blockquote><span class="tag">Gotcha</span>CSRF abuses the <em>user's</em> authenticated session; SSRF abuses the <em>server's</em> network position. Look at who is tricked into making the request.</blockquote>
 `},
 {id:"malcode",obj:"2.4",title:"Malicious Code as a Network Attack",html:`
@@ -630,6 +647,7 @@ var TOPICS = [
 <li><strong>Collision</strong> &mdash; finding two different inputs that produce the same hash. Once collisions are practical, the hash can no longer prove integrity, since a malicious file can be made to match a legitimate file's fingerprint. This is what retired MD5.</li>
 <li><strong>Birthday attack</strong> &mdash; the statistical shortcut that makes collisions cheaper than intuition suggests. From the birthday paradox: in a room of only 23 people there is roughly a 50% chance two share a birthday. Finding <em>any</em> two colliding inputs takes far less work than matching one specific target, which is why hash output length matters so much.</li>
 </ul>
+<p>A downgrade attack is spotted by connections negotiating an older protocol or weaker cipher than both ends support &mdash; for example, a modern client and server ending up on SSL 3.0 (the POODLE attack) or TLS 1.0. The fix is to disable the old versions and weak suites on the server so there is nothing to fall back to.</p>
 <blockquote><span class="tag">Gotcha</span>A collision is the <em>result</em>; a birthday attack is the <em>method</em> that makes finding one feasible. They are not alternatives to each other.</blockquote>
 `},
 {id:"pwatk",obj:"2.4",title:"Password Attacks",html:`

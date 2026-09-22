@@ -200,7 +200,8 @@ var TOPICS = [
 {id:"serverless",obj:"3.1",title:"Serverless",html:`
 <p><strong>Serverless</strong> runs code as functions invoked on demand, with the provider handling all the underlying infrastructure. There is still a server &mdash; you just never touch it.</p>
 <p>It removes a whole category of work: no OS to patch, no server to harden, no capacity to manage. That genuinely shrinks the attack surface you're responsible for.</p>
-<p>What remains is entirely application-layer: securing the APIs that trigger functions, keeping function permissions minimal, validating input, and protecting data in transit and at rest. Functions given broader rights than they need are the common failure, because the blast radius of a compromised function is exactly its permission set.</p>
+<p>What remains is entirely application-layer: securing the APIs that trigger functions, keeping function permissions minimal, validating input, and protecting data in transit and at rest. Functions given broader rights than they need are the common failure, because the blast radius of a compromised function is exactly its permission set.</p><p><strong>Function-level DoS.</strong> A flood of requests to a function's trigger can exhaust its concurrency limits or run up a very large pay-per-use bill, even though there is no server to crash. Protect trigger endpoints with authentication, rate limiting and spending or concurrency caps. Functions are also short-lived and stateless, so send their logs to central logging, or the evidence disappears when the function ends.</p>
+
 `},
 {id:"micro",obj:"3.1",title:"Microservices",html:`
 <p><strong>Microservices</strong> break an application into small independent services that communicate over the network, rather than one large <strong>monolithic</strong> application where the interface, login and business logic all live in a single executable and every update means reinstalling the whole thing.</p>
@@ -222,6 +223,7 @@ var TOPICS = [
 <tr><td><strong>Management plane</strong></td><td>Where administrators configure the device</td><td>SSH, SNMP, APIs, the console port</td></tr>
 </table></div>
 <p>Splitting a device into planes is what lets it be written as software. That's how cloud platforms let you add a firewall or load balancer with a click: the device is virtual. Many SDN deployments are built on the open <strong>OpenFlow</strong> standard.</p>
+<p><strong>SDN's security upside.</strong> Because the controller sees and programs the whole network, it can apply one policy everywhere, spot unusual traffic patterns, and isolate a compromised segment or host with a single change instead of reconfiguring switches one by one. The same central control means the controller and its management interfaces must be tightly restricted and made redundant.</p>
 <blockquote><span class="tag">Gotcha</span>Air-gapped means <em>physically</em> disconnected. A heavily firewalled VLAN with no allowed routes is still logically segmented, not air-gapped &mdash; the cable exists. VLANs are the scalable answer: one physical switch behaves like several, where true physical isolation would need a separate switch per customer or segment.</blockquote>
 `},
 {id:"netfund",obj:"3.1",title:"Network Building Blocks &mdash; LAN, WAN, Routing &amp; Cabling",html:`
@@ -261,6 +263,7 @@ var TOPICS = [
 <li><strong>Containers</strong> skip the hypervisor and the guest OS. Container software such as <strong>Docker</strong> runs on a single host operating system, and each container holds everything the app needs except the OS. The trade-off is that a container is tied to its host OS family &mdash; Linux containers need a Linux host.</li>
 </ul>
 <p>Container security is largely supply-chain security: where the base image came from, what's inside it, whether the registry is trusted, and how quickly images get rebuilt when a dependency is patched.</p><p><strong>VDI</strong> (virtual desktop infrastructure) runs users' desktops as VMs in the data centre and streams the screen to any device; a <strong>VDE</strong> (virtual desktop environment) is the desktop the user sees. Data stays in the data centre, so a lost laptop exposes nothing, and desktops can be reset to a clean image.</p>
+<p><strong>Patching and recovery differ from physical servers.</strong> Containers are normally patched by rebuilding the image from an updated base and redeploying it, not by patching the running container. Scan images in the registry and allow only signed, trusted images. VMs recover easily from snapshots and templates. The weak point is the hypervisor: one unpatched VM-escape flaw puts every guest on that host at risk.</p>
 
 `},
 {id:"iot",obj:"3.1",title:"IoT",html:`
@@ -303,6 +306,8 @@ var TOPICS = [
 <tr><td><strong>Power</strong></td><td>Consumption and continuity requirements. Battery-powered and low-power devices (IoT, sensors, embedded) often can't run strong encryption or security agents, and on-premises designs are limited by the facility's power capacity and backup (UPS, generator, PDUs).</td></tr>
 <tr><td><strong>Compute</strong></td><td>Processing capacity available and needed. In the cloud, a scalable compute engine rather than a single CPU.</td></tr>
 </table></div>
+<p><strong>Quick comparison for scenario questions:</strong></p><ul><li><strong>Scalability, responsiveness, cost</strong> &mdash; cloud, serverless and containers win; on-premises and air-gapped need physical hardware bought and installed.</li><li><strong>Ease of deployment</strong> &mdash; IaC and cloud deploy automatically; on-premises and ICS/SCADA are built and configured by hand.</li><li><strong>Ease of recovery</strong> &mdash; cloud and virtualized systems have snapshots and failover built in; air-gapped and on-premises recovery takes more manual effort.</li><li><strong>Patch availability vs. inability to patch</strong> &mdash; cloud, VMs and containers patch easily; IoT, ICS/SCADA and embedded often can't.</li><li><strong>Power and compute</strong> &mdash; IoT and embedded devices lack the resources for strong security; servers and cloud have plenty.</li></ul>
+<p><strong>Risk transference moves the work, not the accountability.</strong> Moving to a cloud provider or buying cyber insurance shifts some operational or financial risk. But if customer data leaks, regulators and customers still hold the data owner responsible. On-premises transfers nothing: every control is yours.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Reliability, availability and durability</strong> are different measures. Availability counts all downtime, planned maintenance included. Reliability counts only failures, so a system can be more reliable but less available than another. Durability is about stored data surviving without loss or corruption over the long term.</blockquote>
 `},
 
@@ -312,7 +317,9 @@ var TOPICS = [
 <li><strong>Security zones</strong> group systems by use or access type, not by IP range &mdash; <strong>trusted / untrusted</strong>, or <strong>internal / external</strong>, or finer names like inside, internet, servers, databases and screened. A screened subnet (DMZ) holds public-facing services. Rules are then written between zones instead of between individual hosts, which scales and documents intent.</li>
 <li><strong>Attack surface</strong> is every way in: application code, open ports, the authentication process, and human error such as one misconfigured firewall rule. You shrink it by auditing code, closing unneeded ports, and monitoring traffic in real time.</li>
 <li><strong>Connectivity</strong> &mdash; how systems reach each other and the outside world, and which of those paths genuinely need to exist. Protect the cabling and wall jacks physically, encrypt at the application level in case someone taps a link, and use IPSec tunnels or a VPN concentrator for remote sites and users.</li>
-</ul>
+</ul><p><strong>Classic zone scenario:</strong> the public web server sits in the screened subnet (DMZ); the database it uses sits in an internal, more restricted zone. The firewall allows only the web server to reach the database, and only on the database port. If the web server is compromised, the attacker is still one controlled hop away from the data. A database placed in the DMZ is the wrong answer.</p>
+<p><strong>Shrinking the attack surface on each host:</strong> remove unneeded software, disable unused services and ports, change or disable default accounts, and keep what remains patched. Every service left running is one more thing that can be exploited, even if nobody uses it.</p>
+
 `},
 {id:"failmodes",obj:"3.2",title:"Failure Modes &amp; Traffic Handling",html:`
 <p>Three paired decisions define how an inline security device behaves. All three come up constantly.</p>
@@ -363,7 +370,9 @@ var TOPICS = [
 <tr><td><strong>TCP offload</strong></td><td>Keeps persistent connections to the servers instead of a new session per user</td></tr>
 <tr><td><strong>SSL/TLS offload</strong></td><td>Decrypts at the load balancer, often in dedicated hardware, so servers don't have to</td></tr>
 <tr><td><strong>Caching, prioritization, content switching</strong></td><td>Answers repeat requests, favours certain traffic, and sends request types to specific servers</td></tr>
-</table></div>
+</table></div><p><strong>Proxy as a hiding and inspection point.</strong> Outbound requests come from the proxy's address, not the user's, so internal addressing isn't exposed to outside servers. Because all web traffic passes through one place, the proxy is also a natural spot to enforce acceptable-use policy and log who went where.</p>
+<p><strong>Load balancers and DoS.</strong> Spreading requests over a pool means a traffic surge or a failed server doesn't take the service down, which gives some protection against denial of service. It isn't a full DDoS defence: a large enough flood overwhelms the load balancer itself, so upstream filtering from the ISP or a scrubbing service is still needed.</p>
+
 `},
 {id:"idsips",obj:"3.2",title:"IDS &amp; IPS &mdash; NIDS, NIPS, HIDS &amp; HIPS",html:`
 <p>Both watch for attacks; the difference is authority. An <strong>intrusion detection system (IDS)</strong> observes and alerts. An <strong>intrusion prevention system (IPS)</strong> sits inline and can drop the traffic or end the session itself.</p>
@@ -423,6 +432,7 @@ var TOPICS = [
 <li><strong>SD-WAN</strong> &mdash; software-defined wide area networking, routing traffic intelligently across multiple links (broadband, MPLS, cellular) based on policy and current conditions. It exists because applications moved to the cloud: backhauling every remote site through the data centre and then out to the cloud wastes hops.</li>
 <li><strong>SASE</strong> &mdash; secure access service edge, converging SD-WAN with cloud-delivered security so policy follows the user wherever they connect from, rather than requiring traffic to be hauled back to a datacentre first.</li>
 </ul>
+<p><strong>Securing remote access is more than the tunnel.</strong> A VPN encrypts the traffic, but a stolen password still opens it. Require MFA on the VPN or remote gateway, and monitor remote sessions for unusual times, locations or volumes. In a scenario where remote credentials were phished, the missing control is usually MFA, not stronger encryption.</p>
 <blockquote><span class="tag">Gotcha</span>TLS operates at the transport layer and typically protects specific applications; IPSec operates at the network layer and protects everything between the endpoints. Client VPN leans TLS, site-to-site leans IPSec.</blockquote>
 `},
 {id:"vpnproto",obj:"3.2",title:"Tunneling Protocols &mdash; IPSec AH/ESP, IKE, GRE, L2TP, PPTP",html:`
@@ -453,7 +463,8 @@ var TOPICS = [
 `},
 {id:"controlsel",obj:"3.2",title:"Selection of Effective Controls",html:`
 <p>The objectives close 3.2 by asking you to <em>choose</em>, not just recognize. Given a scenario, the expected reasoning runs: what is being protected, what is it worth, what threatens it, what does the control cost, and what does it break.</p>
-<p>A control is effective when it addresses the actual threat in that scenario, is proportionate to the value of the asset, and doesn't impose so much friction that people route around it. The most secure configuration that stops the business working is not the correct answer, and neither is the cheapest control that leaves the threat untouched.</p>
+<p>A control is effective when it addresses the actual threat in that scenario, is proportionate to the value of the asset, and doesn't impose so much friction that people route around it. The most secure configuration that stops the business working is not the correct answer, and neither is the cheapest control that leaves the threat untouched.</p><p><strong>Match the control to what it has to do:</strong></p><ul><li><strong>Preventive</strong> &mdash; stops it happening: firewall rules, an IPS blocking inline, encryption, access controls.</li><li><strong>Detective</strong> &mdash; finds it while or after it happens: IDS alerts, log review, SIEM correlation.</li><li><strong>Corrective</strong> &mdash; fixes things afterwards: restoring from backup, patching the exploited flaw, running the incident response plan.</li></ul><p>A good design layers all three, because prevention eventually fails and detection is only useful if something corrects the damage.</p>
+
 `},
 
 {id:"datatypes",obj:"3.3",title:"Data Types",html:`
@@ -473,7 +484,8 @@ var TOPICS = [
 <li><strong>PHI</strong> (protected health information) &mdash; an individual's health status, records, and even their healthcare payments.</li>
 <li><strong>Proprietary</strong> &mdash; data unique to the organization and used only by it, including its trade secrets.</li>
 </ul>
-<p>Intellectual property is often visible to others and protected by copyright and trademark law. Trade secrets are protected by keeping them hidden. Legal records are often public, but the PII inside them isn't.</p>
+<p>Intellectual property is often visible to others and protected by copyright and trademark law. Trade secrets are protected by keeping them hidden. Legal records are often public, but the PII inside them isn't.</p><p><strong>Non-human-readable is not protected.</strong> Binary files, encoded data and database formats aren't readable at a glance, but anyone with the right tool can decode them. Sensitive data in those formats needs the same encryption and access control as a plain document. DLP tools must be able to parse the format too, or sensitive data can leave without being noticed.</p>
+
 `},
 {id:"dataclass",obj:"3.3",title:"Data Classifications",html:`
 <p>Classification assigns a sensitivity label that then drives handling requirements. The objectives name six.</p>
@@ -485,6 +497,7 @@ var TOPICS = [
 <li><strong>Restricted</strong> &mdash; tightly limited access, typically requiring explicit authorization or a signed non-disclosure agreement.</li>
 <li><strong>Critical</strong> &mdash; essential to operations and must always be available; loss or corruption threatens the organization itself.</li>
 </ul>
+<p><strong>Examples to anchor the labels:</strong> marketing brochures and the public website are <em>public</em>; internal reports and employee records are <em>confidential</em> (need-to-know); trade secrets and government data are <em>restricted</em> (named people only); a customer's health record is <em>private</em>; the order-processing database is <em>critical</em>, because the business stops without it. The label decides the handling: who may access it, whether it must be encrypted, and how it is stored and destroyed.</p>
 <blockquote><span class="tag">Gotcha</span>Classification and data <em>type</em> are different axes. A file can be financial (type) and confidential (classification) at once. Questions often supply one and ask for the other.</blockquote>
 `},
 {id:"datastates",obj:"3.3",title:"Data States",html:`
@@ -523,6 +536,7 @@ var TOPICS = [
 <li><strong>Segmentation</strong> means splitting one huge database into several, so one breach doesn't expose everything and each part gets security matched to its content.</li>
 </ul>
 <p><strong>Permission restrictions</strong> in practice: access control lists and file-system or database permissions set to least privilege (a file-system ACL is sometimes written <strong>FACL</strong>), group-based rather than per-user grants, strong authentication and MFA in front of sensitive stores, and removing access promptly when people change role. Example: a payroll share readable only by the payroll group, with write access limited to two named administrators.</p>
+<p><strong>Choosing between masking, tokenization and encryption:</strong></p><ul><li>A help-desk screen only needs to show the last four digits &mdash; <strong>masking</strong>.</li><li>A merchant must keep card data for repeat billing but wants it out of its own systems &mdash; <strong>tokenization</strong>. A stolen token is worthless without the vault.</li><li>Authorized users must later get the full original value back &mdash; <strong>encryption</strong>.</li><li>The goal is to prove data wasn't changed, not to hide it &mdash; <strong>hashing</strong>.</li></ul>
 <blockquote><span class="tag">Gotcha</span>Only <strong>encryption</strong> is reversible with a key, and only <strong>hashing</strong> is genuinely one-way. Tokenization looks like encryption but has no mathematical relationship to the original &mdash; the mapping lives in a separate vault.</blockquote>
 `},
 
@@ -537,7 +551,8 @@ var TOPICS = [
 <tr><td>Do the servers know about each other?</td><td>No &mdash; only the load balancer knows the pool</td><td>Yes &mdash; cluster members coordinate, usually via shared storage</td></tr>
 <tr><td>Operating systems</td><td>Can differ</td><td>Usually identical, clustering is configured in the OS</td></tr>
 </table></div>
-<p><strong>Failover</strong> is the act of switching to the standby when the primary fails, and it should be tested rather than assumed.</p>
+<p><strong>Failover</strong> is the act of switching to the standby when the primary fails, and it should be tested rather than assumed.</p><p><strong>The uptime vs. patching tension.</strong> Systems that must never go down tend to have patches postponed, because nobody wants to schedule the outage, and known vulnerabilities stay open longer. A properly built HA pair or cluster actually solves this: patch one node while the other carries the load, then swap (rolling patching), so availability and patching no longer compete.</p>
+
 `},
 {id:"raid",obj:"3.4",title:"RAID &mdash; Disk Redundancy",html:`
 <p><strong>RAID</strong> (redundant array of inexpensive disks) spreads data across several drives so the system survives a drive failure.</p>
