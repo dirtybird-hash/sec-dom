@@ -327,7 +327,7 @@ var FLASHCARDS = [
  {id:40,obj:"1.4",t:"Digital certificate",d:"Bundles a public key with identifying information and a digital signature. Standard format: X.509."},
  {id:41,obj:"1.4",t:"Certificate Authority (CA)",d:"A trusted third party that digitally signs certificates."},
  {id:42,obj:"1.4",t:"Certificate Signing Request (CSR)",d:"A request sent to a CA containing a public key and identity info, to apply for a certificate."},
- {id:43,obj:"1.4",t:"SAN / wildcard cert",d:"One certificate that covers every subdomain, e.g. *.example.com, via its Subject Alternative Name."},
+ {id:43,obj:"1.4",t:"SAN vs. wildcard cert",d:"SAN lists several specific names on one certificate; a wildcard (*.example.com) covers every subdomain at one level. A wildcard can appear inside a SAN list."},
  {id:44,obj:"1.4",t:"Certificate Revocation List (CRL)",d:"A list of revoked certificates hosted by the CA; the browser downloads the whole list to check."},
  {id:45,obj:"1.4",t:"OCSP",d:"Online Certificate Status Protocol &mdash; a real-time per-certificate status check, more efficient than a CRL."},
  {id:46,obj:"1.4",t:"OCSP stapling",d:"Embeds the signed certificate status directly into the TLS/SSL handshake."},

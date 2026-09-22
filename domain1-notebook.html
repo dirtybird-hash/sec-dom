@@ -166,12 +166,12 @@ var TAB_LABEL = {"all":"All","1.1":"1.1","1.2":"1.2","1.3":"1.3","1.4":"1.4","go
 
 var TOPICS = [
 {id:"controls",obj:"1.1",title:"Security Control Categories &amp; Types",html:`
-<p>Every control fits two dimensions: a <strong>category</strong> (who or what enforces it) and a <strong>type</strong> (what job it does). The fastest way to answer a "which category" exam question is to ask <em>who's doing the enforcing</em>.</p>
+<p>Controls exist to <strong>prevent</strong> security events, <strong>minimize their impact</strong> when they happen, and <strong>limit the damage</strong> afterwards. Every control fits two dimensions: a <strong>category</strong> (who or what enforces it) and a <strong>type</strong> (what job it does). The fastest way to answer a "which category" exam question is to ask <em>who's doing the enforcing</em>.</p>
 <p><strong>Categories:</strong></p>
 <ul>
 <li><strong>Technical</strong> &mdash; enforced by a system: firewall rules, OS policies, antivirus.</li>
-<li><strong>Managerial</strong> &mdash; enforced by policy and paperwork: onboarding policy, compliance documentation.</li>
-<li><strong>Operational</strong> &mdash; enforced by people, day to day: security guards, awareness training, patrolling.</li>
+<li><strong>Managerial</strong> &mdash; enforced by policy and paperwork: onboarding policy, compliance documentation, standard operating procedures (SOPs).</li>
+<li><strong>Operational</strong> &mdash; enforced by people, day to day: security guards, awareness training and lunch-and-learns, awareness posters, patrolling.</li>
 <li><strong>Physical</strong> &mdash; enforced by a physical object: locks, fences, badge readers.</li>
 </ul>
 <p><strong>Types.</strong> The fastest tiebreaker between the first three is <em>when</em> the control acts relative to the attack &mdash; preventive operates <strong>before</strong>, detective <strong>during</strong>, corrective <strong>after</strong>:</p>
@@ -179,9 +179,9 @@ var TOPICS = [
 <li><strong>Preventive</strong> &mdash; stops the access before it happens (firewall rule, guard shack ID check).</li>
 <li><strong>Deterrent</strong> &mdash; discourages the attempt without physically stopping it (splash screen, warning signs).</li>
 <li><strong>Detective</strong> &mdash; identifies or logs that something happened (log review, motion detector).</li>
-<li><strong>Corrective</strong> &mdash; reverses or limits damage after detection (restore from backup, fire extinguisher).</li>
-<li><strong>Compensating</strong> &mdash; a temporary substitute when the ideal control isn't available (block traffic while awaiting a patch).</li>
-<li><strong>Directive</strong> &mdash; tells someone to act a certain way; relatively weak since it relies on compliance.</li>
+<li><strong>Corrective</strong> &mdash; reverses or limits damage after detection and gets the business running again with minimal downtime (restore from a known-good backup after ransomware, fire extinguisher).</li>
+<li><strong>Compensating</strong> &mdash; a temporary substitute when you lack the resources or means to apply the ideal control, until a full fix is in place (block traffic while awaiting a patch).</li>
+<li><strong>Directive</strong> &mdash; tells someone to act a certain way ("store sensitive files in the protected folder"); relatively weak, since it relies on the person complying and judging correctly what counts as sensitive.</li>
 </ol>
 <div class="tblwrap"><table><caption>Full matrix, with worked examples</caption>
 <tr><th>Type</th><th>Technical</th><th>Managerial</th><th>Operational</th><th>Physical</th></tr>
@@ -198,7 +198,7 @@ var TOPICS = [
 <p>The three security objectives every control ultimately serves. Sometimes called the AIC triad so it isn't confused with the intelligence agency &mdash; same three concepts either way.</p>
 <ul>
 <li><strong>Confidentiality</strong> &mdash; only the right people can see the data. Provided by encryption, access controls, and extra authentication factors.</li>
-<li><strong>Integrity</strong> &mdash; data received is exactly what was sent, unchanged in transit. Provided by hashing, digital signatures, and certificates.</li>
+<li><strong>Integrity</strong> &mdash; data received is exactly what was sent, unchanged in transit. Provided by hashing, digital signatures, certificates and <strong>non-repudiation</strong>, which Messer files under integrity.</li>
 <li><strong>Availability</strong> &mdash; systems stay up and reachable. Provided by fault tolerance, redundancy, and patching.</li>
 </ul>
 <p>Some models add a fourth property, which gives the alternate mnemonic <strong>PAIN</strong>: <strong>P</strong>rivacy, <strong>A</strong>uthentication, <strong>I</strong>ntegrity, <strong>N</strong>on-repudiation. Useful when a question is fishing for non-repudiation as a named security property rather than as a side effect of signing.</p>
@@ -209,7 +209,8 @@ var TOPICS = [
 <li><strong>Proof of integrity</strong> &mdash; the data wasn't altered (a hash/fingerprint of the data).</li>
 <li><strong>Proof of origin</strong> &mdash; it really came from that sender (a digital signature, built from a hash encrypted with the sender's private key).</li>
 </ol>
-<p>Non-repudiation is really "integrity" plus "we can also prove who sent it" &mdash; a hash alone gives integrity but not origin.</p>
+<p>Non-repudiation is really "integrity" plus "we can also prove who sent it" &mdash; a hash alone gives integrity but not origin. Proof of origin is also called <strong>authentication of the message source</strong>.</p>
+<p>What makes it <em>non-repudiation</em> rather than just authentication: <strong>anyone</strong>, including a third party, can verify the signature with the sender's public key. The recipient doesn't have to be trusted to vouch for it.</p>
 <blockquote><span class="tag">Gotcha</span>Integrity (hashing) proves data wasn't changed; non-repudiation (digital signature) proves <em>who</em> sent it <em>and</em> that it wasn't changed. A hash by itself is never non-repudiation.</blockquote>
 `},
 {id:"aaa",obj:"1.2",title:"AAA &mdash; Authentication, Authorization, Accounting",html:`
@@ -217,22 +218,22 @@ var TOPICS = [
 <li><strong>Identification</strong> &mdash; you claim an identity (a username).</li>
 <li><strong>Authentication</strong> &mdash; you prove that identity (password + factors).</li>
 <li><strong>Authorization</strong> &mdash; the system decides what you're allowed to do.</li>
-<li><strong>Accounting</strong> &mdash; the system logs what you did and when.</li>
+<li><strong>Accounting</strong> &mdash; the system logs what you did and when: login time, data sent and received, logout time.</li>
 </ol>
-<p>A classic AAA flow: a client authenticates to a VPN concentrator, which has no user database of its own &mdash; it forwards the credentials to a centralized <strong>AAA server</strong>, which approves or denies, and the concentrator then grants (or refuses) access to internal resources. Devices, not just people, can authenticate too &mdash; a company laptop can carry a CA-issued device certificate so a VPN concentrator can confirm it's a trusted company asset even with nobody typing a password.</p>
+<p>A classic AAA flow: a client authenticates to a VPN concentrator, which has no user database of its own &mdash; it forwards the credentials to a centralized <strong>AAA server</strong>, which approves or denies, and the concentrator then grants (or refuses) access to internal resources. Devices, not just people, can authenticate too &mdash; a company laptop can carry a CA-issued device certificate so a VPN concentrator can confirm it's a trusted company asset even with nobody typing a password. The device certificate is issued by the organization's CA, whose own certificate is signed by a <strong>root CA</strong>; the concentrator or management software validates the device by checking it chains to that trusted CA.</p>
 <p>Access control governs how <strong>subjects</strong> interact with <strong>objects</strong>. A subject is any person, device, or software process that can request access; an object is the resource itself &mdash; a network, server, database, app, or file. Subjects are assigned rights or permissions on objects, and modern implementations of this are called <strong>identity and access management (IAM)</strong> systems, built from exactly those four processes above.</p>
 <p>How rights get granted is set by the authorization model. In a <strong>discretionary</strong> model the object's owner allocates rights. In a <strong>mandatory</strong> model rights are predetermined by system-enforced rules and cannot be changed by any user within the system.</p>
-<p><strong>Authorization models</strong> solve the scaling problem: instead of assigning rights resource-by-resource to every individual user, you put an abstraction layer &mdash; typically <strong>groups/roles</strong> &mdash; between users and resources. Add a user to a group once, and they inherit every permission that group already has, no matter how many resources or users you're managing.</p>
+<p><strong>Authorization models</strong> solve the scaling problem: instead of assigning rights resource-by-resource to every individual user, you put an abstraction layer &mdash; typically <strong>groups/roles</strong>, though models can also be defined by organization, attributes and other characteristics (more in 4.6) &mdash; between users and resources. Add a user to a group once, and they inherit every permission that group already has, no matter how many resources or users you're managing.</p>
 `},
 {id:"gap",obj:"1.2",title:"Gap Analysis",html:`
-<p><strong>Gap analysis</strong> is a comparison of your current security state against a baseline of where you should be. You measure against a published standard &mdash; common ones are <strong>NIST SP 800-171 Rev. 2</strong> and <strong>ISO/IEC 27001</strong> &mdash; or a standard your own organization writes.</p>
+<p><strong>Gap analysis</strong> is a comparison of your current security state against a baseline of where you should be. You measure against a published standard &mdash; common ones are <strong>NIST SP 800-171 Rev. 2</strong> (protecting controlled unclassified information in non-federal systems) and <strong>ISO/IEC 27001</strong> (information security management systems, ISMS) &mdash; or a standard your own organization writes. It's a multi-person project that can take weeks, months or even years.</p>
 <p>The baseline usually comes from a <strong>cybersecurity framework</strong>, which guides the selection and configuration of controls so a security program isn't built in a vacuum. The NIST framework organizes everything into five functions: <strong>Identify</strong> (policies, risk evaluation, recommending controls), <strong>Protect</strong> (procure, install, operate and decommission assets securely), <strong>Detect</strong> (ongoing monitoring that controls still work), <strong>Respond</strong> (contain and eradicate threats), and <strong>Recover</strong> (restore systems and data when other controls fail). A gap analysis report scores each section of the framework, lists the missing or poorly configured controls, and recommends remediation &mdash; which is what makes it an externally verifiable statement of compliance.</p>
 <ol>
 <li>Pick a baseline.</li>
 <li>Evaluate people (training, experience, policy awareness) and processes (do existing systems actually follow policy).</li>
 <li>Break broad categories into individual controls.</li>
 <li>Document the gap between current and target state.</li>
-<li>Produce a report with a remediation roadmap, often color-coded red/yellow/green by how far a system is from meeting baseline.</li>
+<li>Produce a report with a remediation roadmap, often color-coded red/yellow/green by how far a system is from meeting baseline. Fix <strong>red first</strong>, then yellow, then green. Closing the gaps takes time, money, equipment and change control.</li>
 </ol>
 <p>Common gaps: weak/shared credentials, untested patch management, violations of least privilege, unenforced acceptable-use policies, poor physical security, configuration drift from weak change management, and poor audit visibility.</p>
 `},
@@ -247,70 +248,86 @@ var TOPICS = [
 <li><strong>Policy Administrator (PA)</strong> &mdash; takes that decision and relays it to the PEP, issuing the tokens/credentials.</li>
 </ol>
 <p>Flow: subject requests access from an untrusted zone &rarr; PEP intercepts &rarr; PEP asks the PA &rarr; PA asks the PE to decide &rarr; decision flows back PA &rarr; PEP &rarr; PEP grants or blocks access.</p>
-<p>Other pieces: <strong>adaptive identity</strong> (risk-based authentication) strengthens authentication based on context &mdash; unusual source IP, unusual role, or a request for sensitive data all shift the required assurance level. <strong>Threat scope reduction</strong> is the general goal: shrink how much any one compromised identity or device can reach.</p>
-<blockquote><span class="tag">Gotcha</span>The data plane <em>moves</em> traffic; the control plane <em>manages</em> it (policies, decision logic). If the question is about forwarding packets, that's data plane &mdash; if it's about the rule or decision behind the forwarding, that's control plane.</blockquote>
+<p>Why it exists: in a traditional network, once you're past the firewall the inside is wide open, so users and malware can move laterally with ease. Zero trust applies to physical devices, virtual ones (virtual switches and firewalls) and cloud controls alike.</p>
+<ul>
+<li><strong>Adaptive identity</strong> (risk-based authentication) strengthens authentication based on context: the user's relationship to the organization (employee or contractor), physical location, connection type, IP geolocation that doesn't fit (US data requested from an overseas IP), unusual role or a request for sensitive data.</li>
+<li><strong>Threat scope reduction</strong> &mdash; shrink how much any one compromised identity or device can reach, for example by <strong>limiting entry points</strong> to in-building or VPN access only.</li>
+<li><strong>Policy-driven access control</strong> &mdash; combining all those data points into rules that decide how strong authentication must be and what access is granted.</li>
+<li><strong>Implicit trust zones</strong> in practice: traffic from an untrusted zone to a trusted one may be denied automatically, while traffic from the trusted corporate zone to the internal data-center zone is implicitly trusted.</li>
+</ul>
+<p>The <strong>subjects/systems</strong> are users, processes and applications; the resource they want is the <strong>enterprise resource</strong>. The PEP may be several devices working together, and it <em>doesn't decide</em> anything &mdash; it gathers information and passes it to the PDP.</p>
+<blockquote><span class="tag">Gotcha</span>The data plane <em>moves</em> traffic; the control plane <em>manages</em> it (policies, decision logic). If the question is about forwarding packets, that's data plane &mdash; if it's about the rule or decision behind the forwarding, that's control plane. And the <strong>PEP enforces, the PDP decides</strong>.</blockquote>
 `},
 {id:"physical",obj:"1.2",title:"Physical Security Controls",html:`
 <div class="tblwrap"><table><caption>Physical controls, outside in</caption>
 <tr><th>Control</th><th>Purpose</th><th>Notes</th></tr>
-<tr><td>Bollards / barricades</td><td>Block vehicles, let pedestrians through</td><td>Concrete or high-tech (sensor/camera-equipped)</td></tr>
-<tr><td>Fencing</td><td>Perimeter deterrence/prevention</td><td>Height + razor wire scale with sensitivity; Class I&ndash;IV gate types</td></tr>
-<tr><td>Access control vestibule (mantrap)</td><td>One person, one door open at a time</td><td>No piggybacking/tailgating; often paired with a badge reader</td></tr>
-<tr><td>Badges / access cards</td><td>"Something you have" factor</td><td>Logged centrally when integrated with electronic locks</td></tr>
-<tr><td>Lighting</td><td>Deterrence + supports camera detail</td><td>Continuous, standby, movable, and emergency modes</td></tr>
-<tr><td>CCTV / video surveillance</td><td>Detective (and some deterrent)</td><td>Alert if a camera is disabled; watch for "dead spots"</td></tr>
-<tr><td>Security guards</td><td>Detective, deterrent, and preventive</td><td>Often staffed in pairs for two-person integrity</td></tr>
+<tr><td>Bollards / barricades</td><td>Block vehicles, let pedestrians through</td><td>Concrete or high-tech; can be natural, like water with one bridge in</td></tr>
+<tr><td>Fencing</td><td>Perimeter deterrence/prevention</td><td>Transparent (see through) or opaque; height + razor wire scale with sensitivity; gate classes I residential, II commercial, III industrial, IV restricted (airports, prisons)</td></tr>
+<tr><td>Access control vestibule (mantrap)</td><td>One person (or a controlled group), one door open at a time</td><td>Interlocking doors: opening one locks the other. Stops tailgating; common at data centers</td></tr>
+<tr><td>Badges / access cards</td><td>"Something you have" factor</td><td>Photo and name, worn visibly; badge-ins logged centrally</td></tr>
+<tr><td>Lighting</td><td>Deterrence + supports camera detail</td><td>More light, more security; the angle matters for facial recognition. Continuous, standby, movable, emergency modes; infrared cameras see without light</td></tr>
+<tr><td>CCTV / video surveillance</td><td>Detective (and some deterrent)</td><td>Motion and object detection, facial and licence-plate recognition, central recording; alert if a camera is disabled; watch for "dead spots"</td></tr>
+<tr><td>Security guards</td><td>Detective, deterrent, and preventive</td><td>Validate employees and escort visitors; often in pairs for two-person integrity</td></tr>
 <tr><td>Sensors</td><td>Detective</td><td>Infrared, microwave, ultrasonic, pressure, electromechanical, electrostatic</td></tr>
+</table></div>
+<div class="tblwrap"><table><caption>Sensor types</caption>
+<tr><th>Sensor</th><th>Detects</th></tr>
+<tr><td><strong>Infrared</strong></td><td>Heat/movement over a limited area; common in motion detectors</td></tr>
+<tr><td><strong>Microwave</strong></td><td>Movement over a larger area than infrared</td></tr>
+<tr><td><strong>Ultrasonic</strong></td><td>Reflected sound waves; also used for collision detection in car parks</td></tr>
+<tr><td><strong>Pressure</strong></td><td>A change in force, like someone stepping on a floor mat</td></tr>
 </table></div>
 `},
 {id:"deception",obj:"1.2",title:"Deception &amp; Disruption Technology",html:`
 <p>Turns your own knowledge of attackers against them:</p>
 <ul>
-<li><strong>Honeypot</strong> &mdash; a single decoy system designed to attract and hold an attacker's attention.</li>
-<li><strong>Honeynet</strong> &mdash; multiple honeypots combined into a decoy network that looks and feels real.</li>
+<li><strong>Honeypot</strong> &mdash; a single decoy system designed to attract and hold an attacker's attention. Most of what it catches is automated attack tooling, so the value is learning what attackers' automation targets. It's an arms race: attackers learn to spot honeypots, and honeypots get more realistic.</li>
+<li><strong>Honeynet</strong> &mdash; multiple honeypots (workstations, servers, routers, firewalls) combined into a decoy network that looks and feels real.</li>
 <li><strong>Honeyfile</strong> &mdash; a decoy file (e.g. a fake <code>passwords.txt</code>) that should never legitimately be opened; access triggers an alert.</li>
-<li><strong>Honeytoken</strong> &mdash; traceable fake data (API credentials, records) seeded so that if it ever surfaces elsewhere, you know exactly where the leak came from.</li>
+<li><strong>Honeytoken</strong> &mdash; traceable fake data seeded so that if it ever surfaces elsewhere, you know exactly where the leak came from: fake API credentials left on a public cloud share, fake email addresses, database records, browser cookies, tracking pixels.</li>
 </ul>
-<blockquote><span class="tag">Gotcha</span>A honeypot is one decoy system; a honeynet is many honeypots wired together. A honeyfile/honeytoken is decoy <em>data</em>, not a decoy <em>system</em> &mdash; they're for catching an insider or already-active attacker, not for slowing external recon.</blockquote>
+<blockquote><span class="tag">Gotcha</span>A honeypot is one decoy system; a honeynet is many honeypots wired together. A honeyfile/honeytoken is decoy <em>data</em>, not a decoy <em>system</em> &mdash; its job is detecting and tracing a leak, whether the person who took it is an insider or an outsider.</blockquote>
 `},
 {id:"changebiz",obj:"1.3",title:"Change Management &mdash; Business Process",html:`
 <p>The paperwork and approvals before a technician touches anything:</p>
 <ol>
 <li><strong>Submit</strong> a formal change request: reason, scope, systems affected, schedule.</li>
-<li><strong>Approve</strong>: a change control board weighs risk of making the change vs. risk of <em>not</em> making it.</li>
+<li><strong>Approve</strong>: a change control board rates the risk (high/medium/low), weighing the risk of making the change (the fix doesn't work, breaks something else, corrupts data) against the risk of <em>not</em> making it (an open vulnerability, an app going down).</li>
 <li>Assign <strong>ownership</strong> &mdash; the data/application owner manages and later tests the change, but usually isn't the one implementing it.</li>
 <li>Identify <strong>stakeholders</strong> &mdash; everyone the change touches, often wider than it looks.</li>
 <li>Run a <strong>change impact analysis</strong> &mdash; compare current vs. future state, a mini gap analysis.</li>
 <li>Use the <strong>RACI model</strong> to assign roles: Responsible (does the work), Accountable (owns the outcome, exactly one person), Consulted (two-way input), Informed (one-way notification).</li>
-<li>Document test results, then prepare a <strong>backout/rollback plan</strong> before testing or implementation &mdash; and test it, not just write it.</li>
-<li>Schedule within a <strong>maintenance window</strong>, following a documented <strong>SOP</strong> (standard operating procedure).</li>
+<li>Test in a <strong>sandbox testing environment</strong> (a copy of production) and document the results. Prepare a <strong>backout/rollback plan</strong> and test it there too; take a <strong>full backup before the change</strong> in case the backout itself fails.</li>
+<li>Schedule within a <strong>maintenance window</strong>, following a documented <strong>SOP</strong> (standard operating procedure). Time of year matters as well as time of day: retailers often impose a <strong>change freeze</strong> from Thanksgiving to New Year.</li>
 </ol>
+<p>Formal change control exists to keep systems up, keep everyone informed and prevent mistakes. After the change, users verify their own systems still work.</p>
 `},
 {id:"changetech",obj:"1.3",title:"Change Management &mdash; Technical Implications",html:`
 <p>What the technician actually deals with:</p>
 <ul>
 <li><strong>Allow lists</strong> (only named items may run &mdash; restrictive by default) vs. <strong>deny lists</strong> (everything may run except named items &mdash; permissive by default, e.g. how antivirus typically works).</li>
 <li>Staying inside the <strong>documented scope</strong> of the change ticket, with a defined process for when scope must expand mid-change.</li>
-<li><strong>Downtime</strong> planning: scheduled maintenance windows, or a primary/secondary failover to avoid downtime in 24/7 environments.</li>
-<li><strong>Service restart</strong> vs. full <strong>application restart</strong> vs. full reboot &mdash; pick the minimum needed.</li>
+<li><strong>Downtime</strong> planning: scheduled maintenance windows, or a primary/secondary failover to avoid downtime in 24/7 environments. Tell users in advance by email or a central change-control calendar.</li>
+<li><strong>Service restart</strong> vs. full <strong>application restart</strong> vs. full reboot &mdash; pick the minimum needed. A reboot also proves the system will come back after a power loss.</li>
 <li><strong>Legacy applications</strong> &mdash; old, often unsupported, risky to touch; documenting them brings them back into normal support.</li>
-<li><strong>Dependencies</strong> &mdash; updating one system may require updating others first.</li>
+<li><strong>Dependencies</strong> &mdash; updating one system may require updating others first, sometimes on entirely different systems (new firewall management software that needs newer firewall firmware).</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>Allow list = restrictive (default deny, only named items run); deny list = permissive (default allow, only named items are blocked). It reads backwards from what "allow" and "deny" sound like at first glance.</blockquote>
 `},
 {id:"changedocs",obj:"1.3",title:"Documentation &amp; Version Control",html:`
-<p>Changes get tracked in a <strong>CMDB</strong> (configuration management database) as part of a broader <strong>configuration management system (CMS)</strong>. Version control applies to OS builds, app updates, driver/firmware updates, TPM updates, and configuration changes &mdash; anything you might need to revert.</p>
+<p>Changes get tracked in a <strong>CMDB</strong> (configuration management database) as part of a broader <strong>configuration management system (CMS)</strong>. Version control applies to OS builds, app updates, driver/firmware updates, TPM updates, router configurations, registry changes and licensing &mdash; anything you might need to revert.</p>
+<p>Documentation goes stale quickly, so <strong>updating it should be a required step of every change</strong>: network diagrams, IP addresses, configurations and procedures.</p>
 `},
 {id:"pki",obj:"1.4",title:"Public Key Infrastructure &amp; Certificates",html:`
-<p><strong>PKI</strong> is the whole set of policies, procedures, hardware, and software for creating, distributing, storing, and revoking digital certificates &mdash; the machinery that makes "trust" scalable across the internet. PKI's three core pieces: the <strong>public key</strong> (shareable, does the encrypting), the <strong>private key</strong> (secret, does the decrypting), and <strong>key escrow</strong> &mdash; a trusted third party holds a backup copy of a private key so data can still be recovered if the original key is lost, an employee leaves, or law enforcement compels access.</p>
-<p>A <strong>digital certificate</strong> bundles a public key with identifying information and a digital signature. Standard format: <strong>X.509</strong>.</p>
+<p><strong>PKI</strong> is the whole set of policies, procedures, hardware, and software for creating, distributing, storing, and revoking digital certificates &mdash; the machinery that makes "trust" scalable across the internet. PKI's three core pieces: the <strong>public key</strong> (shareable, does the encrypting), the <strong>private key</strong> (secret, does the decrypting), and <strong>key escrow</strong> &mdash; a trusted third party holds a backup copy of a private key so data can still be recovered if the original key is lost, an employee leaves or changes department, a partner such as a government agency needs to read shared encrypted data, or law enforcement compels access. Escrow can be run by a third party or in-house; it's controversial but keeps data available.</p>
+<p>A <strong>digital certificate</strong> bundles a public key with identifying information and a digital signature. Standard format: <strong>X.509</strong>, whose fields include the serial number, version, signature algorithm, issuer, subject name, public key, and validity dates. Buying a certificate really buys the CA's <em>validation</em> that you are who you say.</p>
 <p><strong>Where trust comes from:</strong></p>
 <ul>
 <li><strong>Certificate Authority (CA) model</strong> &mdash; a trusted third party digitally signs certificates; your browser ships with a built-in list of hundreds of trusted CAs.</li>
 <li><strong>Web of trust</strong> &mdash; no central CA; individuals sign each other's certificates.</li>
 <li><strong>Internal/private CA</strong> &mdash; an organization runs its own CA for internal-only services; every device must have the internal CA's root cert installed to trust it.</li>
 <li><strong>Self-signed vs. third-party</strong> &mdash; a self-signed certificate is vouched for by nobody but itself, so browsers warn on it; a third-party certificate is signed by a CA the client already trusts. Self-signed is fine for internal testing, never for public services.</li>
-<li><strong>Root of trust</strong> &mdash; the anchor the whole chain hangs from. Every device ships with a store of trusted root certificates, in the browser, the OS, or both; a certificate is trusted only if it chains back to one of those roots.</li>
+<li><strong>Root of trust</strong> &mdash; the anchor the whole chain hangs from. Every device ships with a store of trusted root certificates, in the browser, the OS, or both; a certificate is trusted only if it chains back to one of those roots. More broadly, a root of trust can be hardware, firmware or software &mdash; an HSM, a secure enclave, or a CA.</li>
 </ul>
 <div class="tblwrap"><table><caption>CA trust models</caption>
 <tr><th>Model</th><th>Structure</th></tr>
@@ -327,37 +344,40 @@ var TOPICS = [
 </ol>
 <p><strong>Certificate features:</strong></p>
 <ul>
-<li><strong>Subject Alternative Name (SAN) / wildcard cert</strong> &mdash; <code>*.example.com</code> covers every subdomain with one certificate.</li>
-<li><strong>Certificate Revocation List (CRL)</strong> &mdash; a list of revoked certs hosted by the CA; the browser downloads the whole list to check.</li>
-<li><strong>OCSP</strong> &mdash; a real-time status check per certificate, more efficient than a CRL. <strong>OCSP stapling</strong> embeds the signed status directly into the TLS handshake.</li>
-<li>Real-world example: <strong>Heartbleed</strong> (April 2014, an OpenSSL vulnerability) forced mass certificate revocation and reissuance industry-wide.</li>
+<li><strong>Subject Alternative Name (SAN)</strong> &mdash; an extension listing several specific names or domains on one certificate (<code>example.com</code>, <code>www.example.com</code>, <code>mail.example.org</code>).</li>
+<li><strong>Wildcard certificate</strong> &mdash; <code>*.example.com</code> covers every subdomain at one level with one certificate. A wildcard can appear inside a SAN list, which is why the two are often mentioned together.</li>
+<li><strong>Certificate Revocation List (CRL)</strong> &mdash; a list of revoked certs hosted by the CA; the browser downloads the whole list to check. The certificate's <strong>CRL distribution point</strong> field tells the browser where to find it. Certificates get revoked when a server is retired or its private key may be compromised.</li>
+<li><strong>OCSP</strong> (Online Certificate Status Protocol) &mdash; a real-time status check per certificate with an OCSP responder, more efficient than a CRL. <strong>OCSP stapling</strong> embeds the status in the TLS handshake; it's signed by the CA, so the web server can't fake it. Browser support has been inconsistent.</li>
+<li>Real-world example: <strong>Heartbleed</strong> (April 2014, an OpenSSL vulnerability) could leak servers' private keys, which forced mass certificate revocation and reissuance industry-wide.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>CRL = pull a whole list and search it yourself (slower). OCSP = ask a direct yes/no about one certificate (faster); OCSP stapling skips even that extra round trip by having the <em>server</em> present a pre-signed status during the handshake.</blockquote>
 `},
 {id:"symasym",obj:"1.4",title:"Symmetric vs. Asymmetric Encryption",html:`
 <div class="tblwrap"><table>
 <tr><th></th><th>Symmetric</th><th>Asymmetric</th></tr>
-<tr><td>Keys</td><td>One shared secret key encrypts and decrypts</td><td>Two mathematically related keys &mdash; public encrypts, private decrypts</td></tr>
+<tr><td>Keys</td><td>One shared secret key encrypts and decrypts (also called a secret-key or shared-secret algorithm)</td><td>Two mathematically related keys &mdash; public encrypts, private decrypts</td></tr>
 <tr><td>Speed</td><td>Fast, low overhead</td><td>Slower, more overhead</td></tr>
 <tr><td>Scaling</td><td>Hard past ~10 people/devices</td><td>Scales well &mdash; public key can be posted anywhere</td></tr>
 <tr><td>Typical key length</td><td>128 bits+</td><td>3072 bits+</td></tr>
-<tr><td>Examples</td><td>AES, DES (legacy &mdash; avoid)</td><td>RSA-style key pairs, PGP/GPG</td></tr>
+<tr><td>Examples</td><td>AES (Advanced Encryption Standard), DES (Data Encryption Standard, legacy &mdash; avoid)</td><td>RSA-style key pairs, PGP/GPG</td></tr>
 <tr><td>Real-world use</td><td>Bulk data encryption</td><td>Key exchange, digital signatures, identity</td></tr>
 </table></div>
+<p>Both keys in a pair are generated together from randomness and large prime numbers. They're mathematically related, but you <strong>can't derive the private key from the public key</strong>, so the public key can be posted anywhere while the private key stays protected (usually by a password).</p>
+<p>The <strong>algorithm is public; only the key is secret</strong> &mdash; like a door lock whose design everyone knows. A public algorithm is <em>more</em> trustworthy because its math can be examined. Keys get longer over time as computers get faster at brute force.</p>
 <p>In practice almost every real system uses <strong>both</strong>: asymmetric to safely exchange a fast symmetric session key, then symmetric to actually encrypt the bulk data.</p>
 `},
 {id:"enclocation",obj:"1.4",title:"Encryption by Location &amp; Key Exchange",html:`
 <p><strong>By location:</strong></p>
 <ul>
-<li><strong>At rest</strong>: full-disk/volume (BitLocker, FileVault), file-level (Windows EFS), or database-level &mdash; transparent (whole DB) vs. column-level (only sensitive fields); also partition-level and record-level for finer-grained control.</li>
+<li><strong>At rest</strong>: full-disk/volume (BitLocker, FileVault), file-level (Windows EFS, the Encrypting File System built into NTFS), or database-level &mdash; transparent (whole DB with a symmetric key, but every search needs decryption) vs. column-level (only sensitive fields like the SSN, so the rest stays searchable); also partition-level and record-level for finer-grained control.</li>
 <li><strong>In transit</strong>: HTTPS for browser traffic; VPNs create an encrypted tunnel &mdash; client-based VPNs typically use SSL/TLS, site-to-site VPNs typically use IPsec.</li>
 </ul>
 <p><strong>Key exchange</strong> solves "how do two parties agree on a secret key over an insecure network":</p>
 <ul>
-<li><strong>Out-of-band</strong> &mdash; exchange the key through a separate channel entirely (courier, phone call, in person).</li>
-<li><strong>In-band</strong> &mdash; exchange it over the same network, protected another way: encrypt a symmetric <strong>session key</strong> with the recipient's public key. Session keys are ephemeral &mdash; used once, then discarded.</li>
-<li><strong>Key exchange algorithms</strong> (Diffie-Hellman style) let both sides independently compute the <em>same</em> symmetric key &mdash; the key itself is never transmitted at all. The colour-mixing analogy captures it: both parties end up with a shared colour that an observer watching the exchange cannot reproduce.</li>
-<li><strong>Key stretching</strong> makes brute-forcing dramatically slower. <strong>PBKDF2</strong> is the named tool: it applies a pseudorandom function (typically an HMAC) to the password plus a salt, then repeats &mdash; originally a thousand iterations, now hundreds of thousands, because processors got fast.</li>
+<li><strong>Out-of-band</strong> &mdash; exchange the key through a separate channel entirely (courier, phone call, in person). Too slow for internet use.</li>
+<li><strong>In-band</strong> &mdash; exchange it over the same network, protected another way: the client generates a random symmetric <strong>session key</strong>, encrypts it with the server's public key, and the server decrypts it with its private key. Session keys are ephemeral &mdash; a new one every session.</li>
+<li><strong>Key exchange algorithms</strong> (Diffie-Hellman style) let both sides independently compute the <em>same</em> symmetric key &mdash; the key itself is never transmitted at all. Mechanically, Bob's private key combined with Alice's public key produces the same value as Alice's private key combined with Bob's public key. It's neither encryption nor hashing. The colour-mixing analogy captures it: both parties end up with a shared colour that an observer watching the exchange cannot reproduce.</li>
+<li><strong>Key stretching</strong> (key strengthening) makes brute-forcing dramatically slower by hashing the hash over and over, so every guess costs many operations. <strong>PBKDF2</strong> is the named tool: it applies a pseudorandom function (typically an HMAC) to the password plus a salt, then repeats &mdash; originally a thousand iterations, now hundreds of thousands, because processors got fast.</li>
 </ul>
 <div class="tblwrap"><table><caption>Diffie-Hellman variants &mdash; static vs. ephemeral</caption>
 <tr><th>Variant</th><th>Key pair</th><th>Shared secret</th></tr>
@@ -372,22 +392,22 @@ var TOPICS = [
 {id:"cryptohw",obj:"1.4",title:"Crypto Hardware",html:`
 <div class="tblwrap"><table>
 <tr><th>Tool</th><th>Scope</th><th>Purpose</th></tr>
-<tr><td><strong>TPM</strong> (Trusted Platform Module)</td><td>One device</td><td>On-motherboard chip; generates/stores keys unique to that machine (e.g. BitLocker keys); password-protected, brute-force resistant</td></tr>
+<tr><td><strong>TPM</strong> (Trusted Platform Module)</td><td>One device</td><td>On-motherboard chip: random number generator, key generator, persistent memory with burned-in keys unique to that machine (e.g. BitLocker keys); resists brute-force and dictionary attacks</td></tr>
 <tr><td><strong>HSM</strong> (Hardware Security Module)</td><td>Data-center scale</td><td>Clustered, redundant, dedicated hardware for high-volume key storage and crypto acceleration</td></tr>
-<tr><td><strong>Key management system</strong></td><td>Organization-wide</td><td>Centralized console for creating, rotating, and reporting on keys/certs across SSL, SSH, BitLocker, etc.</td></tr>
-<tr><td><strong>Secure enclave</strong></td><td>One device</td><td>A separate security co-processor; true random number generator, boot integrity, real-time hardware AES</td></tr>
+<tr><td><strong>Key management system</strong></td><td>Organization-wide</td><td>Centralized console, on-premises or cloud: keeps keys separate from the data they protect, ties keys to users, rotates them automatically, logs and reports, and tracks certificate expiry across SSL, SSH, BitLocker, etc.</td></tr>
+<tr><td><strong>Secure enclave</strong></td><td>One device</td><td>A separate security processor with its own boot ROM: monitors boot, true random number generator, real-time encryption of memory, and built-in keys that anchor all the device's crypto</td></tr>
 </table></div>
 <p>Some detail worth carrying into the exam:</p>
 <ul>
 <li><strong>TPM</strong> was originally a discrete chip on the motherboard; <strong>TPM 2.0</strong> let manufacturers build the capability into the chipset itself. It's what stores the keys behind full-disk encryption and device-bound X.509 certificates &mdash; a device certificate held in a TPM is a common building block of a Zero Trust rollout.</li>
 <li><strong>HSMs</strong> are no longer only appliances: they can be virtualized, or shrunk into smart card, MicroSD and USB form factors. Beyond storing keys they generate and manage them, verify certificates, and <em>offload and accelerate</em> SSL/TLS processing from the servers they front.</li>
 <li>A <strong>cloud key management service</strong> is the managed version of the same idea &mdash; creating and controlling symmetric and asymmetric keys, integrated with the provider's storage, database and application services.</li>
-<li>A <strong>secure enclave</strong> provides CPU-level isolation with encrypted memory, walling application code and data off even from processes holding high privilege on the same machine.</li>
+<li>A <strong>secure enclave</strong> is a dedicated security processor separate from the main CPU (each vendor brands it differently). Its immutable keys are the root of the device's encryption, which is why a lost phone's data stays private. Related technology (trusted execution environments) also walls code and data off from privileged processes on the main CPU.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>TPM secures <em>one</em> device's keys; HSM secures keys for <em>many</em> devices at data-center scale. Don't confuse either with a key management system, which is the software console that organizes keys that may live <em>in</em> a TPM, HSM, or elsewhere.</blockquote>
 `},
 {id:"hashsig",obj:"1.4",title:"Hashing, Salting &amp; Digital Signatures",html:`
-<p>A <strong>hash</strong> turns data of any size into a short, fixed-length fingerprint. It's one-directional &mdash; you cannot reconstruct the original data from the hash, which separates hashing from encryption.</p>
+<p>A <strong>hash</strong> turns data of any size into a short, fixed-length fingerprint. Everyday uses: checking a downloaded file against the publisher's hash, and checking a password at login by hashing what was typed and comparing it with the stored hash. It's one-directional &mdash; you cannot reconstruct the original data from the hash, which separates hashing from encryption.</p>
 <p>Output is called a <strong>digest</strong> or fingerprint, typically 128 to 512 bits. Two properties define a usable hash:</p>
 <ul>
 <li><strong>Avalanche effect</strong> &mdash; flipping a single bit of input produces a completely different digest, not a slightly different one.</li>
@@ -402,7 +422,7 @@ var TOPICS = [
 <tr><td><strong>RIPEMD</strong> / <strong>Whirlpool</strong></td><td>Various</td><td>Less common; Whirlpool is built on AES</td></tr>
 </table></div>
 <blockquote><span class="tag">Gotcha</span>Because of the <strong>birthday paradox</strong>, a hash is only about as strong as <em>half</em> its bit length against collision attacks. A 512-bit hash gives roughly 256 bits of collision resistance &mdash; which is why digest length is chosen with that halving already assumed.</blockquote>
-<p><strong>Password storage</strong>: never store plaintext, never <em>encrypt</em> either &mdash; store a <strong>salted hash</strong>. A <strong>salt</strong> is random data added before hashing so identical passwords produce different stored hashes, which defeats precomputed <strong>rainbow tables</strong> and forces an attacker back to slow brute forcing. Salting fails in two specific ways: a salt that is <em>too short</em>, or a salt that is <em>reused</em> rather than unique per password.</p>
+<p><strong>Password storage</strong>: never store plaintext, never <em>encrypt</em> either &mdash; store a <strong>salted hash</strong>. A <strong>salt</strong> is random data added before hashing so identical passwords produce different stored hashes, which defeats <strong>rainbow tables</strong> (precomputed tables of inputs and their hashes that crack unsalted hashes in seconds) and forces an attacker back to slow brute forcing. Salting fails in two specific ways: a salt that is <em>too short</em>, or a salt that is <em>reused</em> rather than unique per password.</p>
 <p><strong>HMAC</strong> (hash-based message authentication code) is a hash combined with a <strong>shared secret key</strong>. Because the key is required to produce a matching value, an HMAC proves two things at once: the data wasn't altered (<em>integrity</em>) and it came from someone holding the key (<em>origin authentication</em>). A plain hash proves only the first. Dynamic routing protocols use HMACs exactly this way &mdash; a router appends an HMAC to each route update, and a peer sharing the key can confirm both that the update is intact and that a legitimate neighbour sent it.</p>
 <blockquote><span class="tag">Gotcha</span>Three easily confused mechanisms: a <strong>hash</strong> gives integrity only. An <strong>HMAC</strong> adds a shared secret, giving integrity plus origin authentication &mdash; but both parties hold the same key, so it cannot prove which one sent it. A <strong>digital signature</strong> uses the sender's <em>private</em> key, which only they hold, so it adds true non-repudiation.</blockquote>
 <p><strong>Digital signature process</strong> (Alice signs a message to Bob):</p>
@@ -412,19 +432,20 @@ var TOPICS = [
 <li>Alice sends the plaintext message plus the signature to Bob.</li>
 <li>Bob decrypts the signature using <strong>Alice's public key</strong>, recovering the original hash.</li>
 <li>Bob independently hashes the plaintext he received.</li>
-<li>If the two hashes match, Bob has confirmed both integrity and authenticity/non-repudiation.</li>
+<li>If the two hashes match, Bob has confirmed integrity, authentication and non-repudiation.</li>
 </ol>
+<p>A signature gives <strong>integrity, authentication and non-repudiation</strong> but <strong>not confidentiality</strong>: the message itself travels in plaintext unless it's also encrypted.</p>
 <p>Notice the key usage is the <em>reverse</em> of normal asymmetric encryption: for confidentiality you encrypt with the recipient's <strong>public</strong> key; for a signature you sign with <strong>your own private</strong> key so anyone can verify it with your <strong>public</strong> key.</p>
 <blockquote><span class="tag">Gotcha</span>Hashing alone = integrity only. Hashing + encrypting that hash with the sender's private key = digital signature = integrity <strong>and</strong> non-repudiation.</blockquote>
 `},
 {id:"obfsblock",obj:"1.4",title:"Obfuscation &amp; Blockchain",html:`
 <p><strong>Obfuscation</strong> hides data in plain sight rather than mathematically protecting it &mdash; reversible if you know the trick, which is why it's "security through obscurity," not a substitute for real cryptography.</p>
 <ul>
-<li><strong>Steganography</strong> &mdash; hiding data inside other data: an image (the carrier is called the <strong>covertext</strong>), audio, video, or network traffic. Printer <strong>machine identification codes</strong> (tiny yellow dots) are a real-world example. Strictly it isn't cryptography at all &mdash; nothing is scrambled and no key is involved, the message is simply concealed.</li>
-<li><strong>Tokenization</strong> &mdash; replace sensitive data with a meaningless substitute (a token) that only the issuing system can map back to the real value. Mobile payment tokens are the classic example.</li>
+<li><strong>Steganography</strong> (Greek for "concealed writing") &mdash; hiding data inside other data: an image (the carrier is called the <strong>covertext</strong>), audio, video, or network traffic. Printer <strong>machine identification codes</strong> (tiny yellow dots) are a real-world example. Strictly it isn't cryptography at all &mdash; nothing is scrambled and no key is involved, the message is simply concealed.</li>
+<li><strong>Tokenization</strong> &mdash; replace sensitive data with a meaningless substitute (a token) that only the issuing system can map back to the real value. Mobile payment tokens are the classic example: a token service issues tokens to the phone, the phone sends one over NFC at checkout, and the token server looks up the real card. Each token works <strong>once</strong>, so a captured one can't be replayed, and it can cross the network without encryption or hashing.</li>
 <li><strong>Data masking</strong> &mdash; show only part of the sensitive value, e.g. a receipt showing <code>**** **** **** 2512</code>. The weakness is <em>inference</em>: enough partial values can still narrow down the original, which is why tokenization is generally the stronger choice.</li>
 </ul>
-<p><strong>Blockchain</strong> is a distributed, append-only, open public ledger anyone participating can view and help maintain: every participant holds a copy, and updates propagate to everyone. Transactions are grouped into blocks; each block includes a <strong>hash</strong> covering its contents, so tampering with a past transaction invalidates that block's hash. Uses beyond cryptocurrency: digital identity, supply-chain tracking, digital voting.</p>
+<p><strong>Blockchain</strong> is a distributed, append-only, open public ledger anyone participating can view and help maintain: every participant holds a copy, and updates propagate to everyone. Transactions are grouped into blocks; each block includes a <strong>hash</strong> covering its contents, so tampering with a past transaction invalidates that block's hash &mdash; and participants who see an invalid hash reject the block. Examples include payment processing, cryptocurrency transfers and property title records. Uses beyond cryptocurrency: digital identity, supply-chain tracking, digital voting.</p>
 <blockquote><span class="tag">Gotcha</span>Obfuscation hides data by making it hard to <em>find or recognize</em>; encryption makes it mathematically impossible to read without a key, even in plain view. A token has no mathematical relationship to the real value at all.</blockquote>
 `}
 ];
@@ -435,9 +456,12 @@ var GOTCHAS_TABLE = `
 <tr><td>Preventive vs. deterrent</td><td>Preventive physically stops access; deterrent only discourages the attempt</td></tr>
 <tr><td>Integrity (hash) vs. non-repudiation (signature)</td><td>Hash proves data wasn't changed; a signature additionally proves who sent it</td></tr>
 <tr><td>Data plane vs. control plane</td><td>Data plane moves traffic; control plane makes the rules/decisions behind the move</td></tr>
-<tr><td>Honeypot vs. honeynet vs. honeyfile/honeytoken</td><td>One decoy system vs. a network of decoys vs. decoy data planted to catch insiders</td></tr>
+<tr><td>Honeypot vs. honeynet vs. honeyfile/honeytoken</td><td>One decoy system vs. a network of decoys vs. decoy data that traces a leak</td></tr>
+<tr><td>PEP vs. PDP</td><td>The enforcement point gathers and enforces; the decision point (policy engine + administrator) decides</td></tr>
 <tr><td>Allow list vs. deny list</td><td>Allow list = restrictive, default-deny; deny list = permissive, default-allow</td></tr>
 <tr><td>Symmetric vs. asymmetric encryption</td><td>One shared key vs. two mathematically related keys; symmetric is faster, asymmetric scales better</td></tr>
+<tr><td>SAN vs. wildcard</td><td>A list of specific names on one cert vs. <code>*.domain</code> covering every subdomain at one level</td></tr>
+<tr><td>Digital signature and confidentiality</td><td>A signature gives integrity, authentication and non-repudiation &mdash; never confidentiality</td></tr>
 <tr><td>CRL vs. OCSP (stapling)</td><td>CRL = download the whole revocation list; OCSP = ask about one cert in real time; stapling embeds that answer in the handshake</td></tr>
 <tr><td>TPM vs. HSM</td><td>TPM secures one device; HSM secures many devices at data-center scale</td></tr>
 <tr><td>Hashing vs. digital signature</td><td>Hash = fingerprint/integrity only; signature = hash encrypted with the sender's private key = integrity + non-repudiation</td></tr>
