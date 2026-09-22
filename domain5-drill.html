@@ -173,12 +173,12 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
   <!-- FLASHCARDS -->
   <section class="panel" id="panel-flash">
-    <p class="lede">79 term cards drawn from the Domain 5 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <p class="lede">86 term cards drawn from the Domain 5 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
     <div class="chiprow" id="flash-filters"></div>
     <div class="card" style="gap:14px;display:flex;flex-direction:column;">
       <div class="deck-meta">
         <span id="flash-badge"></span>
-        <span id="flash-pos">1 / 79</span>
+        <span id="flash-pos">1 / 86</span>
       </div>
       <div class="flip-outer">
         <div class="flip-card" id="flip-card">
@@ -370,7 +370,14 @@ var FLASHCARDS = [
  {id:76,obj:"5.6",t:"Insider threat controls",d:"Multi-person approval for critical changes, file-activity monitoring, controls hard to bypass."},
  {id:77,obj:"5.6",t:"OPSEC",d:"Operational security: viewing your own information through an attacker's eyes and protecting it."},
  {id:78,obj:"5.6",t:"Initial vs. recurring (reporting)",d:"First-time issue gets standard training; repeat issue gets extended training and tighter controls."},
- {id:79,obj:"5.6",t:"Awareness metrics",d:"Click rate falling, report rate rising, MFA and password-manager adoption."}
+ {id:79,obj:"5.6",t:"Awareness metrics",d:"Click rate falling, report rate rising, MFA and password-manager adoption."},
+ {id:80,obj:"5.2",t:"Neutral risk appetite",d:"Balanced: accepts moderate risk when the expected benefit roughly matches the potential loss."},
+ {id:81,obj:"5.5",t:"Examination",d:"A formal, in-depth review by an outside authority such as a regulator, often on site."},
+ {id:82,obj:"5.2",t:"MTTF",d:"Mean time to failure: expected life of a part that is replaced, not repaired."},
+ {id:83,obj:"5.2",t:"ROI (security)",d:"A control is worth it when the loss it prevents (ALE reduction) exceeds its cost."},
+ {id:84,obj:"5.1",t:"CISO / ISSO",d:"Owns the security program vs. security of a specific system."},
+ {id:85,obj:"5.1",t:"DPO",d:"Data protection officer: oversees personal-data handling; required under GDPR for many organizations."},
+ {id:86,obj:"5.3",t:"EULA",d:"End user license agreement: the terms accepted to use software."}
 ];
 
 var QUIZ = [
@@ -401,7 +408,9 @@ var QUIZ = [
  {id:25,obj:"5.6",q:"A user mistypes a domain and lands on a look-alike site. How is this behaviour classified?",c:["Risky","Unexpected","Unintentional","Malicious"],a:2,e:"An honest mistake is unintentional behaviour."},
  {id:26,obj:"5.6",q:"An account that normally logs in from Ohio authenticates from another continent at 3 a.m. How is this classified?",c:["Risky","Unexpected","Unintentional","Insider threat"],a:1,e:"Activity out of the user's normal pattern is unexpected behaviour."},
  {id:27,obj:"5.6",q:"Which metric best shows an awareness program is working?",c:["Number of training modules published","Course completion rate","Falling phishing click rate and rising report rate","Hours of training delivered"],a:2,e:"Behaviour change is the goal; completions only show attendance."},
- {id:28,obj:"5.6",q:"An employee finds a USB drive labelled \"Payroll 2026\" in the car park. What should training tell them to do?",c:["Plug it in to find the owner","Hand it to IT security without plugging it in","Throw it away","Format it first"],a:1,e:"Unknown removable media is a classic malware delivery method; hand it to security."}
+ {id:28,obj:"5.6",q:"An employee finds a USB drive labelled \"Payroll 2026\" in the car park. What should training tell them to do?",c:["Plug it in to find the owner","Hand it to IT security without plugging it in","Throw it away","Format it first"],a:1,e:"Unknown removable media is a classic malware delivery method; hand it to security."},
+ {id:29,obj:"5.2",q:"An organization accepts moderate risk when the expected benefit roughly equals the potential loss. What is its risk appetite?",c:["Expansionary","Conservative","Neutral","Exempt"],a:2,e:"Neutral sits between expansionary (seeks risk for growth) and conservative (avoids it)."},
+ {id:30,obj:"5.5",q:"Banking regulators arrive on site to inspect records and controls, and their findings carry enforcement weight. What is this?",c:["Self-assessment","Examination","Attestation","Tabletop exercise"],a:1,e:"An examination is a formal, in-depth review by an outside authority."}
 ];
 
 var SCENARIOS = [

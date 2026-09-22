@@ -166,12 +166,12 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
   <!-- FLASHCARDS -->
   <section class="panel" id="panel-flash">
-    <p class="lede">60 term cards pulled straight from your Domain 1 guide. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <p class="lede">72 term cards pulled straight from your Domain 1 guide. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
     <div class="chiprow" id="flash-filters"></div>
     <div class="card" style="gap:14px;display:flex;flex-direction:column;">
       <div class="deck-meta">
         <span id="flash-badge"></span>
-        <span id="flash-pos">1 / 60</span>
+        <span id="flash-pos">1 / 72</span>
       </div>
       <div class="flip-outer">
         <div class="flip-card" id="flip-card">
@@ -344,7 +344,19 @@ var FLASHCARDS = [
  {id:57,obj:"1.4",t:"Digital signature",d:"A hash encrypted with the sender's private key &mdash; proves both integrity and non-repudiation."},
  {id:58,obj:"1.4",t:"Steganography",d:"Hiding data inside other data, such as an image (the covertext), audio, or video."},
  {id:59,obj:"1.4",t:"Tokenization",d:"Replacing sensitive data with a meaningless substitute only the issuing system can map back to the real value."},
- {id:60,obj:"1.4",t:"Blockchain",d:"A distributed, append-only, open public ledger; each block's hash makes past tampering detectable."}
+ {id:60,obj:"1.4",t:"Blockchain",d:"A distributed, append-only, open public ledger; each block's hash makes past tampering detectable."},
+ {id:61,obj:"1.4",t:"ECB vs. CBC",d:"ECB encrypts each block independently, so identical blocks leak patterns; CBC XORs each block with the previous ciphertext (starting from an IV)."},
+ {id:62,obj:"1.4",t:"GCM",d:"Galois/Counter Mode: counter-mode encryption with built-in authentication &mdash; confidentiality and integrity together."},
+ {id:63,obj:"1.4",t:"3DES, IDEA, RC4",d:"Legacy algorithms: 3DES and IDEA are old block ciphers; RC4 is a broken stream cipher (WEP, old TLS)."},
+ {id:64,obj:"1.4",t:"XOR",d:"Exclusive or: 1 when bits differ, 0 when they match. Reversible, so it's the core of stream ciphers and CBC."},
+ {id:65,obj:"1.4",t:"Registration authority (RA)",d:"Verifies a requester's identity before the CA issues a certificate."},
+ {id:66,obj:"1.4",t:"PKCS #12 / .p12 / .pfx",d:"A password-protected file holding a certificate and its private key."},
+ {id:67,obj:"1.4",t:"PEM vs. DER",d:"The same certificate as Base64 text (PEM) or binary (DER)."},
+ {id:68,obj:"1.4",t:"KEK",d:"Key encryption key: encrypts other keys rather than data."},
+ {id:69,obj:"1.4",t:"DSA vs. ECDSA",d:"Digital signature algorithms; ECDSA uses elliptic curves for much smaller keys. Neither encrypts."},
+ {id:70,obj:"1.4",t:"CRC",d:"Checksum that detects accidental errors only &mdash; not tamper protection."},
+ {id:71,obj:"1.4",t:"Volume vs. partition vs. record encryption",d:"One logical volume; one partition of a drive; individual database rows each with their own key."},
+ {id:72,obj:"1.2",t:"MDF / IDF",d:"Main and intermediate distribution frames &mdash; wiring closets that need physical access control."}
 ];
 
 var QUIZ = [
@@ -371,7 +383,9 @@ var QUIZ = [
  {id:21,obj:"1.4",q:"Which best describes tokenization?",c:["A reversible mathematical transform requiring a key","A meaningless substitute value mapped back only by the issuing system","Hiding data inside an image","A revocation mechanism for certificates"],a:1,e:"A token has no mathematical relationship to the real value — only the issuing system can map it back."},
  {id:22,obj:"1.4",q:"Why is MD5 no longer recommended for security-relevant hashing?",c:["It produces too short an output","A collision was demonstrated in 1996","It cannot be salted","It is too slow for password storage"],a:1,e:"A real MD5 collision — two different inputs producing the same hash — was shown in 1996."},
  {id:23,obj:"1.4",q:"What does key escrow provide?",c:["Faster encryption","A backup copy of a private key held by a trusted third party","A replacement for digital signatures","A way to avoid using a CA"],a:1,e:"Escrow lets data still be recovered if a key is lost, an employee leaves, or access is legally compelled."},
- {id:24,obj:"1.4",q:"A TPM differs from an HSM primarily in:",c:["TPM is software-only; HSM is hardware-only","TPM secures one device; HSM secures many devices at data-center scale","TPM is for asymmetric keys only","There is no meaningful difference"],a:1,e:"Same basic job, different scale: TPM is bolted to one motherboard, HSM serves a whole data center."}
+ {id:24,obj:"1.4",q:"A TPM differs from an HSM primarily in:",c:["TPM is software-only; HSM is hardware-only","TPM secures one device; HSM secures many devices at data-center scale","TPM is for asymmetric keys only","There is no meaningful difference"],a:1,e:"Same basic job, different scale: TPM is bolted to one motherboard, HSM serves a whole data center."},
+ {id:25,obj:"1.4",q:"Which block cipher mode leaks patterns because identical plaintext blocks produce identical ciphertext?",c:["CBC","GCM","ECB","CFB"],a:2,e:"ECB encrypts every block independently with the same key, so repeating data stays visible."},
+ {id:26,obj:"1.4",q:"A file must carry a certificate together with its private key, protected by a password, to move it to another server. Which format fits?",c:["PEM","DER","PKCS #12 (.pfx/.p12)","CSR"],a:2,e:"PKCS #12 bundles the certificate and private key in one password-protected file."}
 ];
 
 var SCENARIOS = [
@@ -648,7 +662,7 @@ function renderProgress(){
   fstats.innerHTML =
     '<div class="stattile"><div class="n">' + know + '</div><div class="l">Marked "Got it"</div></div>' +
     '<div class="stattile"><div class="n">' + learning + '</div><div class="l">Marked "Still learning"</div></div>' +
-    '<div class="stattile"><div class="n">' + (60-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
+    '<div class="stattile"><div class="n">' + (FLASHCARDS.length-Object.keys(state.cardStatus).length) + '</div><div class="l">Not yet reviewed</div></div>';
 }
 
 document.getElementById("btn-reset").addEventListener("click", function(){

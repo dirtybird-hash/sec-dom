@@ -167,12 +167,12 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
   <!-- FLASHCARDS -->
   <section class="panel" id="panel-flash">
-    <p class="lede">80 term cards drawn from the Domain 2 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <p class="lede">88 term cards drawn from the Domain 2 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
     <div class="chiprow" id="flash-filters"></div>
     <div class="card" style="gap:14px;display:flex;flex-direction:column;">
       <div class="deck-meta">
         <span id="flash-badge"></span>
-        <span id="flash-pos">1 / 80</span>
+        <span id="flash-pos">1 / 88</span>
       </div>
       <div class="flip-outer">
         <div class="flip-card" id="flip-card">
@@ -365,7 +365,15 @@ var FLASHCARDS = [
  {id:77,obj:"2.5",t:"Configuration enforcement",d:"Continuously checking systems against an approved baseline and correcting drift."},
  {id:78,obj:"2.5",t:"Decommissioning",d:"Retiring a system properly: wipe the data, revoke credentials, remove it from inventory."},
  {id:79,obj:"2.5",t:"Host firewall vs. HIPS",d:"Filters by port and address, versus inspecting behaviour and blocking attacks on open ports."},
- {id:80,obj:"2.5",t:"Hardening",d:"Reducing attack surface in advance: disable ports, change defaults, remove unnecessary software."}
+ {id:80,obj:"2.5",t:"Hardening",d:"Reducing attack surface in advance: disable ports, change defaults, remove unnecessary software."},
+ {id:81,obj:"2.4",t:"Malicious code (network attack)",d:"Code spread or delivered across the network: worms exploiting services, malicious scripts, backdoors, botnet C2."},
+ {id:82,obj:"2.3",t:"ASLR",d:"Address space layout randomization: random memory addresses so exploits can't predict where to jump."},
+ {id:83,obj:"2.3",t:"DEP",d:"Data execution prevention: marks data memory non-executable so injected code can't run."},
+ {id:84,obj:"2.2",t:"PBX / VoIP risks",d:"Phone systems: caller-ID spoofing for vishing, toll fraud, eavesdropping. Encrypt media with SRTP."},
+ {id:85,obj:"2.4",t:"WPS weakness",d:"The Wi-Fi Protected Setup PIN is checked in two halves and can be brute-forced; disable WPS."},
+ {id:86,obj:"2.4",t:"RTBH",d:"Remotely triggered black hole: the ISP drops traffic to the attacked address via BGP. Stops a DDoS, but takes the target offline."},
+ {id:87,obj:"2.4",t:"Published/documented indicator",d:"Evidence of your breach appears publicly &mdash; leaked data, attacker boasts, press reports &mdash; often before you notice."},
+ {id:88,obj:"2.1",t:"War (motivation)",d:"Nation-state cyber attacks as part of armed conflict, against military or critical infrastructure."}
 ];
 
 var QUIZ = [
@@ -394,7 +402,9 @@ var QUIZ = [
  {id:23,obj:"2.4",q:"Which cryptographic attack forces two parties to negotiate a weaker protocol version?",c:["Collision","Birthday","Downgrade","Replay"],a:2,e:"A downgrade attack targets the system's willingness to accept weak options for compatibility, rather than breaking the strong cipher."},
  {id:24,obj:"2.5",q:"A control permitting only explicitly approved applications to execute is:",c:["A deny list","An application allow list","A HIPS","Network segmentation"],a:1,e:"An allow list is restrictive by default \u2014 anything not named is blocked, which is considerably stronger than blocking known-bad."},
  {id:25,obj:"2.5",q:"Which control inspects behaviour and can block a recognized attack arriving over a port you intentionally left open?",c:["Host-based firewall","Host-based intrusion prevention system","Access control list","Application allow list"],a:1,e:"A host firewall filters by port, address and protocol. A HIPS examines content and behaviour, so it can act on traffic the firewall legitimately permits."},
- {id:26,obj:"2.5",q:"Retiring a server by wiping its data, revoking its certificates and removing it from inventory is:",c:["Isolation","Decommissioning","Hardening","Configuration enforcement"],a:1,e:"Decommissioning closes out a system's lifecycle. A forgotten but still-live server is unmonitored attack surface."}
+ {id:26,obj:"2.5",q:"Retiring a server by wiping its data, revoking its certificates and removing it from inventory is:",c:["Isolation","Decommissioning","Hardening","Configuration enforcement"],a:1,e:"Decommissioning closes out a system's lifecycle. A forgotten but still-live server is unmonitored attack surface."},
+ {id:27,obj:"2.3",q:"Which protection randomizes where programs and libraries load in memory so exploits can't predict addresses?",c:["DEP","ASLR","SEH","TPM"],a:1,e:"ASLR randomizes addresses; DEP stops data memory from executing."},
+ {id:28,obj:"2.4",q:"A worm spreads between Windows servers through a vulnerable SMB service with no user interaction. Which 2.4 category best fits?",c:["Physical attack","Malicious code (network attack)","Password attack","Replay attack"],a:1,e:"Code delivered and spread across the network is the malicious code network attack."}
 ];
 
 var SCENARIOS = [

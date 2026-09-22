@@ -202,6 +202,7 @@ var TOPICS = [
 <li><strong>Fraud</strong> &mdash; falsifying records. Internal fraud tampers with accounts to embezzle; external fraud might post fake news to move a share price.</li>
 </ul>
 <p><strong>Other motivations named in the objectives:</strong> espionage, philosophical/political beliefs, ethical (authorized testing), revenge, disruption/chaos, and war.</p>
+<p><strong>War</strong> as a motivation means cyber attacks used as part of armed conflict between nations: disabling an adversary's military systems, power grids, communications or financial infrastructure. It maps to <strong>nation-state</strong> actors, who have the resources and the political backing, and it often runs alongside physical military action.</p>
 <blockquote><span class="tag">Gotcha</span>Blackmail threatens to <em>release</em> something; extortion threatens to <em>keep doing</em> something. Both demand payment &mdash; the difference is whether the leverage is information they hold or damage they're causing.</blockquote>
 `},
 {id:"hackers",obj:"2.1",title:"Hackers, Unskilled Attackers &amp; Hacktivists",html:`
@@ -293,6 +294,7 @@ var TOPICS = [
 <tr><td><strong>Removable device</strong></td><td>Malware on a USB stick or memory card. In a <strong>drop attack</strong> the actor leaves infected sticks in a parking lot or reception area and waits for an employee to plug one in. For some exploits, connecting the media is enough.</td></tr>
 </table></div>
 <p>Reducing this surface means endpoint security management: vulnerability management, antivirus, execution control, and intrusion detection.</p>
+<p>Macro malware is usually written in <strong>VBA</strong> (Visual Basic for Applications), the scripting language built into Office.</p>
 <blockquote><span class="tag">Gotcha</span>The objectives list <strong>file-based</strong> and <strong>image-based</strong> as separate vector categories, so a question can ask you to classify one. If the payload rode in on a picture, the answer is image-based even though an image is technically a file.</blockquote>
 `},
 {id:"message",obj:"2.2",title:"Message-Based &amp; Voice Call Vectors",html:`
@@ -306,6 +308,18 @@ var TOPICS = [
 <p><strong>Voice call</strong> is its own named category in the objectives, not a sub-item of message-based. The actor phones the target directly to talk them into revealing a password or weakening a configuration under a pretext &mdash; no file, no link, nothing for a filter to catch.</p>
 <p>Not a named category but worth knowing: <strong>web and social media</strong> deliver malware through attached posts and downloads, and a compromised site can infect a vulnerable browser with no deliberate download at all &mdash; a <strong>drive-by download</strong>.</p>
 <p>The most powerful exploits are <strong>zero-click</strong>: simply receiving an attachment or viewing an image triggers the exploit, with no user action at all.</p>
+`},
+{id:"commvectors",obj:"2.2",title:"Voice, Video &amp; Messaging Infrastructure",html:`
+<p>The systems behind message-based and voice-call vectors each carry their own risks:</p>
+<ul>
+<li><strong>VoIP</strong> (Voice over IP) &mdash; calls carried as data. Caller ID is trivially spoofed, which is what makes vishing convincing; call signalling and media should be encrypted (SIP over TLS, SRTP).</li>
+<li><strong>PBX</strong> (private branch exchange) &mdash; the organization's phone switch. Compromised PBXs are used for <em>toll fraud</em>, running up expensive international calls, and for eavesdropping.</li>
+<li><strong>POTS</strong> (plain old telephone service) &mdash; analog lines, still behind fax machines, alarm panels and old modems; a forgotten modem line is an unmonitored way in.</li>
+<li><strong>VTC</strong> (video teleconferencing) &mdash; uninvited guests joining meetings, recordings leaking, and now deepfaked participants.</li>
+<li><strong>MMS</strong> (Multimedia Message Service) &mdash; picture and video messages; malformed media files have delivered zero-click exploits to phones.</li>
+<li><strong>SPIM</strong> (spam over instant messaging) &mdash; the chat-app version of email spam, often carrying phishing links.</li>
+<li><strong>P2P</strong> (peer-to-peer) file sharing &mdash; downloads from strangers bring malware and can expose shared folders full of company data.</li>
+</ul>
 `},
 {id:"supply",obj:"2.2",title:"Supply Chain Attack Surface",html:`
 <p>A supply chain is the end-to-end process of designing, manufacturing, and distributing goods and services. Rather than attack a target directly, an actor infiltrates through a company in its supply chain &mdash; the Target breach came in via credentials held by the company's <em>building systems</em> vendor.</p>
@@ -383,6 +397,16 @@ var TOPICS = [
 </ol>
 <p>The classic payoff is overflowing one variable into an adjacent one that governs rights or permissions, so the attacker gains elevated access without ever presenting credentials.</p>
 `},
+{id:"memprotect",obj:"2.3",title:"Memory Protections &mdash; ASLR, DEP &amp; SEH",html:`
+<p>Operating systems add defences that make buffer overflows and memory injection much harder to exploit, even when the bug exists:</p>
+<div class="tblwrap"><table><caption>Memory protections</caption>
+<tr><th>Protection</th><th>What it does</th></tr>
+<tr><td><strong>ASLR</strong> &mdash; Address Space Layout Randomization</td><td>Loads programs and libraries at random memory addresses each time, so an attacker can't predict where to jump</td></tr>
+<tr><td><strong>DEP</strong> &mdash; Data Execution Prevention</td><td>Marks data areas of memory (stack, heap) as non-executable, so code injected there can't run</td></tr>
+<tr><td><strong>SEH</strong> &mdash; Structured Exception Handler</td><td>Windows' error-handling mechanism. Overwriting its records was a classic exploit technique; SafeSEH and SEHOP protect it</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>ASLR randomizes <strong>where</strong> code lives; DEP controls <strong>whether</strong> memory can execute. They're usually used together.</blockquote>
+`},
 {id:"race",obj:"2.3",title:"Race Conditions &mdash; TOC / TOU",html:`
 <p>A <strong>race condition</strong> occurs when two events happen at nearly the same time and the application was never written to handle them overlapping. The developer assumed a sequence; reality delivered a collision.</p>
 <p>The named exam form is <strong>time-of-check to time-of-use (TOCTOU)</strong>:</p>
@@ -419,6 +443,7 @@ var TOPICS = [
 <tr><td>Root cause</td><td>User input concatenated into a query instead of parameterized</td><td>User input rendered into a page without encoding</td></tr>
 </table></div>
 <p><strong>XSS</strong> has two forms worth separating: <strong>reflected</strong> (the script rides in a crafted link and fires once when the victim clicks it) and <strong>stored / persistent</strong> (the script is saved on the server &mdash; in a comment or profile field &mdash; and fires for every visitor afterwards).</p>
+<p>XSS works because the injected script ends up inside the page's <strong>HTML</strong> (Hypertext Markup Language) and the browser can't tell it from the site's own code. Encoding output so special characters display as text rather than markup is a key defence.</p>
 <blockquote><span class="tag">Gotcha</span>SQLi targets the <em>server's database</em>; XSS targets <em>another user's browser</em>. If the victim in the scenario is a visitor rather than the data, it's XSS.</blockquote>
 `},
 {id:"hwvuln",obj:"2.3",title:"Hardware Vulnerabilities",html:`
@@ -514,6 +539,7 @@ var TOPICS = [
 <li><strong>Logic bomb</strong> &mdash; dormant code that fires on a trigger: a date and time, or an event such as a name disappearing from the payroll database. Classically an insider tool, and hard to detect because there is no ongoing activity to spot until it executes.</li>
 <li><strong>Rootkit</strong> &mdash; embeds in the kernel or below it and modifies the operating system's own reporting so the malware becomes invisible to normal tools. Detection often requires booting from separate media; removal frequently means rebuilding the machine.</li>
 </ul>
+<p>Bootkits infect the <strong>MBR</strong> (master boot record) or boot loader so they run before the operating system and its security tools. UEFI Secure Boot, which checks the boot loader's signature, is the defence. Bloatware is also called a <strong>PUP</strong> (potentially unwanted program).</p>
 <blockquote><span class="tag">Gotcha</span>Bloatware is the odd one here &mdash; it isn't malware at all. It appears in this objective because unwanted preinstalled software is still a security problem, not because it's malicious.</blockquote>
 `},
 {id:"physatk",obj:"2.4",title:"Physical Attacks",html:`
@@ -532,7 +558,8 @@ var TOPICS = [
 <tr><td><strong>Reflected</strong></td><td>The attacker sends requests to third-party servers with the victim's address spoofed as the source. Every reply goes to the victim, who never sees the attacker's real address.</td></tr>
 <tr><td><strong>Amplified</strong></td><td>The same trick chosen for protocols where a small request produces a much larger response &mdash; DNS and NTP are the usual examples. A modest amount of attacker bandwidth turns into an overwhelming flood.</td></tr>
 </table></div>
-<p>The two are usually combined: reflection hides the origin, amplification supplies the volume.</p>
+<p>The two are usually combined: reflection hides the origin, amplification supplies the volume.</p><p><strong>RTBH</strong> (remotely triggered black hole) routing is an ISP-level DDoS response: traffic to the targeted address is dropped at the provider's edge, via BGP, before it reaches your link. It stops the flood but also takes the target offline, so it's a last resort.</p>
+
 `},
 {id:"dnsatk",obj:"2.4",title:"DNS Attacks",html:`
 <p>DNS is trusted implicitly by nearly everything, which makes it a high-value target.</p>
@@ -550,6 +577,7 @@ var TOPICS = [
 <li><strong>Evil twin</strong> &mdash; an AP deliberately configured to impersonate a legitimate one, matching its SSID so clients associate automatically. Everything the victim sends then passes through the attacker.</li>
 <li><strong>Jamming</strong> &mdash; flooding the frequency with interference so nothing can communicate. A pure availability attack, and one that can be used to push clients toward an evil twin.</li>
 </ul>
+<p><strong>WPS</strong> (Wi-Fi Protected Setup) lets devices join with an 8-digit PIN, but the PIN is checked in two halves, so it can be brute-forced in hours to recover the network passphrase. Disable WPS. A rogue <strong>WAP</strong> (wireless access point) is any access point that shouldn't be there.</p>
 <blockquote><span class="tag">Gotcha</span>A <strong>rogue AP</strong> is unauthorized but not necessarily malicious &mdash; often just an employee adding coverage. An <strong>evil twin</strong> is purpose-built to impersonate and intercept. Intent is the difference.</blockquote>
 `},
 {id:"onpath",obj:"2.4",title:"On-Path Attacks",html:`
@@ -557,7 +585,8 @@ var TOPICS = [
 <ul>
 <li><strong>ARP poisoning</strong> is the standard local-network method: the attacker sends forged ARP replies so victims associate the attacker's MAC address with the gateway's IP, routing their traffic through the attacker's machine. ARP has no authentication whatsoever, which is why this works.</li>
 <li><strong>On-path browser</strong> (formerly man-in-the-browser) places malware inside the victim's browser instead of on the network. Because it sits inside the endpoint, it sees data <em>before</em> encryption and <em>after</em> decryption &mdash; TLS provides no protection at all against it.</li>
-</ul>
+</ul><p>ARP poisoning only works inside the local area network (<strong>LAN</strong>), because ARP never crosses a router.</p>
+
 `},
 {id:"replay",obj:"2.4",title:"Replay &amp; Credential Replay",html:`
 <p>A <strong>replay attack</strong> captures valid data in transit and sends it again later. The attacker does not need to decrypt or understand it &mdash; if the receiving system accepts the same data twice, resending it is enough.</p>
@@ -580,7 +609,20 @@ var TOPICS = [
 <tr><td><strong>Forgery</strong></td><td><strong>CSRF</strong> makes an authenticated victim's browser submit an action the attacker chose. <strong>SSRF</strong> makes the server itself issue requests, often reaching internal systems the attacker cannot.</td></tr>
 <tr><td><strong>Directory traversal</strong></td><td>Manipulating a file path &mdash; typically with <code>../</code> sequences &mdash; to read files outside the directory the application intended to expose.</td></tr>
 </table></div>
+<p>Cross-site request forgery is also abbreviated <strong>XSRF</strong>.</p>
 <blockquote><span class="tag">Gotcha</span>CSRF abuses the <em>user's</em> authenticated session; SSRF abuses the <em>server's</em> network position. Look at who is tricked into making the request.</blockquote>
+`},
+{id:"malcode",obj:"2.4",title:"Malicious Code as a Network Attack",html:`
+<p>The objectives list <strong>malicious code</strong> among network attacks: code that is delivered, spread or executed over the network to gain access, take control, or damage systems. It overlaps with malware, but the emphasis here is how it travels and where it runs.</p>
+<ul>
+<li><strong>Worms exploiting network services</strong> &mdash; WannaCry spread across networks through a vulnerability in Windows SMB, with no user action needed.</li>
+<li><strong>Malicious scripts and macros</strong> &mdash; PowerShell, Bash, Python or VBA (Visual Basic for Applications) code run on the target, often fetched from the internet after an initial foothold.</li>
+<li><strong>Backdoors and loaders</strong> &mdash; code that opens remote access or downloads further payloads. Emotet started as a banking Trojan and became a delivery service for other malware.</li>
+<li><strong>Injected web code</strong> &mdash; scripts planted in a legitimate site (as in XSS or a compromised third-party library) that run in every visitor's browser.</li>
+<li><strong>Botnet command and control</strong> &mdash; infected machines take instructions over the network; early botnets used <strong>IRC</strong> (Internet Relay Chat) channels, modern ones use HTTPS, DNS or social media.</li>
+</ul>
+<p><strong>Indicators</strong>: unexpected outbound connections, new services or scheduled tasks, unknown processes, script-interpreter activity from Office apps. <strong>Mitigations</strong>: patch exposed services, anti-malware/EDR, block macros from the internet, restrict scripting, firewall and segment so a worm can't reach every host.</p>
+<blockquote><span class="tag">Gotcha</span>If the scenario stresses code <strong>spreading or being delivered across the network</strong> with no file download by a user, think worm/malicious code as a network attack, not a user-installed Trojan.</blockquote>
 `},
 {id:"cryptoatk",obj:"2.4",title:"Cryptographic Attacks",html:`
 <ul>
@@ -598,6 +640,7 @@ var TOPICS = [
 <tr><td>Detection</td><td>Repeated failures on a single account</td><td>Single failures spread across many accounts, easy to miss</td></tr>
 </table></div>
 <p><strong>Online</strong> attacks run against the live authentication system, which rate-limits and locks out. <strong>Offline</strong> attacks run against a stolen hash database on the attacker's own hardware, with no lockout and no rate limit &mdash; which is exactly why salted hashes and key stretching matter.</p>
+<p>Offline cracking runs on <strong>GPUs</strong> (graphics processing units), which try billions of hashes per second. That speed is why unsalted fast hashes fall quickly, and why salting and key stretching matter.</p>
 <blockquote><span class="tag">Gotcha</span>Password spraying exists specifically to <em>defeat account lockout</em>. If the scenario mentions many accounts each seeing one or two failed attempts, it's spraying &mdash; and standard lockout policy will not catch it.</blockquote>
 `},
 {id:"ioc",obj:"2.4",title:"Indicators of Compromise",html:`
@@ -614,6 +657,7 @@ var TOPICS = [
 <tr><td><strong>Missing logs</strong></td><td>Gaps in log data. An attacker covering their tracks &mdash; treat absence of evidence as evidence.</td></tr>
 </table></div>
 <p><strong>Published / documented</strong> indicators are the ones shared publicly by vendors and threat intelligence feeds &mdash; known file hashes, domains and addresses you can match against your own environment.</p>
+<p>On the exam, <strong>published/documented</strong> also covers the case where evidence of <em>your</em> breach appears in public before you've noticed it yourself: your data dumped on a leak site or dark-web market, attackers boasting on social media, or a researcher or journalist reporting the breach. Finding your organization named that way is an indicator of compromise in its own right.</p>
 <blockquote><span class="tag">Gotcha</span>Missing logs are an indicator, not a technical glitch. A gap where entries should be is one of the more reliable signs that someone with privilege has been cleaning up.</blockquote>
 `},
 
@@ -689,6 +733,8 @@ var GOTCHAS_TABLE = `
 <tr><td>Brute force vs. spraying</td><td>Many passwords at one account vs. one password across many &mdash; spraying exists to beat lockout</td></tr>
 <tr><td>Segmentation vs. isolation</td><td>Designed-in division of the network vs. pulling one system out after something goes wrong</td></tr>
 <tr><td>Host firewall vs. HIPS</td><td>Filters by port and address vs. inspects behaviour and blocks attacks on open ports</td></tr>
+<tr><td>ASLR vs. DEP</td><td>Randomizes where code sits vs. stops data memory from executing</td></tr>
+<tr><td>Malicious code (network attack)</td><td>Code spread or delivered across the network — worms, scripts, backdoors, C2</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

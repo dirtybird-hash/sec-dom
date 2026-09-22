@@ -193,6 +193,12 @@ var TOPICS = [
 </table></div>
 <blockquote><span class="tag">Gotcha</span>For anything that can't be patched well &mdash; ICS/SCADA, embedded, RTOS, IoT &mdash; the expected answer is <strong>segmentation or isolation</strong>. Same logic as Domain 3's "inability to patch".</blockquote>
 `},
+{id:"firmware",obj:"4.1",title:"Firmware &amp; Printer Hardening",html:`
+<ul>
+<li><strong>BIOS / UEFI</strong> &mdash; the firmware that starts the computer. <strong>UEFI</strong> (Unified Extensible Firmware Interface) replaced the legacy <strong>BIOS</strong> (Basic Input/Output System). Harden it with a firmware password, firmware updates from the vendor, and <strong>Secure Boot</strong>, which only allows a signed boot loader to run, blocking bootkits. <strong>Measured Boot</strong> records each boot step in the TPM so it can be checked later.</li>
+<li><strong>Printers / MFPs</strong> &mdash; multifunction printers and devices (<strong>MFP / MFD</strong>) are full computers with network services, default admin passwords, and hard drives that keep copies of scans and prints. Change defaults, patch firmware, disable unused services, restrict who can scan to email, and wipe or destroy their drives at disposal.</li>
+</ul>
+`},
 {id:"wirelessinstall",obj:"4.1",title:"Wireless Devices &mdash; Installation Considerations, Site Surveys &amp; Heat Maps",html:`
 <p>Wireless security starts before anything is configured, with where the access points go and what else is on the air.</p>
 <ul>
@@ -209,6 +215,7 @@ var TOPICS = [
 <tr><td><strong>BYOD</strong> &mdash; bring your own device</td><td>The employee</td><td>Cheap and convenient; hardest to control. Must protect company data <em>and</em> the user's privacy, so containerization and selective wipe matter</td></tr>
 <tr><td><strong>COPE</strong> &mdash; corporate-owned, personally enabled</td><td>The company</td><td>Company controls the device fully, but personal use is allowed; business data is still partitioned</td></tr>
 <tr><td><strong>CYOD</strong> &mdash; choose your own device</td><td>The company</td><td>Like COPE, but the user picks the model from an approved list</td></tr>
+<tr><td><strong>COBO</strong> &mdash; corporate-owned, business only</td><td>The company</td><td>No personal use at all; the most controlled and the most secure</td></tr>
 </table></div>
 <p><strong>Connection methods</strong> each carry their own risk:</p>
 <ul>
@@ -216,6 +223,7 @@ var TOPICS = [
 <li><strong>Wi-Fi</strong> &mdash; public networks are often unencrypted; nearby attackers can eavesdrop, run on-path attacks or jam. Use a VPN on untrusted networks.</li>
 <li><strong>Bluetooth</strong> &mdash; a short-range personal area network (PAN). Pair deliberately, and don't auto-accept connections from unknown devices.</li>
 </ul>
+<p><strong>UEM</strong> (unified endpoint management) extends MDM to every endpoint &mdash; phones, laptops, desktops and IoT &mdash; from one console. Updates pushed to phones <strong>OTA</strong> (over the air) should be signed and come only from the vendor or MDM. Policies often cover any <strong>PED</strong> (personal electronic device) brought into secure areas.</p>
 <blockquote><span class="tag">Gotcha</span>COPE and CYOD are both <strong>company-owned</strong>. The difference is only whether the user chose the model. BYOD is the only model where the employee owns the device.</blockquote>
 `},
 {id:"wifisec",obj:"4.1",title:"Wireless Security Settings &mdash; WPA3, RADIUS &amp; EAP",html:`
@@ -233,7 +241,22 @@ var TOPICS = [
 </table></div>
 <p><strong>AAA</strong> is the framework behind enterprise mode: <strong>authentication</strong> (prove who you are), <strong>authorization</strong> (what you may reach) and <strong>accounting</strong> (a record of the session: when, how long, how much data). <strong>RADIUS</strong> (Remote Authentication Dial-In User Service) is the common AAA protocol, still named for dial-up but used for Wi-Fi, VPNs and device logins.</p>
 <p><strong>Authentication protocols</strong> are the EAP methods carried inside 802.1X: <strong>EAP-TLS</strong> (certificates on both sides, the strongest), <strong>PEAP</strong> and <strong>EAP-TTLS</strong> (a TLS tunnel protecting a password exchange), and <strong>EAP-FAST</strong> (a Cisco-originated tunnel without server certificates).</p>
+<p>GCMP is built on <strong>GCM</strong> (Galois/Counter Mode).</p>
 <blockquote><span class="tag">Gotcha</span>The WPA3 answer to "offline dictionary attack on the handshake" is <strong>SAE</strong>. The answer to "each employee should use their own login" is <strong>Enterprise/802.1X</strong>, not a longer shared passphrase.</blockquote>
+`},
+{id:"wifilegacy",obj:"4.1",title:"Wireless Security Evolution &mdash; WEP to WPA3",html:`
+<div class="tblwrap"><table><caption>From oldest to newest</caption>
+<tr><th>Standard</th><th>Encryption</th><th>Status</th></tr>
+<tr><td><strong>WEP</strong> &mdash; Wired Equivalent Privacy</td><td>RC4 with a short, reused IV</td><td>Broken &mdash; crackable in minutes. Never use</td></tr>
+<tr><td><strong>WPA</strong> &mdash; Wi-Fi Protected Access</td><td><strong>TKIP</strong> (Temporal Key Integrity Protocol), still RC4</td><td>Interim fix for WEP hardware; deprecated</td></tr>
+<tr><td><strong>WPA2</strong></td><td>AES with CCMP</td><td>Still common; PSK handshake can be cracked offline</td></tr>
+<tr><td><strong>WPA3</strong></td><td>AES with GCMP (Galois/Counter Mode), SAE</td><td>Current</td></tr>
+</table></div>
+<ul>
+<li><strong>WPS</strong> (Wi-Fi Protected Setup) &mdash; the PIN method can be brute-forced; disable it.</li>
+<li><strong>LEAP</strong> (Lightweight EAP) &mdash; old Cisco EAP method using MS-CHAP; crackable. Replaced by PEAP and EAP-TLS.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>If a question lists WEP, WPA/TKIP, WPA2 and WPA3, the <strong>only acceptable modern choice is WPA3</strong> (WPA2 at minimum). WEP and TKIP both use the broken RC4.</blockquote>
 `},
 {id:"appsec",obj:"4.1",title:"Application Security",html:`
 <ul>
@@ -243,6 +266,14 @@ var TOPICS = [
 <li><strong>Code signing</strong> &mdash; the developer signs the code with a private key backed by a CA-issued certificate. The OS checks the signature at install, confirming <em>who</em> published it and that it <em>hasn't changed</em> since. It proves origin and integrity, not that the code is safe.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>Code signing proves <strong>authenticity and integrity</strong> &mdash; not that the software is free of vulnerabilities or malware. Signed malware exists, usually via stolen signing keys.</blockquote>
+`},
+{id:"appdev",obj:"4.1",title:"Secure Development References &amp; Testing",html:`
+<ul>
+<li><strong>OWASP</strong> (Open Worldwide Application Security Project) &mdash; publishes the OWASP Top 10 list of the most critical web application risks, plus testing guides. The standard reference for secure coding.</li>
+<li><strong>SDK</strong> (software development kit) &mdash; third-party libraries and tools built into an app. Their vulnerabilities become your vulnerabilities, so track them like any dependency.</li>
+<li><strong>SOAP / REST APIs</strong> &mdash; SOAP (Simple Object Access Protocol) is an XML-based web service protocol; REST is the lighter modern style. Either way, APIs need authentication, input validation and rate limiting.</li>
+<li><strong>UAT</strong> (user acceptance testing) &mdash; the final stage where real users confirm the software does what they need, after QA and security testing and before release.</li>
+</ul>
 `},
 {id:"sandbox",obj:"4.1",title:"Sandboxing &amp; Monitoring",html:`
 <p><strong>Sandboxing</strong> runs code in an isolated environment where it can reach only what it needs. Mobile operating systems sandbox every app (the browser can't read your photos unless you allow it). Security teams detonate suspicious files in a sandbox to watch what they do. Developers test in a sandbox that can't touch production.</p>
@@ -256,7 +287,8 @@ var TOPICS = [
 <ul>
 <li><strong>Ownership</strong> &mdash; a named person or team responsible for the asset. Unowned assets don't get patched.</li>
 <li><strong>Classification</strong> &mdash; what kind of asset it is and how sensitive the data it holds is, which sets how it's protected and later disposed of.</li>
-</ul>
+</ul><p>High-value business systems such as <strong>ERP</strong> (enterprise resource planning: finance, HR, supply chain in one platform) deserve particular scrutiny at procurement, because they concentrate so much sensitive data.</p>
+
 `},
 {id:"assettrack",obj:"4.2",title:"Monitoring &amp; Asset Tracking",html:`
 <p>You can't secure what you don't know you have. Asset tracking follows every asset through its whole life cycle.</p>
@@ -264,6 +296,7 @@ var TOPICS = [
 <li><strong>Inventory</strong> &mdash; the authoritative list: what each asset is, where it is, who has it, what's installed on it. Physical <strong>asset tags</strong> (numbers or barcodes) tie the device to the record and help recover lost or stolen equipment.</li>
 <li><strong>Enumeration</strong> &mdash; actively discovering what's actually present, by scanning the network or querying devices, and breaking an asset down into its components and installed software. Enumeration is how you find the devices the inventory doesn't know about.</li>
 </ul>
+<p>Mobile devices are also tracked by hardware identifiers such as the <strong>ESN</strong> (electronic serial number) or IMEI, which let a lost or stolen phone be identified and blocked.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Inventory</strong> is the record you keep; <strong>enumeration</strong> is discovering what's really there. The gap between the two is where unmanaged devices live.</blockquote>
 `},
 {id:"disposal",obj:"4.2",title:"Disposal, Decommissioning &amp; Data Retention",html:`
@@ -275,6 +308,7 @@ var TOPICS = [
 </table></div>
 <p>The choice depends on where the device goes next: reuse inside the organization may justify a wipe, while leaving the organization or holding highly sensitive data points to destruction.</p>
 <p><strong>Data retention</strong> is the other side: how long data must be <em>kept</em>, often set by law or regulation (financial records, email, logs), and when it must be disposed of. Keeping data longer than required is its own risk; it's more to breach and more to hand over in litigation.</p>
+<p>Magnetic <strong>HDDs</strong> (hard disk drives) can be degaussed; SSDs can't.</p>
 <blockquote><span class="tag">Gotcha</span>Degaussing only works on <strong>magnetic</strong> media. It does nothing to an SSD or flash drive; those need secure erase, cryptographic erase or physical destruction.</blockquote>
 `},
 
@@ -297,6 +331,17 @@ var TOPICS = [
 <tr><td><strong>Information-sharing organizations</strong></td><td>Groups whose members share indicators with each other, often by sector (ISACs, e.g. for finance or health) or alliances like the Cyber Threat Alliance</td></tr>
 <tr><td><strong>Dark web</strong></td><td>Hidden networks reachable only with special software, where stolen data and attack tools are traded. Monitor it for your organization's name, credentials and data</td></tr>
 </table></div>
+`},
+{id:"threatshare",obj:"4.3",title:"Threat Intelligence Standards &mdash; STIX, TAXII, AIS &amp; ATT&amp;CK",html:`
+<div class="tblwrap"><table><caption>How threat intelligence is described and shared</caption>
+<tr><th>Term</th><th>What it is</th></tr>
+<tr><td><strong>STIX</strong> &mdash; Structured Threat Information eXpression (CompTIA's acronym list says "eXchange")</td><td>A standard <em>format</em> for describing threat intelligence: indicators, actors, campaigns</td></tr>
+<tr><td><strong>TAXII</strong> &mdash; Trusted Automated eXchange of Indicator Information</td><td>The <em>transport</em> that moves STIX data between organizations</td></tr>
+<tr><td><strong>AIS</strong> &mdash; Automated Indicator Sharing</td><td>CISA's free program that shares indicators with organizations using STIX and TAXII</td></tr>
+<tr><td><strong>MITRE ATT&amp;CK</strong> &mdash; Adversarial Tactics, Techniques, and Common Knowledge</td><td>A public knowledge base of how attackers operate, organized by tactic (the goal) and technique (the method). Used to map detections and plan threat hunts</td></tr>
+<tr><td><strong>TTPs</strong> (TTP) &mdash; tactics, techniques and procedures</td><td>How an attacker behaves. Harder for them to change than IoCs like IPs and hashes, so more durable to detect</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>STIX is the language, TAXII is the delivery.</strong> ATT&amp;CK describes <em>behaviour</em> (TTPs), not individual indicators.</blockquote>
 `},
 {id:"pentest",obj:"4.3",title:"Penetration Testing &amp; Responsible Disclosure",html:`
 <p>A <strong>penetration test</strong> goes further than a scan: it actually exploits vulnerabilities to prove what an attacker could do. That makes it riskier, so it runs under written <strong>rules of engagement</strong> (scope, systems in and out of bounds, permitted hours and techniques, emergency contacts, handling of any sensitive data found).</p>
@@ -363,7 +408,8 @@ var TOPICS = [
 <tr><td>Install</td><td>Software permanently installed on the device</td><td>Nothing installed; runs remotely or temporarily (at login or VPN connect) and removes itself</td></tr>
 <tr><td>Coverage</td><td>Always running, continuous visibility, works off-network</td><td>Only when it runs</td></tr>
 <tr><td>Upkeep</td><td>Agent and its definitions must be updated</td><td>No agent maintenance</td></tr>
-</table></div>
+</table></div><p>Within SCAP, <strong>OVAL</strong> (Open Vulnerability Assessment Language) is the language for describing what to check on a system and what state counts as vulnerable.</p>
+
 `},
 {id:"montools",obj:"4.4",title:"Monitoring Tools &mdash; SIEM, DLP, SNMP &amp; NetFlow",html:`
 <div class="tblwrap"><table><caption>The named tools</caption>
@@ -389,6 +435,14 @@ var TOPICS = [
 <p>A <strong>screened subnet</strong> (the old DMZ) is a separate segment for internet-facing services. Rules let the internet reach those servers, but not pass through them into the internal network, so a compromised web server doesn't expose everything behind it.</p>
 <blockquote><span class="tag">Gotcha</span>A broad "allow" rule placed above a specific "deny" means the deny is never reached. When a question asks why a block isn't working, check the <strong>rule order</strong>.</blockquote>
 `},
+{id:"nat",obj:"4.5",title:"NAT, PAT &amp; DNAT",html:`
+<ul>
+<li><strong>NAT</strong> (network address translation) &mdash; rewrites private internal addresses to public ones at the firewall or router.</li>
+<li><strong>PAT</strong> (port address translation, NAT overload) &mdash; many internal hosts share one public IP, told apart by port number. What almost every home and office uses.</li>
+<li><strong>DNAT</strong> (destination NAT, port forwarding) &mdash; maps a public address and port to an internal server so it can be reached from outside. Every DNAT rule is a deliberate hole, so point it at the screened subnet, not the internal network.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>NAT hides internal addresses but <strong>is not a firewall</strong> &mdash; filtering rules still decide what gets through.</blockquote>
+`},
 {id:"idstune",obj:"4.5",title:"IDS/IPS &mdash; Signatures &amp; Trends",html:`
 <p>How NIDS, HIDS and IPS work is in the Domain 3 Notebook (3.2). For 4.5, the question is how you <em>tune</em> them.</p>
 <ul>
@@ -409,6 +463,7 @@ var TOPICS = [
 <tr><td><strong>Reputation</strong></td><td>A risk score for each site, from trustworthy to high risk, often assigned automatically; block anything below a threshold</td></tr>
 </table></div>
 <p><strong>DNS filtering</strong> works one layer earlier: the DNS resolver refuses to resolve known-malicious domains. It protects every application, not just browsers &mdash; including malware trying to reach its command-and-control server.</p>
+<p>Browsers can be pointed at the filtering proxy automatically with a <strong>PAC</strong> (proxy auto-configuration) file. A URL is one kind of <strong>URI</strong> (uniform resource identifier).</p>
 <blockquote><span class="tag">Gotcha</span>Firewall or proxy filtering stops working when a laptop leaves the building. If the scenario involves <strong>remote or travelling users</strong>, the answer is <strong>agent-based</strong> filtering (or cloud DNS filtering).</blockquote>
 `},
 {id:"ossec",obj:"4.5",title:"Operating System Security &mdash; Group Policy &amp; SELinux",html:`
@@ -416,6 +471,7 @@ var TOPICS = [
 <li><strong>Group Policy</strong> &mdash; the Windows/Active Directory mechanism for pushing configuration and security settings to users and computers centrally: password and lockout policy, screen lock, software restrictions, drive mappings, firewall settings. Settings are bundled into Group Policy Objects (GPOs) and linked to domains or organizational units (OUs).</li>
 <li><strong>SELinux</strong> (Security-Enhanced Linux) &mdash; adds <strong>mandatory access control</strong> to Linux, which by default uses discretionary access control. Policy decides what every process may touch, so a compromised service is confined to its allowed files and ports. Modes: <em>enforcing</em> (blocks and logs), <em>permissive</em> (logs only), <em>disabled</em>.</li>
 </ul>
+<p>File permissions on Linux can be extended with a file-system access control list (<strong>FACL</strong>) to grant rights to more than one user or group.</p>
 <blockquote><span class="tag">Gotcha</span>Standard Linux permissions are <strong>DAC</strong> (the owner decides). <strong>SELinux adds MAC</strong> (central policy decides). If a question asks how to enforce least privilege on Linux processes regardless of file owner, it's SELinux.</blockquote>
 `},
 {id:"secprotocols",obj:"4.5",title:"Implementing Secure Protocols",html:`
@@ -433,6 +489,14 @@ var TOPICS = [
 <tr><td>DNS</td><td>53</td><td>DNSSEC (integrity only), DoH/DoT</td><td>53 / 443 / 853</td></tr>
 </table></div>
 <p>Other ports worth knowing: RDP 3389, Kerberos 88, RADIUS 1812/1813, TACACS+ 49, NTP 123, SMB 445, syslog 514, DHCP 67/68.</p>
+<p>More protocol pairs from the acronym list:</p>
+<ul>
+<li><strong>RTP vs. SRTP</strong> &mdash; the Real-time Transport Protocol carries voice and video streams in the clear; Secure RTP adds encryption and authentication. Use SRTP for VoIP.</li>
+<li><strong>SMTPS</strong> &mdash; SMTP secured with TLS (ports 465/587).</li>
+<li><strong>TSIG</strong> (transaction signature) &mdash; uses a shared key to authenticate DNS zone transfers and dynamic updates between DNS servers.</li>
+<li><strong>S-HTTP</strong> (SHTTP) &mdash; an old message-level alternative to HTTPS that never caught on; <strong>WTLS</strong> &mdash; wireless TLS from the early mobile WAP era. Both are historical.</li>
+<li>All of these ride on <strong>TCP/IP</strong>, the protocol suite of the internet.</li>
+</ul>
 <blockquote><span class="tag">Gotcha</span><strong>SFTP</strong> runs over SSH on port 22. <strong>FTPS</strong> is FTP wrapped in TLS. They're different protocols despite the similar names. And <strong>DNSSEC signs DNS records for integrity; it does not encrypt them</strong>.</blockquote>
 `},
 {id:"emailsec",obj:"4.5",title:"Email Security &mdash; SPF, DKIM, DMARC &amp; Gateways",html:`
@@ -444,6 +508,7 @@ var TOPICS = [
 <tr><td><strong>DMARC</strong> &mdash; Domain-based Message Authentication, Reporting and Conformance</td><td>What to <em>do</em> when SPF/DKIM fail, and <em>reports</em> back to the domain owner</td><td>A DNS TXT policy: none (monitor), quarantine (spam folder) or reject, plus a reporting address</td></tr>
 </table></div>
 <p>An email <strong>gateway</strong> sits in front of the mail server (on-premises in the screened subnet, or as a cloud service), checking inbound and outbound mail for spam, malware, phishing and sensitive data before it's delivered.</p>
+<p>A domain's <strong>MX</strong> (mail exchange) records tell the world which servers receive its mail; pointing them at the gateway or cloud filter is how inbound mail is forced through it. <strong>S/MIME</strong> (Secure/Multipurpose Internet Mail Extensions) is different from SPF/DKIM/DMARC: it uses each user's certificate to encrypt and sign individual messages end to end.</p>
 <blockquote><span class="tag">Gotcha</span>SPF = <strong>which servers</strong>. DKIM = <strong>signature/integrity</strong>. DMARC = <strong>policy and reporting</strong> built on top of the other two. DMARC alone does nothing without SPF or DKIM.</blockquote>
 `},
 {id:"fim",obj:"4.5",title:"File Integrity Monitoring",html:`
@@ -476,6 +541,7 @@ var TOPICS = [
 <li><strong>XDR</strong> (extended detection and response) &mdash; EDR's reach extended across endpoints, network, cloud, email and identity, correlating them so one attack shows up as one incident instead of scattered alerts. Fewer missed detections, fewer false positives, faster investigation.</li>
 <li><strong>User behavior analytics (UBA / UEBA)</strong> &mdash; learns a baseline of how each user and device normally behaves and flags deviations: a 3 a.m. login, a sudden bulk download, access to systems the person never uses.</li>
 </ul>
+<p>Much of this relies on <strong>AI</strong> (artificial intelligence) and machine learning to spot patterns in huge volumes of data. Attackers use AI too: more convincing phishing, deepfake voices and video, and faster vulnerability discovery.</p>
 <blockquote><span class="tag">Gotcha</span><strong>EDR = one endpoint's view. XDR = correlated across many sources.</strong> UBA is about <em>people's</em> behaviour, which makes it the answer for insider threats and compromised accounts that pass every signature check.</blockquote>
 `},
 
@@ -499,6 +565,16 @@ var TOPICS = [
 <p>The SAML flow: user requests the app &rarr; app redirects to the identity provider &rarr; user authenticates there &rarr; identity provider returns a signed assertion &rarr; browser presents it to the app &rarr; access granted.</p>
 <p><strong>Interoperability</strong> is the practical constraint: the IAM pieces you choose must work with what you already have. A new VPN concentrator that speaks LDAP fits an Active Directory shop; an app that uses OAuth needs an authentication source that can feed it.</p>
 <blockquote><span class="tag">Gotcha</span><strong>OAuth is authorization, not authentication.</strong> SAML and OpenID Connect authenticate; OAuth delegates access. SSO is the user experience; federation is the trust relationship across organizations.</blockquote>
+`},
+{id:"kerberos",obj:"4.6",title:"Kerberos &amp; NTLM",html:`
+<p><strong>Kerberos</strong> is the ticket-based SSO protocol behind Active Directory logins:</p>
+<ol>
+<li>The user logs in and the <strong>KDC</strong> (key distribution center, on the domain controller) verifies them and issues a <strong>TGT</strong> (ticket granting ticket).</li>
+<li>When the user wants a service, they present the TGT to the KDC and receive a service ticket for that server.</li>
+<li>The service ticket is presented to the server; the password is never sent across the network. Tickets expire, and clocks must be in sync.</li>
+</ol>
+<p><strong>NTLM</strong> (NT LAN Manager) is the older Windows challenge-response protocol, still used as a fallback. It's vulnerable to pass-the-hash and relay attacks; disable it where Kerberos is available.</p>
+<blockquote><span class="tag">Gotcha</span>Kerberos needs <strong>time synchronization</strong> (NTP) &mdash; tickets are time-stamped, so skewed clocks break logins. Pass-the-hash targets NTLM; golden-ticket attacks target Kerberos TGTs.</blockquote>
 `},
 {id:"acmodels",obj:"4.6",title:"Access Control Models",html:`
 <div class="tblwrap"><table><caption>Who decides who gets access</caption>
@@ -527,9 +603,11 @@ var TOPICS = [
 <p>The named implementations:</p>
 <ul>
 <li><strong>Biometrics</strong> &mdash; stores a mathematical template, not a picture. Hard to change if compromised, so best combined with another factor. Accuracy trade-off: <em>false acceptance rate</em> (letting the wrong person in) vs. <em>false rejection rate</em> (locking the right person out); the <em>crossover error rate</em>, where they're equal, is how systems are compared.</li>
-<li><strong>Hard / soft authentication tokens</strong> &mdash; generate one-time codes, either on a dedicated device (hard) or an authenticator app (soft). SMS codes count as "something you have" but are the weakest option because of SIM swapping.</li>
+<li><strong>Hard / soft authentication tokens</strong> &mdash; generate one-time codes, either on a dedicated device (hard) or an authenticator app (soft). Two algorithms: <strong>TOTP</strong> (time-based one-time password) derives the code from the current time, so it changes every 30 seconds or so; <strong>HOTP</strong> (HMAC-based one-time password) derives it from a counter that advances each time a code is used or the button pressed, so a code stays valid until used. SMS codes count as "something you have" but are the weakest option because of SIM swapping.</li>
+<li><strong>Smart cards</strong> &mdash; government <strong>PIV</strong> (personal identity verification) cards and the military CAC hold a certificate and private key, used with a PIN.</li>
 <li><strong>Security keys</strong> &mdash; USB/NFC hardware (FIDO2) holding a private key; phishing-resistant because the key only answers the genuine site.</li>
 </ul>
+<p><strong>2FA</strong> (two-factor authentication) is MFA with exactly two factors.</p>
 <blockquote><span class="tag">Gotcha</span>Password + security question = <strong>one factor</strong> (both "know"). Password + fingerprint = two. Count <em>categories</em>, not steps.</blockquote>
 `},
 {id:"passwords",obj:"4.6",title:"Password Concepts, Managers &amp; Passwordless",html:`
@@ -543,6 +621,7 @@ var TOPICS = [
 </table></div>
 <p><strong>Password managers</strong> store unique, random passwords in one encrypted vault behind a strong master credential and MFA. They can be built into the OS or browser, third-party, or enterprise-managed, and often flag weak, reused or breached passwords.</p>
 <p><strong>Passwordless</strong> authentication removes the shared secret entirely: biometrics on a trusted device, security keys, passkeys, Windows Hello PIN (a local unlock tied to the device, not a password sent to a server). Nothing reusable to phish or spray.</p>
+<p>A <strong>CAPTCHA</strong> (completely automated public Turing test to tell computers and humans apart) on login and sign-up forms slows automated credential stuffing and bot account creation.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Expiration</strong> is the maximum lifetime; <strong>age</strong> (minimum) stops the "change it five times and back to the old one" trick. They work together with password history.</blockquote>
 `},
 {id:"pam",obj:"4.6",title:"Privileged Access Management (PAM)",html:`
@@ -568,7 +647,8 @@ var TOPICS = [
 <tr><td><strong>Enabling/disabling services and access</strong></td><td>Turn services or accounts on and off on schedule or on trigger</td></tr>
 <tr><td><strong>Continuous integration and testing</strong></td><td>Code is built, tested and security-scanned automatically on every commit</td></tr>
 <tr><td><strong>Integrations and application programming interfaces (APIs)</strong></td><td>Scripts talk to firewalls, cloud platforms and tools through their APIs instead of clicking through consoles</td></tr>
-</table></div>
+</table></div><p>The usual scripting languages are <strong>Bash</strong> (Bourne Again Shell) on Linux and macOS, PowerShell on Windows, and Python everywhere.</p>
+
 `},
 {id:"autobenefits",obj:"4.7",title:"Automation &mdash; Benefits &amp; Considerations",html:`
 <div class="tblwrap"><table><caption>Benefits vs. considerations</caption>
@@ -596,6 +676,7 @@ var TOPICS = [
 <li><strong>Lessons learned</strong> &mdash; a post-incident review soon after, while memory is fresh: what happened, how the response went, what to change.</li>
 </ol>
 <p>NIST's four: preparation &rarr; detection &amp; analysis &rarr; containment, eradication &amp; recovery &rarr; post-incident activity.</p>
+<p>The people doing this work are the incident response team &mdash; called a <strong>CIRT</strong> (computer incident response team), CSIRT, or <strong>CERT</strong> (computer emergency response team). National CERTs also publish advisories. The <strong>IRP</strong> (incident response plan) is the document that defines the team, roles and procedures.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Containment comes before eradication.</strong> Stop the bleeding first, then remove the cause. Wiping a machine before containment can let the attacker keep spreading elsewhere &mdash; and destroys evidence.</blockquote>
 `},
 {id:"irtraining",obj:"4.8",title:"Training, Testing, Root Cause &amp; Threat Hunting",html:`
@@ -605,6 +686,7 @@ var TOPICS = [
 <li><strong>Root cause analysis</strong> &mdash; working back from the incident to how the attacker actually got in and which control failed. Fix the root cause, not only the symptom, or it will happen again. There may be more than one.</li>
 <li><strong>Threat hunting</strong> &mdash; proactively searching for attackers already inside who haven't triggered an alert, using threat intelligence and hypotheses rather than waiting for an alarm.</li>
 </ul>
+<p>Root cause analysis typically produces a <strong>CAR</strong> (corrective action report) listing what will change to prevent a repeat, with owners and dates.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Threat hunting is proactive</strong> &mdash; looking for what the alerts missed. Incident response is reactive. Root cause analysis happens <em>after</em>, to prevent a repeat.</blockquote>
 `},
 {id:"forensics",obj:"4.8",title:"Digital Forensics",html:`
@@ -688,6 +770,11 @@ var GOTCHAS_TABLE = `
 <tr><td>Order of volatility</td><td>Registers/cache &rarr; RAM &rarr; disk &rarr; remote logs &rarr; backups</td></tr>
 <tr><td>E-discovery vs. forensics</td><td>Gather and produce the data vs. analyze it</td></tr>
 <tr><td>Legal hold</td><td>Preserve specified data for litigation &mdash; overrides normal deletion</td></tr>
+<tr><td>TOTP vs. HOTP</td><td>Code changes with time (~30 s) vs. code changes each time it's used (counter)</td></tr>
+<tr><td>WEP / WPA-TKIP / WPA2 / WPA3</td><td>Broken RC4 vs. deprecated RC4 stopgap vs. AES-CCMP vs. AES-GCMP with SAE</td></tr>
+<tr><td>STIX vs. TAXII</td><td>The format vs. the transport</td></tr>
+<tr><td>Kerberos vs. NTLM</td><td>Tickets from a KDC, time-sensitive vs. legacy challenge-response, pass-the-hash target</td></tr>
+<tr><td>PAT vs. DNAT</td><td>Many hosts share one public IP outbound vs. forwarding an inbound port to one internal server</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

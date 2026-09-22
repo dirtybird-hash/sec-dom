@@ -177,6 +177,20 @@ var TOPICS = [
 <blockquote><span class="tag">Gotcha</span>"Hybrid" is used two ways. The textbook definition is on-premises plus public cloud; Professor Messer also uses it for several cloud providers at once. Either way the exam point is the same: more than one environment means more places for configuration to drift.</blockquote>
 <blockquote><span class="tag">Gotcha</span>"The provider handles security" is always half true. They secure the cloud; you secure what you put <em>in</em> it. Misconfigured storage and over-broad permissions are customer-side failures every time.</blockquote>
 `},
+{id:"cloudmodels",obj:"3.1",title:"Cloud Service Models &amp; Providers",html:`
+<div class="tblwrap"><table><caption>Who manages what</caption>
+<tr><th>Model</th><th>Provider manages</th><th>Customer manages</th><th>Example</th></tr>
+<tr><td><strong>IaaS</strong> &mdash; infrastructure as a service</td><td>Hardware, virtualization, network</td><td>OS, patching, apps, data, access</td><td>Rented virtual servers</td></tr>
+<tr><td><strong>PaaS</strong> &mdash; platform as a service</td><td>Everything up to the OS and runtime</td><td>Their code, data and access</td><td>A managed app-hosting platform</td></tr>
+<tr><td><strong>SaaS</strong> &mdash; software as a service</td><td>The whole application</td><td>Data, users and settings</td><td>Web email, CRM</td></tr>
+</table></div>
+<ul>
+<li><strong>VPC</strong> (virtual private cloud) &mdash; a logically isolated network inside a public cloud, with its own subnets, routing and security groups.</li>
+<li><strong>MSP / MSSP</strong> &mdash; a managed service provider runs your IT; a <strong>managed security service provider</strong> runs security functions such as a 24/7 SOC or SIEM monitoring. Both are third parties with privileged access to vet carefully.</li>
+<li><strong>MaaS</strong> (monitoring as a service) &mdash; monitoring delivered by a provider rather than built in-house.</li>
+</ul>
+<blockquote><span class="tag">Gotcha</span>Going from IaaS to PaaS to SaaS, the <strong>provider takes on more</strong> and the customer less &mdash; but the customer always keeps responsibility for their data and who can access it.</blockquote>
+`},
 {id:"iac",obj:"3.1",title:"Infrastructure as Code",html:`
 <p><strong>Infrastructure as code (IaC)</strong> defines servers, networks and policy in machine-readable files that are version-controlled and deployed automatically, instead of being configured by hand.</p>
 <p>The security story cuts both ways. Consistency is the win: every environment is built from the same reviewed definition, so configuration drift largely disappears and rebuilding is trivial. The risk is that a mistake propagates just as reliably &mdash; one misconfiguration in the template becomes a misconfiguration in every environment it builds, instantly and everywhere.</p>
@@ -210,6 +224,19 @@ var TOPICS = [
 <p>Splitting a device into planes is what lets it be written as software. That's how cloud platforms let you add a firewall or load balancer with a click: the device is virtual. Many SDN deployments are built on the open <strong>OpenFlow</strong> standard.</p>
 <blockquote><span class="tag">Gotcha</span>Air-gapped means <em>physically</em> disconnected. A heavily firewalled VLAN with no allowed routes is still logically segmented, not air-gapped &mdash; the cable exists. VLANs are the scalable answer: one physical switch behaves like several, where true physical isolation would need a separate switch per customer or segment.</blockquote>
 `},
+{id:"netfund",obj:"3.1",title:"Network Building Blocks &mdash; LAN, WAN, Routing &amp; Cabling",html:`
+<p>Acronym-list networking terms, with the security angle for each:</p>
+<div class="tblwrap"><table><caption>Networking terms from the acronym list</caption>
+<tr><th>Term</th><th>What it is</th><th>Security angle</th></tr>
+<tr><td><strong>LAN / MAN / WAN</strong></td><td>Local, metropolitan and wide area networks &mdash; one building, a city, and everything larger</td><td>Trust usually falls as scope widens; WAN links cross networks you don't control, so encrypt them</td></tr>
+<tr><td><strong>VLSM</strong> &mdash; variable length subnet masking</td><td>Subnets of different sizes carved from one address block</td><td>Lets segments be sized exactly, which makes segmentation practical</td></tr>
+<tr><td><strong>UTP</strong> &mdash; unshielded twisted pair</td><td>Standard copper Ethernet cable</td><td>Can be tapped and emits interference; fibre is harder to tap. Protect cable runs physically</td></tr>
+<tr><td><strong>ISP</strong> &mdash; internet service provider</td><td>Your upstream connection</td><td>Two different ISPs give resilience; ISPs can filter DDoS upstream</td></tr>
+<tr><td><strong>DSL</strong> &mdash; digital subscriber line</td><td>Internet over telephone lines, common at small branches</td><td>Branch links need VPN or SD-WAN encryption</td></tr>
+<tr><td><strong>BGP</strong> &mdash; Border Gateway Protocol</td><td>Routes traffic between networks across the internet</td><td>BGP hijacking can redirect whole address blocks; RTBH uses BGP to drop DDoS traffic</td></tr>
+<tr><td><strong>OSPF</strong> &mdash; Open Shortest Path First</td><td>Routing inside an organization's network</td><td>Authenticate routing updates (HMAC) so no one can inject false routes</td></tr>
+</table></div>
+`},
 {id:"onprem",obj:"3.1",title:"On-Premises &amp; Centralized vs. Decentralized",html:`
 <p><strong>On-premises</strong> gives you full control and full responsibility &mdash; physical security, patching, monitoring and capacity are all yours. It can be made very secure, at higher cost and with far less elasticity than cloud.</p>
 <div class="tblwrap"><table><caption>Centralized vs. decentralized architecture</caption>
@@ -233,7 +260,8 @@ var TOPICS = [
 <li><strong>Hypervisor</strong> &mdash; the software that divides hardware between virtual machines. <strong>Type 1</strong> (bare metal, native) runs directly on the hardware: ESXi, Hyper-V, KVM, XenServer. <strong>Type 2</strong> (hosted) runs as an application on a host operating system: VirtualBox, VMware Workstation.</li>
 <li><strong>Containers</strong> skip the hypervisor and the guest OS. Container software such as <strong>Docker</strong> runs on a single host operating system, and each container holds everything the app needs except the OS. The trade-off is that a container is tied to its host OS family &mdash; Linux containers need a Linux host.</li>
 </ul>
-<p>Container security is largely supply-chain security: where the base image came from, what's inside it, whether the registry is trusted, and how quickly images get rebuilt when a dependency is patched.</p>
+<p>Container security is largely supply-chain security: where the base image came from, what's inside it, whether the registry is trusted, and how quickly images get rebuilt when a dependency is patched.</p><p><strong>VDI</strong> (virtual desktop infrastructure) runs users' desktops as VMs in the data centre and streams the screen to any device; a <strong>VDE</strong> (virtual desktop environment) is the desktop the user sees. Data stays in the data centre, so a lost laptop exposes nothing, and desktops can be reset to a clean image.</p>
+
 `},
 {id:"iot",obj:"3.1",title:"IoT",html:`
 <p><strong>Internet of Things</strong> devices are purpose-built, cheap, and deployed in volume &mdash; sensors, cameras, thermostats, badge readers, medical equipment.</p>
@@ -249,11 +277,13 @@ var TOPICS = [
 <li><strong>Availability outranks confidentiality.</strong> A production line cannot be stopped to install a patch, so the maintenance window that would let you fix things may effectively never come.</li>
 <li><strong>Protocols built without security.</strong> Many industrial protocols predate any assumption of network exposure and have no authentication at all.</li>
 </ol>
-<p>Because patching is often impossible, defence leans on isolation and compensating controls rather than remediation.</p>
+<p>Because patching is often impossible, defence leans on isolation and compensating controls rather than remediation.</p><p>ICS and SCADA are the core of <strong>OT</strong> (operational technology): the systems that control physical processes, as opposed to IT.</p>
+
 `},
 {id:"embedded",obj:"3.1",title:"Embedded Systems &amp; RTOS",html:`
 <p>An <strong>embedded system</strong> is a computer built into a larger device to do one job &mdash; the controller in a printer, a vehicle, a medical pump. The user generally doesn't perceive it as a computer at all, which is part of the problem: it gets no patching, no monitoring, and no place in the asset inventory.</p>
 <p>A <strong>real-time operating system (RTOS)</strong> is <strong>deterministic</strong>: a critical task gets the whole system's attention immediately, where general-purpose OSes like Windows and Linux are non-deterministic and share resources. Anti-lock brakes are the classic example. An RTOS is used where timing is a correctness requirement, not a preference &mdash; an airbag controller or an industrial actuator must respond within a guaranteed window. That constraint squeezes out security features that introduce variable delay, and it makes updates risky because anything altering timing can break the system's core guarantee.</p>
+<p>Embedded devices are often built on an <strong>SoC</strong> (system on chip: processor, memory and radios on one chip) or an <strong>FPGA</strong> (field programmable gate array, a chip whose logic can be reprogrammed after manufacture). Both make patching hard, and a tampered FPGA configuration is a hardware-level compromise.</p>
 <blockquote><span class="tag">Gotcha</span>The recurring theme across IoT, ICS/SCADA, embedded and RTOS is the same: <strong>inability to patch</strong>. When a question describes a system that can't be updated, the expected answer is almost always isolation or a compensating control, not remediation.</blockquote>
 `},
 {id:"considerations",obj:"3.1",title:"Architecture Considerations Checklist",html:`
@@ -270,7 +300,7 @@ var TOPICS = [
 <tr><td><strong>Ease of recovery</strong></td><td>How quickly can it be restored after failure? Reimaging from a saved image in minutes beats reinstalling from media for an hour.</td></tr>
 <tr><td><strong>Patch availability</strong></td><td>Does the vendor still issue fixes, and do you test and deploy them promptly?</td></tr>
 <tr><td><strong>Inability to patch</strong></td><td>The condition that forces compensating controls &mdash; embedded systems like HVAC controllers and time clocks often have no update path. Wall them off behind a firewall.</td></tr>
-<tr><td><strong>Power</strong></td><td>Consumption and continuity requirements.</td></tr>
+<tr><td><strong>Power</strong></td><td>Consumption and continuity requirements. Battery-powered and low-power devices (IoT, sensors, embedded) often can't run strong encryption or security agents, and on-premises designs are limited by the facility's power capacity and backup (UPS, generator, PDUs).</td></tr>
 <tr><td><strong>Compute</strong></td><td>Processing capacity available and needed. In the cloud, a scalable compute engine rather than a single CPU.</td></tr>
 </table></div>
 <blockquote><span class="tag">Gotcha</span><strong>Reliability, availability and durability</strong> are different measures. Availability counts all downtime, planned maintenance included. Reliability counts only failures, so a system can be more reliable but less available than another. Durability is about stored data surviving without loss or corruption over the long term.</blockquote>
@@ -360,6 +390,7 @@ var TOPICS = [
 <tr><td><strong>False positive</strong></td><td>Normal activity, but it alerted &mdash; noise, and eventually alert fatigue</td></tr>
 <tr><td><strong>False negative</strong></td><td>Real attack, and it stayed quiet &mdash; the dangerous one</td></tr>
 </table></div>
+<p>Wireless has its own versions: a <strong>WIDS</strong> (wireless intrusion detection system) watches the airspace for rogue access points, evil twins and deauthentication floods; a <strong>WIPS</strong> can also contain them, for example by blocking clients from joining a rogue AP.</p>
 <blockquote><span class="tag">Gotcha</span>Placement follows from the name. An IPS must be <strong>inline</strong> to block, so it inherits the fail-open/fail-closed decision. An IDS works from a copy, so it can never break traffic &mdash; and can never stop it. And a <strong>false negative</strong> is worse than a false positive: one wastes an analyst's time, the other means the attack went through unseen.</blockquote>
 `},
 {id:"portsec",obj:"3.2",title:"Port Security &mdash; 802.1X &amp; EAP",html:`
@@ -373,6 +404,15 @@ var TOPICS = [
 <p>The exchange: the authenticator sends an <strong>EAP request</strong> for identity, the supplicant returns an <strong>EAP response</strong>, the authenticator relays it to the server, the server asks for credentials, and they pass back through the authenticator. Only after the server approves does the port open for normal traffic. 802.1X is also called <strong>NAC</strong> (port-based network access control), and it applies to wired switch ports as well as wireless.</p>
 <p><strong>EAP</strong> (Extensible Authentication Protocol) is the framework carrying that exchange. It isn't one method but a container for many &mdash; certificate-based, credential-based, tunnelled &mdash; which is why you see variants like EAP-TLS and PEAP.</p>
 `},
+{id:"authproto",obj:"3.2",title:"Legacy Authentication Protocols &amp; Switch Protections",html:`
+<div class="tblwrap"><table><caption>Authentication protocols from the acronym list</caption>
+<tr><th>Protocol</th><th>How it works</th><th>Security</th></tr>
+<tr><td><strong>PAP</strong> &mdash; Password Authentication Protocol</td><td>Sends the username and password</td><td>Cleartext &mdash; never use unprotected</td></tr>
+<tr><td><strong>CHAP</strong> &mdash; Challenge Handshake Authentication Protocol</td><td>Server sends a challenge; client returns a hash of it with the shared secret</td><td>Password never crosses the wire; repeats the challenge during the session</td></tr>
+<tr><td><strong>MS-CHAP / MS-CHAPv2</strong> (MSCHAP)</td><td>Microsoft's CHAP variant, used inside PEAP</td><td>Crackable; prefer EAP-TLS</td></tr>
+</table></div>
+<p><strong>Switch protections</strong>: switches exchange <strong>BPDUs</strong> (bridge protocol data units) to run Spanning Tree Protocol and prevent loops. <strong>BPDU guard</strong> shuts down an access port that receives a BPDU, stopping a rogue switch from being plugged in or a loop from taking the network down. 802.1X is an IEEE standard (Institute of Electrical and Electronics Engineers); EAP itself comes from the IETF.</p>
+`},
 {id:"securecomm",obj:"3.2",title:"Secure Communication &amp; Access",html:`
 <ul>
 <li><strong>VPN</strong> &mdash; an encrypted tunnel across an untrusted network. <em>Remote access</em> VPNs connect a user to the corporate network; <em>site-to-site</em> VPNs connect two networks permanently, with the firewalls at each end acting as endpoints so no client software is needed.</li>
@@ -384,6 +424,32 @@ var TOPICS = [
 <li><strong>SASE</strong> &mdash; secure access service edge, converging SD-WAN with cloud-delivered security so policy follows the user wherever they connect from, rather than requiring traffic to be hauled back to a datacentre first.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span>TLS operates at the transport layer and typically protects specific applications; IPSec operates at the network layer and protects everything between the endpoints. Client VPN leans TLS, site-to-site leans IPSec.</blockquote>
+`},
+{id:"vpnproto",obj:"3.2",title:"Tunneling Protocols &mdash; IPSec AH/ESP, IKE, GRE, L2TP, PPTP",html:`
+<p><strong>IPSec</strong> is built from two protocols, plus a key exchange:</p>
+<div class="tblwrap"><table><caption>Inside IPSec</caption>
+<tr><th>Part</th><th>Provides</th><th>Note</th></tr>
+<tr><td><strong>AH</strong> &mdash; Authentication Header</td><td>Integrity and authentication of the whole packet</td><td><strong>No encryption.</strong> Doesn't work through NAT, because NAT changes the headers AH protects</td></tr>
+<tr><td><strong>ESP</strong> &mdash; Encapsulating Security Payload</td><td>Encryption <em>plus</em> integrity and authentication</td><td>The one almost everyone uses; works through NAT with NAT traversal (UDP 4500). AH and ESP can be combined</td></tr>
+<tr><td><strong>IKE</strong> &mdash; Internet Key Exchange (IKEv2)</td><td>Negotiates keys and builds the security associations (SAs)</td><td>Uses Diffie-Hellman</td></tr>
+</table></div>
+<div class="tblwrap"><table><caption>Other tunneling protocols</caption>
+<tr><th>Protocol</th><th>What it does</th><th>Security</th></tr>
+<tr><td><strong>GRE</strong> &mdash; Generic Routing Encapsulation</td><td>Wraps almost any traffic in a tunnel</td><td>No encryption &mdash; usually run inside IPSec</td></tr>
+<tr><td><strong>L2TP</strong> &mdash; Layer 2 Tunneling Protocol</td><td>Tunnels layer 2 traffic</td><td>No encryption of its own; used as L2TP/IPSec</td></tr>
+<tr><td><strong>PPTP</strong> &mdash; Point-to-Point Tunneling Protocol</td><td>Early Microsoft VPN</td><td>Broken &mdash; don't use</td></tr>
+<tr><td><strong>PPP</strong> &mdash; Point-to-Point Protocol</td><td>Link protocol from the dial-up era that PPTP and L2TP build on</td><td>Authenticates with PAP or CHAP</td></tr>
+</table></div>
+<p>Every tunnel adds headers, which shrinks the <strong>MTU</strong> (maximum transmission unit), the largest packet that fits. VPN connection problems where small pages load but large transfers hang are often MTU/fragmentation issues.</p>
+<blockquote><span class="tag">Gotcha</span><strong>AH authenticates but does not encrypt; ESP encrypts.</strong> GRE and L2TP don't encrypt either &mdash; they're paired with IPSec for that.</blockquote>
+`},
+{id:"casbswg",obj:"3.2",title:"CASB &amp; Secure Web Gateway",html:`
+<ul>
+<li><strong>CASB</strong> (cloud access security broker) &mdash; sits between users and cloud services to see and control their use: discovers unsanctioned SaaS (shadow IT), enforces policy on sanctioned apps, applies DLP to uploads, and checks configurations. Works through APIs, a proxy, or both.</li>
+<li><strong>SWG</strong> (secure web gateway) &mdash; a cloud or on-premises proxy that filters web traffic: URL filtering, malware scanning, TLS inspection, application control.</li>
+</ul>
+<p>CASB, SWG, ZTNA and firewall-as-a-service are the security components bundled into <strong>SASE</strong>.</p>
+<blockquote><span class="tag">Gotcha</span><strong>CASB is about cloud apps</strong> (who uses which SaaS, and what data goes there); an <strong>SWG is about web browsing</strong> in general.</blockquote>
 `},
 {id:"controlsel",obj:"3.2",title:"Selection of Effective Controls",html:`
 <p>The objectives close 3.2 by asking you to <em>choose</em>, not just recognize. Given a scenario, the expected reasoning runs: what is being protected, what is it worth, what threatens it, what does the control cost, and what does it break.</p>
@@ -456,6 +522,7 @@ var TOPICS = [
 <li><strong>Tokenization</strong> in tap-to-pay: a token service issues one-time tokens to your phone, and the card number itself never crosses the network. No encryption or hashing is involved.</li>
 <li><strong>Segmentation</strong> means splitting one huge database into several, so one breach doesn't expose everything and each part gets security matched to its content.</li>
 </ul>
+<p><strong>Permission restrictions</strong> in practice: access control lists and file-system or database permissions set to least privilege (a file-system ACL is sometimes written <strong>FACL</strong>), group-based rather than per-user grants, strong authentication and MFA in front of sensitive stores, and removing access promptly when people change role. Example: a payroll share readable only by the payroll group, with write access limited to two named administrators.</p>
 <blockquote><span class="tag">Gotcha</span>Only <strong>encryption</strong> is reversible with a key, and only <strong>hashing</strong> is genuinely one-way. Tokenization looks like encryption but has no mathematical relationship to the original &mdash; the mapping lives in a separate vault.</blockquote>
 `},
 
@@ -471,6 +538,18 @@ var TOPICS = [
 <tr><td>Operating systems</td><td>Can differ</td><td>Usually identical, clustering is configured in the OS</td></tr>
 </table></div>
 <p><strong>Failover</strong> is the act of switching to the standby when the primary fails, and it should be tested rather than assumed.</p>
+`},
+{id:"raid",obj:"3.4",title:"RAID &mdash; Disk Redundancy",html:`
+<p><strong>RAID</strong> (redundant array of inexpensive disks) spreads data across several drives so the system survives a drive failure.</p>
+<div class="tblwrap"><table><caption>Common RAID levels</caption>
+<tr><th>Level</th><th>How</th><th>Survives</th></tr>
+<tr><td><strong>RAID 0</strong></td><td>Striping only</td><td>Nothing &mdash; faster, but one failed drive loses everything</td></tr>
+<tr><td><strong>RAID 1</strong></td><td>Mirroring</td><td>One drive failure</td></tr>
+<tr><td><strong>RAID 5</strong></td><td>Striping with distributed parity (3+ drives)</td><td>One drive failure</td></tr>
+<tr><td><strong>RAID 6</strong></td><td>Striping with double parity</td><td>Two drive failures</td></tr>
+<tr><td><strong>RAID 10</strong></td><td>Mirrors that are then striped</td><td>One drive per mirror</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>RAID is not a backup.</strong> It protects against a disk dying, not against deletion, corruption or ransomware, which it copies to every disk instantly. RAID 0 has no redundancy at all.</blockquote>
 `},
 {id:"sites",obj:"3.4",title:"Site Considerations &mdash; Hot, Warm &amp; Cold",html:`
 <div class="tblwrap"><table><caption>Recovery sites, fastest to cheapest</caption>
@@ -493,7 +572,8 @@ var TOPICS = [
 <li><strong>People</strong> &mdash; enough trained staff, including cover for absence and turnover. A recovery plan requiring a specific individual is a plan with a single point of failure.</li>
 <li><strong>Technology</strong> &mdash; enough compute, storage and bandwidth for both normal load and surge.</li>
 <li><strong>Infrastructure</strong> &mdash; the facilities, power and space to support it.</li>
-</ul>
+</ul><p>This is also called <strong>CP</strong> (contingency planning).</p>
+
 `},
 {id:"testing",obj:"3.4",title:"Recovery Testing",html:`
 <p>An untested recovery plan is a hypothesis. The objectives name four testing methods, in rough order of realism and disruption.</p>
@@ -516,6 +596,14 @@ var TOPICS = [
 <li><strong>Journaling</strong> &mdash; writing changes to a journal first, then committing them to the data. If power fails mid-write, the database is either untouched or can be repaired from the journal at startup, so it avoids corruption.</li>
 <li><strong>Recovery</strong> &mdash; the part that actually matters. A backup that has never been restored is unverified.</li>
 </ul>
+<p><strong>Recovery</strong> options, from smallest to largest:</p>
+<ul>
+<li><strong>Single file or item</strong> &mdash; restore one deleted document or mailbox.</li>
+<li><strong>Point-in-time</strong> &mdash; roll a database or VM back to a specific moment, using snapshots or journals.</li>
+<li><strong>Full restore</strong> &mdash; bring back an entire system or data set from the last full plus later incremental/differential backups.</li>
+<li><strong>Bare-metal / image restore</strong> &mdash; rebuild a server from nothing onto new hardware.</li>
+</ul>
+<p>Test restores regularly against the RTO and RPO, following a documented recovery procedure; a restore you've never practised will take longer than the plan assumes.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Replication is not a backup.</strong> It copies whatever happens, including the bad thing, in near real time. Backups protect against corruption precisely because they are point-in-time and separate.</blockquote>
 `},
 {id:"power",obj:"3.4",title:"Power Resilience",html:`
@@ -534,6 +622,7 @@ var TOPICS = [
 </table></div>
 <p>A UPS protects against <strong>blackouts</strong> (no power), <strong>brownouts</strong> (low voltage) and <strong>surges</strong> (excess voltage). When the battery runs low it can signal servers to shut down gracefully. A generator may power the whole building or only outlets marked for generator power.</p>
 <p>They're designed to work together: the UPS covers the gap between utility power failing and the generator reaching full output. A UPS also conditions power, smoothing the sags and surges that damage equipment over time.</p>
+<p>In the rack, <strong>PDUs</strong> (power distribution units) feed the servers; managed PDUs can be monitored and switched remotely, and dual PDUs on separate circuits let dual power supplies survive a circuit failure.</p>
 <blockquote><span class="tag">Gotcha</span>A generator alone leaves a gap at the moment of failure &mdash; it needs seconds to start, and servers do not tolerate seconds without power. The UPS exists to cover exactly that interval.</blockquote>
 `}
 ];
@@ -574,6 +663,11 @@ var GOTCHAS_TABLE = `
 <tr><td>Parallel processing, two meanings</td><td>Recovery systems run alongside production vs. work spread across multiple CPUs</td></tr>
 <tr><td>Replication vs. backup</td><td>Copies everything including the damage vs. point-in-time and separate</td></tr>
 <tr><td>UPS vs. generator</td><td>Instant but brief vs. delayed but sustained &mdash; you need both</td></tr>
+<tr><td>AH vs. ESP</td><td>Authentication and integrity only vs. encryption plus integrity</td></tr>
+<tr><td>IaaS vs. PaaS vs. SaaS</td><td>You manage the OS up vs. just your code and data vs. just your data and users</td></tr>
+<tr><td>CASB vs. SWG</td><td>Controls use of cloud apps vs. filters web browsing</td></tr>
+<tr><td>PAP vs. CHAP</td><td>Cleartext password vs. hashed challenge-response</td></tr>
+<tr><td>RAID vs. backup</td><td>Survives a disk failure vs. recovers from deletion, corruption and ransomware</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

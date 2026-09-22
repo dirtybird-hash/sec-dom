@@ -173,12 +173,12 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
   <!-- FLASHCARDS -->
   <section class="panel" id="panel-flash">
-    <p class="lede">116 term cards drawn from the Domain 4 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <p class="lede">131 term cards drawn from the Domain 4 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
     <div class="chiprow" id="flash-filters"></div>
     <div class="card" style="gap:14px;display:flex;flex-direction:column;">
       <div class="deck-meta">
         <span id="flash-badge"></span>
-        <span id="flash-pos">1 / 116</span>
+        <span id="flash-pos">1 / 131</span>
       </div>
       <div class="flip-outer">
         <div class="flip-card" id="flip-card">
@@ -407,7 +407,22 @@ var FLASHCARDS = [
  {id:113,obj:"4.9",t:"OS-specific security logs",d:"Authentication successes and failures, privilege use, changes to critical files and services."},
  {id:114,obj:"4.9",t:"Metadata",d:"Data about data: email headers, photo GPS and device model, document author, browser details."},
  {id:115,obj:"4.9",t:"Packet capture",d:"The full contents of network traffic &mdash; the only source that shows exactly what was sent."},
- {id:116,obj:"4.9",t:"Dashboards",d:"Real-time, at-a-glance status, often on the SOC wall. Current state, not long-term history."}
+ {id:116,obj:"4.9",t:"Dashboards",d:"Real-time, at-a-glance status, often on the SOC wall. Current state, not long-term history."},
+ {id:117,obj:"4.6",t:"TOTP vs. HOTP",d:"Time-based code that changes every ~30 s vs. counter-based code that changes each time it's used."},
+ {id:118,obj:"4.6",t:"Kerberos KDC and TGT",d:"The key distribution center issues a ticket granting ticket at login, exchanged for service tickets. Needs synced clocks."},
+ {id:119,obj:"4.6",t:"NTLM",d:"Legacy Windows challenge-response authentication; pass-the-hash target. Prefer Kerberos."},
+ {id:120,obj:"4.6",t:"PIV / CAC",d:"Government and military smart cards holding a certificate, used with a PIN."},
+ {id:121,obj:"4.1",t:"WEP / WPA-TKIP",d:"Both use the broken RC4 cipher; never use them. WPA2 (AES-CCMP) at minimum, WPA3 preferred."},
+ {id:122,obj:"4.1",t:"COBO",d:"Corporate-owned, business only: no personal use."},
+ {id:123,obj:"4.1",t:"UEFI Secure Boot",d:"Firmware check that only a signed boot loader runs, blocking bootkits."},
+ {id:124,obj:"4.1",t:"OWASP",d:"Open Worldwide Application Security Project &mdash; publishes the OWASP Top 10 web risks."},
+ {id:125,obj:"4.3",t:"STIX vs. TAXII",d:"The format for describing threat intel vs. the transport for sharing it."},
+ {id:126,obj:"4.3",t:"MITRE ATT&amp;CK",d:"Knowledge base of attacker tactics and techniques (TTPs), used for detection mapping and threat hunting."},
+ {id:127,obj:"4.3",t:"AIS",d:"CISA's Automated Indicator Sharing program, using STIX/TAXII."},
+ {id:128,obj:"4.5",t:"PAT vs. DNAT",d:"Many internal hosts share one public IP vs. a public port forwarded to one internal server."},
+ {id:129,obj:"4.5",t:"SRTP",d:"Secure Real-time Transport Protocol: encrypted voice and video."},
+ {id:130,obj:"4.5",t:"S/MIME",d:"Certificate-based encryption and signing of individual email messages."},
+ {id:131,obj:"4.5",t:"TSIG",d:"Shared-key authentication of DNS zone transfers and updates."}
 ];
 
 var QUIZ = [
@@ -446,7 +461,10 @@ var QUIZ = [
  {id:33,obj:"4.8",q:"A security team searches for signs of attackers already inside the network, based on new threat intelligence, before any alert has fired. What is this?",c:["Incident response","Threat hunting","Root cause analysis","Tabletop exercise"],a:1,e:"Threat hunting is proactive; incident response reacts to a detected event."},
  {id:34,obj:"4.9",q:"An investigator needs to know exactly what data a compromised host sent to an external server over an unencrypted protocol. Which source provides it?",c:["NetFlow","Firewall logs","Packet capture","Dashboard"],a:2,e:"Only a packet capture records the full contents. The others show that a connection happened, not what was in it."},
  {id:35,obj:"4.9",q:"A photo posted online reveals the GPS coordinates where it was taken. What type of data is this?",c:["Application log","Metadata","Endpoint log","Automated report"],a:1,e:"Metadata is data about data &mdash; including photo location, device model and timestamps."},
- {id:36,obj:"4.9",q:"Which log would show repeated failed logins against a Windows server's local accounts?",c:["Firewall log","OS-specific security log","NetFlow","Application log"],a:1,e:"The OS security log (the Windows Security event log) records authentication successes and failures."}
+ {id:36,obj:"4.9",q:"Which log would show repeated failed logins against a Windows server's local accounts?",c:["Firewall log","OS-specific security log","NetFlow","Application log"],a:1,e:"The OS security log (the Windows Security event log) records authentication successes and failures."},
+ {id:37,obj:"4.6",q:"An authenticator app shows a new six-digit code every 30 seconds. Which algorithm is it using?",c:["HOTP","TOTP","NTLM","SAML"],a:1,e:"Time-based codes are TOTP; counter-based codes that change on use are HOTP."},
+ {id:38,obj:"4.3",q:"Which pair describes threat intelligence (format) and moves it between organizations (transport)?",c:["TAXII and STIX","STIX and TAXII","ATT&CK and AIS","OVAL and SCAP"],a:1,e:"STIX is the format, TAXII the transport."},
+ {id:39,obj:"4.6",q:"Users suddenly can't log in to the domain, and investigation shows the domain controller's clock is 20 minutes off. Which protocol is affected?",c:["NTLM","Kerberos","RADIUS","LDAP"],a:1,e:"Kerberos tickets are time-stamped, so clock skew breaks authentication."}
 ];
 
 var SCENARIOS = [

@@ -310,7 +310,13 @@ var PAIRS = [
 {id:"g7",obj:"gotchas",term:"CRL vs. OCSP",def:"Download the whole list vs. ask about one certificate in real time"},
 {id:"g8",obj:"gotchas",term:"TPM vs. HSM",def:"One device's keys vs. many devices at data-center scale"},
 {id:"g9",obj:"gotchas",term:"Hashing vs. digital signature",def:"Fingerprint/integrity only vs. integrity plus non-repudiation"},
-{id:"g10",obj:"gotchas",term:"Obfuscation vs. encryption",def:"Hides from casual view vs. mathematically unreadable without a key"}
+{id:"g10",obj:"gotchas",term:"Obfuscation vs. encryption",def:"Hides from casual view vs. mathematically unreadable without a key"},
+{id:"x1",obj:"1.4",term:"ECB",def:"Cipher mode that leaks patterns in identical blocks"},
+{id:"x2",obj:"1.4",term:"GCM",def:"Counter mode with built-in authentication"},
+{id:"x3",obj:"1.4",term:"Registration authority",def:"Verifies identity before the CA issues a certificate"},
+{id:"x4",obj:"1.4",term:"PKCS #12",def:"Password-protected certificate plus private key"},
+{id:"x5",obj:"1.4",term:"CRC",def:"Detects accidental errors, not tampering"},
+{id:"x6",obj:"1.4",term:"Record-level encryption",def:"Each database row encrypted with its own key"}
 ];
 
 var SVGNS = "http://www.w3.org/2000/svg";

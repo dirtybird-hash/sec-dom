@@ -201,7 +201,7 @@ var TOPICS = [
 <li><strong>Integrity</strong> &mdash; data received is exactly what was sent, unchanged in transit. Provided by hashing, digital signatures, certificates and <strong>non-repudiation</strong>, which Messer files under integrity.</li>
 <li><strong>Availability</strong> &mdash; systems stay up and reachable. Provided by fault tolerance, redundancy, and patching.</li>
 </ul>
-<p>Some models add a fourth property, which gives the alternate mnemonic <strong>PAIN</strong>: <strong>P</strong>rivacy, <strong>A</strong>uthentication, <strong>I</strong>ntegrity, <strong>N</strong>on-repudiation. Useful when a question is fishing for non-repudiation as a named security property rather than as a side effect of signing.</p>
+<p>An alternative four-part model uses the mnemonic <strong>PAIN</strong>: <strong>P</strong>rivacy, <strong>A</strong>uthentication, <strong>I</strong>ntegrity, <strong>N</strong>on-repudiation. It isn't a fourth leg added to CIA; it's a different way of slicing the same goals, useful when a question treats non-repudiation as a named security property rather than a side effect of signing.</p>
 `},
 {id:"nonrepud",obj:"1.2",title:"Non-Repudiation",html:`
 <p><strong>Non-repudiation</strong> means the sender can't credibly deny having sent something &mdash; it combines two proofs:</p>
@@ -276,7 +276,8 @@ var TOPICS = [
 <tr><td><strong>Microwave</strong></td><td>Movement over a larger area than infrared</td></tr>
 <tr><td><strong>Ultrasonic</strong></td><td>Reflected sound waves; also used for collision detection in car parks</td></tr>
 <tr><td><strong>Pressure</strong></td><td>A change in force, like someone stepping on a floor mat</td></tr>
-</table></div>
+</table></div><p>A few more physical-security terms from the acronym list: wiring closets &mdash; the <strong>MDF</strong> (main distribution frame) where outside lines enter and the <strong>IDF</strong>s (intermediate distribution frames) on each floor &mdash; hold switches and patch panels and need locks, access logging and cameras like any server room. <strong>PTZ</strong> (pan-tilt-zoom) cameras can be steered to follow activity, while fixed cameras cover one view. <strong>UAVs</strong> (unmanned aerial vehicles, drones) can be used for aerial reconnaissance of a site, and by defenders for perimeter patrol.</p>
+
 `},
 {id:"deception",obj:"1.2",title:"Deception &amp; Disruption Technology",html:`
 <p>Turns your own knowledge of attackers against them:</p>
@@ -300,7 +301,8 @@ var TOPICS = [
 <li>Test in a <strong>sandbox testing environment</strong> (a copy of production) and document the results. Prepare a <strong>backout/rollback plan</strong> and test it there too; take a <strong>full backup before the change</strong> in case the backout itself fails.</li>
 <li>Schedule within a <strong>maintenance window</strong>, following a documented <strong>SOP</strong> (standard operating procedure). Time of year matters as well as time of day: retailers often impose a <strong>change freeze</strong> from Thanksgiving to New Year.</li>
 </ol>
-<p>Formal change control exists to keep systems up, keep everyone informed and prevent mistakes. After the change, users verify their own systems still work.</p>
+<p>Formal change control exists to keep systems up, keep everyone informed and prevent mistakes. After the change, users verify their own systems still work.</p><p><strong>Standard operating procedure (SOP)</strong> &mdash; the change management process itself is written down as a formal, well-documented SOP that everyone can find and follow, usually on the intranet. When the process changes, the SOP is updated to match, so it stays a living document rather than a record of how things used to be done.</p>
+
 `},
 {id:"changetech",obj:"1.3",title:"Change Management &mdash; Technical Implications",html:`
 <p>What the technician actually deals with:</p>
@@ -352,6 +354,23 @@ var TOPICS = [
 </ul>
 <blockquote><span class="tag">Gotcha</span>CRL = pull a whole list and search it yourself (slower). OCSP = ask a direct yes/no about one certificate (faster); OCSP stapling skips even that extra round trip by having the <em>server</em> present a pre-signed status during the handshake.</blockquote>
 `},
+{id:"certformats",obj:"1.4",title:"Certificate Formats, PKCS &amp; Enrollment",html:`
+<ul>
+<li><strong>RA</strong> &mdash; registration authority: verifies the identity of whoever requests a certificate before the CA issues it. The CA signs; the RA checks.</li>
+<li><strong>SCEP</strong> &mdash; Simple Certificate Enrollment Protocol: automates certificate requests for large numbers of devices, commonly through MDM.</li>
+<li><strong>OID</strong> &mdash; object identifier: the numeric identifier that labels each certificate field and extension (key usage, policies).</li>
+<li><strong>Recovery agent (also RA)</strong> &mdash; an account authorized to decrypt other users' encrypted data, such as the EFS data recovery agent. Closely related to key escrow.</li>
+<li><strong>KEK</strong> &mdash; key encryption key: a key whose only job is encrypting other keys (data encryption keys). Rotating the KEK doesn't require re-encrypting all the data; key management systems and HSMs work this way.</li>
+</ul>
+<div class="tblwrap"><table><caption>Certificate file formats and standards</caption>
+<tr><th>Format</th><th>What it is</th></tr>
+<tr><td><strong>PKCS</strong> &mdash; Public Key Cryptography Standards</td><td>A family of standards: PKCS #7 (certificate chains, .p7b), PKCS #10 (the CSR format), PKCS #12 (certificate plus private key bundle)</td></tr>
+<tr><td><strong>P12 / PFX</strong></td><td>PKCS #12 file holding a certificate <em>and its private key</em>, password-protected. Used to move a certificate between systems</td></tr>
+<tr><td><strong>PEM</strong> &mdash; Privacy Enhanced Mail</td><td>Base64 text with "BEGIN CERTIFICATE" headers (.pem, .crt). Readable in a text editor</td></tr>
+<tr><td><strong>DER</strong></td><td>The same certificate in binary form (.der, .cer)</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span>A <strong>.p12/.pfx</strong> file contains the <em>private key</em> &mdash; treat it like a password. PEM and DER normally hold just the certificate (public key). The <strong>RA verifies identity</strong>; the <strong>CA signs</strong>.</blockquote>
+`},
 {id:"symasym",obj:"1.4",title:"Symmetric vs. Asymmetric Encryption",html:`
 <div class="tblwrap"><table>
 <tr><th></th><th>Symmetric</th><th>Asymmetric</th></tr>
@@ -366,10 +385,30 @@ var TOPICS = [
 <p>The <strong>algorithm is public; only the key is secret</strong> &mdash; like a door lock whose design everyone knows. A public algorithm is <em>more</em> trustworthy because its math can be examined. Keys get longer over time as computers get faster at brute force.</p>
 <p>In practice almost every real system uses <strong>both</strong>: asymmetric to safely exchange a fast symmetric session key, then symmetric to actually encrypt the bulk data.</p>
 `},
+{id:"ciphermodes",obj:"1.4",title:"Cipher Modes, Legacy Algorithms &amp; XOR",html:`
+<p>A <strong>block cipher</strong> (AES, DES) encrypts fixed-size blocks; a <strong>stream cipher</strong> (RC4) encrypts a byte or bit at a time by combining the data with a keystream. Most of that combining is done with <strong>XOR</strong> (exclusive or): 1 when the two bits differ, 0 when they match. XOR is reversible, which is exactly why it works for encryption &mdash; XOR the ciphertext with the same keystream and you get the plaintext back.</p>
+<div class="tblwrap"><table><caption>Block cipher modes of operation</caption>
+<tr><th>Mode</th><th>How it works</th><th>Security note</th></tr>
+<tr><td><strong>ECB</strong> &mdash; Electronic Code Book</td><td>Each block encrypted independently with the same key</td><td>Identical plaintext blocks give identical ciphertext, so patterns leak. Avoid</td></tr>
+<tr><td><strong>CBC</strong> &mdash; Cipher Block Chaining</td><td>Each block is XORed with the previous ciphertext block before encryption; the first uses an initialization vector (IV)</td><td>Hides patterns; blocks must be processed in order</td></tr>
+<tr><td><strong>CFB</strong> &mdash; Cipher Feedback</td><td>Turns a block cipher into a self-synchronizing stream cipher</td><td>Can encrypt data smaller than a block</td></tr>
+<tr><td><strong>CTR</strong> &mdash; Counter</td><td>Encrypts a counter and XORs the result with the data</td><td>Blocks can be processed in parallel</td></tr>
+<tr><td><strong>GCM</strong> &mdash; Galois/Counter Mode</td><td>Counter mode plus built-in authentication</td><td>Confidentiality <em>and</em> integrity in one step; the modern choice (TLS 1.3, WPA3's GCMP)</td></tr>
+</table></div>
+<div class="tblwrap"><table><caption>Algorithms you should recognize as legacy</caption>
+<tr><th>Algorithm</th><th>Type</th><th>Status</th></tr>
+<tr><td><strong>DES</strong> &mdash; Data Encryption Standard</td><td>Symmetric block, 56-bit key</td><td>Broken by brute force</td></tr>
+<tr><td><strong>3DES</strong> &mdash; Triple DES</td><td>DES applied three times</td><td>Deprecated; slow and superseded by AES</td></tr>
+<tr><td><strong>IDEA</strong> &mdash; International Data Encryption Algorithm</td><td>Symmetric block, used in early PGP</td><td>Legacy</td></tr>
+<tr><td><strong>RC4</strong> &mdash; Rivest Cipher 4</td><td>Stream cipher</td><td>Broken; used in WEP and old TLS</td></tr>
+<tr><td><strong>AES</strong> &mdash; Advanced Encryption Standard</td><td>Symmetric block, 128/192/256-bit keys</td><td>Current standard</td></tr>
+</table></div>
+<blockquote><span class="tag">Gotcha</span><strong>ECB leaks patterns</strong> &mdash; the classic demonstration is an image encrypted in ECB mode whose outline is still visible. If a question asks which mode is insecure because identical blocks encrypt identically, it's ECB. GCM is the one that adds authentication.</blockquote>
+`},
 {id:"enclocation",obj:"1.4",title:"Encryption by Location &amp; Key Exchange",html:`
 <p><strong>By location:</strong></p>
 <ul>
-<li><strong>At rest</strong>: full-disk/volume (BitLocker, FileVault), file-level (Windows EFS, the Encrypting File System built into NTFS), or database-level &mdash; transparent (whole DB with a symmetric key, but every search needs decryption) vs. column-level (only sensitive fields like the SSN, so the rest stays searchable); also partition-level and record-level for finer-grained control.</li>
+<li><strong>At rest</strong>: full-disk or volume (BitLocker, FileVault; see the levels table below), file-level (Windows EFS, the Encrypting File System built into NTFS), or database-level &mdash; transparent (whole DB with a symmetric key, but every search needs decryption) vs. column-level (only sensitive fields like the SSN, so the rest stays searchable); also partition-level and record-level for finer-grained control.</li>
 <li><strong>In transit</strong>: HTTPS for browser traffic; VPNs create an encrypted tunnel &mdash; client-based VPNs typically use SSL/TLS, site-to-site VPNs typically use IPsec.</li>
 </ul>
 <p><strong>Key exchange</strong> solves "how do two parties agree on a secret key over an insecure network":</p>
@@ -387,6 +426,16 @@ var TOPICS = [
 <tr><td><strong>ECDHE</strong></td><td>Elliptic curve</td><td>New one per session &mdash; the preferred modern choice</td></tr>
 </table></div>
 <p><strong>Perfect forward secrecy</strong> is what the ephemeral variants buy you: because each session uses a different secret, compromising a long-term key later does not let an attacker decrypt traffic they recorded earlier. Elliptic curve is favoured on mobile and IoT hardware because it delivers equivalent strength with far smaller keys &mdash; a 256-bit EC key is roughly comparable to a 3072-bit traditional key, which matters when memory and processing power are limited. You'll meet these in SSH, TLS and IPsec/IKEv2.</p>
+<div class="tblwrap"><table><caption>Encryption levels, from broadest to narrowest</caption>
+<tr><th>Level</th><th>What gets encrypted</th><th>Example / note</th></tr>
+<tr><td><strong>Full disk (FDE)</strong></td><td>The entire physical drive, including the OS and boot data</td><td>BitLocker on the system drive, FileVault. <strong>Self-encrypting drives (SEDs)</strong> do it in the drive's own hardware and can be crypto-erased by destroying the key</td></tr>
+<tr><td><strong>Partition</strong></td><td>One partition of a drive, not the whole disk</td><td>A drive with an OS partition and a separate encrypted data partition</td></tr>
+<tr><td><strong>Volume</strong></td><td>One logical volume; other volumes stay unencrypted</td><td>BitLocker To Go on a removable drive; an encrypted container that can span disks</td></tr>
+<tr><td><strong>File</strong></td><td>Individual files or folders</td><td>Windows EFS</td></tr>
+<tr><td><strong>Database</strong></td><td>The whole database (transparent) or chosen columns</td><td>Column-level keeps the rest searchable</td></tr>
+<tr><td><strong>Record</strong></td><td>Individual rows/records, each with its own key</td><td>Exposing one key exposes only that record</td></tr>
+</table></div>
+<p>Elliptic curve cryptography (<strong>ECC</strong>) is the family behind ECDH, ECDHE and ECDSA.</p>
 <blockquote><span class="tag">Gotcha</span>The trailing <strong>E</strong> means <em>ephemeral</em> &mdash; a fresh secret per session, and therefore perfect forward secrecy. Also note RSA can both exchange keys <em>and</em> sign certificates; Diffie-Hellman only does key exchange and cannot sign.</blockquote>
 `},
 {id:"cryptohw",obj:"1.4",title:"Crypto Hardware",html:`
@@ -438,6 +487,17 @@ var TOPICS = [
 <p>Notice the key usage is the <em>reverse</em> of normal asymmetric encryption: for confidentiality you encrypt with the recipient's <strong>public</strong> key; for a signature you sign with <strong>your own private</strong> key so anyone can verify it with your <strong>public</strong> key.</p>
 <blockquote><span class="tag">Gotcha</span>Hashing alone = integrity only. Hashing + encrypting that hash with the sender's private key = digital signature = integrity <strong>and</strong> non-repudiation.</blockquote>
 `},
+{id:"sigalgs",obj:"1.4",title:"Signature Algorithms &amp; Checksums",html:`
+<div class="tblwrap"><table><caption>Named algorithms</caption>
+<tr><th>Algorithm</th><th>Purpose</th><th>Note</th></tr>
+<tr><td><strong>RSA</strong></td><td>Encryption, key exchange <em>and</em> signatures</td><td>Large keys (3072-bit+)</td></tr>
+<tr><td><strong>DSA</strong> &mdash; Digital Signature Algorithm</td><td>Signatures only</td><td>Cannot encrypt</td></tr>
+<tr><td><strong>ECDSA</strong> &mdash; Elliptic Curve DSA</td><td>Signatures using elliptic curves</td><td>Much smaller keys for the same strength; common in TLS certificates and code signing</td></tr>
+<tr><td><strong>CRC</strong> &mdash; Cyclical Redundancy Check</td><td>Detects <em>accidental</em> errors in transmission or storage</td><td>Not a security control &mdash; an attacker can change data and recompute the CRC</td></tr>
+</table></div>
+<p>RIPEMD's name comes from <strong>RACE</strong> (Research and Development in Advanced Communications Technologies in Europe), the project that produced it.</p>
+<blockquote><span class="tag">Gotcha</span>A <strong>CRC or checksum detects accidents, not attacks</strong>. Only a cryptographic hash, an HMAC or a signature gives tamper protection.</blockquote>
+`},
 {id:"obfsblock",obj:"1.4",title:"Obfuscation &amp; Blockchain",html:`
 <p><strong>Obfuscation</strong> hides data in plain sight rather than mathematically protecting it &mdash; reversible if you know the trick, which is why it's "security through obscurity," not a substitute for real cryptography.</p>
 <ul>
@@ -467,6 +527,10 @@ var GOTCHAS_TABLE = `
 <tr><td>Hashing vs. digital signature</td><td>Hash = fingerprint/integrity only; signature = hash encrypted with the sender's private key = integrity + non-repudiation</td></tr>
 <tr><td>Obfuscation vs. encryption</td><td>Obfuscation hides data from casual view; encryption makes it mathematically unreadable without the key</td></tr>
 <tr><td>Confidentiality vs. integrity controls</td><td>Confidentiality: encryption, access controls, extra auth factors; Integrity: hashing, digital signatures, certificates</td></tr>
+<tr><td>ECB vs. CBC vs. GCM</td><td>Identical blocks leak patterns vs. blocks chained with an IV vs. counter mode with built-in authentication</td></tr>
+<tr><td>RA vs. CA</td><td>Registration authority verifies identity; certificate authority signs the certificate</td></tr>
+<tr><td>P12/PFX vs. PEM/DER</td><td>Bundle with the private key vs. the certificate alone (text or binary)</td></tr>
+<tr><td>CRC vs. hash</td><td>Detects accidental errors vs. detects tampering</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Per the legend rules, keep this list under 10% of your own notes when you transfer any of this &mdash; if everything's a gotcha, nothing is.</p>
 `;

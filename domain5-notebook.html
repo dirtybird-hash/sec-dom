@@ -183,12 +183,13 @@ var TOPICS = [
 <tr><th>Policy</th><th>Covers</th></tr>
 <tr><td><strong>Acceptable use policy (AUP)</strong></td><td>What users may and may not do with company systems, devices and networks. Signed at onboarding; it also gives the organization legal footing if someone must be disciplined</td></tr>
 <tr><td><strong>Information security policy</strong></td><td>The master statement of how the organization protects the confidentiality, integrity and availability of its information, and who is responsible</td></tr>
-<tr><td><strong>Business continuity</strong></td><td>Keeping essential functions running during a disruption, including manual fallbacks (taking card payments by phone approval when the network is down)</td></tr>
-<tr><td><strong>Disaster recovery</strong></td><td>Restoring IT after a major event (natural, technological or human-caused): recovery site, data restoration, application recovery, staffing</td></tr>
-<tr><td><strong>Incident response</strong></td><td>How security incidents are handled: roles, communication, the response lifecycle (NIST SP 800-61)</td></tr>
+<tr><td><strong>Business continuity (BCP)</strong></td><td>Keeping essential functions running during a disruption, including manual fallbacks (taking card payments by phone approval when the network is down)</td></tr>
+<tr><td><strong>Disaster recovery (DRP)</strong></td><td>Restoring IT after a major event (natural, technological or human-caused): recovery site, data restoration, application recovery, staffing</td></tr>
+<tr><td><strong>Incident response (IRP)</strong></td><td>How security incidents are handled: roles, communication, the response lifecycle (NIST SP 800-61)</td></tr>
 <tr><td><strong>Software development lifecycle (SDLC)</strong></td><td>How software moves from idea to retirement with security built in &mdash; whether by <em>waterfall</em> (sequential phases) or <em>agile</em> (short repeated sprints)</td></tr>
 <tr><td><strong>Change management</strong></td><td>The requirement that changes are requested, assessed, approved, scheduled, documented and reversible</td></tr>
 </table></div>
+<p>SDLC methodologies (SDLM) also include <strong>RAD</strong> (rapid application development): quick prototypes refined with user feedback, trading upfront planning for speed.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Business continuity keeps the business running; disaster recovery restores IT.</strong> BC is the broader plan; DR is the part of it that brings technology back.</blockquote>
 `},
 {id:"standards",obj:"5.1",title:"Standards",html:`
@@ -232,7 +233,14 @@ var TOPICS = [
 <li><strong>Government entities</strong> &mdash; public-sector governance adds legal, administrative and political constraints, and meetings are often open to the public.</li>
 <li><strong>Centralized vs. decentralized</strong> &mdash; one group decides for the whole organization, versus decisions delegated to business units or the people doing the work. Consistency versus agility; neither is automatically right.</li>
 </ul>
-<p><strong>Monitoring and revision</strong> &mdash; governance documents are living. Review them on a schedule and whenever something changes: new technology, a new threat, an incident, a new regulation, a failed audit.</p>
+<p><strong>Monitoring and revision</strong> &mdash; governance documents are living. Review them on a schedule and whenever something changes: new technology, a new threat, an incident, a new regulation, a failed audit.</p><div class="tblwrap"><table><caption>Executive and security roles from the acronym list</caption>
+<tr><th>Role</th><th>Responsibility</th></tr>
+<tr><td><strong>CIO</strong> &mdash; chief information officer</td><td>Runs IT overall</td></tr>
+<tr><td><strong>CTO</strong> &mdash; chief technology officer</td><td>Technology direction and innovation</td></tr>
+<tr><td><strong>CSO / CISO</strong> &mdash; chief (information) security officer</td><td>Owns the security program and reports security risk to leadership and the board</td></tr>
+<tr><td><strong>ISSO</strong> &mdash; information systems security officer</td><td>Security of a specific system day to day, common in government</td></tr>
+</table></div>
+
 `},
 {id:"dataroles",obj:"5.1",title:"Data Roles &mdash; Owner, Controller, Processor, Custodian",html:`
 <p>The objectives name four roles: owners, controllers, processors, and custodians/stewards.</p>
@@ -243,6 +251,7 @@ var TOPICS = [
 <tr><td><strong>Processor</strong></td><td>Processes the data on the controller's behalf and instructions</td><td>The outside payroll company that cuts the cheques</td></tr>
 <tr><td><strong>Custodian / steward</strong></td><td>Day-to-day handling: applies labels and access controls, keeps data accurate, backed up and compliant</td><td>IT and database administrators</td></tr>
 </table></div>
+<p>A <strong>DPO</strong> (data protection/privacy officer) oversees the organization's handling of personal data and privacy compliance, and is required under GDPR for many organizations.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Owner = accountable. Custodian = does the daily work.</strong> Controller decides the purpose; processor acts on the controller's instructions. Under GDPR the controller carries primary responsibility even when a processor does the work.</blockquote>
 `},
 
@@ -271,6 +280,7 @@ var TOPICS = [
 <li><strong>Probability</strong> &mdash; a quantitative, statistical chance based on data. <strong>Likelihood</strong> &mdash; a qualitative judgment (rare, possible, almost certain). Often used interchangeably.</li>
 <li><strong>Impact</strong> &mdash; the consequence if it happens: to life and safety first, then property, finances and reputation.</li>
 </ul>
+<p><strong>ROI</strong> (return on investment) frames the same decision for leadership: a control earns its keep when the loss it prevents (the drop in ALE) exceeds its cost.</p>
 <blockquote><span class="tag">Gotcha</span>Get the order right: <strong>SLE = AV &times; EF</strong>, then <strong>ALE = SLE &times; ARO</strong>. If a control's annual cost exceeds the ALE it reduces, it isn't worth buying.</blockquote>
 `},
 {id:"riskregister",obj:"5.2",title:"Risk Register, Appetite &amp; Tolerance",html:`
@@ -282,7 +292,7 @@ var TOPICS = [
 </ul>
 <div class="tblwrap"><table><caption>Appetite vs. tolerance</caption>
 <tr><th>Term</th><th>Meaning</th></tr>
-<tr><td><strong>Risk appetite</strong></td><td>How much risk the organization is willing to pursue to meet its goals &mdash; a broad stance. <em>Expansionary</em> (accepts more risk for growth), <em>neutral</em>, or <em>conservative</em> (avoids risk)</td></tr>
+<tr><td><strong>Risk appetite</strong></td><td>How much risk the organization is willing to pursue to meet its goals &mdash; a broad stance. <em>Expansionary</em> (accepts more risk in pursuit of growth), <em>neutral</em> (a balanced stance: accepts moderate risk when the expected benefit roughly matches the potential loss, neither seeking nor avoiding it), or <em>conservative</em> (avoids risk, prefers stability)</td></tr>
 <tr><td><strong>Risk tolerance</strong></td><td>The acceptable variation around that appetite for a specific risk &mdash; how far past the target you'll go before acting</td></tr>
 </table></div>
 <p>An analogy: the speed limit is the appetite; how far over it police let you go before ticketing is the tolerance, and it tightens in bad weather.</p>
@@ -312,6 +322,7 @@ var TOPICS = [
 <tr><td><strong>MTTR</strong> &mdash; mean time to repair</td><td>On average, how long does a fix take?</td><td>Diagnose, get the part, install, configure</td></tr>
 <tr><td><strong>MTBF</strong> &mdash; mean time between failures</td><td>On average, how long does it run before failing?</td><td>Total uptime &divide; number of failures</td></tr>
 </table></div>
+<p><strong>MTTF</strong> (mean time to failure) is used for parts that are replaced, not repaired &mdash; a drive or a fan &mdash; so it measures the expected life. MTBF is for repairable systems.</p>
 <blockquote><span class="tag">Gotcha</span><strong>RTO is about time to recover; RPO is about data loss</strong> (how far back your last good copy is). High MTBF is good; low MTTR is good.</blockquote>
 `},
 
@@ -345,6 +356,7 @@ var TOPICS = [
 <tr><td><strong>SLA</strong> &mdash; service-level agreement</td><td>Measurable service commitments (uptime, response time, repair time) and the penalties if missed</td></tr>
 <tr><td><strong>BPA</strong> &mdash; business partners agreement</td><td>Terms between partners: ownership stakes, profit sharing, who makes decisions, what happens if the partnership fails</td></tr>
 </table></div>
+<p>Software comes with an <strong>EULA</strong> (end user license agreement), the terms the user accepts to use it. Breaking licence terms is a compliance issue in its own right.</p>
 <blockquote><span class="tag">Gotcha</span><strong>MSA is the framework; SOW is each job under it.</strong> An <strong>SLA</strong> is the one with measurable uptime/response numbers. MOU &lt; MOA in formality, and neither is a full contract.</blockquote>
 `},
 
@@ -391,6 +403,7 @@ var TOPICS = [
 <tr><td><strong>External</strong></td><td><strong>Regulatory</strong> audits and <strong>examinations</strong> required by law, <strong>assessments</strong> against a framework, and <strong>independent third-party audits</strong></td><td>Objective verification that others can rely on</td></tr>
 </table></div>
 <p><strong>Attestation</strong> is the formal opinion that follows an audit, stating that the results are accurate and controls are as described. The audit comes first; attestation vouches for it.</p>
+<p><strong>Examinations</strong> are formal reviews by an outside authority, typically a regulator (bank examiners, for example). The examiner inspects records and controls, often on site, and the findings can carry enforcement weight. They're usually more in-depth than a routine audit, and you don't choose when they happen.</p>
 <blockquote><span class="tag">Gotcha</span>An <strong>independent third-party audit</strong> is the answer when a question asks for an objective, unbiased assessment. Self-assessments are internal and can't provide that.</blockquote>
 `},
 {id:"pentesttypes",obj:"5.5",title:"Penetration Testing Types &amp; Reconnaissance",html:`
@@ -477,6 +490,7 @@ var GOTCHAS_TABLE = `
 <tr><td>Red / blue / purple</td><td>Offensive vs. defensive vs. integrated</td></tr>
 <tr><td>Risky vs. unexpected vs. unintentional</td><td>Deliberate risky act vs. out-of-pattern activity vs. honest mistake</td></tr>
 <tr><td>Awareness success</td><td>Measure behaviour change, not course completions</td></tr>
+<tr><td>MTTF vs. MTBF</td><td>Life of a replaced part vs. time between failures of a repaired system</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

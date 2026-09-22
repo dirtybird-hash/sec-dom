@@ -166,12 +166,12 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
   <!-- FLASHCARDS -->
   <section class="panel" id="panel-flash">
-    <p class="lede">92 term cards drawn from the Domain 3 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
+    <p class="lede">106 term cards drawn from the Domain 3 notebook. Click a card to flip it, then mark whether you knew it &mdash; that feeds the Progress tab.</p>
     <div class="chiprow" id="flash-filters"></div>
     <div class="card" style="gap:14px;display:flex;flex-direction:column;">
       <div class="deck-meta">
         <span id="flash-badge"></span>
-        <span id="flash-pos">1 / 92</span>
+        <span id="flash-pos">1 / 106</span>
       </div>
       <div class="flip-outer">
         <div class="flip-card" id="flip-card">
@@ -376,7 +376,21 @@ var FLASHCARDS = [
  {id:72,obj:"3.4",t:"Replication is not a backup",d:"It copies continuously &mdash; including corruption and ransomware encryption &mdash; in near real time."},
  {id:73,obj:"3.4",t:"Journaling",d:"Recording changes as they happen so a system can be rolled forward or back to a precise point."},
  {id:74,obj:"3.4",t:"UPS",d:"Battery power engaging instantly, lasting minutes. Also conditions power against sags and surges."},
- {id:75,obj:"3.4",t:"Generator",d:"Sustains operations for hours or days, but needs seconds to start &mdash; which is the gap the UPS covers."}
+ {id:75,obj:"3.4",t:"Generator",d:"Sustains operations for hours or days, but needs seconds to start &mdash; which is the gap the UPS covers."},
+ {id:93,obj:"3.2",t:"AH vs. ESP",d:"IPSec Authentication Header gives integrity and authentication only; Encapsulating Security Payload adds encryption."},
+ {id:94,obj:"3.2",t:"IKE",d:"Internet Key Exchange: negotiates IPSec keys and security associations using Diffie-Hellman."},
+ {id:95,obj:"3.2",t:"GRE / L2TP / PPTP",d:"GRE and L2TP tunnel without encrypting (paired with IPSec); PPTP is broken."},
+ {id:96,obj:"3.2",t:"CASB",d:"Cloud access security broker: visibility and control over cloud app use, including shadow IT and DLP."},
+ {id:97,obj:"3.2",t:"SWG",d:"Secure web gateway: proxy that filters web traffic &mdash; URL filtering, malware scanning."},
+ {id:98,obj:"3.2",t:"PAP vs. CHAP",d:"Cleartext password vs. hashed challenge-response."},
+ {id:99,obj:"3.2",t:"BPDU guard",d:"Shuts an access port that receives spanning-tree BPDUs, stopping rogue switches and loops."},
+ {id:100,obj:"3.2",t:"WIDS / WIPS",d:"Wireless IDS/IPS: detect (and contain) rogue APs, evil twins and deauth floods."},
+ {id:101,obj:"3.1",t:"IaaS vs. PaaS vs. SaaS",d:"Customer manages OS and up vs. just code and data vs. just data and users."},
+ {id:102,obj:"3.1",t:"VPC",d:"Virtual private cloud: an isolated network inside a public cloud."},
+ {id:103,obj:"3.1",t:"MSSP",d:"Managed security service provider: outsourced security operations such as a 24/7 SOC."},
+ {id:104,obj:"3.1",t:"VDI",d:"Virtual desktop infrastructure: desktops run in the data centre and are streamed; data never lands on the device."},
+ {id:105,obj:"3.4",t:"RAID 1 / 5 / 6 / 10",d:"Mirror; parity, survives one disk; double parity, survives two; mirrored stripes. RAID 0 has no redundancy."},
+ {id:106,obj:"3.4",t:"RAID vs. backup",d:"RAID survives a disk failure; only backups recover from deletion, corruption and ransomware."}
 ];
 
 var QUIZ = [
@@ -426,7 +440,10 @@ var SCENARIOS = [
  {id:9,obj:"3.4",q:"An organization replicates its database to a secondary datacentre continuously. Ransomware encrypts the primary database, and within seconds the encrypted state appears on the replica. What was the flaw in this strategy?",c:["The replication link was not encrypted","Replication is not a backup \u2014 it copies damage faithfully","The secondary site lacked geographic dispersion","The replica had insufficient capacity"],a:1,e:"Replication reproduces whatever happens, including destruction. Point-in-time backups kept separate are what allow recovery to a pre-incident state."},
  {id:10,obj:"3.4",q:"A company budgets for disaster recovery but cannot justify the cost of duplicate live infrastructure. They lease space with power and connectivity, planning to ship equipment in if disaster strikes. What have they chosen, and what is the consequence?",c:["A hot site; recovery in minutes","A warm site; recovery in hours","A cold site; recovery in days to weeks","Geographic dispersion; no recovery impact"],a:2,e:"A cold site provides only the facility. It is the cheapest option and carries the longest recovery time \u2014 an acceptable trade only if the recovery time objective allows it."},
  {id:11,obj:"3.4",q:"After a regional storm knocks out utility power, a datacentre's servers stay up without interruption for the twenty seconds before the diesel generator reaches full output, then continue running for two days. Which components did what?",c:["The generator covered both periods","The UPS covered the initial seconds; the generator sustained operations","Platform diversity provided continuity","Load balancing redirected traffic"],a:1,e:"A UPS engages instantly on battery but lasts only minutes. The generator sustains operations but needs time to start. They are designed to hand off to each other."},
- {id:12,obj:"3.4",q:"A recovery plan has been documented and reviewed annually for three years, but never exercised. During a real outage the team discovers the restore procedure references a system decommissioned two years ago. What testing would most likely have caught this?",c:["Any testing at all \u2014 even a tabletop walkthrough","Only a full failover test","Only parallel processing","Increasing backup frequency"],a:0,e:"A tabletop walkthrough would have surfaced the stale reference immediately, at almost no cost. An untested plan is a hypothesis, and reviewing a document is not the same as exercising it."}
+ {id:12,obj:"3.4",q:"A recovery plan has been documented and reviewed annually for three years, but never exercised. During a real outage the team discovers the restore procedure references a system decommissioned two years ago. What testing would most likely have caught this?",c:["Any testing at all \u2014 even a tabletop walkthrough","Only a full failover test","Only parallel processing","Increasing backup frequency"],a:0,e:"A tabletop walkthrough would have surfaced the stale reference immediately, at almost no cost. An untested plan is a hypothesis, and reviewing a document is not the same as exercising it."},
+ {id:34,obj:"3.2",q:"Which IPSec protocol provides encryption?",c:["AH","ESP","IKE","GRE"],a:1,e:"ESP encrypts and authenticates; AH only authenticates; IKE negotiates keys; GRE is a separate unencrypted tunnel."},
+ {id:35,obj:"3.1",q:"A company deploys its own code to a provider-managed platform and never touches the OS. Which service model is this?",c:["IaaS","PaaS","SaaS","On-premises"],a:1,e:"PaaS: the provider manages everything up to the runtime; the customer manages code and data."},
+ {id:36,obj:"3.4",q:"Why isn't RAID 5 a backup?",c:["It's too slow","It copies deletion and ransomware to every disk instantly","It needs four disks","It only works with SSDs"],a:1,e:"RAID protects against a disk failing, not against bad changes to the data."}
 ];
 
 var OBJ_COLOR_CLASS = {"3.1":"badge-31","3.2":"badge-32","3.3":"badge-33","3.4":"badge-34"};
