@@ -185,7 +185,7 @@ var TOPICS = [
 <tr><td><strong>Level of sophistication / capability</strong></td><td>Low capability actors rely on commodity tools that are widely available. Higher capability actors write new exploits. At the top, an actor can reach for non-cyber tools &mdash; political or military assets.</td></tr>
 <tr><td><strong>Resources / funding</strong></td><td>High capability has to be paid for. Sophisticated groups need custom tooling and skilled strategists, coders, and social engineers. The best-funded receive money from nation-states or organized crime.</td></tr>
 </table></div>
-<p><strong>Putting the attributes together.</strong> Most actor questions can be answered by profiling on all three attributes at once:</p><ul><li><strong>Nation-state</strong> &mdash; external, very high capability, very high funding.</li><li><strong>Organized crime</strong> &mdash; external, high capability, well funded by its own profits.</li><li><strong>Hacktivist</strong> &mdash; external, capability varies widely, usually limited funding.</li><li><strong>Unskilled attacker</strong> &mdash; external, low capability, little or no funding.</li><li><strong>Insider</strong> &mdash; internal, capability varies, low funding needed because access is already granted.</li><li><strong>Shadow IT</strong> &mdash; internal, usually well-meaning, no attack funding at all.</li></ul><p>If a scenario describes custom malware and years of undetected access, the resources point to a nation-state; commodity tools downloaded from a forum point to an unskilled attacker.</p>
+<p><strong>Putting the attributes together.</strong> Most actor questions can be answered by profiling on all three attributes at once:</p><ul><li><strong>Nation-state</strong> &mdash; external, very high capability, very high funding.</li><li><strong>Organized crime</strong> &mdash; external, high capability, well funded by its own profits.</li><li><strong>Hacktivist</strong> &mdash; external, capability varies widely, usually limited funding.</li><li><strong>Unskilled attacker</strong> &mdash; external, low capability, little or no funding.</li><li><strong>Insider</strong> &mdash; internal, capability varies, low funding needed because access is already granted.</li><li><strong>Shadow IT</strong> &mdash; internal, usually well-meaning, no attack funding at all.</li></ul><p>If a scenario describes custom malware and years of undetected access, the resources point to a nation-state; commodity tools downloaded from a forum point to an unskilled attacker. Treat that as a heuristic rather than a rule, because <strong>Ransomware as a Service</strong> rents sophisticated tooling by subscription &mdash; capable malware in evidence no longer proves a capable, well-funded actor is the one operating it.</p>
 <blockquote><span class="tag">Gotcha</span>Internal vs. external describes the <strong>threat actor</strong>, not where the attack physically happens. An external actor can absolutely attack on-premises &mdash; walking into the building doesn't make them an insider. What makes an insider is having been granted access.</blockquote>
 `},
 {id:"motives",obj:"2.1",title:"Motivations of Threat Actors",html:`
@@ -235,7 +235,7 @@ var TOPICS = [
 <ul>
 <li><strong>Malicious insider</strong> &mdash; has or has had authorized access. Main motivators are revenge and financial gain; also sabotage and business advantage.</li>
 <li><strong>Unintentional insider threat</strong> &mdash; no malice, just weak policies, weak adherence to them, or missing training and awareness. Poor password management is the everyday example.</li>
-<li><strong>Shadow IT</strong> &mdash; users introducing hardware or software into the workplace without IT's sanction and without any procurement or security review. Cloud services and mobile devices have made this far easier, and every instance creates unmonitored attack surface.</li>
+<li><strong>Shadow IT</strong> &mdash; users introducing hardware or software into the workplace without IT's sanction and without any procurement or security review. Cloud services and mobile devices have made this far easier, and every instance creates unmonitored attack surface. The motive is nearly always operational: the approved tool is too slow or too limited, the formal request process takes weeks, or someone simply wants to experiment. That matters for the exam, because the countermeasure is a faster and more usable sanctioned route &mdash; not a disciplinary one.</li>
 </ul>
 <p>Shadow IT is named as a threat actor in its own right in objective 2.1 &mdash; don't treat it only as a vulnerability.</p>
 <blockquote><span class="tag">Gotcha</span>Not every insider threat is malicious. If the scenario describes carelessness, missing training, or someone spinning up an unapproved cloud app, that's unintentional insider threat or shadow IT &mdash; not a disgruntled saboteur.</blockquote>
@@ -280,11 +280,11 @@ var TOPICS = [
 <ul>
 <li><strong>Direct access</strong> &mdash; physical presence: an unlocked workstation, a boot disk, a stolen laptop or drive.</li>
 <li><strong>Wired</strong> &mdash; an unauthorized device attached to a physical network port and allowed to talk to other hosts.</li>
-<li><strong>Wireless / remote</strong> &mdash; stolen credentials, cracked security protocols, or a spoofed access point used for credential harvesting.</li>
-<li><strong>Bluetooth</strong> &mdash; exploiting a vulnerability or misconfiguration to push a malicious file to a device.</li>
+<li><strong>Wireless / remote</strong> &mdash; stolen credentials, cracked security protocols, or a spoofed access point used for credential harvesting. (<strong>WEP</strong> and the rest of the wireless protocol family are covered in the Domain 1 notebook.)</li>
+<li><strong>Bluetooth</strong> &mdash; exploiting a vulnerability or misconfiguration to push a malicious file to a device. Also on the list: attacks on <strong>pairing</strong>, where the actor intercepts the exchange or brute-forces a weak pairing method such as a short or fixed PIN to become a trusted device; and Bluetooth <strong>sniffing</strong>, capturing the radio traffic of a link already in use. Short range is the real limit on both, not the protocol's strength.</li>
 <li><strong>Cloud</strong> &mdash; the actor only needs one account, service, or host with weak credentials. Developer and cloud-admin accounts are prime targets, as is the cloud service provider itself.</li>
 <li><strong>Default credentials</strong> &mdash; a device or app left on its factory password, which is usually published in the setup documentation.</li>
-<li><strong>Open service ports</strong> &mdash; an unauthenticated connection to a TCP or UDP port whose listening application may be exploitable or disruptable.</li>
+<li><strong>Open service ports</strong> &mdash; an unauthenticated connection to a TCP or UDP port whose listening application may be exploitable or disruptable. Actors and defenders alike find them by port scanning: <strong>Nmap</strong> is the standard tool for detailed scanning with service and version detection, and <strong>Masscan</strong> for sweeping very large address ranges at speed.</li>
 </ul><p>Default credentials are why IoT devices get recruited into botnets so easily. The Mirai botnet simply scanned the internet for cameras and routers still using factory usernames and passwords, logged in, and turned hundreds of thousands of them into a DDoS army &mdash; no exploit required. Changing defaults on first setup closes this vector completely.</p>
 
 `},
@@ -293,12 +293,14 @@ var TOPICS = [
 <div class="tblwrap"><table><caption>The three delivery categories, in the exam's own wording</caption>
 <tr><th>Category</th><th>What it looks like</th></tr>
 <tr><td><strong>File-based</strong></td><td>Exploit code inside a file the user opens or runs. An executable is the blunt version &mdash; <strong>Trojan Horse</strong> malware looks free, useful or fun while creating backdoor access. Document files are subtler: malicious code embedded in word processing or PDF files, using macro and scripting features or a flaw in the viewer itself.</td></tr>
-<tr><td><strong>Image-based</strong></td><td>Exploit code concealed inside an image, targeting a vulnerability in the browser or the document-editing software that renders it. Listed separately from file-based because images are trusted and previewed automatically in a way documents are not.</td></tr>
+<tr><td><strong>Image-based</strong></td><td>Exploit code concealed inside an image, targeting a vulnerability in the browser or the document-editing software that renders it. Listed separately from file-based because images are trusted and previewed automatically in a way documents are not. (<strong>Steganography</strong>, hiding data inside the image itself, is covered in the Domain 1 notebook.)</td></tr>
 <tr><td><strong>Removable device</strong></td><td>Malware on a USB stick or memory card. In a <strong>drop attack</strong> the actor leaves infected sticks in a parking lot or reception area and waits for an employee to plug one in. For some exploits, connecting the media is enough.</td></tr>
 </table></div>
 <p>Reducing this surface means endpoint security management: vulnerability management, antivirus, execution control, and intrusion detection.</p>
 <p>Macro malware is usually written in <strong>VBA</strong> (Visual Basic for Applications), the scripting language built into Office.</p>
 <p>Removable media's big advantage to an attacker is that it skips the network entirely. The firewall, email filter and web proxy never see the file, which is why USB delivery is the classic route into an air-gapped network &mdash; Stuxnet is the standard example. Mitigations are endpoint-level: disable autorun, block or restrict USB storage by policy, and scan media before use.</p>
+<p>Note which way round the exam frames <strong>auto-run</strong>. It is not only a mitigation to be switched off; it is the <em>feature being exploited</em>. An operating system willing to execute something from inserted media without being asked is the whole reason a dropped USB stick works, so auto-run belongs on your list of vulnerable features as well as on your list of hardening steps.</p>
+<p>Removable media also runs the other way. The same stick that carries malware in carries data out, and <strong>exfiltration</strong> by removable device bypasses every network control the organization owns &mdash; DLP on the mail gateway and the web proxy never see the file leave. That is why USB storage restriction, endpoint DLP and physical port blocking appear as data-protection controls and not only as anti-malware ones.</p>
 <blockquote><span class="tag">Gotcha</span>The objectives list <strong>file-based</strong> and <strong>image-based</strong> as separate vector categories, so a question can ask you to classify one. If the payload rode in on a picture, the answer is image-based even though an image is technically a file.</blockquote>
 `},
 {id:"message",obj:"2.2",title:"Message-Based &amp; Voice Call Vectors",html:`
@@ -334,7 +336,7 @@ var TOPICS = [
 <tr><td><strong>Business partner</strong></td><td>A closer relationship with closely aligned goals and shared marketing opportunities.</td></tr>
 </table></div>
 <p>Every supplier has its own supply chain, so the breadth is enormous: for one motherboard to be trustworthy, the chip fabricator, firmware developer, OEM reseller, courier, and the staff who provision the device must <em>all</em> be trustworthy. Securing it essentially means denying malicious actors the time or resources to modify what's supplied. For most businesses, using reputable vendors is the best practical effort; government and military exercise far greater scrutiny. Take particular care with secondhand equipment.</p>
-<p><strong>Managed service providers (MSPs)</strong> provision and support IT resources on an outsourced basis. From a security standpoint this is complex &mdash; the MSP is hard to monitor, and every one of its employees is a potential insider threat.</p><p>The attraction of an MSP to an attacker is scale: one compromise delivers a trusted, already-authenticated path into every client that MSP manages. That one-to-many effect is why MSPs and widely used software vendors are high-value targets &mdash; the Kaseya ransomware attack spread to many downstream businesses through a single MSP management tool. Limit what access a provider holds, require MFA on their accounts, and monitor their activity like any other privileged user.</p>
+<p><strong>Managed service providers (MSPs)</strong> provision and support IT resources on an outsourced basis. From a security standpoint this is complex &mdash; the MSP is hard to monitor, and every one of its employees is a potential insider threat.</p><p>The attraction of an MSP to an attacker is scale: one compromise delivers a trusted, already-authenticated path into every client that MSP manages. That one-to-many effect &mdash; the <strong>cascading</strong> failure of a single compromise down every branch of the chain &mdash; is why MSPs and widely used software vendors are high-value targets &mdash; the Kaseya ransomware attack spread to many downstream businesses through a single MSP management tool. Limit what access a provider holds, require MFA on their accounts, and monitor their activity like any other privileged user.</p>
 
 `},
 {id:"human",obj:"2.2",title:"Human Vectors &amp; Social Engineering",html:`
@@ -436,7 +438,7 @@ var TOPICS = [
 `},
 {id:"osvuln",obj:"2.3",title:"Operating System Vulnerabilities",html:`
 <p>The OS is the largest single body of code on a machine and sits underneath everything else, so a flaw there potentially exposes every application running on top of it. Attackers watch patch releases closely &mdash; a published fix also publishes the existence of the weakness for anyone who hasn't applied it yet.</p>
-<p>The exposure comes from three directions: the gap between a patch being released and being deployed, systems that cannot be patched without breaking a dependent application, and operating systems that are past vendor support entirely and will never receive a fix.</p><p>The usual payoff of an OS flaw is privilege escalation. An attacker who has a foothold as an ordinary user exploits a kernel or service bug to become administrator or SYSTEM/root, and from there can disable security tools, dump credentials and move laterally. Weak OS access controls &mdash; services running with too much privilege, writable system folders &mdash; lead to the same result without any bug at all.</p>
+<p>The exposure comes from three directions: the gap between a patch being released and being deployed, systems that cannot be patched without breaking a dependent application, and operating systems that are past vendor support entirely and will never receive a fix.</p><p>The usual payoff of an OS flaw is privilege escalation. An attacker who has a foothold as an ordinary user exploits a bug in the <strong>kernel</strong>, in a <strong>device driver</strong> or in a service to become administrator or SYSTEM/root, and from there can disable security tools, dump credentials and move laterally. Drivers earn their own mention: they are third-party code running at kernel privilege, patched on the hardware vendor's schedule rather than the OS vendor's, and a signed-but-vulnerable driver can be loaded deliberately to attack the kernel from the inside. Weak OS access controls &mdash; services running with too much privilege, writable system folders &mdash; lead to the same result without any bug at all.</p>
 
 `},
 {id:"webvuln",obj:"2.3",title:"Web-Based &mdash; SQL Injection &amp; XSS",html:`
@@ -456,7 +458,7 @@ var TOPICS = [
 <p>Three named categories, and they are about <em>support status</em> as much as about silicon:</p>
 <ul>
 <li><strong>Firmware</strong> &mdash; the code running inside the hardware itself. Only the manufacturer can patch it, so you are entirely dependent on the vendor releasing a fix and on your ability to deploy it.</li>
-<li><strong>End-of-life (EOL)</strong> &mdash; the manufacturer has stopped selling and stopped supporting the product. No more patches are coming, ever.</li>
+<li><strong>End-of-life (EOL)</strong> &mdash; the manufacturer has stopped selling the product, and <strong>end-of-support (EOS)</strong> is the paired term for the date after which it will issue no more patches, updates or help. No more fixes are coming, ever.</li>
 <li><strong>Legacy</strong> &mdash; the device is still in production use well past its intended lifespan, often because replacing it means replacing a process built around it.</li>
 </ul>
 <p>Firmware compromise is valued by attackers for persistence. Because firmware sits below the operating system, malicious code there survives an OS reinstall and even a disk replacement, and OS-level security tools usually cannot see it. That is why firmware integrity checks and Secure Boot matter, and why the fix for a firmware infection may be reflashing from a trusted image or replacing the hardware.</p>
@@ -484,7 +486,7 @@ var TOPICS = [
 <div class="tblwrap"><table>
 <tr><th>Provider</th><th>The exposure</th></tr>
 <tr><td><strong>Service provider</strong></td><td>An outsourced partner with legitimate access to your systems &mdash; an MSP, a support contractor, a billing platform. Compromise them and their access becomes the attacker's access.</td></tr>
-<tr><td><strong>Hardware provider</strong></td><td>Devices modified anywhere between fabrication and delivery. Counterfeit components and tampered firmware are the concerns; secondhand equipment carries the highest risk.</td></tr>
+<tr><td><strong>Hardware provider</strong></td><td>Devices modified anywhere between fabrication and delivery. Counterfeit components, tampered firmware and an outright <strong>hardware-based backdoor</strong> are the concerns; secondhand equipment carries the highest risk.</td></tr>
 <tr><td><strong>Software provider</strong></td><td>Malicious code introduced into a legitimate product, typically through its build pipeline or update channel, then distributed to every customer under the vendor's signature.</td></tr>
 </table></div>
 `},
@@ -539,6 +541,8 @@ var TOPICS = [
 <tr><td><strong>Virus</strong></td><td>Attaches to a host file or program and needs that host to be executed to run and replicate.</td><td>A user running the infected host</td></tr>
 </table></div>
 <p><strong>Indicators to match to each type:</strong></p><ul><li><strong>Ransomware</strong> &mdash; files suddenly renamed with a new extension, ransom notes in every folder, a spike in disk activity, shadow copies/backups deleted, then files that will not open.</li><li><strong>Trojan / RAT</strong> &mdash; an unfamiliar program running after a download, new outbound connections to an unknown host, remote activity nobody at the keyboard performed.</li><li><strong>Worm</strong> &mdash; a sudden jump in traffic on one port (e.g. SMB 445) across many hosts at once, and rapid infections without users doing anything.</li><li><strong>Virus</strong> &mdash; modified or corrupted executables and documents, crashes tied to opening particular files.</li></ul>
+<p><strong>Ransomware as a Service (RaaS)</strong> is ransomware sold as a subscription on dark-web markets &mdash; a subset of <strong>Malware as a Service</strong>. The developer builds and maintains the payload and the payment infrastructure, and affiliates rent it, run their own campaigns and split the proceeds. For scenario questions this means the operator behind an attack need not be the author of the tool, so capable ransomware in evidence proves nothing on its own about the skill or the funding of whoever deployed it.</p>
+<p>A campaign also runs in a fixed order &mdash; installation, contact with a command-and-control server, key generation, encryption of the target files, then the ransom screen &mdash; which is why the indicators above surface when they do, with outbound C2 traffic preceding any file change and the ransom note appearing only once encryption has finished.</p>
 <blockquote><span class="tag">Gotcha</span>The virus-versus-worm line is user action. A <strong>virus</strong> needs someone to run something; a <strong>worm</strong> propagates on its own. If the scenario says it spread across the network overnight with nobody clicking anything, it's a worm.</blockquote>
 `},
 {id:"malware2",obj:"2.4",title:"Spyware, Bloatware, Keyloggers, Logic Bombs &amp; Rootkits",html:`
@@ -556,7 +560,7 @@ var TOPICS = [
 {id:"physatk",obj:"2.4",title:"Physical Attacks",html:`
 <ul>
 <li><strong>Brute force</strong> &mdash; in a physical context this is literal: forcing a door, cutting a lock, breaking through a barrier. The same term means password guessing elsewhere in this domain, so read the context.</li>
-<li><strong>RFID cloning</strong> &mdash; copying an access badge. Many cards transmit a static identifier with no authentication, so a reader held near a victim's badge can capture it and a blank card can be written with the copy in seconds.</li>
+<li><strong>RFID cloning</strong> &mdash; copying an access badge. Many cards transmit a static identifier with no authentication, so a reader held near a victim's badge can capture it and a blank card can be written with the copy in seconds. <strong>Skimming</strong> is the payment-credential companion: a device overlaying a genuine card reader at an ATM, fuel pump or POS terminal captures the card data physically as the customer pays, usually paired with a hidden camera or an overlay keypad to capture the PIN.</li>
 <li><strong>Environmental</strong> &mdash; attacking the conditions a facility depends on rather than the systems themselves: cutting power, defeating cooling so equipment overheats and shuts down, or interfering with fire suppression.</li>
 </ul>
 <p>The indicator of RFID cloning is in the access logs rather than on the door: the same badge used at two entrances at once, a badge entering while its owner is known to be elsewhere or on leave, or entries at odd hours. Environmental attacks show up as hardware sensor alerts &mdash; temperature, humidity or power warnings &mdash; followed by unexpected shutdowns.</p>
@@ -648,6 +652,8 @@ var TOPICS = [
 <li><strong>Birthday attack</strong> &mdash; the statistical shortcut that makes collisions cheaper than intuition suggests. From the birthday paradox: in a room of only 23 people there is roughly a 50% chance two share a birthday. Finding <em>any</em> two colliding inputs takes far less work than matching one specific target, which is why hash output length matters so much.</li>
 </ul>
 <p>A downgrade attack is spotted by connections negotiating an older protocol or weaker cipher than both ends support &mdash; for example, a modern client and server ending up on SSL 3.0 (the POODLE attack) or TLS 1.0. The fix is to disable the old versions and weak suites on the server so there is nothing to fall back to.</p>
+<p><strong>Side-channel attacks</strong> go after the <em>implementation</em> rather than the mathematics. The algorithm is left untouched; the attacker measures what the device leaks while it is using the key &mdash; how long an operation takes, how much power it draws, its electromagnetic emissions, even the sound the hardware makes &mdash; and reconstructs the key from those measurements. <strong>Dragonblood</strong> is the worked example: a group of flaws in WPA3's <strong>SAE</strong> handshake, including timing and cache side channels that leaked enough about the password to make an offline dictionary attack practical against a handshake designed to prevent exactly that.</p>
+<p><em>Enrichment, not a listed bullet.</em> The 2.4 crypto-attack bullets are downgrade, collision and birthday, so side-channel will not be the wording of an objective. Carry it anyway: it is the standard answer whenever a scenario insists the algorithm is sound and then asks how the key was recovered from a smart card or hardware token.</p>
 <blockquote><span class="tag">Gotcha</span>A collision is the <em>result</em>; a birthday attack is the <em>method</em> that makes finding one feasible. They are not alternatives to each other.</blockquote>
 `},
 {id:"pwatk",obj:"2.4",title:"Password Attacks",html:`
@@ -659,6 +665,8 @@ var TOPICS = [
 </table></div>
 <p><strong>Online</strong> attacks run against the live authentication system, which rate-limits and locks out. <strong>Offline</strong> attacks run against a stolen hash database on the attacker's own hardware, with no lockout and no rate limit &mdash; which is exactly why salted hashes and key stretching matter.</p>
 <p>Offline cracking runs on <strong>GPUs</strong> (graphics processing units), which try billions of hashes per second. That speed is why unsalted fast hashes fall quickly, and why salting and key stretching matter.</p>
+<p>Two further shapes sit alongside these. A <strong>dictionary attack</strong> works from a word list &mdash; real words, leaked passwords, names and sports teams &mdash; expanded with the predictable character substitutions people use to satisfy complexity rules (5 for s, @ for a, 3 for e). A <strong>hybrid attack</strong> combines the two approaches: it takes word-list entries and brute-forces permutations around them, appending digits and years, flipping capitalization and bolting symbols on the end.</p>
+<p>This is why guidance shifted from complexity towards <em>length</em>. A short password made complex by substitution is still effectively on the word list, so a dictionary or hybrid run finds it; a long passphrase is not on any list, and each extra character multiplies the brute-force search space.</p>
 <blockquote><span class="tag">Gotcha</span>Password spraying exists specifically to <em>defeat account lockout</em>. If the scenario mentions many accounts each seeing one or two failed attempts, it's spraying &mdash; and standard lockout policy will not catch it.</blockquote>
 `},
 {id:"ioc",obj:"2.4",title:"Indicators of Compromise",html:`
@@ -669,7 +677,7 @@ var TOPICS = [
 <tr><td><strong>Concurrent session usage</strong></td><td>One account active in two places at once; credentials are shared or stolen.</td></tr>
 <tr><td><strong>Blocked content</strong></td><td>Repeated attempts to reach filtered resources, often malware calling home.</td></tr>
 <tr><td><strong>Impossible travel</strong></td><td>Logins from two locations too far apart for the time elapsed. One of the strongest single signals of credential theft.</td></tr>
-<tr><td><strong>Resource consumption</strong></td><td>Unexplained CPU, bandwidth or storage use &mdash; exfiltration, crypto mining, or encryption in progress.</td></tr>
+<tr><td><strong>Resource consumption</strong></td><td>Unexplained CPU, bandwidth or storage use &mdash; exfiltration, <strong>cryptojacking</strong> (crypto mining on hardware the attacker does not pay for), or encryption in progress.</td></tr>
 <tr><td><strong>Resource inaccessibility</strong></td><td>Files or shares suddenly unreachable. A hallmark of ransomware mid-run.</td></tr>
 <tr><td><strong>Out-of-cycle logging</strong></td><td>Activity at times that make no sense for the account, such as 3 a.m. administrative work.</td></tr>
 <tr><td><strong>Missing logs</strong></td><td>Gaps in log data. An attacker covering their tracks &mdash; treat absence of evidence as evidence.</td></tr>
@@ -701,6 +709,17 @@ var TOPICS = [
 <tr><td><strong>Configuration enforcement</strong></td><td>Systems are continuously checked against an approved baseline and corrected when they drift &mdash; posture assessment on connection is a common form.</td></tr>
 <tr><td><strong>Decommissioning</strong></td><td>Retiring a system properly: wiping or destroying its data, revoking its credentials and certificates, and removing it from inventory. A forgotten live server is unmonitored attack surface.</td></tr>
 </table></div>
+<p><strong>Separation of duties</strong> is the control the objectives assume you already hold: no one person is given enough privilege to carry a sensitive process through from start to finish, so misuse requires collusion rather than a single dishonest employee. The classic illustration is payroll &mdash; whoever prepares a paycheck must not be the person who authorizes it.</p>
+<div class="tblwrap"><table><caption>Separation of duties and the controls built around it</caption>
+<tr><th>Control</th><th>How it works</th></tr>
+<tr><td><strong>Static separation</strong></td><td>Conflicting roles are defined in advance, and the system refuses to grant both of them to one identity.</td></tr>
+<tr><td><strong>Dynamic separation (the two-person rule)</strong></td><td>The conflict is evaluated at access time instead: the action proceeds only while a second authorized person is present and participating.</td></tr>
+<tr><td><strong>Dual control</strong></td><td>Two people must act <em>together</em> for one action to complete &mdash; two signatures on a transfer, two key holders opening a safe.</td></tr>
+<tr><td><strong>Job rotation</strong></td><td>Staff move between roles periodically, so nobody quietly accumulates control of a whole process and a successor is likely to notice what a predecessor hid.</td></tr>
+<tr><td><strong>Mandatory vacation</strong></td><td>Staff are required to take leave, and their work is audited while they are away and unable to keep a concealment running.</td></tr>
+</table></div>
+<p>Separation of duties and <strong>least privilege</strong> are the paired answer to any insider-fraud scenario: least privilege limits how much one person can <em>reach</em>, and separation of duties makes sure that whatever they can reach is not enough to finish the job alone.</p>
+<blockquote><span class="tag">Gotcha</span><strong>Separation of duties</strong> splits one task so no single person can complete it; <strong>least privilege</strong> limits how much any one person can touch at all. An administrator who both raises and approves vendor payments is a separation-of-duties failure, not a least-privilege failure &mdash; each right may be entirely appropriate to the role on its own.</blockquote>
 <blockquote><span class="tag">Gotcha</span>Isolation and segmentation get confused. <strong>Segmentation</strong> is a design decision made in advance about how the network is divided; <strong>isolation</strong> is usually a response &mdash; pulling one system out of contact after something goes wrong.</blockquote>
 `},
 {id:"harden",obj:"2.5",title:"Hardening Techniques",html:`
@@ -711,9 +730,10 @@ var TOPICS = [
 <li><strong>Host-based firewall</strong> &mdash; filters traffic at the individual machine, which still applies when the attacker is already inside the network perimeter.</li>
 <li><strong>Host-based intrusion prevention system (HIPS)</strong> &mdash; inspects traffic and behaviour on the host and blocks recognized attacks, rather than only filtering by port and address.</li>
 <li><strong>Disabling ports and protocols</strong> &mdash; every listening service is potential surface. If nothing needs it, turn it off.</li>
-<li><strong>Default password changes</strong> &mdash; factory credentials are published in the product documentation and are among the first things scanned for.</li>
+<li><strong>Default password changes</strong> &mdash; factory credentials are published in the product documentation and are among the first things scanned for. Default <em>names</em> count too: replace the stock workgroup name, SSID and device name, which advertise the make and model an attacker should go and look up.</li>
 <li><strong>Removal of unnecessary software</strong> &mdash; anything installed must be patched and monitored. Removing it is cheaper than maintaining it, which is why bloatware matters.</li>
 </ol>
+<p>One further hardening habit the objectives do not name but scenarios do: <strong>disable auto-negotiating features</strong> wherever a device will settle its own configuration with whatever is plugged into it. The standard example is a switch port left on dynamic trunking &mdash; an attached device can negotiate the port into trunk mode and reach every VLAN the switch carries. Set the role explicitly rather than letting the port decide, and apply the same thinking to any protocol that will silently agree to a weaker or broader mode on request.</p>
 <blockquote><span class="tag">Gotcha</span>A host-based firewall filters by <em>port, address and protocol</em>. A HIPS inspects <em>content and behaviour</em> and can block a recognized attack arriving over a port you deliberately left open.</blockquote>
 `}
 ];
@@ -753,6 +773,9 @@ var GOTCHAS_TABLE = `
 <tr><td>Host firewall vs. HIPS</td><td>Filters by port and address vs. inspects behaviour and blocks attacks on open ports</td></tr>
 <tr><td>ASLR vs. DEP</td><td>Randomizes where code sits vs. stops data memory from executing</td></tr>
 <tr><td>Malicious code (network attack)</td><td>Code spread or delivered across the network — worms, scripts, backdoors, C2</td></tr>
+<tr><td>Dictionary vs. brute force vs. spraying</td><td>A word list plus character substitutions vs. every possible combination vs. one password tried against many accounts</td></tr>
+<tr><td>Separation of duties vs. least privilege</td><td>Splitting a task so no one person completes it vs. limiting what one person can reach</td></tr>
+<tr><td>Side-channel vs. cryptographic attack</td><td>Attacks the implementation &mdash; timing, power, emissions vs. attacks the mathematics of the algorithm</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

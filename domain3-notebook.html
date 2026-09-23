@@ -344,6 +344,15 @@ var TOPICS = [
 </table></div>
 <p>Network-based firewalls usually also route (layer 3), perform NAT, and terminate VPNs.</p>
 <p><strong>Layer 4 vs. Layer 7</strong> is the underlying distinction. A layer 4 firewall makes decisions on IP addresses, ports and protocol &mdash; fast, but it cannot tell what the traffic actually is. A layer 7 firewall reads application content, so it can distinguish one service from another riding the same port and inspect what's inside.</p>
+<p>In the cloud the same filtering job is split across two objects, and the exam expects you to tell them apart.</p>
+<div class="tblwrap"><table><caption>Cloud network ACL vs. security group</caption>
+<tr><th></th><th>Network ACL</th><th>Security group</th></tr>
+<tr><td>Applies to</td><td>A whole <strong>subnet</strong>, so every instance in it</td><td>One instance's <strong>virtual NIC</strong></td></tr>
+<tr><td>State</td><td><strong>Stateless</strong> &mdash; return traffic needs its own rule</td><td><strong>Stateful</strong> &mdash; the reply to an allowed flow comes back automatically</td></tr>
+<tr><td>Rule types</td><td>Allow <em>and</em> explicit deny</td><td>Allow only &mdash; there are no deny rules</td></tr>
+<tr><td>Evaluation</td><td>Numbered and ordered; first match wins, with an <strong>implicit deny</strong> at the end</td><td>No ordering; all rules are evaluated and any match permits</td></tr>
+</table></div>
+<p>The practical consequence: to block one troublesome address you need a network ACL, because a security group cannot say no &mdash; it can only decline to say yes.</p>
 <blockquote><span class="tag">Gotcha</span>Anything on port 443 looks identical to a layer 4 firewall. Distinguishing legitimate HTTPS from tunnelled traffic hiding inside it requires layer 7 inspection &mdash; that's the whole argument for NGFW.</blockquote>
 `},
 {id:"appliances",obj:"3.2",title:"Network Appliances",html:`
@@ -366,12 +375,13 @@ var TOPICS = [
 <div class="tblwrap"><table><caption>Load balancer features</caption>
 <tr><th>Feature</th><th>What it means</th></tr>
 <tr><td><strong>Active/active</strong></td><td>Every server is in use; a failed one is dropped and the load spread over the rest</td></tr>
-<tr><td><strong>Active/passive</strong></td><td>Standby servers wait idle and are brought in when an active server fails</td></tr>
+<tr><td><strong>Active/passive</strong></td><td>Standby servers are powered on and running, simply not carrying traffic, and are brought in when an active server fails</td></tr>
 <tr><td><strong>TCP offload</strong></td><td>Keeps persistent connections to the servers instead of a new session per user</td></tr>
 <tr><td><strong>SSL/TLS offload</strong></td><td>Decrypts at the load balancer, often in dedicated hardware, so servers don't have to</td></tr>
 <tr><td><strong>Caching, prioritization, content switching</strong></td><td>Answers repeat requests, favours certain traffic, and sends request types to specific servers</td></tr>
 </table></div><p><strong>Proxy as a hiding and inspection point.</strong> Outbound requests come from the proxy's address, not the user's, so internal addressing isn't exposed to outside servers. Because all web traffic passes through one place, the proxy is also a natural spot to enforce acceptable-use policy and log who went where.</p>
 <p><strong>Load balancers and DoS.</strong> Spreading requests over a pool means a traffic surge or a failed server doesn't take the service down, which gives some protection against denial of service. It isn't a full DDoS defence: a large enough flood overwhelms the load balancer itself, so upstream filtering from the ISP or a scrubbing service is still needed.</p>
+<p><strong>The virtual IP and health checks.</strong> Clients never address a back-end server directly. They connect to a <strong>virtual IP (VIP)</strong> that the load balancer owns and that DNS points at, and the balancer decides which server in the pool answers. That indirection is what lets servers be added, patched or pulled out without anyone outside noticing. <strong>Health checks</strong> are the other half: the balancer repeatedly probes each server &mdash; a TCP connection, an HTTP request, a check that the response body is what it should be &mdash; and removes a failing one from rotation. Without them the balancer carries on cheerfully sending users to a dead server, so a scenario where a failed back-end is still receiving traffic is pointing at the health check configuration, not at the pool.</p>
 
 `},
 {id:"idsips",obj:"3.2",title:"IDS &amp; IPS &mdash; NIDS, NIPS, HIDS &amp; HIPS",html:`
@@ -400,7 +410,7 @@ var TOPICS = [
 <tr><td><strong>False negative</strong></td><td>Real attack, and it stayed quiet &mdash; the dangerous one</td></tr>
 </table></div>
 <p>Wireless has its own versions: a <strong>WIDS</strong> (wireless intrusion detection system) watches the airspace for rogue access points, evil twins and deauthentication floods; a <strong>WIPS</strong> can also contain them, for example by blocking clients from joining a rogue AP.</p>
-<blockquote><span class="tag">Gotcha</span>Placement follows from the name. An IPS must be <strong>inline</strong> to block, so it inherits the fail-open/fail-closed decision. An IDS works from a copy, so it can never break traffic &mdash; and can never stop it. And a <strong>false negative</strong> is worse than a false positive: one wastes an analyst's time, the other means the attack went through unseen.</blockquote>
+<blockquote><span class="tag">Gotcha</span>Placement follows from the name. An IPS must be <strong>inline</strong> to block, so it inherits the fail-open/fail-closed decision. An IDS works from a copy, so it can never break traffic &mdash; and it cannot stop the traffic it is watching, because those packets have already gone past it. It is not entirely powerless: it can send <strong>TCP resets</strong> to both ends to tear the session down, or push a block or shun to an upstream firewall. But the response is after the fact, and on the exam the answer stays <strong>IDS = detect and alert, IPS = block</strong>. And a <strong>false negative</strong> is worse than a false positive: one wastes an analyst's time, the other means the attack went through unseen.</blockquote>
 `},
 {id:"portsec",obj:"3.2",title:"Port Security &mdash; 802.1X &amp; EAP",html:`
 <p><strong>Port security</strong> controls what is allowed to connect to a physical network port, which is the defence against someone walking in and plugging a device into a wall jack.</p>
@@ -411,7 +421,13 @@ var TOPICS = [
 <li><strong>Authentication server</strong> &mdash; the back-end credential store that makes the actual decision: usually RADIUS, but LDAP, TACACS+ or Kerberos (Active Directory) also appear.</li>
 </ol>
 <p>The exchange: the authenticator sends an <strong>EAP request</strong> for identity, the supplicant returns an <strong>EAP response</strong>, the authenticator relays it to the server, the server asks for credentials, and they pass back through the authenticator. Only after the server approves does the port open for normal traffic. 802.1X is also called <strong>NAC</strong> (port-based network access control), and it applies to wired switch ports as well as wireless.</p>
-<p><strong>EAP</strong> (Extensible Authentication Protocol) is the framework carrying that exchange. It isn't one method but a container for many &mdash; certificate-based, credential-based, tunnelled &mdash; which is why you see variants like EAP-TLS and PEAP.</p>
+<p><strong>EAP</strong> (Extensible Authentication Protocol) is the framework carrying that exchange. It isn't one method but a container for many &mdash; certificate-based, credential-based, tunnelled &mdash; which is why you see variants like EAP-TLS and PEAP.</p><p>802.1X is not simply pass or fail. Before authentication completes, the supplicant and authenticator talk using <strong>EAPOL</strong> (EAP over LAN), the only thing the port will carry while it sits unauthorized; the authenticator then relays EAP to the server over RADIUS. Once the server answers, the authenticator has more choices than open or closed:</p>
+<ul>
+<li><strong>Guest VLAN</strong> &mdash; an unrecognized or unauthenticated device is dropped onto a VLAN with internet access only, never the internal network.</li>
+<li><strong>Restricted or quarantine VLAN</strong> &mdash; a device that authenticates but fails a posture check (no patches, no antivirus) lands somewhere it can be remediated and nothing else.</li>
+<li><strong>Reserved ports</strong> &mdash; printers, MFPs, cameras and similar devices cannot run a supplicant at all, so specific ports are configured to bypass 802.1X, usually with MAC-based authentication instead. Those ports are the obvious way in for anyone who can unplug a printer, which is why they belong in controlled space and are monitored.</li>
+</ul>
+
 `},
 {id:"authproto",obj:"3.2",title:"Legacy Authentication Protocols &amp; Switch Protections",html:`
 <div class="tblwrap"><table><caption>Authentication protocols from the acronym list</caption>
@@ -433,6 +449,8 @@ var TOPICS = [
 <li><strong>SASE</strong> &mdash; secure access service edge, converging SD-WAN with cloud-delivered security so policy follows the user wherever they connect from, rather than requiring traffic to be hauled back to a datacentre first.</li>
 </ul>
 <p><strong>Securing remote access is more than the tunnel.</strong> A VPN encrypts the traffic, but a stolen password still opens it. Require MFA on the VPN or remote gateway, and monitor remote sessions for unusual times, locations or volumes. In a scenario where remote credentials were phished, the missing control is usually MFA, not stronger encryption.</p>
+<p><strong>What the TLS handshake actually does.</strong> The client opens the connection, the server presents its <strong>certificate</strong>, and the client validates it &mdash; the name matches, it has not expired, it has not been revoked, and it chains to a certificate authority the client already trusts. Asymmetric cryptography is then used for one job only: agreeing a shared <strong>session key</strong>. Everything after that is carried under fast <strong>symmetric</strong> encryption. That split is the whole design &mdash; public-key maths is slow, so it handles the key agreement and never the bulk data.</p>
+<p><strong>mTLS</strong> (mutual TLS) adds the missing half: the client presents a certificate too, and the server validates it the same way. Ordinary TLS proves the server to the client; mTLS proves both ends to each other, which is why it turns up between services, on APIs and in zero-trust designs where a password on its own is not considered proof of anything.</p>
 <blockquote><span class="tag">Gotcha</span>TLS operates at the transport layer and typically protects specific applications; IPSec operates at the network layer and protects everything between the endpoints. Client VPN leans TLS, site-to-site leans IPSec.</blockquote>
 `},
 {id:"vpnproto",obj:"3.2",title:"Tunneling Protocols &mdash; IPSec AH/ESP, IKE, GRE, L2TP, PPTP",html:`
@@ -451,6 +469,7 @@ var TOPICS = [
 <tr><td><strong>PPP</strong> &mdash; Point-to-Point Protocol</td><td>Link protocol from the dial-up era that PPTP and L2TP build on</td><td>Authenticates with PAP or CHAP</td></tr>
 </table></div>
 <p>Every tunnel adds headers, which shrinks the <strong>MTU</strong> (maximum transmission unit), the largest packet that fits. VPN connection problems where small pages load but large transfers hang are often MTU/fragmentation issues.</p>
+<p><strong>IKE in a little more detail.</strong> <strong>IKEv1</strong> negotiates in two phases: phase 1 builds a secure channel between the two peers, and phase 2 uses that channel to negotiate the security associations that protect the actual data. <strong>IKEv2</strong> reaches the same result in fewer exchanges and is the preferred version. Either way the peers must agree on three things &mdash; the <strong>encryption algorithm</strong>, the <strong>integrity HMAC</strong> and the <strong>Diffie-Hellman group</strong> &mdash; and a mismatch in any one of them means the tunnel never comes up. The setting that does <em>not</em> have to match is the <strong>SA lifetime</strong>: where the two ends disagree, the lower of the two values is used.</p>
 <blockquote><span class="tag">Gotcha</span><strong>AH authenticates but does not encrypt; ESP encrypts.</strong> GRE and L2TP don't encrypt either &mdash; they're paired with IPSec for that.</blockquote>
 `},
 {id:"casbswg",obj:"3.2",title:"CASB &amp; Secure Web Gateway",html:`
@@ -514,7 +533,14 @@ var TOPICS = [
 <p>Some laws also dictate <em>where</em> data may be stored. The EU's <strong>GDPR</strong> (General Data Protection Regulation) is the standard example: data collected on EU citizens is expected to be stored in the EU.</p>
 <p>This is what makes cloud region selection a legal decision rather than a performance one. Providers offer region pinning specifically so customers can satisfy sovereignty requirements.</p>
 <p><strong>Geolocation</strong> is knowing where data and users actually are, which supports both compliance and security &mdash; and underpins <strong>geographic restrictions</strong> (geofencing), where access is permitted or denied based on physical location.</p>
-<p>How location is determined: the <strong>IP subnet</strong> is accurate on an internal network but poor for mobile devices. <strong>GPS</strong> is precise. <strong>802.11</strong> location compares the Wi-Fi SSIDs a device can see against databases of known access points, and mobile carriers add their own data. Streaming services blocking out-of-country viewers are geofencing in action; so is granting extra data access only inside the building.</p>
+<p>How location is determined: the <strong>IP subnet</strong> is accurate on an internal network but poor for mobile devices. <strong>GPS</strong> is precise. <strong>802.11</strong> location compares the Wi-Fi SSIDs a device can see against databases of known access points, and mobile carriers add their own data. Streaming services blocking out-of-country viewers are geofencing in action; so is granting extra data access only inside the building.</p><p><strong>Geographic restrictions are not only about which privacy law applies.</strong> Where data sits, and who may reach it, also turns on:</p>
+<ul>
+<li><strong>Political stability</strong> &mdash; sanctions, unrest, or a government able to compel access to servers on its soil make a region risky whatever its data-protection statute says.</li>
+<li><strong>Import and export controls</strong> &mdash; cryptographic software and certain technical data cannot legally cross some borders, so the restriction can apply to the product rather than the personal data.</li>
+<li><strong>Cultural sensitivity</strong> &mdash; what may be stored, served or said differs by country, and a global service is expected to account for it.</li>
+</ul>
+<p>A question about expanding into a new country is usually testing this breadth, not GDPR alone.</p>
+
 `},
 {id:"securemethods",obj:"3.3",title:"Methods to Secure Data",html:`
 <div class="tblwrap"><table><caption>The eight named methods</caption>
@@ -537,11 +563,12 @@ var TOPICS = [
 </ul>
 <p><strong>Permission restrictions</strong> in practice: access control lists and file-system or database permissions set to least privilege (a file-system ACL is sometimes written <strong>FACL</strong>), group-based rather than per-user grants, strong authentication and MFA in front of sensitive stores, and removing access promptly when people change role. Example: a payroll share readable only by the payroll group, with write access limited to two named administrators.</p>
 <p><strong>Choosing between masking, tokenization and encryption:</strong></p><ul><li>A help-desk screen only needs to show the last four digits &mdash; <strong>masking</strong>.</li><li>A merchant must keep card data for repeat billing but wants it out of its own systems &mdash; <strong>tokenization</strong>. A stolen token is worthless without the vault.</li><li>Authorized users must later get the full original value back &mdash; <strong>encryption</strong>.</li><li>The goal is to prove data wasn't changed, not to hide it &mdash; <strong>hashing</strong>.</li></ul>
+<p><strong>Compartmentalization</strong> is need-to-know applied to data sets rather than to people: the data is deliberately split so that reaching one piece grants nothing towards the rest, and each compartment carries its own access control and its own credentials. It is segmentation with the emphasis on <em>blast radius</em> &mdash; compartment patient records by geography, or card numbers by billing ZIP code, and a breach touches one compartment instead of the lot. Recovery is bounded the same way: you restore, investigate and notify for one compartment rather than for the whole business.</p>
 <blockquote><span class="tag">Gotcha</span>Only <strong>encryption</strong> is reversible with a key, and only <strong>hashing</strong> is genuinely one-way. Tokenization looks like encryption but has no mathematical relationship to the original &mdash; the mapping lives in a separate vault.</blockquote>
 `},
 
 {id:"ha",obj:"3.4",title:"High Availability &mdash; Load Balancing vs. Clustering",html:`
-<p><strong>High availability (HA)</strong> means the service stays reachable through failures, usually expressed as a percentage of uptime. It goes a step beyond <strong>redundancy</strong>: redundant means a spare exists, perhaps still in its box, while HA means the spare is already running and takes over automatically. HA pairs can be <strong>active/passive</strong> (the standby waits) or <strong>active/active</strong> (both carry traffic). Every added layer of HA &mdash; second firewall, second network path, second power feed &mdash; adds cost, until it becomes a business decision whether the downtime risk is worth paying to remove.</p>
+<p><strong>High availability (HA)</strong> means the service stays reachable through failures, usually expressed as a percentage of uptime. It goes a step beyond <strong>redundancy</strong>: redundant means a spare exists, perhaps still in its box, while HA means the spare is already running and takes over automatically. HA pairs can be <strong>active/passive</strong> (the standby is powered on and running, just not carrying traffic) or <strong>active/active</strong> (both carry traffic). Every added layer of HA &mdash; second firewall, second network path, second power feed &mdash; adds cost, until it becomes a business decision whether the downtime risk is worth paying to remove.</p>
 <p>The two named mechanisms are often confused.</p>
 <div class="tblwrap"><table>
 <tr><th></th><th>Load balancing</th><th>Clustering</th></tr>
@@ -552,6 +579,13 @@ var TOPICS = [
 <tr><td>Operating systems</td><td>Can differ</td><td>Usually identical, clustering is configured in the OS</td></tr>
 </table></div>
 <p><strong>Failover</strong> is the act of switching to the standby when the primary fails, and it should be tested rather than assumed.</p><p><strong>The uptime vs. patching tension.</strong> Systems that must never go down tend to have patches postponed, because nobody wants to schedule the outage, and known vulnerabilities stay open longer. A properly built HA pair or cluster actually solves this: patch one node while the other carries the load, then swap (rolling patching), so availability and patching no longer compete.</p>
+<p><strong>Clusters come in kinds</strong>, and the exam names four:</p>
+<ul>
+<li><strong>High-availability cluster</strong> &mdash; nodes exist to cover each other. <strong>Active-passive</strong> keeps one node carrying the service and the other standing by; <strong>active-active</strong> has both working, each sized to absorb the other's load.</li>
+<li><strong>Load-balancing cluster</strong> &mdash; nodes share the work to raise capacity, with availability arriving as a by-product.</li>
+<li><strong>High-performance cluster (HPC)</strong> &mdash; many nodes attack one large computation together. The goal is speed, not uptime.</li>
+<li><strong>Storage cluster</strong> &mdash; nodes present a single pool of storage, with data spread and replicated across them so losing a node costs no data.</li>
+</ul>
 
 `},
 {id:"raid",obj:"3.4",title:"RAID &mdash; Disk Redundancy",html:`
@@ -574,6 +608,13 @@ var TOPICS = [
 <tr><td><strong>Cold site</strong></td><td>Space, power and connectivity only; all equipment and data must be brought in</td><td>Days to weeks</td><td>Lowest</td></tr>
 </table></div>
 <p><strong>Geographic dispersion</strong> is the requirement that the alternate site be far enough away that the same event &mdash; hurricane, flood, regional power loss &mdash; cannot take out both. A backup site across the parking lot satisfies the checklist and fails the purpose.</p>
+<p>Distance is a trade-off rather than a maximum, though, and replication is what constrains it. <strong>Synchronous replication</strong> does not confirm a write until the remote site has also stored it, so the round trip to the alternate site is added to every single write &mdash; the further apart the sites, the slower the primary system runs. Asynchronous replication removes that penalty but accepts a window of data you would lose. The site therefore goes as far away as the RPO and the application's tolerance for latency allow, not simply as far away as the map permits.</p>
+<p>Three more options sit alongside hot, warm and cold:</p>
+<ul>
+<li><strong>Mobile site</strong> &mdash; a trailer or shipping container fitted out with equipment, power and connectivity, driven to wherever it is needed. It suits a disaster that took the building rather than the region.</li>
+<li><strong>Cloud DR</strong> &mdash; the alternate site is a cloud region, provisioned and paid for when it is needed instead of sitting idle. It removes the cost of standby hardware, but it assumes your data is already replicated there and that the provider is reachable during the event.</li>
+<li><strong>Reciprocal agreement</strong> (mutual aid) &mdash; two organizations agree to host each other in a disaster. It is the cheapest option on paper and almost always the wrong one: it is very hard to test, the contractual and liability position is messy, no capacity is actually reserved, the other party's security posture becomes yours, and a regional event takes out both of you at the same moment.</li>
+</ul>
 <blockquote><span class="tag">Gotcha</span>Hot, warm and cold trade <strong>cost against recovery time</strong>, directly. If a question stresses budget constraints, it's steering toward cold; if it stresses an aggressive recovery objective, it's steering toward hot.</blockquote>
 `},
 {id:"diversity",obj:"3.4",title:"Platform Diversity &amp; Multi-Cloud",html:`
@@ -588,6 +629,15 @@ var TOPICS = [
 <li><strong>Technology</strong> &mdash; enough compute, storage and bandwidth for both normal load and surge.</li>
 <li><strong>Infrastructure</strong> &mdash; the facilities, power and space to support it.</li>
 </ul><p>This is also called <strong>CP</strong> (contingency planning).</p>
+<p><strong>What a disaster recovery plan actually contains</strong> is examinable, and most of it is paperwork rather than technology:</p>
+<ul>
+<li>An <strong>order of restoration</strong> &mdash; which systems come back first, decided by criticality and by dependency. Power, network and authentication before the applications that cannot run without them.</li>
+<li>Where the <strong>backups, encryption keys, passwords and documentation</strong> live, and who is allowed to fetch them. A key held only on the system you are trying to rebuild is not held anywhere.</li>
+<li><strong>Contact details</strong> for staff, vendors, carriers and emergency services, reviewed often enough to still be true.</li>
+<li>A <strong>communications plan</strong> with out-of-band alternatives. VoIP is the trap: it rides the same network and the same power you have just lost, so the phone system is a single point of failure. Mobile numbers, a conference bridge outside your own infrastructure, or radios belong in the plan.</li>
+<li>The <strong>chain of authority</strong> &mdash; who declares a disaster, who may authorize emergency spending, and who deputizes when those people are unreachable.</li>
+<li><strong>Printed copies</strong>, held offsite. A plan that exists only on the file server is unavailable at precisely the moment it is needed.</li>
+</ul>
 
 `},
 {id:"testing",obj:"3.4",title:"Recovery Testing",html:`
@@ -619,6 +669,15 @@ var TOPICS = [
 <li><strong>Bare-metal / image restore</strong> &mdash; rebuild a server from nothing onto new hardware.</li>
 </ul>
 <p>Test restores regularly against the RTO and RPO, following a documented recovery procedure; a restore you've never practised will take longer than the plan assumes.</p>
+<p><strong>Full, incremental and differential</strong> is the classic set, and the <strong>archive bit</strong> is what makes them behave differently. The bit is set on a file whenever it changes; each backup type either clears it or leaves it alone, and that choice decides both how long the backup takes and how painful the restore is.</p>
+<div class="tblwrap"><table><caption>Backup types and the archive bit</caption>
+<tr><th>Type</th><th>What it copies</th><th>Archive bit</th><th>Time to back up</th><th>To restore, you need</th></tr>
+<tr><td><strong>Full</strong></td><td>Everything, every time</td><td>Cleared</td><td>Longest</td><td><strong>One set</strong> &mdash; the last full</td></tr>
+<tr><td><strong>Incremental</strong></td><td>Everything changed since the last full <em>or</em> incremental</td><td>Cleared</td><td>Shortest</td><td>The last full <strong>plus every incremental since</strong>, applied in order</td></tr>
+<tr><td><strong>Differential</strong></td><td>Everything changed since the last <em>full</em></td><td>Not cleared</td><td>Grows each day until the next full</td><td>The last full plus the <strong>most recent differential</strong> &mdash; two sets</td></tr>
+</table></div>
+<p>The trade never changes: incremental is cheapest to take and dearest to restore, differential costs more each night but restores from two sets, and full is the reverse of incremental at both ends. Because a differential does not clear the archive bit, each night's differential contains everything the previous one did, so late in a cycle it approaches the size of a full.</p>
+<p>A typical cadence is a full at the weekend and incrementals or differentials each weeknight, and the nightly interval is the <strong>RPO</strong> in practice: an RPO of one day justifies nightly jobs, while an RPO measured in hours means the nightly cycle needs snapshots or replication alongside it.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Replication is not a backup.</strong> It copies whatever happens, including the bad thing, in near real time. Backups protect against corruption precisely because they are point-in-time and separate.</blockquote>
 `},
 {id:"power",obj:"3.4",title:"Power Resilience",html:`
@@ -638,6 +697,11 @@ var TOPICS = [
 <p>A UPS protects against <strong>blackouts</strong> (no power), <strong>brownouts</strong> (low voltage) and <strong>surges</strong> (excess voltage). When the battery runs low it can signal servers to shut down gracefully. A generator may power the whole building or only outlets marked for generator power.</p>
 <p>They're designed to work together: the UPS covers the gap between utility power failing and the generator reaching full output. A UPS also conditions power, smoothing the sags and surges that damage equipment over time.</p>
 <p>In the rack, <strong>PDUs</strong> (power distribution units) feed the servers; managed PDUs can be monitored and switched remotely, and dual PDUs on separate circuits let dual power supplies survive a circuit failure.</p>
+<p>Two further named conditions sit alongside blackouts, brownouts and surges:</p>
+<ul>
+<li><strong>Rolling blackouts</strong> &mdash; planned, rotating outages a utility imposes when demand outstrips supply, typically in extreme heat or cold or during a fuel shortage. They are usually announced in advance and last hours rather than seconds, which makes them a generator problem; a UPS cannot cover that length of outage.</li>
+<li><strong>Permanent faults</strong> &mdash; power stops suddenly because something physically broke: a line down, a failed transformer, a severed feed. There is no warning, and supply returns only when the fault is repaired, so the planning question is how long you can run on fuel.</li>
+</ul>
 <blockquote><span class="tag">Gotcha</span>A generator alone leaves a gap at the moment of failure &mdash; it needs seconds to start, and servers do not tolerate seconds without power. The UPS exists to cover exactly that interval.</blockquote>
 `}
 ];
@@ -683,6 +747,9 @@ var GOTCHAS_TABLE = `
 <tr><td>CASB vs. SWG</td><td>Controls use of cloud apps vs. filters web browsing</td></tr>
 <tr><td>PAP vs. CHAP</td><td>Cleartext password vs. hashed challenge-response</td></tr>
 <tr><td>RAID vs. backup</td><td>Survives a disk failure vs. recovers from deletion, corruption and ransomware</td></tr>
+<tr><td>Full vs. incremental vs. differential</td><td>Restore needs one set vs. the last full plus every incremental since vs. the last full plus the most recent differential only</td></tr>
+<tr><td>Network ACL vs. security group</td><td>Stateless, ordered and able to deny, across a whole subnet vs. stateful allow-list on one instance's NIC</td></tr>
+<tr><td>Reciprocal agreement</td><td>Cheapest recovery option on paper, and usually the wrong answer &mdash; hard to test, legally messy, and a regional event hits both parties</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

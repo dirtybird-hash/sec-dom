@@ -369,7 +369,26 @@ var PAIRS = [
 {id:"x4",obj:"3.2",term:"CHAP",def:"Hashed challenge-response authentication"},
 {id:"x5",obj:"3.2",term:"BPDU guard",def:"Shuts a port that hears spanning-tree frames"},
 {id:"x6",obj:"3.1",term:"PaaS",def:"Provider runs the platform; you bring code and data"},
-{id:"x7",obj:"3.4",term:"RAID 6",def:"Double parity, survives two failed disks"}
+{id:"x7",obj:"3.4",term:"RAID 6",def:"Double parity, survives two failed disks"},
+{id:"z1",obj:"3.2",term:"Cloud network ACL",def:"Stateless filtering for a whole subnet &mdash; return traffic needs its own rule"},
+{id:"z2",obj:"3.2",term:"Cloud security group",def:"Stateful filtering on one instance's virtual NIC &mdash; replies come back automatically"},
+{id:"z3",obj:"3.4",term:"Full backup",def:"Copies everything every time, clears the archive bit, restores from one set"},
+{id:"z4",obj:"3.4",term:"Incremental backup",def:"Copies changes since the last backup of any kind; restore needs every one since the full"},
+{id:"z5",obj:"3.4",term:"Differential backup",def:"Copies changes since the last full and grows nightly; restore needs two sets"},
+{id:"z6",obj:"3.4",term:"Archive bit",def:"The per-file flag set on change that decides what each backup type copies"},
+{id:"z7",obj:"3.2",term:"Guest VLAN",def:"Unrecognized devices dropped onto internet-only access, never the internal network"},
+{id:"z8",obj:"3.2",term:"Restricted VLAN",def:"Authenticated but unhealthy devices parked where they can only be remediated"},
+{id:"z9",obj:"3.2",term:"EAPOL",def:"The only traffic an unauthorized 802.1X port carries, supplicant to authenticator"},
+{id:"z10",obj:"3.4",term:"Reciprocal agreement",def:"Two organizations agree to host each other &mdash; cheap, untestable, no reserved capacity"},
+{id:"z11",obj:"3.4",term:"Cloud DR site",def:"Alternate site is a cloud region, provisioned and paid for only when needed"},
+{id:"z12",obj:"3.2",term:"Virtual IP",def:"The single address clients connect to; the balancer picks which server answers"},
+{id:"z13",obj:"3.2",term:"Health check",def:"Repeated probing that pulls a failed server out of the pool"},
+{id:"z14",obj:"3.2",term:"mTLS",def:"Both ends present certificates, so client and server each prove identity"},
+{id:"z15",obj:"3.3",term:"Compartmentalization",def:"Need-to-know applied to data sets, each compartment holding its own credentials"},
+{id:"z16",obj:"3.4",term:"Order of restoration",def:"Which systems come back first, decided by criticality and dependency"},
+{id:"z17",obj:"3.4",term:"Rolling blackout",def:"Planned rotating utility outage lasting hours &mdash; a generator problem, not a UPS one"},
+{id:"z18",obj:"3.4",term:"High-performance cluster",def:"Many nodes attack one large computation together; the goal is speed, not uptime"},
+{id:"z19",obj:"3.4",term:"Storage cluster",def:"Nodes present one pool of storage, data spread and replicated across them"}
 ];
 
 var SVGNS = "http://www.w3.org/2000/svg";

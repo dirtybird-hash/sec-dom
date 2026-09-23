@@ -245,6 +245,9 @@ var TOPICS = [
 <p><strong>Authentication protocols</strong> are the EAP methods carried inside 802.1X: <strong>EAP-TLS</strong> (certificates on both sides, the strongest), <strong>PEAP</strong> and <strong>EAP-TTLS</strong> (a TLS tunnel protecting a password exchange), and <strong>EAP-FAST</strong> (a Cisco-originated tunnel without server certificates).</p>
 <p>GCMP is built on <strong>GCM</strong> (Galois/Counter Mode).</p>
 <p><strong>Fine print on WPA3 ciphers:</strong> in the Wi-Fi Alliance specification, <strong>WPA3-Personal</strong> still encrypts with <strong>AES-CCMP</strong> (128-bit) &mdash; what it changes is the handshake (SAE). <strong>GCMP-256</strong> is required by the optional <strong>WPA3-Enterprise 192-bit mode</strong>. CompTIA and most study material simply pair "WPA3 = GCMP", so on the exam choose <strong>GCMP</strong> for WPA3 and <strong>CCMP</strong> for WPA2.</p>
+<p><strong>Protected Management Frames (PMF).</strong> A wireless network carries three kinds of frame: <strong>data</strong> frames (the traffic you actually care about), <strong>control</strong> frames (the low-level acknowledgements and RTS/CTS that keep the shared medium orderly) and <strong>management</strong> frames (beacons, association, disassociation, deauthentication). WPA2 encrypted the data and left the management frames in the clear and unauthenticated, and that is precisely what <strong>deauthentication</strong> and <strong>disassociation</strong> attacks abuse: the attacker spoofs the access point's address, sends a forged deauth, and the client drops off &mdash; handy for a denial of service, or for forcing a reconnection whose handshake the attacker can then capture.</p>
+<p><strong>802.11w</strong> closes this by authenticating and integrity-protecting the management frames, so a forged deauth is simply ignored. Cisco markets the same feature as <strong>Management Frame Protection (MFP)</strong>. PMF was <em>optional</em> under WPA2 and in practice often left off, which is exactly why <strong>WPA3 makes it mandatory</strong> &mdash; and why a deauth attack that works happily against a WPA2 network gets nowhere against WPA3.</p>
+<p>The <strong>802.1X</strong> role model &mdash; supplicant, authenticator and authentication server &mdash; and the EAP request/response exchange that runs across it are covered in the Domain 3 Notebook (3.2) under port security.</p>
 <blockquote><span class="tag">Gotcha</span>The WPA3 answer to "offline dictionary attack on the handshake" is <strong>SAE</strong>. The answer to "each employee should use their own login" is <strong>Enterprise/802.1X</strong>, not a longer shared passphrase.</blockquote>
 `},
 {id:"wifilegacy",obj:"4.1",title:"Wireless Security Evolution &mdash; WEP to WPA3",html:`
@@ -253,7 +256,7 @@ var TOPICS = [
 <tr><td><strong>WEP</strong> &mdash; Wired Equivalent Privacy</td><td>RC4 with a short, reused IV</td><td>Broken &mdash; crackable in minutes. Never use</td></tr>
 <tr><td><strong>WPA</strong> &mdash; Wi-Fi Protected Access</td><td><strong>TKIP</strong> (Temporal Key Integrity Protocol), still RC4</td><td>Interim fix for WEP hardware; deprecated</td></tr>
 <tr><td><strong>WPA2</strong></td><td>AES with CCMP</td><td>Still common; PSK handshake can be cracked offline</td></tr>
-<tr><td><strong>WPA3</strong></td><td>AES with GCMP (Galois/Counter Mode), SAE &mdash; exam answer; strictly, GCMP-256 is the Enterprise 192-bit mode and Personal keeps CCMP</td><td>Current</td></tr>
+<tr><td><strong>WPA3</strong></td><td>AES with GCMP (Galois/Counter Mode), SAE &mdash; exam answer; strictly, GCMP-256 is the Enterprise 192-bit mode and Personal keeps CCMP</td><td>Current. Protected management frames (802.11w) are mandatory here, where WPA2 only made them optional</td></tr>
 </table></div>
 <ul>
 <li><strong>WPS</strong> (Wi-Fi Protected Setup) &mdash; the PIN method can be brute-forced; disable it.</li>
@@ -292,6 +295,8 @@ var TOPICS = [
 <li><strong>Classification</strong> &mdash; what kind of asset it is and how sensitive the data it holds is, which sets how it's protected and later disposed of.</li>
 </ul><p>High-value business systems such as <strong>ERP</strong> (enterprise resource planning: finance, HR, supply chain in one platform) deserve particular scrutiny at procurement, because they concentrate so much sensitive data.</p>
 <p>Procurement is where <strong>supply chain risk</strong> is controlled. Buying from authorized vendors avoids counterfeit or tampered hardware, and the contract should spell out security obligations up front: how long patches will be provided, how vulnerabilities will be disclosed and fixed, and when the product reaches end-of-life. A product with no committed support is a future unpatchable system.</p>
+<p>Assignment names more than one role. The <strong>owner</strong> is accountable for the asset and for the risk it carries; a <strong>custodian</strong> or <strong>steward</strong> is whoever handles it day to day &mdash; applies the patches, takes the backups, administers the access. Keeping the two distinct matters because the manager answerable for a finance server is rarely the person logged into it.</p>
+<p>The resulting records live in a <strong>CMDB</strong> (configuration management database): what each asset is, how it's configured, who owns it, who looks after it and what depends on it. A CMDB earns its keep when it is tied to <strong>directory services</strong> and <strong>HR</strong> systems, so an asset follows its user automatically &mdash; a leaver flagged by HR surfaces at once as kit to reclaim and accounts to disable, instead of as a line nobody remembered to update.</p>
 
 `},
 {id:"assettrack",obj:"4.2",title:"Monitoring &amp; Asset Tracking",html:`
@@ -405,7 +410,7 @@ var TOPICS = [
 <p><strong>Alert response and remediation/validation</strong>:</p>
 <ul>
 <li><strong>Quarantine</strong> &mdash; isolate the affected system so the attacker can't spread or pivot while you investigate.</li>
-<li><strong>Alert tuning</strong> &mdash; adjust thresholds and rules to cut false positives without creating false negatives. Too noisy, and analysts stop reading; too quiet, and attacks pass silently.</li>
+<li><strong>Alert tuning</strong> &mdash; adjust thresholds and rules to cut false positives without creating false negatives. Too noisy, and analysts stop reading; too quiet, and attacks pass silently. The noisy failure has a name: <strong>alert fatigue</strong>, where the sheer volume of low-value alerts trains analysts to dismiss them unread, and the one real detection goes out with the rest. The response is <em>quality over quantity</em> &mdash; <strong>filter</strong> out what nobody would ever act on, <strong>normalize</strong> so the same event from different sources reads the same way, and <strong>tune</strong> until every alert that survives is actionable. Give priority to alerts a human raised (a user reporting a phishing email is a high-quality signal), and route everything through a defined <strong>escalation path</strong>, so an alert nobody handles moves up instead of quietly ageing.</li>
 </ul>
 `},
 {id:"scapbench",obj:"4.4",title:"SCAP, Benchmarks &amp; Agents vs. Agentless",html:`
@@ -418,12 +423,19 @@ var TOPICS = [
 <tr><td>Upkeep</td><td>Agent and its definitions must be updated</td><td>No agent maintenance</td></tr>
 </table></div><p>Within SCAP, <strong>OVAL</strong> (Open Vulnerability Assessment Language) is the language for describing what to check on a system and what state counts as vulnerable.</p>
 <p>Agentless monitoring usually works by querying the device over the network with its existing management protocols &mdash; SNMP, SSH or WMI. It is quicker to roll out (nothing to install, good for network gear and appliances that can't run an agent) but sees less detail than an agent sitting on the host.</p>
+<p>SCAP is a <em>bundle</em> of specifications rather than a single language, and OVAL is only one of them. Two others turn up alongside it in Security+ material:</p>
+<ul>
+<li><strong>XCCDF</strong> (Extensible Configuration Checklist Description Format) &mdash; the checklist and benchmark language. A CIS Benchmark or a DISA STIG published in machine-readable form is XCCDF: the rules, the pass/fail criteria and the scoring.</li>
+<li><strong>CPE</strong> (Common Platform Enumeration) &mdash; a standard naming scheme for platforms and products, so one agreed string means the same operating system or application to every tool and a check can be aimed at exactly the right systems.</li>
+</ul>
+<p>Read as a sentence: <strong>CPE</strong> names the thing, <strong>OVAL</strong> describes how to test it, and <strong>XCCDF</strong> gathers those tests into the checklist you actually run.</p>
 
 `},
 {id:"montools",obj:"4.4",title:"Monitoring Tools &mdash; SIEM, DLP, SNMP &amp; NetFlow",html:`
 <div class="tblwrap"><table><caption>The named tools</caption>
 <tr><th>Tool</th><th>What it contributes</th></tr>
 <tr><td><strong>SIEM</strong> &mdash; security information and event management</td><td>Central log store with correlation across sources (VPN login + file access + firewall block = one story), alerting, dashboards and long-term forensic look-back</td></tr>
+<tr><td><strong>SOAR</strong> &mdash; security orchestration, automation and response</td><td>Takes the SIEM's alerts, categorizes them by context (asset criticality, data classification, SLA tier) and runs <strong>playbooks</strong> &mdash; ordered response steps that execute fully automated, semi-automated or manual. An orchestration and response layer, <em>not</em> a log store</td></tr>
 <tr><td><strong>Antivirus / anti-malware</strong></td><td>Detects and blocks malicious code on endpoints; the two terms are now effectively interchangeable</td></tr>
 <tr><td><strong>DLP</strong> &mdash; data loss prevention</td><td>Spots and blocks sensitive data (card numbers, SSNs, health data) leaving where it should stay</td></tr>
 <tr><td><strong>SNMP traps</strong></td><td>SNMP normally has a manager <em>poll</em> devices for statistics (UDP 161). A <strong>trap</strong> is the device pushing an alert to the manager unprompted when a threshold is crossed (UDP 162)</td></tr>
@@ -431,6 +443,9 @@ var TOPICS = [
 <tr><td><strong>Vulnerability scanners</strong></td><td>Scheduled discovery of devices and known weaknesses, feeding results into the monitoring picture</td></tr>
 </table></div>
 <p>NetFlow earns its place in scenarios about <strong>traffic patterns</strong>: a sudden flood of flows toward one server suggests DDoS; a workstation sending gigabytes to an unfamiliar external address at 2 a.m. suggests exfiltration. It flags that something is wrong and who is involved; a packet capture is what shows the actual content.</p>
+<p><strong>Why v3.</strong> SNMP <strong>v1</strong> and <strong>v2c</strong> authenticate with nothing more than a <strong>community string</strong> &mdash; a shared word sent across the network <em>in clear text</em>, in either a read-only or a read-write form. Anyone who can capture a packet, or who simply guesses that the string is still the vendor default, can read the device's statistics; with the read-write string they can reconfigure it. <strong>v3</strong> replaces the community string with per-user or per-group authentication, adds message integrity so a query can't be altered in transit, and encrypts the payload with <strong>AES</strong>. It also ships with no default passwords, so an unconfigured v3 agent answers nobody. Whenever a scenario says network monitoring has to be secure, the answer is <strong>SNMPv3</strong>.</p>
+<p><strong>Antivirus is more than a signature match.</strong> Signatures only catch malware somebody has already seen and written a definition for, so a modern engine layers other detection on top. <strong>Heuristic</strong> rules examine a file's code structure and its behaviour when it runs &mdash; does it hook the keyboard, rewrite the boot sector, encrypt files in bulk? &mdash; and judge it on how it acts rather than on what it matches. Files that still look suspicious are detonated in a local <strong>sandbox</strong> or sent for <strong>cloud detonation</strong>, where the vendor runs them in an isolated environment and watches what they do. Anything that fails is <strong>quarantined</strong>: moved somewhere it cannot execute but not destroyed, so a false positive can be restored and a genuine sample can be analyzed. That chain is how AV catches malware for which no signature exists yet.</p>
+<p>A NetFlow record identifies a conversation by its <strong>5-tuple</strong>: <strong>source IP</strong>, <strong>destination IP</strong>, <strong>source port</strong>, <strong>destination port</strong> and the <strong>IP protocol</strong>. Watch that last field in exam options &mdash; the protocol is the one named in the IP header, so it is <strong>TCP, UDP or ICMP</strong>, never FTP or HTTP. Those are applications, and a flow tool infers them from the <em>port</em> (TCP 21, TCP 80), not from the protocol field.</p>
 <blockquote><span class="tag">Gotcha</span><strong>SNMP polling vs. trap</strong>: polling is the manager asking on a schedule (port 161); a trap is the device telling the manager immediately (port 162). <strong>NetFlow vs. packet capture</strong>: NetFlow records the conversation's metadata; a packet capture records the contents.</blockquote>
 `},
 
@@ -563,7 +578,7 @@ var TOPICS = [
 <p>IAM (identity and access management) exists to give the right people the right access at the right time, and take it away when that stops being true.</p>
 <ul>
 <li><strong>Provisioning / de-provisioning user accounts</strong> &mdash; create the account and its access at onboarding; adjust it when someone changes role; disable it promptly at offboarding. Slow de-provisioning is how ex-employees keep access.</li>
-<li><strong>Permission assignments and implications</strong> &mdash; grant through groups rather than to individuals, start from least privilege, and watch for <strong>privilege creep</strong> (people collecting access with every role change and never losing any). Every excess permission is something an attacker inherits if the account is compromised.</li>
+<li><strong>Permission assignments and implications</strong> &mdash; grant through groups rather than to individuals, start from least privilege, and watch for <strong>privilege creep</strong>, which courseware also calls <strong>authorization creep</strong> (people collecting access with every role change and never losing any). Every excess permission is something an attacker inherits if the account is compromised, so the counters are scheduled entitlement reviews and an automatic expiry date on any right granted temporarily, so that access meant for one project lapses on its own rather than waiting on someone remembering to remove it.</li>
 <li><strong>Identity proofing</strong> &mdash; confirming someone is who they claim before issuing credentials: government ID, in-person checks, background checks, or knowledge-based questions drawn from public and credit records.</li>
 <li><strong>Attestation</strong> &mdash; formal confirmation that access is still correct, usually a periodic review where managers sign off on their team's permissions. Also used for a device vouching for its own integrity (hardware attestation via TPM).</li>
 </ul>
@@ -579,6 +594,25 @@ var TOPICS = [
 <p>The SAML flow: user requests the app &rarr; app redirects to the identity provider &rarr; user authenticates there &rarr; identity provider returns a signed assertion &rarr; browser presents it to the app &rarr; access granted.</p>
 <p><strong>Interoperability</strong> is the practical constraint: the IAM pieces you choose must work with what you already have. A new VPN concentrator that speaks LDAP fits an Active Directory shop; an app that uses OAuth needs an authentication source that can feed it.</p>
 <p>SSO's convenience is also its risk: it concentrates everything behind one credential and one identity provider. If an SSO account is compromised, the attacker reaches every connected application; if the identity provider goes down, nobody can log in to anything. That's why SSO is paired with strong MFA and a highly available identity provider.</p>
+<p><strong>PAM is two different things on CompTIA's acronym list.</strong> In an identity topic it can mean <strong>Pluggable Authentication Modules</strong>, the Linux framework that lets any service &mdash; local login, SSH, <em>sudo</em>, a screen locker &mdash; hand authentication over to a shared stack of modules instead of implementing its own. An administrator edits the module stack for a service and every program that uses it changes behaviour at once, which is how account lockout, password quality rules or an MFA step get bolted onto tools that know nothing about any of them. The other PAM, <strong>privileged access management</strong>, is its own objective and its own topic here. The exam will not disambiguate for you: the bullet the question sits under decides it &mdash; Linux authentication points at modules, vaulting and just-in-time admin rights point at privileged access management.</p>
+<p>It is worth knowing where a credential actually goes when someone signs in, because that is precisely what a pass-the-hash attack abuses:</p>
+<ul>
+<li><strong>Windows local sign-in</strong> &mdash; the <strong>LSA</strong> (local security authority, running as the LSASS process) checks the credential against a password hash held in the <strong>SAM</strong> (security accounts manager) database on that machine. Hashes scraped out of LSASS memory are what an attacker replays.</li>
+<li><strong>Windows network sign-in</strong> &mdash; the credential goes to a domain controller, which uses <strong>Kerberos</strong> by preference and falls back to <strong>NTLM</strong> only for legacy clients. NTLM is the half that will accept a replayed hash, which is why disabling it shuts the attack down.</li>
+<li><strong>Remote sign-in</strong> &mdash; the same checks reached from outside, over a VPN tunnel or a web portal.</li>
+<li><strong>Linux</strong> &mdash; account names, UIDs and shells live in <em>/etc/passwd</em>, which every user can read; the password hashes sit separately in <em>/etc/shadow</em>, readable only by root. Splitting the two is what stops any local user from harvesting hashes to crack offline at leisure.</li>
+</ul>
+<p>LDAP is a named bullet, so know how a directory is shaped. It stores <strong>objects</strong> (users, groups, printers, servers), and the <strong>schema</strong> defines which attributes each type of object is allowed to carry. Every object is identified by a <strong>distinguished name (DN)</strong> &mdash; its full path through the directory, written as comma-separated attribute=value pairs, most specific first:</p>
+<div class="tblwrap"><table><caption>Reading a distinguished name</caption>
+<tr><th>Pair</th><th>What it names</th></tr>
+<tr><td><strong>CN</strong></td><td>Common name &mdash; the object itself (CN=Jane Okafor)</td></tr>
+<tr><td><strong>OU</strong></td><td>Organizational unit &mdash; the container it sits in, usually a department (OU=Finance)</td></tr>
+<tr><td><strong>O</strong></td><td>Organization &mdash; the company (O=Acme)</td></tr>
+<tr><td><strong>C</strong></td><td>Country (C=GB)</td></tr>
+<tr><td><strong>DC</strong></td><td>Domain component &mdash; one label of the DNS name, so one DC per label (DC=acme,DC=com)</td></tr>
+</table></div>
+<p>CN=Jane Okafor,OU=Finance,DC=acme,DC=com therefore reads right to left as a walk down the tree. The leftmost pair on its own is the <strong>relative distinguished name (RDN)</strong>, which only has to be unique inside its own container &mdash; two people called Jane Okafor are no problem so long as they sit in different OUs.</p>
+<p>The federation handshake in concrete terms: the user reaches the <strong>service provider</strong> &rarr; is redirected to their own <strong>identity provider</strong> &rarr; authenticates there &rarr; returns carrying a signed <strong>assertion</strong>. The statements inside it about the user &mdash; name, e-mail address, group membership &mdash; are <strong>claims</strong>. A SAML assertion is XML signed with the XML Signature standard and normally carried over HTTPS, so the service provider can confirm both that the assertion came from the identity provider it trusts and that nothing altered it in the browser on the way through.</p>
 <blockquote><span class="tag">Gotcha</span><strong>OAuth is authorization, not authentication.</strong> SAML and OpenID Connect authenticate; OAuth delegates access. SSO is the user experience; federation is the trust relationship across organizations.</blockquote>
 `},
 {id:"kerberos",obj:"4.6",title:"Kerberos &amp; NTLM",html:`
@@ -589,6 +623,13 @@ var TOPICS = [
 <li>The service ticket is presented to the server; the password is never sent across the network. Tickets expire, and clocks must be in sync.</li>
 </ol>
 <p><strong>NTLM</strong> (NT LAN Manager) is the older Windows challenge-response protocol, still used as a fallback. It's vulnerable to pass-the-hash and relay attacks; disable it where Kerberos is available.</p>
+<p>The KDC is really two services, and an exam question may name them separately:</p>
+<ul>
+<li><strong>Authentication Service (AS)</strong> &mdash; verifies the user at logon and issues the TGT.</li>
+<li><strong>Ticket Granting Service (TGS)</strong> &mdash; takes that TGT and issues a separate service ticket for each resource the user then asks for.</li>
+</ul>
+<p>Everything Kerberos knows about is a <strong>principal</strong> &mdash; users and services alike &mdash; which is why a file server or a SQL instance needs its own identity in the directory before it can accept tickets at all.</p>
+<p>This is also where the clock requirement comes from. The client's opening request is time-stamped and encrypted with a key derived from the user's password hash; the KDC decrypts it with the hash it already holds, which proves the password without the password ever crossing the network, then checks that the time-stamp is recent so a captured request cannot simply be replayed later. If the two clocks differ by more than the tolerance &mdash; five minutes by default &mdash; every genuine request looks like a replay and logons fail across the board.</p>
 <blockquote><span class="tag">Gotcha</span>Kerberos needs <strong>time synchronization</strong> (NTP) &mdash; tickets are time-stamped, so skewed clocks break logins. Pass-the-hash targets NTLM; golden-ticket attacks target Kerberos TGTs.</blockquote>
 `},
 {id:"acmodels",obj:"4.6",title:"Access Control Models",html:`
@@ -603,6 +644,14 @@ var TOPICS = [
 <ul>
 <li><strong>Time-of-day restrictions</strong> &mdash; access only allowed in set hours (lab systems 8&ndash;6, no training-room network overnight). Remember time zones in global organizations.</li>
 <li><strong>Least privilege</strong> &mdash; only the access the job requires, nothing standing "just in case". Limits what malware or a stolen account can do.</li>
+</ul>
+<p><strong>Conditional access</strong> is rule-based control as most organisations actually encounter it. Instead of deciding once at logon and then forgetting about it, the system keeps watching the session &mdash; device health and patch level, location, network, time of day, how sensitive the resource being opened is &mdash; and re-challenges for MFA or suspends the session the moment those conditions stop matching policy. It is the mechanism behind the continuous verification that zero trust asks for.</p>
+<p>The everyday form of the same idea is prompting for elevation only at the moment privilege is genuinely needed: <strong>User Account Control (UAC)</strong> on Windows and <strong>sudo</strong> on Linux both let someone work in an ordinary account and step up for one action, which is least privilege made liveable.</p>
+<p>Account restrictions worth naming alongside these:</p>
+<ul>
+<li><strong>Logon hours</strong> &mdash; the account can only authenticate inside a defined window; the time-of-day restriction above, expressed as a directory setting on the account itself.</li>
+<li><strong>Maximum logon duration</strong> &mdash; a cap on how long any one session may run before it is forcibly ended, so a session nobody closed does not sit open all night.</li>
+<li><strong>Location-based restriction</strong> &mdash; access tied to a network segment (this application only from the finance VLAN) or to geolocation (no logons from countries the organisation does not operate in). Geolocation is easily defeated by a VPN, so it earns its place as one condition among several rather than on its own.</li>
 </ul>
 <blockquote><span class="tag">Gotcha</span><strong>Role-based</strong> keys on the job title; <strong>rule-based</strong> keys on a condition that applies to everyone. If the scenario mentions labels and clearances, it's <strong>MAC</strong>; if it says the owner grants access, it's <strong>DAC</strong>; if it combines several conditions, it's <strong>ABAC</strong>.</blockquote>
 `},
@@ -623,6 +672,22 @@ var TOPICS = [
 <li><strong>Security keys</strong> &mdash; USB/NFC hardware (FIDO2) holding a private key; phishing-resistant because the key only answers the genuine site.</li>
 </ul>
 <p><strong>2FA</strong> (two-factor authentication) is MFA with exactly two factors.</p>
+<p>Biometric systems are compared on more than the crossover error rate:</p>
+<ul>
+<li><strong>False rejection rate (FRR)</strong> is the <strong>Type I error</strong> &mdash; the legitimate person refused. Irritating rather than dangerous, though a high FRR is what makes staff prop doors open, which <em>is</em> dangerous.</li>
+<li><strong>False acceptance rate (FAR)</strong> is the <strong>Type II error</strong> &mdash; the wrong person accepted. This is the actual security failure, so sensitivity is normally tuned to hold FAR down even though FRR rises as a result.</li>
+<li><strong>Throughput</strong> &mdash; how quickly the system enrols a person and then matches them. A reader needing several seconds per person is unusable on a door two hundred staff walk through at nine in the morning, however good its error rates look on paper.</li>
+<li><strong>Failure to enrol rate (FER)</strong> &mdash; the proportion of people whose biometric cannot be captured well enough to register at all: worn or scarred fingerprints, certain eye conditions. Those people still need to get in, so an alternative factor is part of the design rather than an afterthought.</li>
+</ul>
+<p><strong>Behavioural biometrics</strong> measure something you <em>do</em> rather than something you are: <strong>voice</strong> recognition, <strong>signature dynamics</strong> (the stroke order, speed and pressure of a signature rather than its finished shape) and <strong>gait analysis</strong> (how a person walks, read from video). They are unobtrusive and can run continuously in the background, but their error rates are noticeably worse than physical biometrics &mdash; a cold changes your voice, a twisted ankle changes your walk &mdash; so treat them as a supporting signal that raises suspicion, not as the sole gate on anything valuable.</p>
+<p><strong>Why a code by SMS or e-mail is the weak version.</strong> The service generates the code and then sends it to you over a channel an attacker may be able to reach: a <strong>SIM swap</strong> moves your number onto their handset, a compromised mailbox simply shows them the message, and weaknesses in the carrier signalling network allow interception outright. Because the second step is in the end just another thing you were <em>told</em>, this arrangement is often called <strong>two-step verification</strong> rather than true multifactor authentication. An authenticator app is stronger for one specific reason: the app and the server agree a shared secret once at setup, and from then on the code is calculated on the device from that secret and the clock. It is never transmitted, so there is no message to intercept.</p>
+<p><strong>FIDO2 and WebAuthn</strong> are the standards behind security keys and passwordless sign-in. FIDO is <em>not</em> on CompTIA's acronym list, so treat the names as background &mdash; what is examinable is the "security keys" and "passwordless" behaviour they explain. At registration the authenticator generates a <em>unique key pair for that one service</em> and keeps the private key, handing the site only the public half. Signing in means signing a challenge with that private key, so the service stores no shared secret worth stealing, there is no PKI to run, and a phishing site gets nothing because the authenticator refuses to answer a domain it was not registered to.</p>
+<ul>
+<li><strong>Roaming authenticator</strong> &mdash; a separate device you carry between machines, typically a USB or NFC key.</li>
+<li><strong>Platform authenticator</strong> &mdash; one built into the device you are already using: Windows Hello, Touch ID, a phone's secure element.</li>
+<li><strong>Local gesture</strong> &mdash; the PIN or fingerprint that unlocks the authenticator. It is verified on the device alone and never sent to the service, which is why such a PIN cannot be phished or leaked in a server breach.</li>
+<li><strong>FIDO U2F</strong> &mdash; the earlier standard, a second factor only. FIDO2 is the version that can replace the password altogether.</li>
+</ul>
 <blockquote><span class="tag">Gotcha</span>Password + security question = <strong>one factor</strong> (both "know"). Password + fingerprint = two. Count <em>categories</em>, not steps.</blockquote>
 `},
 {id:"passwords",obj:"4.6",title:"Password Concepts, Managers &amp; Passwordless",html:`
@@ -646,7 +711,12 @@ var TOPICS = [
 <li><strong>Password vaulting</strong> &mdash; privileged credentials live in an encrypted vault, checked out under policy and logged; often rotated after each use. Users may never see the real password.</li>
 <li><strong>Ephemeral credentials</strong> &mdash; temporary credentials generated for one session and destroyed after, so the primary credential is never exposed.</li>
 </ul>
-<p>The JIT flow: request &rarr; policy check by the vault &rarr; temporary credential issued &rarr; work performed and recorded &rarr; credential expires.</p>
+<p>The JIT flow: request &rarr; policy check by the vault &rarr; temporary credential issued &rarr; work performed and recorded &rarr; credential expires.</p><p>Two further names from the same area:</p>
+<ul>
+<li><strong>Secure administrative workstation (SAW)</strong> &mdash; a hardened, deliberately minimal machine used <em>only</em> for administration: no web browsing, no e-mail, no general-purpose software, tight outbound filtering. The point is that admin credentials are never typed on a box that also opens attachments, which closes the usual route to a domain admin password: phish the administrator's ordinary desktop, then scrape the credential out of its memory.</li>
+<li><strong>Zero standing privileges (ZSP)</strong> &mdash; another name for the just-in-time idea above, stated as the goal rather than the mechanism. At rest, no account holds administrative rights at all; every elevation is requested, approved, time-boxed and logged.</li>
+</ul>
+
 `},
 
 {id:"automation",obj:"4.7",title:"Automation &amp; Orchestration &mdash; Use Cases",html:`
@@ -664,6 +734,14 @@ var TOPICS = [
 <tr><td><strong>Integrations and application programming interfaces (APIs)</strong></td><td>Scripts talk to firewalls, cloud platforms and tools through their APIs instead of clicking through consoles</td></tr>
 </table></div><p>The usual scripting languages are <strong>Bash</strong> (Bourne Again Shell) on Linux and macOS, PowerShell on Windows, and Python everywhere.</p>
 <p>Integrations are where automation pays off in security: a vulnerability scanner that opens a ticket assigned to the system owner for each critical finding, or a SIEM alert that triggers a script to disable the account and isolate the host. Automated <strong>de-provisioning</strong> matters as much as provisioning &mdash; access removed the moment HR marks someone as leaving, not whenever someone remembers.</p>
+<p><strong>SOAR</strong> (Security Orchestration, Automation and Response) is where these automation ideas meet the security operations centre. It sits <em>downstream</em> of the SIEM: the SIEM detects, correlates and stores the log data, and then hands its alerts to SOAR, which decides what to do about them and does it.</p>
+<ul>
+<li><strong>Incident categorization</strong> &mdash; SOAR maps each incoming alert to an incident type and weights it by context the raw alert doesn't carry: how critical the asset is, how the data on it is classified, which SLA tier the service sits in. The same alert on a lab machine and on the payment gateway does not get the same treatment.</li>
+<li><strong>Playbooks</strong> &mdash; ordered response procedures, written once and run against those categorized incidents: disable the account, isolate the host, block the file hash at the proxy, raise the ticket, page the on-call engineer. A playbook can run <strong>fully automated</strong>, <strong>semi-automated</strong> (it pauses for a human to approve the destructive steps) or <strong>manual</strong> (a checklist the analyst works through by hand).</li>
+<li><strong>Orchestration</strong> &mdash; the steps reach across the EDR, the firewall, the directory and the ticketing system through their APIs, so one alert drives one coordinated response instead of an analyst working five consoles.</li>
+</ul>
+<p>SIEM and SOAR are separate products and each can run independently, but they are usually deployed together, because either is weaker alone: a SIEM with no SOAR produces alerts nobody has time to action, and a SOAR with no SIEM has nothing trustworthy feeding it. Be precise about the split &mdash; <strong>SOAR is an orchestration and response layer, not a log repository</strong>. Collecting, storing, searching and retaining the logs is the SIEM's job.</p>
+<blockquote><span class="tag">Gotcha</span>If the question asks where the logs <em>live</em>, or what correlates events from different sources into one story, the answer is <strong>SIEM</strong>. If it asks what <em>runs the response</em> &mdash; playbooks, automatic containment, ticketing and notification &mdash; the answer is <strong>SOAR</strong>.</blockquote>
 
 `},
 {id:"autobenefits",obj:"4.7",title:"Automation &mdash; Benefits &amp; Considerations",html:`
@@ -794,6 +872,13 @@ var GOTCHAS_TABLE = `
 <tr><td>STIX vs. TAXII</td><td>The format vs. the transport</td></tr>
 <tr><td>Kerberos vs. NTLM</td><td>Tickets from a KDC, time-sensitive vs. legacy challenge-response, pass-the-hash target</td></tr>
 <tr><td>PAT vs. DNAT</td><td>Many hosts share one public IP outbound vs. forwarding an inbound port to one internal server</td></tr>
+<tr><td>SIEM vs. SOAR</td><td>Detects, correlates and stores the logs vs. orchestrates and runs the response through playbooks &mdash; SOAR is not a log repository</td></tr>
+<tr><td>SNMPv2c vs. v3</td><td>Community string sent in clear text vs. per-user authentication with integrity and AES encryption</td></tr>
+<tr><td>PMF (802.11w)</td><td>Optional in WPA2, mandatory in WPA3 &mdash; why deauthentication attacks fail against WPA3</td></tr>
+<tr><td>PAM vs. PAM</td><td>Privileged access management (vaulting, just-in-time admin rights) vs. pluggable authentication modules (the Linux authentication framework) &mdash; the objective the question sits under tells you which</td></tr>
+<tr><td>Two-step verification vs. MFA</td><td>A code sent to you over SMS or e-mail, interceptable in transit vs. a factor generated on or held by a device you have</td></tr>
+<tr><td>Roaming vs. platform authenticator</td><td>A security key you carry between machines vs. one built into the device (Windows Hello, Touch ID)</td></tr>
+<tr><td>FRR vs. FAR</td><td>Type I, the right person refused vs. Type II, the wrong person admitted &mdash; FAR is the security failure</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;

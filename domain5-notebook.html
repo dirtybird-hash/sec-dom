@@ -175,6 +175,7 @@ var TOPICS = [
 <tr><td><strong>Procedure</strong></td><td>Step-by-step instructions for carrying it out</td><td>Yes</td><td>"How to enable disk encryption on a new laptop"</td></tr>
 <tr><td><strong>Guideline</strong></td><td>Recommendations and best practice where judgment is allowed</td><td>No</td><td>"Consider a passphrase of four or more words"</td></tr>
 </table></div>
+<p>Guidelines are rarely written from a blank page &mdash; most organizations adapt published material and cite the source. The usual ones: <strong>CIS</strong> (the Controls, a prioritized list of actions, and the Benchmarks, hardening baselines per platform), <strong>NIST</strong> Special Publications (the 800 series), <strong>NSA</strong> configuration guides, <strong>CISA</strong> best-practice advisories, the <strong>Cloud Security Alliance</strong>'s Cloud Controls Matrix for cloud services, <strong>OWASP</strong> for web application security, and the <strong>SANS</strong> policy templates, which hand you a drafted policy to tailor rather than a first draft to invent.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Guidelines are the only optional one.</strong> If the scenario says "recommended" or "suggested", it's a guideline; if it gives exact values to meet, it's a standard; if it gives numbered steps, it's a procedure.</blockquote>
 `},
 {id:"policies",obj:"5.1",title:"Policies",html:`
@@ -190,6 +191,8 @@ var TOPICS = [
 <tr><td><strong>Change management</strong></td><td>The requirement that changes are requested, assessed, approved, scheduled, documented and reversible</td></tr>
 </table></div>
 <p>SDLC methodologies (SDLM) also include <strong>RAD</strong> (rapid application development): quick prototypes refined with user feedback, trading upfront planning for speed.</p>
+<p>Enforcement is what turns a policy from decoration into a control, and it has to be documented in advance so it is applied consistently. The usual ladder escalates: <strong>verbal reprimand &rarr; written warning &rarr; punitive action &rarr; suspension &rarr; termination &rarr; legal action</strong>. Writing it down beforehand is what makes discipline defensible if an employee later challenges it.</p>
+<p>Consequences alone are not enforcement, though. Each policy should be backed by controls that make compliance the default: <strong>administrative</strong> (mandatory training, sign-off, approval steps), <strong>physical</strong> (badge readers, locked racks) and <strong>technical</strong> (group policy, DLP, disabled USB ports).</p>
 <blockquote><span class="tag">Gotcha</span><strong>Business continuity keeps the business running; disaster recovery restores IT.</strong> BC is the broader plan; DR is the part of it that brings technology back.</blockquote>
 `},
 {id:"standards",obj:"5.1",title:"Standards",html:`
@@ -214,6 +217,13 @@ var TOPICS = [
 <p><strong>Onboarding / offboarding</strong> &mdash; onboarding: sign the AUP and handbook, create accounts, assign rights by role, issue equipment. Offboarding: recover equipment and data, and <strong>disable</strong> the account rather than delete it, since deleting can destroy encryption keys and data you still need.</p>
 <p><strong>Playbooks</strong> &mdash; ordered, step-by-step response procedures for a specific event: ransomware, a data breach, a phishing report. SOAR platforms automate playbooks.</p>
 <p>Offboarding has to be prompt and triggered by HR, not left to chance. Access that lingers after someone leaves becomes an orphaned account &mdash; an easy way back in for a disgruntled ex-employee or an attacker who finds the credentials. Playbooks exist for the same reason checklists do: a consistent, fast response to common incidents, even when the person on shift has never handled one before.</p>
+<p>Not every change goes through the full process at the same speed. Three types are recognized:</p>
+<ul>
+<li><strong>Standard</strong> &mdash; low-risk and routine, so it is <em>pre-approved</em> once and needs no fresh approval each time. Adding a user to an existing group; swapping a failed drive in a hot-swap array.</li>
+<li><strong>Normal</strong> &mdash; the default path: full risk assessment, a written plan and backout plan, and approval by the <strong>change advisory board (CAB)</strong>, the CCB above, before it is scheduled into a window. Upgrading firmware on a core switch.</li>
+<li><strong>Emergency</strong> &mdash; expedited approval, because waiting costs more than moving fast does. Patching a firewall against a vulnerability that is being actively exploited, with the paperwork completed immediately afterwards.</li>
+</ul>
+<p>The difference is only in <em>when</em> approval happens, not whether it happens: a standard change was approved in advance, and an emergency change is documented and reviewed after the fact.</p>
 <blockquote><span class="tag">Gotcha</span>The most important part of a change request is the <strong>backout (rollback) plan</strong>. At offboarding, <strong>disable, don't delete</strong>.</blockquote>
 `},
 {id:"external",obj:"5.1",title:"External Considerations",html:`
@@ -242,6 +252,7 @@ var TOPICS = [
 <tr><td><strong>CSO / CISO</strong> &mdash; chief (information) security officer</td><td>Owns the security program and reports security risk to leadership and the board</td></tr>
 <tr><td><strong>ISSO</strong> &mdash; information systems security officer</td><td>Security of a specific system day to day, common in government</td></tr>
 </table></div>
+<p>Two committee types are worth naming. A <strong>steering committee</strong> is drawn from key stakeholders across the business and works at management level: it sets priorities, decides which security projects get money and people, and gives those projects visible backing so they are not quietly ignored by the departments they inconvenience. An <strong>information security committee</strong> is the policy body &mdash; it frames and reviews security policy, evaluates whether existing policies and controls are actually effective, and initiates awareness and training programmes.</p>
 
 `},
 {id:"dataroles",obj:"5.1",title:"Data Roles &mdash; Owner, Controller, Processor, Custodian",html:`
@@ -254,6 +265,14 @@ var TOPICS = [
 <tr><td><strong>Custodian / steward</strong></td><td>Day-to-day handling: applies labels and access controls, keeps data accurate, backed up and compliant</td><td>IT and database administrators</td></tr>
 </table></div>
 <p>A <strong>DPO</strong> (data protection/privacy officer) oversees the organization's handling of personal data and privacy compliance, and is required under GDPR for many organizations.</p>
+<p>A <strong>RACI</strong> matrix makes those responsibilities explicit, task by task or data set by data set:</p>
+<ul>
+<li><strong>Responsible</strong> &mdash; does the actual work. There can be several.</li>
+<li><strong>Accountable</strong> &mdash; answerable for the outcome and signs it off. Exactly one party, always; split accountability is no accountability.</li>
+<li><strong>Consulted</strong> &mdash; asked for input before the decision. Two-way, and feedback is expected back.</li>
+<li><strong>Informed</strong> &mdash; told what was decided. One-way notification, no reply needed.</li>
+</ul>
+<p>It maps straight onto the roles above: the data <strong>owner</strong> is accountable, the <strong>custodian</strong> is responsible for the daily work, legal or privacy are consulted, and the wider business is informed.</p>
 <blockquote><span class="tag">Gotcha</span><strong>Owner = accountable. Custodian = does the daily work.</strong> Controller decides the purpose; processor acts on the controller's instructions. Under GDPR the controller carries primary responsibility even when a processor does the work.</blockquote>
 `},
 
@@ -266,6 +285,7 @@ var TOPICS = [
 <tr><td><strong>One-time</strong></td><td>Tied to a specific project</td><td>An acquisition, a new system rollout</td></tr>
 <tr><td><strong>Continuous</strong></td><td>Ongoing, built into operations</td><td>A risk check inside every change request; automated monitoring</td></tr>
 </table></div><p><strong>How risks are identified:</strong> interviews with process and asset owners, audit findings, vulnerability scans, threat intelligence feeds, and a review of past incidents. Each identified risk ties together an asset (what you'd lose), a threat (what could act against it) and a vulnerability (the weakness it would use) &mdash; remove any one of the three and the risk drops away.</p>
+<p><strong>Inventory comes before identification.</strong> You cannot assess risk to an asset you do not know you own, so a current inventory of hardware and software is the precondition for everything that follows &mdash; which is exactly why inventory and control of enterprise assets, then of software assets, sit first in the CIS Controls. Software turned up by that inventory that nobody authorized is <strong>shadow IT</strong>: unmanaged, unpatched, and outside every control the organization believes it has.</p>
 
 `},
 {id:"riskanalysis",obj:"5.2",title:"Risk Analysis &mdash; Qualitative vs. Quantitative",html:`
@@ -285,6 +305,10 @@ var TOPICS = [
 </ul>
 <p><strong>ROI</strong> (return on investment) frames the same decision for leadership: a control earns its keep when the loss it prevents (the drop in ALE) exceeds its cost.</p>
 <p><strong>Choosing the method:</strong> use qualitative analysis when reliable numbers don't exist (reputation damage, a brand-new threat) or when you need to rank many risks quickly. Use quantitative when you have solid data on asset values and loss history and need to justify spending in dollars. Many organizations use both: qualitative to triage, quantitative on the top risks.</p>
+<p>Loss itself splits in two, and the split is what stops an asset value being understated. <strong>Primary loss</strong> is the immediate, direct damage: property destroyed or stolen, the cost of replacing it, revenue lost while the business is interrupted. <strong>Secondary loss</strong> is everything downstream &mdash; regulatory fines, civil suits from customers whose data was exposed, lost customer confidence, a falling share price, higher insurance premiums afterwards.</p>
+<p>Secondary loss frequently exceeds the primary loss and is far harder to estimate, so an AV built only from replacement cost will always look reassuringly small.</p>
+<p>Qualitative analysis has named techniques rather than guesswork: <strong>expert judgment</strong>, structured <strong>interviews</strong> with process and asset owners, facilitated <strong>workshops</strong> where a group rates risks together, and the <strong>Delphi method</strong> &mdash; rounds of anonymous surveys of experts, each round's results fed back to the group, repeated until the estimates converge on a consensus. The anonymity is the point: it stops the loudest or most senior voice in the room setting the answer.</p>
+<p>Between the two sits <strong>semi-quantitative</strong> analysis, which attaches numeric ranges or scores to qualitative bands (a 1 to 5 scale where 5 means a loss over $1 million) so risks can be ranked and compared when the hard data a full quantitative study needs simply does not exist.</p>
 <blockquote><span class="tag">Gotcha</span>Get the order right: <strong>SLE = AV &times; EF</strong>, then <strong>ALE = SLE &times; ARO</strong>. If a control's annual cost exceeds the ALE it reduces, it isn't worth buying.</blockquote>
 `},
 {id:"riskregister",obj:"5.2",title:"Risk Register, Appetite &amp; Tolerance",html:`
@@ -301,6 +325,8 @@ var TOPICS = [
 </table></div>
 <p>An analogy: the speed limit is the appetite; how far over it police let you go before ticketing is the tolerance, and it tightens in bad weather.</p>
 <p><strong>Risk reporting</strong> summarizes the register for leadership: top and emerging risks, how each is being handled, and trends, so management can decide where to spend.</p><p>A KRI and a threshold work together: the KRI is the gauge being watched, and the threshold is the line on it. When a risk rises above the threshold, the owner must act &mdash; mitigate or transfer it &mdash; while risks below it may simply be accepted and monitored. The risk owner is accountable for carrying out the response and tracking changes, not just for being named in the register.</p>
+<p>Risk reporting is shaped by its audience. A report should be concise but complete, never a data dump of the whole register, and different audiences get different reports: the board wants the top risks and the direction of travel, a system owner wants the detail on the risks they personally carry. For non-technical executives, include a glossary rather than assuming the vocabulary &mdash; a report nobody can read changes nothing.</p>
+<p>Match the format to how it will be consumed: <strong>dashboards</strong> for continuous, at-a-glance monitoring, and written summaries or presentations for periodic reporting, where someone can walk leadership through what changed since last time and why.</p>
 
 `},
 {id:"riskstrategies",obj:"5.2",title:"Risk Management Strategies",html:`
@@ -317,6 +343,8 @@ var TOPICS = [
 <li><strong>Exception</strong> &mdash; the policy still applies, but a temporary deviation is allowed. This month's patch breaks a critical app, so it may be installed after the usual three-day deadline.</li>
 </ul>
 <p>Acceptance is only valid when the risk falls within the organization's tolerance, and it should be a documented decision by someone with authority, not an oversight. An exception should always carry an expiry date and, ideally, compensating controls for the interim; if it's quietly renewed forever, it has become an unmanaged risk.</p>
+<p><strong>Inherent risk</strong> (also called total risk) is the exposure that exists before any new safeguard is applied &mdash; the raw risk of running the activity at all. <strong>Residual risk</strong> is what remains once controls are in place. No set of controls drives it to zero, so the closing question of any assessment is whether the remainder sits inside the organization's tolerance.</p>
+<p>That distinction decides the wording of a lot of exam questions: when an organization <em>accepts</em> a risk, it is accepting the <strong>residual</strong> risk, never the inherent one. Mitigation happens first; acceptance signs off on whatever survives it.</p>
 <blockquote><span class="tag">Gotcha</span>Insurance <strong>transfers</strong> risk; it doesn't reduce it. <strong>Exemption</strong> = released from the policy; <strong>exception</strong> = temporary deviation from it.</blockquote>
 `},
 {id:"bia",obj:"5.2",title:"Business Impact Analysis &mdash; RTO, RPO, MTTR, MTBF",html:`
@@ -324,12 +352,14 @@ var TOPICS = [
 <div class="tblwrap"><table><caption>The recovery metrics</caption>
 <tr><th>Metric</th><th>Question it answers</th><th>Example</th></tr>
 <tr><td><strong>RTO</strong> &mdash; recovery time objective</td><td>How quickly must the function be back?</td><td>Order system back within 4 hours</td></tr>
+<tr><td><strong>MTD</strong> &mdash; maximum tolerable downtime</td><td>What is the absolute limit before the outage becomes catastrophic?</td><td>Also called maximum allowable downtime; 24 hours, after which the business may not recover</td></tr>
 <tr><td><strong>RPO</strong> &mdash; recovery point objective</td><td>How much data can we afford to lose, measured in time?</td><td>No more than 15 minutes of transactions &mdash; so back up at least that often</td></tr>
 <tr><td><strong>MTTR</strong> &mdash; mean time to repair</td><td>On average, how long does a fix take?</td><td>Diagnose, get the part, install, configure</td></tr>
 <tr><td><strong>MTBF</strong> &mdash; mean time between failures</td><td>On average, how long does it run before failing?</td><td>Total uptime &divide; number of failures</td></tr>
 </table></div>
 <p><strong>MTTF</strong> (mean time to failure) is used for parts that are replaced, not repaired &mdash; a drive or a fan &mdash; so it measures the expected life. MTBF is for repairable systems.</p>
 <p><strong>Targets vs. measurements:</strong> RTO and RPO are business targets set by the BIA; MTTR and MTBF are measured from how equipment actually behaves. If a system's MTTR is longer than its RTO, repair alone can't meet the target, so you need redundancy &mdash; a spare, a failover cluster or a hot site. Likewise a short RPO pushes you toward frequent backups or real-time replication, which cost more.</p>
+<p><strong>MTD</strong> is the outer boundary the other targets have to fit inside: <strong>RTO must be &le; MTD</strong>, because a recovery target set beyond the point of catastrophe is not a target at all. Crossing MTD is also a trigger &mdash; once an outage passes that line the event stops being an operational problem and the disaster recovery plan is invoked.</p>
 <blockquote><span class="tag">Gotcha</span><strong>RTO is about time to recover; RPO is about data loss</strong> (how far back your last good copy is). High MTBF is good; low MTTR is good.</blockquote>
 `},
 
@@ -418,6 +448,8 @@ var TOPICS = [
 <p><strong>Attestation</strong> is the formal opinion that follows an audit, stating that the results are accurate and controls are as described. The audit comes first; attestation vouches for it.</p>
 <p><strong>Examinations</strong> are formal reviews by an outside authority, typically a regulator (bank examiners, for example). The examiner inspects records and controls, often on site, and the findings can carry enforcement weight. They're usually more in-depth than a routine audit, and you don't choose when they happen.</p>
 <p>The point of attestation is reliance: customers and partners can accept an independent report such as a SOC 2 instead of auditing the organization themselves. An external <em>assessment</em> usually targets a specific area (cloud security, privacy readiness) and ends in recommendations, while a regulatory audit checks compliance with a specific law and can end in fines.</p>
+<p>The <strong>audit committee</strong> is appointed by the board and composed of directors who are deliberately <em>not</em> part of senior management or the C-suite. That is precisely where its independence comes from: it can question the executives it would otherwise be reporting to. Its duties are risk oversight, ethics and compliance, oversight of the external auditors (appointing them and reviewing what they find), and oversight of the internal audit function.</p>
+<p>There is a middle path between those two columns: <strong>self-assessment with independent validation</strong>. The organization assesses itself against a recognized methodology or framework, and an independent validator then reviews that work &mdash; checking the evidence, re-testing a sample of the conclusions, and interviewing senior management about how the process was run. It costs considerably less than a full external audit and carries far more weight than a self-assessment alone, because somebody with no stake in the result has signed off on the method.</p>
 <blockquote><span class="tag">Gotcha</span>An <strong>independent third-party audit</strong> is the answer when a question asks for an objective, unbiased assessment. Self-assessments are internal and can't provide that.</blockquote>
 `},
 {id:"pentesttypes",obj:"5.5",title:"Penetration Testing Types &amp; Reconnaissance",html:`
@@ -436,6 +468,22 @@ var TOPICS = [
 </table></div>
 <p><strong>Reconnaissance</strong> comes first. <strong>Passive</strong> recon gathers information without touching the target's systems: websites, social media, job postings, public records, DNS registration, dumpster diving. <strong>Active</strong> recon interacts directly &mdash; ping sweeps, port scans, OS fingerprinting, service/version scans &mdash; and leaves traces in the target's logs.</p>
 <p><strong>Choosing the environment:</strong> a known (white box) test is the most thorough and efficient use of limited time, because testers don't waste hours on discovery. A partially known (gray box) test simulates an insider or an attacker who already has a foothold. An unknown (black box) test is the most realistic view of an outside attacker but may miss weaknesses it never discovers.</p>
+<p>Two pairs from objective <strong>4.3</strong> (vulnerability scanning) pair naturally with the known / partially known / unknown table, because they describe the same trade-off at the tool level:</p>
+<ul>
+<li><strong>Credentialed vs. non-credentialed</strong> &mdash; a credentialed scan logs in with an account and reads patch levels and configuration from inside, so it finds far more and reports far fewer false positives. A non-credentialed scan sees only what an unauthenticated attacker on the network sees.</li>
+<li><strong>Intrusive vs. non-intrusive</strong> &mdash; an intrusive scan actually attempts the exploit to prove the finding is real, and can crash the service while doing it. A non-intrusive scan infers the vulnerability from versions and banners and leaves the system alone, which is why it is the one you point at production.</li>
+</ul>
+<p>Before any testing begins, the <strong>rules of engagement</strong> are agreed in writing (defined under vendor management in 5.3 &mdash; the same document, pointed at a test). For a pentest they fix the scope and its exclusions: which IP ranges, applications and premises are in play, which systems are off limits entirely, when testing may run, how much the tester is told up front, and whether a bug bounty covers any part of it.</p>
+<p>The disclosure decision carries a price. The less the tester is told, the longer and costlier the reconnaissance phase becomes, because they have to discover for themselves what the client could simply have handed over on day one.</p>
+<p>Recon is only the opening. Once a tester has a foothold, the engagement follows a recognized arc:</p>
+<ul>
+<li><strong>Privilege escalation</strong> &mdash; turning that initial low-level access into administrative or root access, vertically on the same host or by taking over a more privileged account.</li>
+<li><strong>Lateral movement</strong> &mdash; using it to reach other systems, and <strong>pivoting</strong> through a compromised host into networks the tester could never touch from outside. Trust relationships between systems and domains are the usual road.</li>
+<li><strong>Persistence</strong> &mdash; establishing access that survives a reboot or a password change (a scheduled task, a service, an extra account), which is what proves a real attacker could have stayed.</li>
+<li><strong>Cleanup</strong> &mdash; removing every tool, account, backdoor and configuration change, restoring any logs that were altered, re-enabling services that were stopped, and returning each system to its pre-test state.</li>
+</ul>
+<p>Cleanup is the step the contract rests on. Anything the tester leaves behind is a live vulnerability the client did not have before the engagement, so the report has to record what was changed and confirm it was put back.</p>
+<blockquote><span class="tag">Gotcha</span> <strong>Cleanup is part of the test, not tidying up after it.</strong> A persistence mechanism or an added account left in place is a real backdoor the client is now exposed to &mdash; which is why returning systems to their pre-test state is written into the engagement contract.</blockquote>
 <blockquote><span class="tag">Gotcha</span>If the target could see it in its logs, it's <strong>active</strong>. Reading their website or LinkedIn is <strong>passive</strong>.</blockquote>
 `},
 
@@ -467,7 +515,9 @@ var TOPICS = [
 <li><strong>Social engineering</strong> &mdash; how to recognize and report manipulation.</li>
 <li><strong>Operational security (OPSEC)</strong> &mdash; thinking like an attacker about what information you're giving away, on social media and in public.</li>
 <li><strong>Hybrid/remote work environments</strong> &mdash; secure home Wi-Fi, VPN use, no family members on work devices, screen privacy in public.</li>
-</ul>
+</ul><p>Training is also where users are told what monitoring exists, because monitoring nobody was told about is very hard to act on afterwards. <strong>Honey tokens</strong> and <strong>honey files</strong> &mdash; fabricated records or documents nobody has a legitimate reason to open or copy &mdash; may be planted as part of a DLP deployment or to surface acceptable-use violations, and any touch of one raises an alert. <strong>User behaviour analytics</strong> may be applied to on-site and remote activity alike, building a baseline for each account and flagging what departs from it.</p>
+<p>Disclosure is what makes the monitoring enforceable. If the AUP and the training state plainly that systems, files and network activity are monitored, a user cannot later claim an expectation of privacy, and the evidence stands up when somebody has to be disciplined on the strength of it.</p>
+
 `},
 {id:"awarenessprog",obj:"5.6",title:"Reporting, Monitoring, Development &amp; Execution",html:`
 <ul>
@@ -476,6 +526,7 @@ var TOPICS = [
 <li><strong>Execution</strong> &mdash; deliver it (online or in person), on a schedule, and measure whether behaviour actually changes.</li>
 </ul>
 <p>Training is both initial (at onboarding, before first access) and recurring, because threats change and people forget. It only works in a no-blame culture: if staff fear punishment for clicking a link, they won't report it, and the organization loses the early warning that fast reporting provides.</p>
+<p>Behaviour change measures the <em>trainees</em>. The training itself needs evaluating separately, on its own axis: a short survey at the end of each session with room for open feedback, a <strong>Net Promoter Score</strong> for whether staff would recommend the session to a colleague, and peer or supervisory review of the trainer, the content and the test questions for accuracy and clarity. Weak material produces weak behaviour change however willing the audience is, so measuring only the learners hides where the fault actually lies.</p>
 <blockquote><span class="tag">Gotcha</span>The best awareness metric is <strong>behaviour</strong> &mdash; click rate falling and report rate rising &mdash; not how many people completed a course.</blockquote>
 `}
 ];
@@ -509,6 +560,11 @@ var GOTCHAS_TABLE = `
 <tr><td>Risky vs. unexpected vs. unintentional</td><td>Deliberate risky act vs. out-of-pattern activity vs. honest mistake</td></tr>
 <tr><td>Awareness success</td><td>Measure behaviour change, not course completions</td></tr>
 <tr><td>MTTF vs. MTBF</td><td>Life of a replaced part vs. time between failures of a repaired system</td></tr>
+<tr><td>Inherent vs. residual risk</td><td>Exposure before any control vs. what is left after them &mdash; and acceptance always applies to the residual</td></tr>
+<tr><td>MTD vs. RTO</td><td>The outer limit before an outage is catastrophic vs. the recovery target &mdash; RTO must be &le; MTD</td></tr>
+<tr><td>Primary vs. secondary loss</td><td>Immediate damage and interruption vs. downstream fines, suits and lost confidence</td></tr>
+<tr><td>Standard vs. normal vs. emergency change</td><td>Pre-approved routine vs. full assessment and CAB approval vs. expedited</td></tr>
+<tr><td>RACI &mdash; responsible vs. accountable</td><td>Several parties can be responsible; exactly one is accountable</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;
