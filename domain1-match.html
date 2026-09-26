@@ -331,7 +331,13 @@ var PAIRS = [
 {id:"y6",obj:"1.4",term:"Revocation reason code",def:"Says why a certificate was withdrawn, such as key compromise or superseded"},
 {id:"y7",obj:"1.4",term:"Certificate auto-enrollment",def:"A domain CA issuing silently to devices already authenticated to Active Directory"},
 {id:"y8",obj:"1.4",term:"Covert channel",def:"A path carrying data where nobody inspects: header fields, DNS, packet timing"},
-{id:"y9",obj:"1.4",term:"De-identification",def:"The goal masking and tokenization serve: records that no longer name anyone"}
+{id:"y9",obj:"1.4",term:"De-identification",def:"The goal masking and tokenization serve: records that no longer name anyone"},
+{id:"w1",obj:"1.4",term:"Keyspace",def:"Every possible key for an algorithm; each extra bit doubles it"},
+{id:"w2",obj:"1.4",term:"Trapdoor function",def:"Easy to compute one way, impractical to reverse without the private key"},
+{id:"w3",obj:"1.4",term:"256-bit ECC key",def:"Roughly the strength of a 2048-bit RSA key, at far less cost"},
+{id:"w4",obj:"1.4",term:"Perfect forward secrecy",def:"A long-term key stolen later cannot decrypt sessions recorded earlier"},
+{id:"w5",obj:"1.4",term:"DHE / ECDHE",def:"Ephemeral Diffie-Hellman &mdash; a fresh shared secret derived every session"},
+{id:"w6",obj:"1.4",term:"RSA key exchange",def:"Client wraps the session key in the server's long-term public key"}
 ];
 
 var SVGNS = "http://www.w3.org/2000/svg";

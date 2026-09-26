@@ -425,7 +425,22 @@ var PAIRS = [
 {id:"y22",obj:"4.6",term:"Conditional access",def:"Keeps re-checking device, location and risk for the whole session"},
 {id:"y23",obj:"4.6",term:"Elevation prompt (UAC / sudo)",def:"Working as a standard user and stepping up for one action"},
 {id:"y24",obj:"4.6",term:"Secure administrative workstation",def:"Hardened, minimal box used only for admin work, never mail or browsing"},
-{id:"y25",obj:"4.6",term:"Zero standing privileges",def:"The end state where no account holds admin rights at rest"}
+{id:"y25",obj:"4.6",term:"Zero standing privileges",def:"The end state where no account holds admin rights at rest"},
+{id:"w1",obj:"4.5",term:"RADIUS",def:"Open standard over UDP 1812/1813; encrypts the password only"},
+{id:"w2",obj:"4.5",term:"TACACS+",def:"Cisco's, over TCP port 49; encrypts the entire payload"},
+{id:"w3",obj:"4.5",term:"TACACS+ command authorization",def:"Separate authorization exchange that can approve each command an engineer types"},
+{id:"w4",obj:"4.3",term:"Nmap",def:"Host and port discovery, plus service and version detection"},
+{id:"w5",obj:"4.3",term:"Nessus / OpenVAS",def:"Scans hosts against a database of known vulnerabilities"},
+{id:"w6",obj:"4.3",term:"hping",def:"Crafts packets to order, to see how a firewall reacts"},
+{id:"w7",obj:"4.3",term:"tcpreplay",def:"Replays a saved capture onto the wire to test detection rules"},
+{id:"w8",obj:"4.3",term:"Netcat",def:"Connectivity testing and banner grabbing; reversed, a simple backdoor listener"},
+{id:"w9",obj:"4.3",term:"theHarvester",def:"Command-line tool collecting emails, names and subdomains from public sources"},
+{id:"w10",obj:"4.3",term:"netstat",def:"Listening ports and active connections on the local machine"},
+{id:"w11",obj:"4.3",term:"dig",def:"Queries DNS records; a permitted zone transfer hands over the domain"},
+{id:"w12",obj:"4.2",term:"NIST SP 800-88",def:"Current guidance on media sanitization that wiping tools follow"},
+{id:"w13",obj:"4.2",term:"DoD 5220.22-M",def:"Older three-pass overwrite standard still advertised by wiping tools"},
+{id:"w14",obj:"4.2",term:"Cross-cut shredding",def:"Paper cut two ways; strip-cut leaves readable ribbons behind"},
+{id:"w15",obj:"4.2",term:"Chain-of-custody documentation",def:"Record of who held the media at every step before destruction"}
 ];
 
 var SVGNS = "http://www.w3.org/2000/svg";

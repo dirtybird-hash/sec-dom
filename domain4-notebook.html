@@ -319,6 +319,12 @@ var TOPICS = [
 <p>The choice depends on where the device goes next: reuse inside the organization may justify a wipe, while leaving the organization or holding highly sensitive data points to destruction.</p>
 <p><strong>Data retention</strong> is the other side: how long data must be <em>kept</em>, often set by law or regulation (financial records, email, logs), and when it must be disposed of. Keeping data longer than required is its own risk; it's more to breach and more to hand over in litigation.</p>
 <p>Magnetic <strong>HDDs</strong> (hard disk drives) can be degaussed; SSDs can't.</p>
+<p>A question may lean on the standards rather than the category:</p>
+<ul>
+<li><strong>Overwriting software</strong> should follow a recognized standard. <strong>NIST SP 800-88</strong> is the current guidance on media sanitization; the older <strong>DoD 5220.22-M</strong> three-pass overwrite is the name wiping tools still advertise.</li>
+<li><strong>Paper</strong> needs <strong>cross-cut</strong> or <strong>micro-cut</strong> shredding &mdash; strip-cut leaves long readable ribbons that can be pieced back together. Pulping and incineration are stronger still.</li>
+<li>A <strong>third-party destruction service</strong> should provide <strong>chain-of-custody</strong> documentation alongside its certificate of destruction: a record of who held the media at every step. The gap between collection and destruction is where drives go missing, and the certificate alone doesn't cover it.</li>
+</ul>
 <blockquote><span class="tag">Gotcha</span>Degaussing only works on <strong>magnetic</strong> media. It does nothing to an SSD or flash drive; those need secure erase, cryptographic erase or physical destruction.</blockquote>
 `},
 
@@ -330,6 +336,21 @@ var TOPICS = [
 <li><strong>Package monitoring</strong> &mdash; track the third-party libraries and packages your software depends on, and where they came from. Confirm packages are genuine, from the real source, and alert when a dependency picks up a known vulnerability.</li>
 <li><strong>System/process audit</strong> &mdash; reviewing configurations and procedures against policy or a standard, which finds weaknesses that aren't software bugs.</li>
 </ul>
+<p>Class also runs through a tool list. Read the label before the table: the older <strong>SY0-601</strong> objectives named these tools explicitly, <strong>SY0-701 does not</strong>, so on this exam they appear as answer options rather than as questions of their own. Know what each one is <em>for</em>; don't spend the fortnight memorizing switches.</p>
+<div class="tblwrap"><table><caption>Tools to recognize, one line each</caption>
+<tr><th>Tool</th><th>What it's for</th></tr>
+<tr><td><strong>Nmap</strong></td><td>Host and port discovery, plus service and version detection &mdash; the standard active-recon scanner</td></tr>
+<tr><td><strong>netstat</strong></td><td>Listening ports and active connections on the <em>local</em> machine</td></tr>
+<tr><td><strong>nslookup</strong> / <strong>dig</strong></td><td>Querying DNS records; a zone transfer that the server wrongly permits hands over the whole domain at once</td></tr>
+<tr><td><strong>theHarvester</strong>, <strong>dnsenum</strong></td><td>OSINT gathering &mdash; email addresses, names, hosts and subdomains from public sources</td></tr>
+<tr><td><strong>curl</strong></td><td>Crafting HTTP requests by hand and reading the raw response</td></tr>
+<tr><td><strong>Nessus</strong>, <strong>OpenVAS</strong></td><td>Network vulnerability scanners that check hosts against a database of known weaknesses</td></tr>
+<tr><td><strong>tcpdump</strong>, <strong>Wireshark</strong></td><td>Packet capture and analysis; tcpdump on the command line, Wireshark with a GUI, both working in .pcap files</td></tr>
+<tr><td><strong>hping</strong></td><td>Crafting packets to order, to see how a firewall or IDS reacts</td></tr>
+<tr><td><strong>tcpreplay</strong></td><td>Replaying a saved capture back onto the wire to test whether detection rules fire</td></tr>
+<tr><td><strong>Netcat</strong></td><td>Connectivity testing and banner grabbing &mdash; and, turned around, a simple backdoor listener</td></tr>
+<tr><td><strong>Metasploit</strong> and similar frameworks</td><td>Exploitation &mdash; launching the matching exploit against a weakness a scanner has already found</td></tr>
+</table></div>
 <blockquote><span class="tag">Gotcha</span>Static = code at rest, not executed. Dynamic = running application, fuzzing. If the question says "random input to a running program," it's <strong>dynamic analysis / fuzzing</strong>.</blockquote>
 `},
 {id:"threatfeeds",obj:"4.3",title:"Threat Feeds &amp; Threat Intelligence",html:`
@@ -525,6 +546,15 @@ var TOPICS = [
 <li><strong>S-HTTP</strong> (SHTTP) &mdash; an old message-level alternative to HTTPS that never caught on; <strong>WTLS</strong> &mdash; wireless TLS from the early mobile WAP era. Both are historical.</li>
 <li>All of these ride on <strong>TCP/IP</strong>, the protocol suite of the internet.</li>
 </ul>
+<div class="tblwrap"><table><caption>RADIUS vs. TACACS+ &mdash; both on the acronym list, and a favourite contrast</caption>
+<tr><th></th><th>RADIUS</th><th>TACACS+</th></tr>
+<tr><td>Origin</td><td>Open standard &mdash; works across vendors</td><td>Cisco's own, though widely supported</td></tr>
+<tr><td>Transport</td><td><strong>UDP</strong> 1812/1813 (older 1645/1646)</td><td><strong>TCP port 49</strong></td></tr>
+<tr><td>What is encrypted</td><td>The <strong>password only</strong> &mdash; username and accounting data cross the network in the clear</td><td>The <strong>entire payload</strong></td></tr>
+<tr><td>AAA handling</td><td>Authentication and authorization bundled together; accounting is its strong suit</td><td>Authentication, authorization and accounting kept <em>separate</em></td></tr>
+<tr><td>Normal use</td><td>Network access &mdash; 802.1X, wireless, VPN and dial-in users</td><td>Device administration &mdash; can authorize individual commands on a router or switch</td></tr>
+</table></div>
+<p>The separation is what earns TACACS+ its place on network gear: because authorization is a separate exchange, the server can be asked to approve each command an engineer types, so a junior admin is granted read-only show commands and nothing more. RADIUS cannot do that, which is why a scenario about <em>who may run which command on a switch</em> points at TACACS+, while a scenario about <em>letting a user onto the network</em> points at RADIUS.</p>
 <blockquote><span class="tag">Gotcha</span><strong>SFTP</strong> runs over SSH on port 22. <strong>FTPS</strong> is FTP wrapped in TLS. They're different protocols despite the similar names. And <strong>DNSSEC signs DNS records for integrity; it does not encrypt them</strong>.</blockquote>
 `},
 {id:"emailsec",obj:"4.5",title:"Email Security &mdash; SPF, DKIM, DMARC &amp; Gateways",html:`
@@ -879,6 +909,7 @@ var GOTCHAS_TABLE = `
 <tr><td>Two-step verification vs. MFA</td><td>A code sent to you over SMS or e-mail, interceptable in transit vs. a factor generated on or held by a device you have</td></tr>
 <tr><td>Roaming vs. platform authenticator</td><td>A security key you carry between machines vs. one built into the device (Windows Hello, Touch ID)</td></tr>
 <tr><td>FRR vs. FAR</td><td>Type I, the right person refused vs. Type II, the wrong person admitted &mdash; FAR is the security failure</td></tr>
+<tr><td>RADIUS vs. TACACS+</td><td>RADIUS: open standard, <strong>UDP</strong> 1812/1813, encrypts the <em>password only</em>, used for network access. TACACS+: Cisco, <strong>TCP 49</strong>, encrypts the <em>whole payload</em>, separates AAA so it can authorize commands one at a time on a device</td></tr>
 </table></div>
 <p style="font-size:13px;color:var(--text-muted);">Keep this list under 10% of your own marks when you transfer any of it &mdash; if everything's a gotcha, nothing is.</p>
 `;
