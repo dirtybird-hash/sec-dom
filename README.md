@@ -24,12 +24,18 @@ Open `index.html` in any browser — no build step, no dependencies, no server r
 | `domain5-notebook.html` | Domain 5 reference notes |
 | `domain5-match.html` | Domain 5 matching game |
 | `domain5-drill.html` | Domain 5 flashcards, quiz and scenario questions |
+| `acronym-drill.html` | Every acronym on CompTIA's published SY0-701 list, drilled both directions |
+| `prep-scheduler.html` | Turns your exam date into a day-by-day study and drill plan |
 
 **Notebook** — browse or search notes by topic. Definitions, comparison tables, and gotcha call-outs, filtered by objective, plus a dedicated tab collecting every easily-confused pair.
 
 **Match** — a patch-panel matching game. Drag a term across to its definition, or tap one then the other. Timed, with best times saved per objective and round size.
 
 **Drill** — flashcards you mark as known or still learning, multiple-choice questions with explanations, scenario questions in the style of performance-based items, and a progress tab showing accuracy per objective so weak areas surface on their own.
+
+**Acronym Drill** — the full published acronym list, cross-domain. Flashcards run in both directions (expand the acronym, or name the acronym from its meaning), the quiz draws its wrong answers from the same domain so the choices stay plausible, and the whole list is searchable.
+
+**Test Prep Scheduler** — enter your exam date and time plus how many minutes you can give it on weekdays and weekends, and it lays out the remaining days: notebook reading paired with drilling while there is still ground to cover, mixed question rounds in the middle, then scenarios and the gotcha tables in the last few days. It reads the accuracy the Drill pages have recorded and re-orders the plan around the objectives you are weakest on, so the plan changes as you study.
 
 ## Coverage
 
